@@ -6,7 +6,7 @@
 **ORCID:** [0009-0000-2294-705X](https://orcid.org/0009-0000-2294-705X)  
 **Project website:** [theobserverofmultiverses.info](https://theobserverofmultiverses.info)  
 **Release date:** 2026-07-28  
-**Status:** public research corpus/preprint; not peer reviewed
+**Status:** public research corpus/preprint; not peer reviewed  
 **Corpus DOI:** [10.17605/OSF.IO/GE92J](https://doi.org/10.17605/OSF.IO/GE92J)  
 **Immutable OSF Registration:** [osf.io/ge92j](https://osf.io/ge92j/)  
 
