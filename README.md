@@ -7,6 +7,8 @@
 **Project website:** [theobserverofmultiverses.info](https://theobserverofmultiverses.info)  
 **Release date:** 2026-07-28  
 **Status:** public research corpus/preprint; not peer reviewed
+**Corpus DOI:** [10.17605/OSF.IO/GE92J](https://doi.org/10.17605/OSF.IO/GE92J)  
+**Immutable OSF Registration:** [osf.io/ge92j](https://osf.io/ge92j/)  
 
 This repository contains the frozen P12 release of the Geometry of Observation corpus. It packages eighteen independently scoped reference modules, their exact sources, typed expression ledgers, dependency metadata, claim boundaries, component hashes, and executable release validation.
 
@@ -22,6 +24,7 @@ The shared architecture formalizes observation maps, information loss, invarianc
 - [Cross-module audit](validation/P12_Cross_Module_Audit_v1_3.md)
 - [Freeze contract](validation/GO_Corpus_Freeze_Contract_v1_3.yaml)
 - [Publication supplement and reproducibility errata](PUBLICATION_SUPPLEMENT.md)
+- [Immutable OSF corpus registration](https://osf.io/ge92j/) — DOI `10.17605/OSF.IO/GE92J`
 
 The original P12 bundle is attached to GitHub release `v1.3.0`. The exact local release asset is retained in `release-assets/` for publication staging and is excluded from ordinary Git history. A clean-room publication audit found omitted validator-side QA artefacts and one P11 portability-threshold inconsistency; these are disclosed and repaired by [PUBLICATION_SUPPLEMENT.md](PUBLICATION_SUPPLEMENT.md). The original ZIP alone must not be described as self-contained for 51/51 replay.
 
@@ -75,7 +78,7 @@ Read [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md) before citing or extending the
 
 ## Citation
 
-Use [CITATION.cff](CITATION.cff). Until an OSF DOI is assigned, cite the version, release date, and canonical GitHub release URL. After DOI assignment, the DOI becomes the primary bibliographic identifier while the GitHub tag remains the source identifier.
+Use [CITATION.cff](CITATION.cff). The primary corpus identifier is [doi:10.17605/OSF.IO/GE92J](https://doi.org/10.17605/OSF.IO/GE92J), which resolves to the immutable Open-Ended Registration. The GitHub tag `v1.3.0` remains the canonical source identifier. The DOI and registration do not imply peer review.
 
 ## Licence
 
