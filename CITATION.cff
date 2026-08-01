@@ -4,6 +4,9 @@ title: "Geometry of Observation: Frozen Typed Corpus and Reproducibility Master"
 type: dataset
 version: 1.3.0
 date-released: 2026-07-28
+doi: 10.17605/OSF.IO/GE92J
+repository-artifact: https://osf.io/ge92j/
+repository-code: https://github.com/Observer1117/geometry-of-observation
 authors:
   - family-names: Stashkevichyus
     given-names: Stassis
