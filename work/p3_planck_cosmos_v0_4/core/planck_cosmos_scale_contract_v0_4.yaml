@@ -1,0 +1,208 @@
+schema:
+  id: go-planck-cosmos-scale-contract
+  version: 0.4.0
+  date: 2026-07-28
+  extends:
+    - go-core-spec@0.2.0
+    - go-distance-scale-contract@0.3.0
+  dimension_basis: [L, M, T, I, Theta, N, J]
+  purpose: typed_logarithmic_scale_coordinates_with_protocol_separation
+
+axes:
+  length:
+    quantity_dimension: [1, 0, 0, 0, 0, 0, 0]
+    planck_anchor: ell_P
+    required_conventions:
+      - measurand_role
+      - reference_frame_or_cosmological_distance_definition
+  mass:
+    quantity_dimension: [0, 1, 0, 0, 0, 0, 0]
+    planck_anchor: m_P
+    required_conventions:
+      - invariant_mass_or_declared_mass_equivalent
+      - energy_to_mass_converter_if_applicable
+  time:
+    quantity_dimension: [0, 0, 1, 0, 0, 0, 0]
+    planck_anchor: t_P
+    required_conventions:
+      - proper_coordinate_or_cosmic_time
+      - reference_frame_or_clock_congruence
+
+descriptor_chart:
+  base_constraint: b_greater_than_one
+  domain: positive_length_cross_positive_mass_cross_positive_time
+  codomain: R3
+  formula:
+    chi_L: log_b(L_over_ell_P)
+    chi_M: log_b(M_over_m_P)
+    chi_T: log_b(T_over_t_P)
+  inverse:
+    L: ell_P_times_b_power_chi_L
+    M: m_P_times_b_power_chi_M
+    T: t_P_times_b_power_chi_T
+  theorem: smooth_global_chart_on_positive_cone
+  missing_axis_policy: typed_not_applicable_never_zero_or_infinity
+  multiscale_policy: labelled_catalogue_or_region_not_forced_single_point
+
+protocol_resolution_chart:
+  inherited_orientation: resolution_depth_increases_as_resolution_gets_finer
+  formula:
+    eta_L: log_b(r_L_star_over_epsilon_L)
+    eta_M: log_b(r_M_star_over_epsilon_M)
+    eta_T: log_b(r_T_star_over_epsilon_T)
+  relation_to_descriptor_coordinate:
+    same_anchor: eta_i_equals_minus_chi_i_of_epsilon_i
+  mandatory_separation:
+    intrinsic_scales: system_descriptor_xi
+    resolutions_and_thresholds: protocol_lambda
+  mass_resolution_policy:
+    direct_mass_channel: allowed_with_calibration
+    energy_channel: require_epsilon_M_equals_epsilon_E_over_c_squared_or_other_declared_converter
+    unmeasured_mass_axis: not_applicable
+
+resolution_margin:
+  formula: g_i_equals_log_b(q_i_over_epsilon_i)
+  equivalent_formula: descriptor_coordinate_minus_resolution_coordinate_with_same_orientation
+  invariances:
+    - coherent_unit_change
+    - common_anchor_change
+  interpretation_boundary: sign_is_only_a_simple_scale_separation_diagnostic_not_a_universal_detection_theorem
+
+transformation_laws:
+  coherent_unit_change:
+    action: quantity_and_reference_scale_by_same_positive_factor
+    invariant: every_logarithmic_ratio
+  anchor_change:
+    formula: chi_b_a_prime_equals_chi_b_a_minus_log_b_of_a_prime_over_a
+    action_on_scale_region: translation
+    invariant:
+      - coordinate_differences
+      - resolution_margins
+      - weighted_log_distance
+  base_change:
+    formula: chi_b_prime_equals_ln_b_over_ln_b_prime_times_chi_b
+    action_on_weight_matrix: W_b_prime_equals_ln_b_prime_over_ln_b_squared_times_W_b
+    invariant:
+      - ordering_on_each_axis
+      - zero_coordinate
+      - weighted_distance_with_covariant_weight_transform
+
+logarithmic_metric:
+  input: two_positive_scale_triples_and_positive_definite_weight_matrix
+  formula: d_W_squared_equals_delta_chi_transpose_W_delta_chi
+  properties:
+    - metric_on_positive_scale_triples
+    - independent_of_anchor
+    - invariant_under_coherent_unit_change
+  warning: W_equals_identity_is_a_convention_not_a_physical_law
+  recommended_weight_sources:
+    - declared_scientific_priority
+    - inverse_log_covariance
+    - decision_tolerance
+
+monomial_algebra:
+  hypothesis:
+    - positive_input_quantities
+    - dimensionally_matched_reference_quantities
+  formula: r_i_equals_C_i_product_j_q_j_power_A_ij
+  reference_formula: r_i_star_equals_C_i_product_j_q_j_star_power_A_ij
+  log_law: chi_r_equals_A_times_chi_q
+  status: theorem
+  examples:
+    velocity_over_c: chi_L_minus_chi_T
+    density_over_planck_density: chi_M_minus_3_chi_L
+    energy_over_planck_energy_for_E_equals_Mc_squared: chi_M
+
+planck_anchor_identities:
+  definitions:
+    ell_P: sqrt(hbar_G_over_c_cubed)
+    m_P: sqrt(hbar_c_over_G)
+    t_P: sqrt(hbar_G_over_c_fifth)
+  identities:
+    - t_P_equals_ell_P_over_c
+    - ell_P_times_m_P_equals_hbar_over_c
+    - m_P_times_c_squared_equals_hbar_over_t_P
+  consequence: planck_axes_are_normalizations_built_from_common_constants_not_three_independent_empirical_limits
+
+physical_constraint_surfaces:
+  causal_scale_pair:
+    hypotheses:
+      - L_and_T_refer_to_same_causal_process
+      - L_less_or_equal_c_times_T
+    log_constraint: chi_L_less_or_equal_chi_T
+    status: corollary
+  reduced_compton_length:
+    formula: lambda_bar_C_equals_hbar_over_Mc
+    log_constraint: chi_L_equals_minus_chi_M
+    status: corollary
+  schwarzschild_radius:
+    formula: r_s_equals_2GM_over_c_squared
+    log_constraint: chi_L_equals_chi_M_plus_log_b_2
+    status: corollary
+  firewall: constraint_surfaces_apply_only_when_the_axes_are_semantically_coupled_by_the_declared_physical_model
+
+uncertainty:
+  coordinate_first_order:
+    formula: u_chi_equals_u_q_over_abs_q_ln_b_for_exact_reference
+  correlated_ratio:
+    formula: u_chi_squared_equals_relative_variance_q_plus_relative_variance_a_minus_2_relative_covariance_over_ln_b_squared
+  multivariate:
+    formula: Sigma_chi_equals_J_Sigma_q_a_J_transpose
+  policies:
+    - retain_covariance_for_planck_anchors_derived_from_common_G
+    - do_not_report_confidence_intervals_without_stochastic_or_posterior_semantics
+    - do_not_propagate_rounded_cosmological_landmarks_as_if_exact
+
+cosmological_landmarks:
+  status: optional_model_and_epoch_dependent_catalogue_entries
+  required_passport:
+    - cosmological_model
+    - epoch
+    - distance_definition
+    - volume_definition
+    - content_component
+    - parameter_source
+    - uncertainty_or_explicit_not_propagated_policy
+  diameter:
+    permitted_example: present_comoving_particle_horizon_diameter
+    prohibited_name: diameter_of_the_entire_universe
+  mass_equivalents:
+    baryonic: Omega_b_times_rho_critical_times_V
+    all_matter: Omega_m_times_rho_critical_times_V
+    total_energy: rho_critical_times_V
+    prohibition: unqualified_mass_of_the_observable_universe
+  age:
+    permitted_example: FLRW_cosmic_proper_time_at_declared_epoch
+
+observation_trace:
+  deterministic: T_X_equals_set_of_protocol_coordinate_and_O_lambda_of_X
+  stochastic: T_X_equals_set_of_protocol_coordinate_and_law_of_Y_given_X_lambda
+  required_indexing: declared_protocol_family_Lambda
+  prohibited_shorthand: O_sub_chi_without_a_defined_protocol_family
+
+claim_firewalls:
+  - planck_length_and_planck_time_are_not_asserted_minimum_resolvable_scales
+  - cosmic_landmarks_are_not_upper_bounds_on_all_formal_physical_quantities
+  - three_similar_decade_spans_do_not_imply_a_new_law
+  - an_object_has_no_canonical_single_L_M_T_point_without_declared_measurands
+  - not_every_observation_channel_measures_or_resolves_all_three_axes
+  - euclidean_distance_in_log_scale_space_requires_a_declared_weight_matrix
+  - cosmological_distance_and_mass_entries_are_model_convention_and_epoch_dependent
+  - scale_separation_margin_is_not_by_itself_a_detection_probability
+
+migration:
+  document:
+    id: planck-cosmos-rulers-v1-1
+    supersedes: planck-cosmos-rulers-v1
+  closed_blockers:
+    - SCALE_PROTOCOL_SEPARATION
+    - COSMIC_MASS_AMBIGUITY
+    - COSMOLOGICAL_DISTANCE_CONVENTION
+    - SINGLE_POINT_OVERCLAIM
+    - UNQUALIFIED_R3_METRIC
+  inherited_interfaces:
+    - observed_pseudometric
+    - matched_resolutions
+    - logarithmic_scale_ratio
+    - typed_protocol_trace
+

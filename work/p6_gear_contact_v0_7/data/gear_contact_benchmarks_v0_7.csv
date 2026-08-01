@@ -1,0 +1,6 @@
+N1,N2,sigma,mesh_type,gcd,lcm,total_pair_states,cycle_count,orbit_fraction,signed_ratio_omega2_over_omega1
+12,25,-1,external,1,300,300,1,1,-0.48
+12,18,-1,external,6,36,216,6,0.1666666666666667,-0.6666666666666667
+2,3,-1,external,1,6,6,1,1,-0.6666666666666667
+4,6,-1,external,2,12,24,2,0.5,-0.6666666666666667
+30,78,1,internal,6,390,2340,6,0.1666666666666667,0.3846153846153846

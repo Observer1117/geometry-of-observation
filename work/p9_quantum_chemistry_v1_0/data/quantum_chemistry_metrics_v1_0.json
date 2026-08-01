@@ -1,0 +1,32 @@
+{
+  "schema": {
+    "id": "go-p9-quantum-chemistry-metrics",
+    "version": "1.0.0"
+  },
+  "date": "2026-07-28",
+  "benchmark_rows": 202,
+  "failed_rows": 0,
+  "max_absolute_error": 7.106509014225734e-15,
+  "categories": [
+    "Rayleigh_Ritz",
+    "active_space",
+    "correlation",
+    "generalized_eigenproblem",
+    "normal_modes",
+    "one_RDM",
+    "orbital_gauge",
+    "spectroscopy"
+  ],
+  "constants": {
+    "h_exact_J_s": 6.62607015e-34,
+    "hbar_J_s": 1.0545718176461565e-34,
+    "c_exact_m_s": 299792458.0
+  },
+  "controls": {
+    "generalized_eigenproblem_seeds": 8,
+    "orbital_gauge_seeds": 12,
+    "one_RDM_phase_samples": 13,
+    "diatomic_mass_cases": 8,
+    "correlation_cases": 12
+  }
+}

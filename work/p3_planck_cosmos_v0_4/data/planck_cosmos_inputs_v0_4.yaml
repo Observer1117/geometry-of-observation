@@ -1,0 +1,303 @@
+schema:
+  id: go-planck-cosmos-inputs
+  version: 0.4.0
+  date: 2026-07-28
+  unit_context: SI
+  logarithm_base: 10
+  purpose: reproducible_input_ledger_for_scale_coordinates
+
+defining_constants:
+  speed_of_light:
+    symbol: c
+    value_si: 299792458.0
+    unit: m/s
+    standard_uncertainty_si: 0.0
+    status: exact_si_defining_constant
+    source: BIPM_SI_9
+  planck_constant:
+    symbol: h
+    value_si: 6.62607015e-34
+    unit: J*s
+    standard_uncertainty_si: 0.0
+    status: exact_si_defining_constant
+    source: BIPM_SI_9
+  gravitational_constant:
+    symbol: G
+    value_si: 6.67430e-11
+    unit: m^3/(kg*s^2)
+    standard_uncertainty_si: 1.5e-15
+    status: 2022_CODATA_recommended
+    source: CODATA_2022
+
+planck_anchors:
+  planck_length:
+    symbol: ell_P
+    formula: sqrt(hbar*G/c^3)
+    value_si: 1.616255e-35
+    unit: m
+    standard_uncertainty_si: 1.8e-40
+    status: normalization_not_lower_bound
+    source: NIST_CODATA_2022_planck_length
+  planck_mass:
+    symbol: m_P
+    formula: sqrt(hbar*c/G)
+    value_si: 2.176434e-8
+    unit: kg
+    standard_uncertainty_si: 2.4e-13
+    status: normalization_not_lower_bound
+    source: NIST_CODATA_2022_planck_mass
+  planck_time:
+    symbol: t_P
+    formula: sqrt(hbar*G/c^5)
+    value_si: 5.391247e-44
+    unit: s
+    standard_uncertainty_si: 6.0e-49
+    status: normalization_not_lower_bound
+    source: NIST_CODATA_2022_planck_time
+
+unit_conversions:
+  light_year:
+    value_si: 9.4607304725808e15
+    unit: m
+    status: derived_from_exact_c_and_Julian_year
+  Julian_year:
+    value_si: 31557600.0
+    unit: s
+    status: conventional_exact_duration
+  megaparsec:
+    value_si: 3.0856775814913673e22
+    unit: m
+    status: conventional_astronomical_conversion
+
+cosmology_baseline:
+  model_id: Planck2018_flat_base_LambdaCDM_landmark
+  epoch: present_a0_equals_1
+  distance_convention: present_comoving_particle_horizon_diameter
+  spatial_curvature_convention: flat_Euclidean_volume_approximation
+  horizon_diameter:
+    value: 93.0e9
+    unit: light_year
+    status: rounded_catalog_landmark_not_fitted_parameter
+    source: legacy_93_Gly_particle_horizon_convention
+  universe_age:
+    value: 13.797e9
+    unit: Julian_year
+    standard_uncertainty: 0.023e9
+    status: model_inferred_parameter
+    source: Planck_2018_overview
+  hubble_constant:
+    value: 67.4
+    unit: km/s/Mpc
+    standard_uncertainty: 0.5
+    status: model_inferred_parameter
+    source: Planck_2018_VI
+  omega_b:
+    value: 0.0493
+    standard_uncertainty: 0.0006
+    status: model_inferred_parameter
+    source: Planck_2018_PDG_summary
+  omega_m:
+    value: 0.315
+    standard_uncertainty: 0.007
+    status: model_inferred_parameter
+    source: Planck_2018_VI
+  mass_uncertainty_policy:
+    status: not_propagated
+    reason: rounded_horizon_and_parameter_covariance_not_supplied
+
+catalogue:
+  - id: planck_length
+    axis: length
+    value_si: 1.616255e-35
+    unit_si: m
+    role: normalization_anchor
+    status: CODATA_recommended
+    convention: invariant_constant
+    source: NIST_CODATA_2022_planck_length
+  - id: high_energy_probe_order
+    axis: length
+    value_si: 1.0e-18
+    unit_si: m
+    role: illustrative_landmark
+    status: order_of_magnitude_marker
+    convention: effective_resolution_scale
+    source: declared_order_marker
+  - id: atomic_order
+    axis: length
+    value_si: 1.0e-10
+    unit_si: m
+    role: illustrative_landmark
+    status: order_of_magnitude_marker
+    convention: characteristic_size
+    source: declared_order_marker
+  - id: human_length_reference
+    axis: length
+    value_si: 1.0
+    unit_si: m
+    role: conventional_reference
+    status: declared_not_population_estimate
+    convention: characteristic_size
+    source: declared_reference
+  - id: earth_diameter
+    axis: length
+    value_si: 1.2742e7
+    unit_si: m
+    role: illustrative_landmark
+    status: rounded_mean_diameter
+    convention: planetary_mean_diameter
+    source: standard_astronomical_landmark
+  - id: astronomical_unit
+    axis: length
+    value_si: 1.495978707e11
+    unit_si: m
+    role: conventional_reference
+    status: exact_IAU_definition
+    convention: astronomical_unit
+    source: IAU_2012
+  - id: light_year
+    axis: length
+    value_si: 9.4607304725808e15
+    unit_si: m
+    role: conventional_reference
+    status: exact_given_Julian_year
+    convention: light_travel_length
+    source: BIPM_SI_9
+  - id: observable_particle_horizon_diameter
+    axis: length
+    value_si: 8.798479339500144e26
+    unit_si: m
+    role: cosmological_landmark
+    status: rounded_model_dependent
+    convention: present_comoving_particle_horizon_diameter
+    source: legacy_93_Gly_particle_horizon_convention
+
+  - id: electron_mass
+    axis: mass
+    value_si: 9.1093837139e-31
+    unit_si: kg
+    role: empirical_landmark
+    status: CODATA_recommended
+    convention: invariant_rest_mass
+    source: NIST_CODATA_2022
+  - id: proton_mass
+    axis: mass
+    value_si: 1.67262192595e-27
+    unit_si: kg
+    role: empirical_landmark
+    status: CODATA_recommended
+    convention: invariant_rest_mass
+    source: NIST_CODATA_2022
+  - id: planck_mass
+    axis: mass
+    value_si: 2.176434e-8
+    unit_si: kg
+    role: normalization_anchor
+    status: CODATA_recommended
+    convention: invariant_constant
+    source: NIST_CODATA_2022_planck_mass
+  - id: human_mass_reference
+    axis: mass
+    value_si: 70.0
+    unit_si: kg
+    role: conventional_reference
+    status: declared_not_population_estimate
+    convention: rest_mass
+    source: declared_reference
+  - id: earth_mass
+    axis: mass
+    value_si: 5.9722e24
+    unit_si: kg
+    role: illustrative_landmark
+    status: rounded_astronomical_value
+    convention: gravitational_mass_parameter_interpreted_as_mass
+    source: standard_astronomical_landmark
+  - id: solar_mass
+    axis: mass
+    value_si: 1.98847e30
+    unit_si: kg
+    role: illustrative_landmark
+    status: rounded_astronomical_value
+    convention: solar_mass
+    source: standard_astronomical_landmark
+  - id: cosmic_baryonic_mass_equivalent
+    axis: mass
+    derived: omega_b*rho_critical*flat_horizon_volume
+    unit_si: kg
+    role: cosmological_landmark
+    status: model_dependent_illustrative
+    convention: baryonic_mass_equivalent_in_flat_comoving_volume
+    source: Planck2018_flat_base_LambdaCDM_landmark
+  - id: cosmic_matter_mass_equivalent
+    axis: mass
+    derived: omega_m*rho_critical*flat_horizon_volume
+    unit_si: kg
+    role: cosmological_landmark
+    status: model_dependent_illustrative
+    convention: total_matter_mass_equivalent_in_flat_comoving_volume
+    source: Planck2018_flat_base_LambdaCDM_landmark
+  - id: cosmic_total_energy_mass_equivalent
+    axis: mass
+    derived: rho_critical*flat_horizon_volume
+    unit_si: kg
+    role: cosmological_landmark
+    status: model_dependent_illustrative
+    convention: total_energy_mass_equivalent_in_flat_comoving_volume
+    source: Planck2018_flat_base_LambdaCDM_landmark
+
+  - id: planck_time
+    axis: time
+    value_si: 5.391247e-44
+    unit_si: s
+    role: normalization_anchor
+    status: CODATA_recommended
+    convention: invariant_constant
+    source: NIST_CODATA_2022_planck_time
+  - id: particle_process_order
+    axis: time
+    value_si: 1.0e-24
+    unit_si: s
+    role: illustrative_landmark
+    status: order_of_magnitude_marker
+    convention: characteristic_duration
+    source: declared_order_marker
+  - id: femtosecond
+    axis: time
+    value_si: 1.0e-15
+    unit_si: s
+    role: conventional_reference
+    status: SI_prefix_exact
+    convention: coordinate_duration
+    source: BIPM_SI_9
+  - id: second
+    axis: time
+    value_si: 1.0
+    unit_si: s
+    role: conventional_reference
+    status: SI_base_unit
+    convention: coordinate_duration
+    source: BIPM_SI_9
+  - id: day
+    axis: time
+    value_si: 86400.0
+    unit_si: s
+    role: conventional_reference
+    status: conventional_exact_duration
+    convention: duration
+    source: BIPM_SI_9
+  - id: Julian_year
+    axis: time
+    value_si: 31557600.0
+    unit_si: s
+    role: conventional_reference
+    status: conventional_exact_duration
+    convention: duration
+    source: IAU_convention
+  - id: universe_age
+    axis: time
+    value_si: 4.354002072e17
+    unit_si: s
+    role: cosmological_landmark
+    status: model_inferred_parameter
+    convention: FLRW_cosmic_proper_time_since_big_bang
+    source: Planck_2018_overview
+

@@ -1,0 +1,706 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.015}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Gear Contact Geometry as a Typed Finite Observation System},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Finite contact cycles, frame quotients, contact dissipation, and rotation-number scope},
+  pdfkeywords={gear contact, hunting tooth, finite torus, Willis relation, frame action, dissipation, rotation number, observation geometry}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\pair}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Kcal}{\mathcal K}
+\newcommand{\Rcal}{\mathcal R}
+\newcommand{\Acal}{\mathcal A}
+\newcommand{\Dcal}{\mathcal D}
+\newcommand{\Pcal}{\mathcal P}
+\newcommand{\one}{\bm 1}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Gear Contact Geometry\\
+\large A typed finite observation system}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.1 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working draft
+v1.0. It is migrated to GO Core v0.2 and the Frames--Forces--
+Constraints--Dissipation Interface v0.1. The finite tooth-pair theorem
+is exact for a declared pitch-event model. Contact loads, wear,
+efficiency, lifetime, and tooth safety are not inferred from event
+counts.}}
+\end{center}
+
+\begin{abstract}
+Two ideal gears with positive tooth counts \(N_1,N_2\) admit an exact
+finite event model on
+\[
+X_{N_1,N_2}=\Z_{N_1}\times\Z_{N_2},\qquad
+T_\sigma(i,j)=(i+1,j+\sigma),
+\]
+where \(\sigma=-1\) denotes an external mesh and \(\sigma=+1\) an
+internal mesh under the declared common angular orientation. Every
+orbit has length \(\operatorname{lcm}(N_1,N_2)\), the state space has
+\(\gcd(N_1,N_2)\) orbits, and one orbit covers every ordered tooth
+pair exactly when the counts are coprime. We separate this exact
+combinatorial layer from the active contact set, contact ratio,
+normal load, sliding, dissipation, and material wear. The signed speed
+ratio
+\[
+\frac{\omega_2}{\omega_1}
+=\sigma\frac{N_1}{N_2}
+\]
+identifies only the coprime count ratio, not the common scale that
+controls the cycle decomposition. For a planetary set, uniform
+subtraction of frame angular speed is formalized as an
+\((\R,+)\)-action; only a relative-observation protocol passes to its
+quotient. For a periodic non-circular kinematic model, we define the
+driver-period return map, its physical lift, invariant measures, and
+the Poincare translation number. No KAM conclusion is drawn. The
+result is a strict observation interface and a reproducible finite
+benchmark, not a new gear-design or tribology theory.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and observation protocol}
+
+The system descriptor is
+\[
+d=(N_1,N_2,\sigma,\mathfrak g,\mathfrak m,\vartheta),
+\]
+where \(N_a\in\mathbb N_{>0}\), \(\sigma\in\{-1,+1\}\),
+\(\mathfrak g\) records the declared geometry and frame conventions,
+\(\mathfrak m\) records the mesh class, and \(\vartheta\) contains any
+constitutive parameters. The complete protocol is the typed chain
+\[
+X_t\xrightarrow{\Rcal_{\rm red}}\widetilde X_t
+\xrightarrow{\Ocal_\lambda}Z_t
+\xrightarrow{\Kcal_\lambda}\operatorname{Law}(Y_t\mid Z_t)
+\xrightarrow{\widehat\theta_\lambda}\widehat\theta_t.
+\]
+The record \(\lambda\) must state the tooth labels, event clock,
+reference frames, angular orientation, observation horizon, missed-
+event and misclassification policy, load calibration, sampling rates,
+noise model, and estimator.
+
+\begin{warning}[Three layers that must not be identified]
+The pitch-event state \(x_k\), the simultaneous active contact set
+\(\Acal(t)\), and a material wear field are different objects. The
+first is finite combinatorics. The second requires tooth geometry and
+contact ratio. The third additionally requires loads, sliding,
+material data, lubrication, and a constitutive evolution law.
+\end{warning}
+
+\section{Fixed-axis circular kinematics}
+
+Let both angular coordinates be positive counterclockwise in one
+declared inertial frame. Put
+\[
+\sigma=
+\begin{cases}
+-1,&\text{external mesh},\\
++1,&\text{internal mesh}.
+\end{cases}
+\]
+For an ideal constant-ratio pair, the phase constraint is
+\begin{equation}\label{eq:mesh-phase}
+h(\theta_1,\theta_2)
+=N_1\theta_1-\sigma N_2\theta_2-\phi_0
+=0\pmod{2\pi}.
+\end{equation}
+On every smooth branch,
+\begin{equation}\label{eq:mesh-velocity}
+N_1\omega_1-\sigma N_2\omega_2=0,\qquad
+\rho_{2\leftarrow1}
+:=\frac{\omega_2}{\omega_1}
+=\sigma\frac{N_1}{N_2},
+\end{equation}
+provided \(\omega_1\ne0\). The direction in
+\(\rho_{2\leftarrow1}\) is part of the symbol; writing only ``gear
+ratio'' is rejected.
+
+\begin{proposition}[Ideal mesh-reaction power]\label{prop:ideal-power}
+Let \(Q_c=\lambda\,\dd h\) be the reaction covector of the ideal
+constraint \cref{eq:mesh-phase}. Then its total generalized power
+vanishes on admissible velocities:
+\[
+\pair{Q_c}{(\omega_1,\omega_2)}
+=\lambda(N_1\omega_1-\sigma N_2\omega_2)=0.
+\]
+\end{proposition}
+
+This statement concerns the ideal constraint reaction. Sliding
+friction, lubricant shear, impacts, backlash, bearing losses, and
+profile errors belong to separate force and dissipation terms.
+
+\section{Finite pitch-event dynamics}
+
+\begin{definition}[Pitch-event state]
+Choose an event section that records one reference tooth-pitch
+crossing per advance of gear 1. The label state is
+\[
+X_{N_1,N_2}:=\Z_{N_1}\times\Z_{N_2}.
+\]
+Under \cref{eq:mesh-velocity}, its ideal event map is
+\begin{equation}\label{eq:contact-shift}
+T_\sigma(i,j)=(i+1,j+\sigma)
+\quad\pmod{(N_1,N_2)}.
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Orbit length and cycle decomposition]
+\label{thm:cycle-decomposition}
+Every orbit of \(T_\sigma\) has length
+\[
+P=\operatorname{lcm}(N_1,N_2).
+\]
+The state space is the disjoint union of
+\[
+g=\gcd(N_1,N_2)
+\]
+directed cycles of length \(P\). A single orbit contains all
+\(N_1N_2\) ordered tooth pairs if and only if \(g=1\).
+\end{theorem}
+
+\begin{proof}
+The period is the order of \((1,\sigma)\) in
+\(\Z_{N_1}\times\Z_{N_2}\). It is the least positive \(k\) satisfying
+\[
+k=0\pmod{N_1},\qquad \sigma k=0\pmod{N_2}.
+\]
+Because \(\sigma=\pm1\), this is
+\(\operatorname{lcm}(N_1,N_2)\). Translation acts freely on each
+orbit, so every orbit has this size. The orbit count is therefore
+\[
+\frac{N_1N_2}{\operatorname{lcm}(N_1,N_2)}
+=\gcd(N_1,N_2).
+\]
+\end{proof}
+
+\begin{corollary}[Hunting-tooth criterion]
+Every tooth of gear 1 is paired with every tooth of gear 2 on one
+event orbit exactly when \(\gcd(N_1,N_2)=1\).
+\end{corollary}
+
+The directed graph
+\[
+G_{N_1,N_2,\sigma}
+=\bigl(X_{N_1,N_2},
+\{(x,T_\sigma x):x\in X_{N_1,N_2}\}\bigr)
+\]
+is consequently a union of equal directed cycles. Label translations
+\(\ell_{a,b}(i,j)=(i+a,j+b)\) commute with \(T_\sigma\), while
+\(R(i,j)=(i,-j)\) conjugates \(T_\sigma\) to \(T_{-\sigma}\).
+Thus \(P\), \(g\), and the cycle multiset are invariant under tooth
+relabeling and orientation reversal. The ordered label sequence is
+not invariant under those transformations.
+
+\begin{warning}[Event-model boundary]
+When transverse or overlap contact ratio exceeds one, several tooth
+pairs may carry load simultaneously. The map \(T_\sigma\) then
+records a chosen pitch event, not the full active contact set.
+Undercutting, interference, flank modification, elastic deflection,
+and loss of contact are also absent from \cref{eq:contact-shift}.
+\end{warning}
+
+\section{Ratio observation and identifiability}
+
+Let
+\[
+\Ocal_{\rm ratio}(N_1,N_2,\sigma)
+=\sigma\frac{N_1}{N_2}.
+\]
+This is a deterministic observation of the descriptor, not of an
+individual tooth-pair state.
+
+\begin{proposition}[Fiber of the magnitude-ratio observation]
+\label{prop:ratio-fiber}
+Suppose
+\[
+\left|\Ocal_{\rm ratio}\right|=\frac{u}{v},
+\qquad \gcd(u,v)=1.
+\]
+Then every compatible positive tooth-count pair is uniquely
+\[
+(N_1,N_2)=(cu,cv),\qquad c\in\mathbb N_{>0}.
+\]
+For this pair,
+\[
+\gcd(N_1,N_2)=c,\qquad
+\operatorname{lcm}(N_1,N_2)=cuv.
+\]
+Hence the speed-ratio magnitude does not identify contact-cycle count
+or return period.
+\end{proposition}
+
+\begin{proof}
+The equality \(N_1/N_2=u/v\) gives \(vN_1=uN_2\).
+Coprimality implies \(u\mid N_1\) and \(v\mid N_2\), with one common
+positive multiplier \(c\). The gcd and lcm formulas follow.
+\end{proof}
+
+On a bounded design class
+\[
+\Dcal_M=\{(N_1,N_2,\sigma):1\le N_1,N_2\le M\},
+\]
+the observation fiber is finite. On the unbounded class it is
+countably infinite. Therefore an information-loss statement must
+declare the descriptor domain; it cannot be inferred from a ratio
+alone.
+
+Useful deterministic readouts include
+\begin{align*}
+\Ocal_{\rm pair}(x_k)&=(i_k,j_k)
+&&\text{only with calibrated tooth labels},\\
+\Ocal_{\rm phase}(q)&=(\theta_1,\theta_2)\pmod{2\pi}
+&&\text{with declared encoders and frames},\\
+\Ocal_{\rm ratio}(d)&=\rho_{2\leftarrow1}
+&&\text{with signed orientation},\\
+\Ocal_{\rm active}(X_t)&=\Acal(t)
+&&\text{with contact-resolution policy},\\
+\Ocal_{\rm load}(X_t)&=(N_\alpha,T_\alpha)_{\alpha\in\Acal(t)}
+&&\text{with force calibration}.
+\end{align*}
+None of these channels is silently substituted for another.
+
+\section{Contact force, sliding, and dissipation}
+
+For an active candidate pair \(\alpha=(i,j)\), let
+\(g_\alpha(q)\ge0\) mean separation and let \(N_\alpha\ge0\) be the
+compressive normal-force magnitude. In the smooth force regime,
+\begin{equation}\label{eq:contact-complementarity}
+g_\alpha\ge0,\qquad
+N_\alpha\ge0,\qquad
+N_\alpha g_\alpha=0.
+\end{equation}
+Let \(n_\alpha\) point from gear 1 toward gear 2, and let
+\(F_\alpha=N_\alpha n_\alpha+T_\alpha\) be the force on gear 2. The
+force on gear 1 is \(-F_\alpha\). With
+\[
+v_{{\rm rel},\alpha}=v_{2,\alpha}-v_{1,\alpha},\qquad
+v_{T,\alpha}
+=\bigl(I-n_\alpha n_\alpha^{\mathsf T}\bigr)v_{{\rm rel},\alpha},
+\]
+a dissipative tangential law satisfies
+\begin{equation}\label{eq:friction-sign}
+T_\alpha\cdot v_{T,\alpha}\le0,\qquad
+P_{{\rm fric},\alpha}
+:=-T_\alpha\cdot v_{T,\alpha}\ge0.
+\end{equation}
+If \(J_{{\rm rel},\alpha}\dot q=v_{{\rm rel},\alpha}\), the generalized
+contact covector is
+\begin{equation}\label{eq:force-pullback}
+Q_\alpha=J_{{\rm rel},\alpha}^{\mathsf T}F_\alpha\in T_q^*Q.
+\end{equation}
+This pullback is required before contact forces are combined with
+other generalized forces.
+
+In a smooth active-set interval, the nonnegative total frictional loss
+is
+\begin{equation}\label{eq:friction-loss}
+P_{\rm fric}
+=-\sum_{\alpha\in\Acal(t)}
+T_\alpha\cdot v_{T,\alpha}\ge0.
+\end{equation}
+For a stationary autonomous model with ideal normal constraints, its
+energy balance has the interface form
+\[
+\dot E_L=P_{\rm act}-P_{\rm fric}-P_{\rm other},
+\qquad P_{\rm other}\ge0.
+\]
+Moving supports, time-dependent tooth geometry, or imposed carrier
+motion require the explicit support-power or
+\(-\partial_tL\) terms of the common mechanics interface.
+
+\begin{warning}[Nonsmooth boundary]
+Contact onset, separation, impact, backlash switching, stick--slip
+transitions, and inconsistent rigid Coulomb contact require a
+nonsmooth inclusion or complementarity time-stepper. Existence,
+uniqueness, and numerical convergence are not proved here.
+\end{warning}
+
+\section{Counts, exposure, dissipation, and wear}
+
+For the pitch-event orbit \(x_k=T_\sigma^kx_0\), define the count
+\[
+C_{ij}(K)
+=\sum_{k=0}^{K-1}\mathbf 1_{\{x_k=(i,j)\}}.
+\]
+For a resolved continuous active set, define instead
+\begin{align}
+I_{ij}(T)
+&=\int_0^T
+\mathbf 1_{\{(i,j)\in\Acal(t)\}}N_{ij}(t)\,\dd t,
+\label{eq:normal-exposure}\\
+D_{ij}(T)
+&=\int_0^T
+\mathbf 1_{\{(i,j)\in\Acal(t)\}}
+\bigl[-T_{ij}(t)\cdot v_{T,ij}(t)\bigr]\,\dd t.
+\label{eq:dissipative-exposure}
+\end{align}
+Here \(C_{ij}\) is a count, \(I_{ij}\) has impulse dimension, and
+\(D_{ij}\) has energy dimension. They cannot be added or called
+equivalent.
+
+For any declared nonnegative channel \(w_\alpha\) with
+\(W=\sum_\alpha w_\alpha>0\), put
+\[
+p_\alpha=\frac{w_\alpha}{W},\qquad
+H_b(p)=-\sum_{\alpha:p_\alpha>0}p_\alpha\log_b p_\alpha,
+\qquad b>1.
+\]
+If \(W=0\), the normalized distribution and its entropy are
+undefined.
+
+\begin{proposition}[Full-orbit event entropy]
+For one full pitch-event orbit, the empirical distribution is uniform
+on \(P=\operatorname{lcm}(N_1,N_2)\) states. Therefore
+\[
+H_b=\log_bP.
+\]
+Relative to the uniform distribution on all \(N_1N_2\) ordered pairs,
+the reachability support defect is
+\begin{equation}\label{eq:reachability-defect}
+\Delta_b
+=\log_b(N_1N_2)-\log_bP
+=\log_b\gcd(N_1,N_2).
+\end{equation}
+For \(N_1N_2>1\), the normalized defect
+\[
+\overline\Delta
+=\frac{\log_b\gcd(N_1,N_2)}{\log_b(N_1N_2)}
+\]
+is independent of \(b\).
+\end{proposition}
+
+Neither \(C_{ij}\), \(I_{ij}\), \(D_{ij}\), nor their entropies are a
+wear law. A wear prediction additionally needs a declared
+constitutive map with material hardness, local pressure, sliding
+distance, lubrication, temperature, surface evolution, and
+uncertainty.
+
+\section{Fixed-axis gear trains}
+
+Let a gear train have angular-velocity vector
+\(\omega\in\R^m\). For every fixed-axis mesh edge \(e=(a,b)\), use
+\[
+N_a\omega_a-\sigma_eN_b\omega_b=0.
+\]
+For every rigid compound-shaft relation use
+\(\omega_a-\omega_b=0\). Stacking these rows gives
+\begin{equation}\label{eq:train-kernel}
+C\omega=0.
+\end{equation}
+The admissible ideal velocity space is \(\ker C\); this formulation
+does not assume in advance that it is one-dimensional.
+
+Along an oriented simple mesh path
+\(v_0\to v_1\to\cdots\to v_m\),
+\begin{equation}\label{eq:path-ratio}
+\frac{\omega_{v_m}}{\omega_{v_0}}
+=\prod_{r=1}^{m}
+\sigma_{e_r}\frac{N_{v_{r-1}}}{N_{v_r}},
+\end{equation}
+when all relevant velocities are nonzero. A closed ideal loop admits
+a nonzero compatible motion only if the corresponding signed product
+is one. Idler cancellation in a terminal ratio does not erase the
+idler's tooth-contact history, bearing loads, inertia, or losses.
+
+\section{Planetary frames as an explicit group action}
+
+Let
+\(\omega=(\omega_s,\omega_r,\omega_c)\in\R^3\) denote sun, ring, and
+carrier angular velocities in one common axial orientation. A change
+to a frame rotating at angular speed \(\alpha\) acts by
+\begin{equation}\label{eq:frame-action}
+G_\alpha(\omega)=\omega-\alpha\one,\qquad
+\one=(1,1,1).
+\end{equation}
+It is an action of \((\R,+)\), because
+\[
+G_\alpha\circ G_\beta=G_{\alpha+\beta},\qquad
+G_0=\operatorname{id},\qquad
+G_\alpha^{-1}=G_{-\alpha}.
+\]
+
+\begin{theorem}[Relative quotient and Willis relation]
+\label{thm:willis-quotient}
+The map
+\[
+\pi:\R^3\longrightarrow\R^2,\qquad
+\pi(\omega)
+=(\omega_s-\omega_c,\omega_r-\omega_c)
+\]
+is constant exactly on the \(G_\alpha\)-orbits and induces
+\[
+\R^3/\operatorname{span}\{\one\}\cong\R^2.
+\]
+For a simple ideal planetary set, the Willis relation is the quotient
+line
+\begin{equation}\label{eq:willis}
+N_s(\omega_s-\omega_c)
++N_r(\omega_r-\omega_c)=0,
+\end{equation}
+or, when the denominator is nonzero,
+\[
+\frac{\omega_s-\omega_c}{\omega_r-\omega_c}
+=-\frac{N_r}{N_s}.
+\]
+\end{theorem}
+
+\begin{proof}
+\(\pi(\omega)=\pi(\omega')\) exactly when
+\(\omega'-\omega=\alpha\one\) for some \(\alpha\). Thus its fibers are
+the action orbits and its kernel is
+\(\operatorname{span}\{\one\}\). Equation \cref{eq:willis} depends
+only on \(\pi(\omega)\).
+\end{proof}
+
+Uniform frame subtraction is therefore a physical change of
+representation. It becomes an observational gauge redundancy only
+for a protocol of the form
+\(\Ocal_{\rm rel}=f\circ\pi\), which deliberately discards common
+absolute spin. A laboratory encoder that measures \(\omega_c\)
+separately does not pass to this quotient.
+
+If the ring is fixed in the laboratory, \(\omega_r=0\), then
+\[
+\omega_c=\frac{N_s}{N_s+N_r}\,\omega_s.
+\]
+For \(N_s=30\), \(N_r=78\), and
+\(\omega_s=1\ {\rm rad\,s^{-1}}\), this gives
+\(\omega_c=5/18\ {\rm rad\,s^{-1}}\). For a standard equal-module
+sun--planet--ring geometry, the separate compatibility condition is
+\(N_r=N_s+2N_p\), giving \(N_p=24\) in this example.
+
+\section{Periodic non-circular kinematics}
+
+Let \(r_1,r_2:S^1\to(0,\infty)\) be positive \(C^1\) effective pitch
+radii, and assume the driver angle \(\theta_1\) is monotone. A
+kinematic rolling model is
+\begin{equation}\label{eq:noncircular-ode}
+\frac{\dd\theta_2}{\dd\theta_1}
+=\sigma\frac{r_1(\theta_1)}{r_2(\theta_2)}.
+\end{equation}
+This equation is a model input. It does not prove manufacturability,
+absence of interference, force closure, or elastic stability.
+
+For the lifted solution
+\(\widetilde\theta_2(\theta_1;x)\) with initial value \(x\), define
+the one-driver-turn return lift
+\begin{equation}\label{eq:return-lift}
+\widetilde F(x)
+=\widetilde\theta_2(2\pi;x),\qquad
+\widetilde F(x+2\pi)=\widetilde F(x)+2\pi.
+\end{equation}
+Uniqueness of the scalar \(C^1\) flow makes the induced
+\(F:S^1\to S^1\) orientation-preserving, even when the output angle
+decreases along the driven orbit.
+
+\begin{theorem}[Translation number with declared lift]
+\label{thm:translation-number}
+For the orientation-preserving circle homeomorphism \(F\) and the
+physical lift \(\widetilde F\), the limit
+\begin{equation}\label{eq:translation-number}
+\tau(\widetilde F)
+=\lim_{n\to\infty}
+\frac{\widetilde F^n(x)-x}{2\pi n}
+\end{equation}
+exists and is independent of \(x\). Replacing the lift by
+\(\widetilde F+2\pi k\) changes \(\tau\) by \(k\); hence
+\(\rho(F)=\tau(\widetilde F)\bmod\Z\) is lift-independent.
+If \(\mu\) is any \(F\)-invariant Borel probability measure, then
+\[
+\tau(\widetilde F)
+=\frac1{2\pi}\int_{S^1}
+\bigl(\widetilde F(\widetilde x)-\widetilde x\bigr)\,\dd\mu(x),
+\]
+where the displacement is the well-defined periodic function induced
+by the selected lift.
+\end{theorem}
+
+For constant radii,
+\(\widetilde F(x)=x+2\pi\sigma r_1/r_2\), so
+\(\tau=\sigma r_1/r_2\). Elasticity, backlash, impact, or controller
+hysteresis may destroy the single-valued homeomorphism hypothesis.
+No KAM persistence, Diophantine stability, or locking theorem follows
+from \cref{eq:noncircular-ode} alone.
+
+\section{Reproducible benchmarks and machine gates}
+
+\begin{center}
+\begin{tabular}{rrrrr}
+\toprule
+\((N_1,N_2)\) & \(\gcd\) & \(\operatorname{lcm}\) &
+orbit fraction & \(\lvert\rho_{2\leftarrow1}\rvert\)\\
+\midrule
+\((12,25)\) & \(1\) & \(300\) & \(1\) & \(12/25\)\\
+\((12,18)\) & \(6\) & \(36\) & \(1/6\) & \(2/3\)\\
+\((2,3)\) & \(1\) & \(6\) & \(1\) & \(2/3\)\\
+\((4,6)\) & \(2\) & \(12\) & \(1/2\) & \(2/3\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The release tests verify the orbit theorem by exhaustive enumeration
+over a finite tooth-count range, ratio fibers, graph conjugacy,
+explicit entropy bases, contact complementarity, dissipation signs,
+force-power covariance, train path products, the planetary group
+action and quotient, the Willis example, and translation-number
+convergence for benchmark circle maps.
+
+\begin{longtable}{L{33mm}L{48mm}L{62mm}}
+\toprule
+Gate & Required declaration & Rejected inference\\
+\midrule
+\endhead
+Event semantics & pitch section and label convention &
+event pair equals simultaneous contact set\\
+Ratio direction & \(\omega_2/\omega_1\), sign, and frame &
+unnamed ``gear ratio''\\
+Frame action & \(G_\alpha\) and observed quotient &
+calling every carrier subtraction a gauge\\
+Contact force & gap sign, active set, force-on-body convention &
+unsigned or double-counted reactions\\
+Dissipation & \(P_{\rm diss}\ge0\) with relative velocity &
+event count used as energy loss\\
+Exposure & count, impulse, and energy kept dimensionally distinct &
+load count called wear\\
+Entropy & base, support, positive-total guard &
+\(\log\) without base or zero normalization\\
+Rotation number & return map, lift, and hypotheses &
+KAM language from a local ratio equation\\
+\bottomrule
+\end{longtable}
+
+\section{Claim boundary}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{L{42mm}L{28mm}Y}
+\toprule
+Statement & Status & Required hypotheses\\
+\midrule
+Finite orbit decomposition & theorem &
+positive integer tooth counts; pitch-event map
+\cref{eq:contact-shift}\\
+Ratio fiber & proposition &
+exact constant ratio; positive tooth counts\\
+Ideal reaction power & proposition &
+smooth ideal holonomic constraint\\
+Willis quotient & theorem &
+common axis convention; ideal simple planetary kinematics\\
+Translation number & classical theorem &
+orientation-preserving circle homeomorphism and selected lift\\
+Contact friction & constitutive model &
+declared active set, force convention, smooth force regime\\
+Wear prediction & absent &
+requires an external validated material-evolution model\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+This revision establishes no new gear-design standard, load-capacity
+formula, lubrication model, lifetime law, or safety result. Its exact
+mathematics is elementary finite-group dynamics plus classical circle
+rotation theory. The contribution is a strict separation of
+descriptor, event, contact, frame, dissipation, and observation
+layers suitable for GO Core validation.
+
+\begingroup
+\small
+\hbadness=10000
+\begin{thebibliography}{9}
+
+\bibitem{iso21771}
+International Organization for Standardization,
+\emph{ISO 21771-1:2024, Cylindrical involute gears and gear pairs --
+Part 1: Concepts and geometry}, 2024.
+\href{https://www.iso.org/standard/84949.html}
+{ISO 21771-1:2024}.
+
+\bibitem{litvin}
+F.~L. Litvin and A. Fuentes,
+\emph{Gear Geometry and Applied Theory}, 2nd ed.,
+Cambridge University Press, 2004.
+\href{https://doi.org/10.1017/CBO9780511547126}
+{doi:10.1017/CBO9780511547126}.
+
+\bibitem{noncircular}
+F.~L. Litvin, A. Fuentes-Aznar, I. Gonzalez-Perez, and K. Hayasaka,
+\emph{Noncircular Gears: Design and Generation},
+Cambridge University Press, 2009, ISBN 978-0-521-76170-3.
+
+\bibitem{arnold}
+V.~I. Arnold, \emph{Mathematical Methods of Classical Mechanics},
+2nd ed., Springer, 1989.
+\href{https://doi.org/10.1007/978-1-4757-2063-1}
+{doi:10.1007/978-1-4757-2063-1}.
+
+\bibitem{marsden}
+J.~E. Marsden and T.~S. Ratiu,
+\emph{Introduction to Mechanics and Symmetry}, 2nd ed.,
+Springer, 1999.
+\href{https://doi.org/10.1007/978-0-387-21792-5}
+{doi:10.1007/978-0-387-21792-5}.
+
+\end{thebibliography}
+\endgroup
+
+\end{document}

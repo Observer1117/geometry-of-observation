@@ -1,0 +1,731 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.015}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Billiards as a Typed Geometry of Observation Laboratory},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Collision maps, observation channels, symbolic entropy, and spectral quantities},
+  pdfkeywords={mathematical billiards, collision map, invariant measure, symbolic dynamics, Dirichlet Laplacian, observation geometry}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Sph}{\mathbb{S}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\pair}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Kcal}{\mathcal K}
+\newcommand{\Pcal}{\mathcal P}
+\newcommand{\Scal}{\mathcal S}
+\newcommand{\Hcal}{\mathcal H}
+\newcommand{\Lcal}{\mathcal L}
+\newcommand{\Mcal}{\mathcal M}
+\newcommand{\Dcal}{\mathcal D}
+\newcommand{\Ecal}{\mathcal E}
+\newcommand{\ind}{\mathbf 1}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Billiards as a Typed Geometry of Observation Laboratory\\
+\large Collision reduction, symbolic channels, and spectral quantities}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.1 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working note
+v1.0. It is an application-layer reference migrated to GO Core v0.2.
+It does not claim a new theorem in billiard dynamics, quantum chaos,
+or inverse spectral geometry. The new results internal to this note
+are typing, factorization, identifiability, and benchmark statements
+for explicitly declared observation channels.}}
+\end{center}
+
+\begin{abstract}
+Let \(\Omega\subset\R^2\) be a bounded billiard table. We separate four
+objects that are often conflated: the continuous billiard flow, its
+collision-section reduction, a deterministic observation of collision
+data, and a finite or stochastic recorded channel. On the regular
+collision space
+\[
+\Mcal_\partial=\{(s,\varphi):s\in\partial\Omega_{\rm reg},
+\ |\varphi|<\pi/2\},
+\]
+the billiard map is invertible almost everywhere and preserves
+\[
+\dd\mu_\partial
+=\frac{\cos\varphi}{2|\partial\Omega|}\,\dd s\,\dd\varphi
+=\frac{1}{2|\partial\Omega|}\,\dd s\,\dd p,
+\qquad p=\sin\varphi.
+\]
+Therefore the impact map itself is not an information-loss map.
+Loss occurs only after a declared projection, partition, finite
+horizon, missing-event policy, or stochastic channel. For a known
+strictly convex table, two consecutive regular impact positions
+recover the outgoing direction, whereas one impact position does not.
+Finite symbolic words are necessarily non-injective on a continuum
+of initial states, but an infinite coding may be generating; marginal
+symbol entropy is neither entropy rate nor Kolmogorov--Sinai entropy.
+For the quantum layer, Laplacian eigenvalues
+\(\lambda_n\) have dimension \(L^{-2}\), while physical energies are
+\[
+E_n=\frac{\hbar^2}{2m}\lambda_n.
+\]
+Rigid-motion invariance, similarity covariance, Weyl recovery of area,
+and isospectral non-identifiability are stated with their hypotheses.
+The result is a strict observation interface and reproducible
+benchmark, not a new billiard theory.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope, conventions, and claim firewall}
+
+\subsection{Regular table class}
+
+Unless a stronger hypothesis is stated, \(\Omega\subset\R^2\) is
+bounded, connected, and open, with boundary equal to a finite union of
+piecewise \(C^3\) arcs. The set of corners is
+\(\partial\Omega_{\rm sing}\); the regular part is
+\(\partial\Omega_{\rm reg}\). A trajectory hitting a corner, grazing
+the boundary, or accumulating infinitely many collisions in finite
+time is outside the default regular orbit class. Convexity, strict
+convexity, dispersing curvature, focusing curvature, and finite
+horizon are additional hypotheses, never defaults.
+
+The dimensional model has a declared speed \(c_0>0\). A regular hidden
+state is
+\[
+z=(q,u)\in X:=\Omega\times\Sph^1,\qquad
+v=c_0u,\qquad \norm{u}=1.
+\]
+Between collisions,
+\begin{equation}\label{eq:free-flight}
+\dot q=c_0u,\qquad \dot u=0.
+\end{equation}
+At \(q\in\partial\Omega_{\rm reg}\), let \(n(q)\) be the inward unit
+normal. If \(u^-\cdot n<0\), elastic specular reflection is
+\begin{equation}\label{eq:reflection}
+u^+=u^- -2(u^-\cdot n)n.
+\end{equation}
+The convention is part of the model: changing to an outward normal
+changes the inequalities but not the physical reflected vector.
+
+\begin{warning}[No universal billiard claim]
+Properties of circular, elliptic, dispersing, polygonal, and stadium
+billiards are not interchangeable. In particular, ergodicity,
+mixing, positive Lyapunov exponents, decay of correlations, and
+integrability require separate table classes and hypotheses.
+\end{warning}
+
+\subsection{Typed observation chain}
+
+For a protocol record \(\lambda\), the complete chain is
+\begin{equation}\label{eq:observation-chain}
+X\xrightarrow{\Scal}\Mcal_\partial
+\xrightarrow{\Ocal_\lambda}Z_\lambda
+\xrightarrow{\Kcal_\lambda}
+\operatorname{Law}(Y_\lambda\mid Z_\lambda)
+\xrightarrow{\widehat\theta_\lambda}\widehat\theta.
+\end{equation}
+Here \(\Scal\) is collision-section reduction, not a sensor;
+\(\Ocal_\lambda\) is deterministic; \(\Kcal_\lambda\) is either a
+declared stochastic channel or the identity kernel; and
+\(\widehat\theta_\lambda\) is an estimator or direct readout. The
+continuous flow is related to the collision map by a roof function
+and is not identified with the discrete map.
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=4mm and 8mm,
+  box/.style={draw=obsblue,rounded corners,fill=lightblue,
+    align=center,inner sep=3pt,font=\scriptsize},
+  arr/.style={-{Latex[length=2mm]},thick,draw=obsblue}
+]
+\node[box] (flow) {flow \(\Phi^t\)};
+\node[box,right=of flow] (section) {collision map \(T\)\\and roof \(\tau\)};
+\node[box,right=of section] (points) {impact data\\\((s_n,p_n)\)};
+\node[box,below=of points] (symbols) {symbols\\\(a_0^{N-1}\)};
+\draw[arr] (flow) -- (section);
+\draw[arr] (section) -- (points);
+\draw[arr] (points) -- (symbols);
+\end{tikzpicture}
+\end{center}
+
+\section{Collision space, singularities, and invariant measure}
+
+Parameterize each regular boundary component by arclength \(s\), with
+positively oriented unit tangent \(t(s)\). For an outgoing unit vector
+write
+\[
+u=\cos\varphi\,n(s)+\sin\varphi\,t(s),\qquad
+\varphi\in(-\pi/2,\pi/2),
+\]
+and set \(p=\sin\varphi\in(-1,1)\).
+
+\begin{definition}[Regular collision space and map]
+\[
+\Mcal_\partial
+=\{(s,\varphi):s\in\partial\Omega_{\rm reg},
+\ |\varphi|<\pi/2\}.
+\]
+Let \(\Scal_1\) contain states whose next collision is a corner,
+grazing, non-unique, or undefined. The collision map is
+\[
+T:\Mcal_\partial\setminus\Scal_1\longrightarrow\Mcal_\partial,
+\qquad T(s,\varphi)=(s',\varphi').
+\]
+The roof function
+\[
+\tau(s,\varphi)
+=\frac{\norm{q(s')-q(s)}}{c_0}>0
+\]
+is the physical flight time to the next collision.
+\end{definition}
+
+\begin{proposition}[Regular invertibility and invariant measure]
+\label{prop:collision-measure}
+For the reversible elastic billiard, \(T\) is invertible away from
+forward and backward singularity sets. It preserves the two-form
+\[
+\omega_\partial=\cos\varphi\,\dd s\wedge\dd\varphi
+=\dd s\wedge\dd p
+\]
+and the normalized probability measure
+\begin{equation}\label{eq:collision-measure}
+\dd\mu_\partial
+=\frac{\cos\varphi}{2L_\partial}\,\dd s\,\dd\varphi
+=\frac{1}{2L_\partial}\,\dd s\,\dd p,
+\qquad L_\partial:=|\partial\Omega|.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Specular reflection is time reversible, so reversing the outgoing
+velocity at a regular collision supplies the inverse branch. The
+preservation of \(\omega_\partial\) is the standard Poincare-section
+restriction of Liouville measure for billiards. Normalization is
+direct:
+\[
+\frac1{2L_\partial}
+\int_{\partial\Omega}\!\dd s
+\int_{-\pi/2}^{\pi/2}\!\cos\varphi\,\dd\varphi=1.
+\]
+\end{proof}
+
+\begin{warning}[Reduction is not observation loss]
+The full pair \((s_n,p_n)\) evolves under an almost-everywhere
+invertible, measure-preserving map. Calling \(T\) itself a compression
+is incorrect. The flow requires the roof \(\tau\), and information
+loss must be assigned to a subsequent observation channel.
+\end{warning}
+
+\section{Impact-position observation and identifiability}
+
+Define the instantaneous position readout
+\[
+\pi_s:\Mcal_\partial\to\partial\Omega_{\rm reg},
+\qquad \pi_s(s,p)=s.
+\]
+This map is non-injective because all \(p\in(-1,1)\) share the same
+output at fixed \(s\). Sequential observations have different
+identifiability.
+
+\begin{proposition}[Two-impact reconstruction]\label{prop:two-impact}
+Let \(\Omega\) be a known strictly convex table with \(C^1\) boundary.
+For two distinct consecutive regular impact points
+\[
+q_n=q(s_n),\qquad q_{n+1}=q(s_{n+1}),
+\]
+the outgoing direction and collision coordinate at \(q_n\) are
+uniquely
+\begin{equation}\label{eq:two-impact-reconstruction}
+u_n^+
+=\frac{q_{n+1}-q_n}{\norm{q_{n+1}-q_n}},
+\qquad
+p_n=u_n^+\cdot t(s_n).
+\end{equation}
+Thus the two-step position observation
+\((s_n,s_{n+1})\) reconstructs \((s_n,p_n)\) on the stated regular
+class.
+\end{proposition}
+
+\begin{proof}
+Free flight is a straight segment and strict convexity makes the open
+chord lie in \(\Omega\). Its oriented endpoints therefore determine
+the unit direction. Projection on the declared tangent gives \(p_n\).
+\end{proof}
+
+\begin{remark}
+Unknown geometry, unordered impacts, missed impacts, coincident
+points, finite spatial resolution, non-convex visibility, and
+stochastic misclassification enlarge the observation fiber. The
+proposition does not survive those changes without additional
+hypotheses.
+\end{remark}
+
+For a horizon \(N\), useful deterministic channels are
+\begin{align}
+\Ocal_{\rm full,N}(z)&=(s_k,p_k)_{k=0}^{N-1},\label{eq:full-channel}\\
+\Ocal_{\rm pos,N}(z)&=(s_k)_{k=0}^{N-1},\label{eq:position-channel}\\
+\Ocal_{\alpha,N}(z)&=(a_k)_{k=0}^{N-1},
+\qquad a_k=\alpha(s_k),\label{eq:symbol-channel}
+\end{align}
+where \(\alpha:\partial\Omega\to\{1,\ldots,m\}\) is a declared
+measurable partition with a boundary-assignment rule.
+
+\section{Finite symbolic channels and entropy semantics}
+
+\begin{proposition}[Finite-horizon non-injectivity]
+\label{prop:finite-symbol}
+Let \(U\subset\Mcal_\partial\) be uncountable and suppose
+\(\Ocal_{\alpha,N}\) is defined on \(U\), with \(m<\infty\) and
+\(N<\infty\). Then
+\[
+\Ocal_{\alpha,N}:U\to\{1,\ldots,m\}^N
+\]
+is not injective.
+\end{proposition}
+
+\begin{proof}
+The codomain contains at most \(m^N\) words, while \(U\) is
+uncountable.
+\end{proof}
+
+This proposition does not imply that every infinite symbolic coding
+is lossy. A generating partition may identify almost every orbit from
+its bi-infinite itinerary, modulo partition boundaries.
+
+Let \(Z_0\sim\mu_\partial\), \(Z_k=T^kZ_0\), and
+\(A_k=\alpha(\pi_s Z_k)\). The process is stationary. For a logarithm
+base \(b>1\), define
+\begin{align}
+H_b(A_0)
+&=-\sum_{j:p_j>0}p_j\log_b p_j,\label{eq:marginal-entropy}\\
+H_b(A_0^{n-1})
+&=-\sum_{w:P_n(w)>0}P_n(w)\log_bP_n(w),\label{eq:block-entropy}\\
+h_b(T,\alpha)
+&=\lim_{n\to\infty}\frac1n H_b(A_0^{n-1}),\label{eq:entropy-rate}
+\end{align}
+where the last limit exists for a stationary finite-alphabet process.
+The Kolmogorov--Sinai entropy is
+\[
+h_{\mu_\partial,b}(T)=\sup_\alpha h_b(T,\alpha).
+\]
+Equality for one partition requires a generating hypothesis.
+
+\begin{warning}[Marginal entropy is not dynamical entropy]
+The empirical quantity
+\[
+\widehat H_b=-\sum_j\widehat p_j\log_b\widehat p_j
+\]
+uses only one-symbol frequencies. It ignores order, is
+partition-dependent, and is neither an entropy-rate estimate nor a
+KS-entropy estimate without an explicit stochastic and asymptotic
+protocol.
+\end{warning}
+
+\section{Exact integrable reference: the disk}
+
+Let \(\Omega=B_R(0)\), \(L_\partial=2\pi R\), and retain
+\(p=\sin\varphi\).
+
+\begin{theorem}[Disk collision map]\label{thm:disk-map}
+On the regular disk collision space,
+\begin{equation}\label{eq:disk-map}
+T_R(s,p)
+=\left(s+2R\arccos p\pmod{2\pi R},\,p\right).
+\end{equation}
+The reduced angular-momentum coordinate
+\[
+j_z:=q\times u=Rp
+\]
+is conserved and has the dimension of length.  The physical specific
+angular momentum is \(q\times v=c_0j_z\).  The rotation number and roof
+time are
+\begin{equation}\label{eq:disk-readouts}
+\rho(p)=\frac{\arccos p}{\pi}\pmod1,\qquad
+\tau_R(p)=\frac{2R\sqrt{1-p^2}}{c_0}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+At a collision, reflection reverses the normal component of \(u\) and
+preserves its tangential component \(p\). Since \(q=Re_r\),
+\(q\times u=R(u\cdot e_\theta)=Rp\), while multiplication by \(c_0\)
+restores the physical specific angular momentum. The chord subtends
+the central angle \(\pi-2\varphi=2\arccos p\), giving
+\cref{eq:disk-map}. Its length is
+\(2R\cos\varphi=2R\sqrt{1-p^2}\), which gives the roof.
+\end{proof}
+
+The disk is an exact benchmark, not evidence that a generic billiard
+is integrable. For an ellipse, tangency to a member of a confocal
+caustic family is a classical invariant on regular trajectories; this
+statement is retained only as a standard example and is not extended
+to arbitrary convex tables.
+
+\section{Chaotic tables and finite-time diagnostics}
+
+The Bunimovich stadium is a standard focusing table for which
+ergodicity and hyperbolic behavior are classical results under the
+stadium hypotheses. Those results do not justify reading a Lyapunov
+exponent from an arbitrary two-trajectory plot.
+
+For \(z\) outside singularities and a tangent vector \(\xi\ne0\), the
+mathematical exponent is
+\begin{equation}\label{eq:lyapunov}
+\lambda_+(z,\xi)
+=\lim_{N\to\infty}\frac1N
+\log\frac{\norm{D T_z^N\xi}}{\norm{\xi}},
+\end{equation}
+when the limit exists. A finite-window diagnostic must instead be
+declared as
+\begin{equation}\label{eq:finite-time-proxy}
+\widehat\lambda_{N_0,N_1}
+=\frac{\sum_{k=N_0}^{N_1}w_k(k-\bar k)
+\log(d_k/d_*)}
+{\sum_{k=N_0}^{N_1}w_k(k-\bar k)^2},
+\end{equation}
+where \(d_k\) is computed in a declared collision-space metric,
+\(d_*>0\) is a reference distance, \(w_k\ge0\), and
+\(\bar k=\sum w_kk/\sum w_k\). The fit must state the window,
+renormalization rule, saturation cutoff, singularity handling, and
+uncertainty model. Without those fields,
+\(\widehat\lambda\) is only a plot slope.
+
+\begin{warning}[No chaos from one positive fit]
+A positive finite-window slope does not prove a positive asymptotic
+Lyapunov exponent, ergodicity, mixing, Bernoulli behavior, or positive
+KS entropy. These are distinct claims.
+\end{warning}
+
+\section{Quantum billiards: operator, dimensions, and spectrum}
+
+For a bounded open \(\Omega\), define the Dirichlet quadratic form
+\[
+q_\Omega[\psi]=\int_\Omega\norm{\nabla\psi}^2\,\dd x,
+\qquad \psi\in H_0^1(\Omega).
+\]
+Its Friedrichs extension is the nonnegative self-adjoint Dirichlet
+Laplacian \(-\Delta_\Omega^D\). It has compact resolvent and spectrum
+\begin{equation}\label{eq:laplacian-spectrum}
+0<\lambda_1(\Omega)\le\lambda_2(\Omega)\le\cdots,
+\qquad \lambda_n\to\infty,
+\qquad [\lambda_n]=L^{-2},
+\end{equation}
+with multiplicity.
+
+\begin{proposition}[Laplacian-to-energy bridge]
+\label{prop:energy-bridge}
+For a nonrelativistic particle of declared mass \(m>0\),
+\[
+\widehat H_\Omega
+=-\frac{\hbar^2}{2m}\Delta_\Omega^D,
+\qquad
+E_n=\frac{\hbar^2}{2m}\lambda_n.
+\]
+Thus \(\lambda_n\) is not an energy. The bridge has SI dimension
+\[
+\frac{[\hbar]^2[\lambda_n]}{[m]}
+=\frac{(ML^2T^{-1})^2L^{-2}}{M}
+=ML^2T^{-2}.
+\]
+\end{proposition}
+
+\begin{proposition}[Rigid invariance and scale covariance]
+\label{prop:spectral-covariance}
+For a Euclidean isometry \(g\) and scale \(a>0\),
+\begin{equation}\label{eq:spectral-scaling}
+\lambda_n(g\Omega)=\lambda_n(\Omega),\qquad
+\lambda_n(a\Omega)=a^{-2}\lambda_n(\Omega).
+\end{equation}
+Consequently, in two dimensions,
+\begin{equation}\label{eq:dimensionless-spectrum}
+\widetilde\lambda_n(\Omega):=|\Omega|\lambda_n(\Omega)
+\end{equation}
+is invariant under similarities.
+\end{proposition}
+
+\begin{proof}
+Rigid motions induce a unitary pullback on \(L^2\). Under
+\(x=ay\), the Laplacian becomes \(a^{-2}\Delta_y\), while
+\(|a\Omega|=a^2|\Omega|\).
+\end{proof}
+
+\begin{theorem}[Weyl area readout]\label{thm:weyl}
+Let \(N_\Omega(\Lambda)=\#\{n:\lambda_n<\Lambda\}\). For a planar open
+set of finite area,
+\begin{equation}\label{eq:weyl}
+N_\Omega(\Lambda)
+\sim\frac{|\Omega|}{4\pi}\Lambda
+\qquad(\Lambda\to\infty).
+\end{equation}
+Hence the full Dirichlet spectrum determines area. Boundary-length
+terms require additional boundary regularity and a stated asymptotic
+theorem; they are not inferred from \cref{eq:weyl} alone.
+\end{theorem}
+
+\begin{theorem}[Spectral non-identifiability]\label{thm:isospectral}
+There exist noncongruent planar domains with the same Dirichlet
+spectrum, including multiplicities. Therefore
+\[
+\Ocal_{\rm spec}:\Omega\longmapsto(\lambda_n(\Omega))_{n\ge1}
+\]
+is not injective on the class of all planar domains.
+\end{theorem}
+
+\begin{warning}[Classical--quantum firewall]
+Sharing the domain \(\Omega\) does not identify the classical
+collision map with the quantum spectral map. Any semiclassical claim
+requires an explicit limit, observable class, and theorem. No
+solution of inverse spectral geometry or quantum chaos is claimed
+here.
+\end{warning}
+
+\section{Dissipative and non-specular variants}
+
+The reference dynamics is elastic. A normal restitution model with
+\(e\in[0,1]\), unchanged tangential velocity, and particle mass
+\(m>0\) gives
+\[
+v_n^+=-e\,v_n^-,
+\qquad
+\Delta E_{\rm diss}
+=\frac m2(1-e^2)(v_n^-)^2\ge0.
+\]
+If \(e<1\), speed is no longer constant, so
+\((s,\varphi)\) is not a closed state space: speed or energy must be
+added. Friction, stochastic reflection, rough walls, moving
+boundaries, and compliant impact each require a new channel and
+constitutive law. The invariant measure
+\cref{eq:collision-measure} is not inherited automatically.
+
+\section{Observation invariants and protocol requirements}
+
+\begin{definition}[Recoverable quantity]
+Let \(\Ocal:X\to Y\). A quantity \(I:X\to V\) is exactly recoverable
+from \(\Ocal\) if there exists \(\widetilde I:Y\to V\) such that
+\[
+I=\widetilde I\circ\Ocal.
+\]
+Equivalently, \(I\) is constant on every observation fiber
+\(\Ocal^{-1}(y)\).
+\end{definition}
+
+\begin{definition}[Group invariant readout]
+For a group \(G\curvearrowright X\), a readout \(I:X\to V\) is
+\(G\)-invariant when \(I(gx)=I(x)\) for all admissible \(g,x\).
+Equivariance, scale covariance, and estimator stability are not
+called invariance.
+\end{definition}
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabularx}{\linewidth}{L{0.22\linewidth} Y Y}
+\toprule
+Object & Exact status & Required qualification \\
+\midrule
+Collision measure \(\mu_\partial\) &
+Invariant under regular elastic \(T\) &
+Exclude singular orbit set; declare angle convention \\
+Disk coordinate \(p\) &
+First integral of \(T_R\) &
+Disk geometry and elastic reflection \\
+Finite symbolic word &
+Deterministic coarse readout &
+Partition, horizon, boundary rule, missing events \\
+Marginal entropy &
+Channel statistic &
+Log base, positive counts, not KS entropy \\
+Laplacian spectrum &
+Rigid-motion invariant; scale covariant &
+Boundary condition, multiplicity, operator convention \\
+\(|\Omega|\lambda_n\) &
+Similarity invariant in two dimensions &
+Area and eigenvalue belong to the same domain \\
+\bottomrule
+\end{tabularx}
+\caption{No quantity is called an observation invariant without its
+channel and transformation class.}
+\end{table}
+
+A complete billiard protocol records at least:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item table class, boundary regularity, corner and grazing policy;
+\item boundary parameterization, tangent and normal orientation;
+\item speed or energy convention, time unit, and reference frame;
+\item collision section, roof-time treatment, and observation horizon;
+\item deterministic readout, partition, spatial and temporal resolution;
+\item missing-impact, duplicate-impact, and misclassification policy;
+\item stochastic kernel or explicit noiseless assumption;
+\item log base, metric, regression window, weights, and zero guards;
+\item spectral boundary condition, multiplicity convention, mass, and
+      \(\hbar\) convention whenever energy is reported;
+\item estimator, uncertainty model, and declared exactness class.
+\end{enumerate}
+
+\section{Reproducible benchmarks}
+
+The release includes executable tests and a machine-readable benchmark
+table. The exact reference cases are:
+\begin{enumerate}[leftmargin=*,itemsep=3pt]
+\item normalization of \(\mu_\partial\) and the change
+      \(p=\sin\varphi\);
+\item invertibility, conserved \(p\), roof time, and rotation number
+      for the disk map;
+\item reconstruction of \(p_n\) from two consecutive impacts in a
+      strictly convex disk;
+\item two cyclic binary words with identical marginal entropy but
+      different conditional transition entropy;
+\item exact rectangular Dirichlet eigenvalues, \(a^{-2}\) spectral
+      scaling, and invariance of \(|\Omega|\lambda_n\);
+\item the dimensional bridge
+      \(E_n=\hbar^2\lambda_n/(2m)\);
+\item finite-word non-injectivity and zero-denominator guards.
+\end{enumerate}
+
+For the declared disk benchmark \(R=2.3\,{\rm m}\), \(p=0.4\), and
+\(c_0=3\,{\rm m\,s^{-1}}\),
+\[
+\rho=\frac{\arccos(0.4)}{\pi}\approx0.36901012,\qquad
+\tau\approx1.40532321\,{\rm s}.
+\]
+For the cyclic words \(01010101\) and \(00110011\), both marginal
+entropies equal one bit, while their empirical first-order
+conditional entropies are respectively zero and one bit. This is an
+exact order-sensitivity benchmark, not a chaos diagnostic.
+
+\section{Claim register and boundary}
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabularx}{\linewidth}{L{0.33\linewidth} L{0.18\linewidth} Y}
+\toprule
+Claim & Status & Scope \\
+\midrule
+Collision-map measure preservation &
+Standard proposition &
+Regular elastic billiard, singular sets excluded \\
+Two-impact reconstruction &
+Proposition &
+Known strictly convex \(C^1\) table, consecutive regular impacts \\
+Finite symbolic non-injectivity &
+Proposition &
+Finite alphabet and horizon on uncountable state set \\
+Disk collision formulas &
+Theorem &
+Circular table with declared coordinates \\
+Weyl area recovery &
+Standard theorem &
+Planar finite-area Dirichlet Laplacian \\
+Isospectral non-identifiability &
+Standard theorem &
+General planar-domain class \\
+Positive finite-time slope implies chaos &
+Rejected &
+No such implication \\
+Spectrum determines arbitrary shape &
+Rejected &
+False on general planar domains \\
+New billiard or quantum-chaos theorem &
+Rejected &
+Not claimed \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The admissible program-level conclusion is limited:
+
+\begin{center}
+\fcolorbox{obsgreen}{lightgreen}{%
+\parbox{0.88\linewidth}{\small
+Mathematical billiards form a controlled laboratory in which
+continuous flow, collision reduction, deterministic projection,
+finite symbolic recording, and spectral observation can be compared
+without identifying them. Recoverability is a property of the
+declared channel and hypothesis class, not of the word
+``observation'' alone.}}
+\end{center}
+
+\section*{References}
+\addcontentsline{toc}{section}{References}
+\begin{enumerate}[label={[\arabic*]},leftmargin=*,itemsep=3pt]
+\item G.~D. Birkhoff, \emph{Dynamical Systems}, American
+Mathematical Society, 1927.
+\item Ya.~G. Sinai, ``Dynamical systems with elastic reflections:
+ergodic properties of dispersing billiards,'' \emph{Russian
+Mathematical Surveys} 25(2), 137--189 (1970).
+\item L.~A. Bunimovich, ``On the ergodic properties of nowhere
+dispersing billiards,'' \emph{Communications in Mathematical Physics}
+65, 295--312 (1979).
+\item C.~P. Dettmann, ``Recent advances in open billiards with some
+open problems,'' in \emph{Frontiers in the Study of Chaotic
+Dynamical Systems with Open Problems}, arXiv:1007.4166 (2010).
+\item S. Tabachnikov, \emph{Geometry and Billiards}, American
+Mathematical Society, 2005.
+\item N. Chernov and R. Markarian, \emph{Chaotic Billiards},
+American Mathematical Society, 2006.
+\item M. Kac, ``Can one hear the shape of a drum?''
+\emph{American Mathematical Monthly} 73(4), 1--23 (1966).
+\item C. Gordon, D.~L. Webb, and S. Wolpert, ``One cannot hear the
+shape of a drum,'' \emph{Bulletin of the American Mathematical
+Society} 27, 134--138 (1992).
+\item L. Friedlander, ``On the Weyl asymptotic formula for Euclidean
+domains of finite volume,'' arXiv:2106.07690 (2021).
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,150 @@
+schema:
+  id: go-corpus-freeze-contract
+  version: 1.3.0
+  date: 2026-07-28
+  phase: P12
+  baseline_corpus: go-corpus-ledgers@1.2.0
+  core_contract: go-core-spec@0.2.0
+  normative_master: geometry-of-observation-corpus-master-v1-3
+
+release_identity:
+  title: "Geometry of Observation: Frozen Typed Corpus and Reproducibility Master"
+  version: 1.3.0
+  status: CORPUS_FREEZE
+  scientific_status: PREPRINT_CANDIDATE
+  author:
+    name: Stassis Stashkevichyus
+    orcid: 0009-0000-2294-705X
+    affiliation: Independent Research Program
+  homepage: https://theobserverofmultiverses.info
+  corresponding_email: null
+  doi: null
+  license:
+    id: CC-BY-NC-ND-4.0
+    url: https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+scope:
+  normative_modules: 18
+  component_pages: 158
+  typed_expressions: 347
+  corpus_statuses:
+    PASS: 18
+    FAIL: 0
+    BLOCKED: 0
+  auxiliary_documents:
+    - si-hep-quantity-passport-v0-5
+  excluded_from_module_count:
+    - legacy_and_superseded_pdfs
+    - phase_migration_reports
+    - numerical_benchmark_tables
+    - contracts_and_machine_ledgers
+    - release_front_matter
+
+freeze_semantics:
+  identity_tuple:
+    - core_contract
+    - baseline_corpus_ledger
+    - canonical_module_order
+    - dependency_ledger
+    - source_map
+    - sha256_map
+    - release_metadata
+  digest_algorithm: SHA-256
+  component_mutation_requires_new_version: true
+  source_mutation_requires_new_version: true
+  order_mutation_requires_new_version: true
+  dependency_mutation_requires_new_version: true
+  metadata_mutation_requires_new_version: true
+  placeholder_doi_forbidden: true
+  component_pdf_policy: embed_without_textual_revision
+  legacy_policy: preserve_hash_and_mark_superseded
+
+namespace_policy:
+  document_ids: globally_unique
+  quantity_ids: globally_unique_in_frozen_ledger
+  map_ids: globally_unique_in_frozen_ledger
+  symbols: document_and_scope_qualified
+  expressions: document_scoped
+  claims: document_scoped
+  invariants: document_scoped
+  fully_qualified_form: "<document-id>::<local-id>"
+  short_name_overlap_is_not_collision: true
+
+dependency_policy:
+  ledger: go-corpus-dependencies@1.3.0
+  allowed_edge_kinds:
+    - core_contract
+    - extension_contract
+    - documented_interface
+  contextual_relations_are_non_normative: true
+  endpoint_completeness_required: true
+  acyclicity_required: true
+  source_evidence_required_for_documented_interface: true
+
+claim_policy:
+  preserve_component_status: true
+  strong_statuses:
+    - lemma
+    - proposition
+    - theorem
+    - corollary
+  non_strong_statuses:
+    - definition
+    - model
+    - hypothesis
+    - diagnostic
+    - analogy
+    - empirical
+  master_may_not_upgrade_claims: true
+  common_structure_does_not_imply_physical_equivalence: true
+  lint_pass_does_not_substitute_for_peer_review: true
+
+validation_gates:
+  - id: FREEZE-PATHS
+    requirement: every normative PDF and source path resolves
+  - id: FREEZE-HASHES
+    requirement: every frozen byte stream matches its declared SHA-256
+  - id: FREEZE-PAGES
+    requirement: component page counts sum to 158
+  - id: CORE-REPLAY
+    requirement: 18 PASS / 0 FAIL / 0 BLOCKED and zero findings
+  - id: NAMESPACE-QUALIFICATION
+    requirement: fully qualified expression and claim identifiers are unique
+  - id: DEPENDENCY-DAG
+    requirement: dependency graph is acyclic and endpoint complete
+  - id: DEPENDENCY-EVIDENCE
+    requirement: documented interfaces have exact source evidence
+  - id: PHASE-REPLAY
+    requirement: P1 through P11 release validators pass
+  - id: PDF-LOGICAL
+    requirement: A4, unencrypted, no forms, extractable text
+  - id: PDF-FONTS
+    requirement: all fonts embedded
+  - id: MASTER-PAGE-PRESERVATION
+    requirement: source and master component page content streams agree
+  - id: METADATA
+    requirement: CFF, Zenodo, OSF, license, and author identity agree
+  - id: ARCHIVE
+    requirement: deterministic sorted ZIP with fixed timestamps
+
+publication_policy:
+  archival_unit: unified_corpus_release
+  component_doi_policy: no_separate_placeholder_or_parallel_doi
+  preferred_record_type: preprint
+  concept_doi_count: 1
+  doi_assignment_state: unassigned
+  corresponding_email_state: intentionally_omitted
+  component_author_metadata_variants:
+    - Stassis Research Program
+    - "Stas, Independent Research Program"
+  normalized_container_author: Stassis Stashkevichyus
+
+claim_firewall:
+  - not_a_theory_of_everything
+  - not_a_derivation_of_standard_model_parameters
+  - not_a_new_general_relativity_theory
+  - not_a_new_information_theory
+  - not_a_new_quantum_chemistry_method
+  - not_a_new_astrodynamics_method
+  - not_a_new_regular_polyhedra_classification
+  - not_a_cross_domain_physical_equivalence_proof

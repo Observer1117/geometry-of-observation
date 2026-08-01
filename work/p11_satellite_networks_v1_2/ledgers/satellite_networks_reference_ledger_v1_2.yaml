@@ -1,0 +1,1698 @@
+schema:
+  id: go-satellite-networks-reference-ledger
+  version: 1.2.0
+  date: '2026-07-28'
+  base_contract: go-core-spec@0.2.0
+  inherited_contracts:
+  - go-regular-polyhedra-observation-contract@1.1.0
+  extension_contract: go-satellite-networks-observation-contract@1.2.0
+documents:
+- id: satellite-networks-observation-v1-2
+  title: Satellite Networks under Typed Frames and Temporal Observation Channels
+  version: 1.2.0
+  source:
+    pdf: work/p11_satellite_networks_v1_2/build/satellite/satellite_networks_typed_frames_v1_2.pdf
+    tex: work/p11_satellite_networks_v1_2/src/satellite_networks_typed_frames_v1_2.tex
+    text: work/p11_satellite_networks_v1_2/checks/satellite/satellite_networks_typed_frames_v1_2.txt
+    metrics_json: work/p11_satellite_networks_v1_2/data/satellite_networks_metrics_v1_2.json
+    pages: 8
+    sha256: 0d4cc766732a2c81c09de053a548a305344c7409797ef6832effa41799a49c2c
+  ledger_level: reference
+  migration_status: strict_reference_migrated
+  unit_contexts:
+  - SI
+  - GR_geometrized
+  - neutral
+  groups:
+  - time_dependent_common_SE3_frames
+  - constant_spatial_SE3_postcomposition
+  - Euclidean_E3_configuration_congruence
+  - vertex_relabelings
+  - Poincare_event_transformations
+  - spacetime_coordinate_diffeomorphisms
+  - transported_partition_rigid_isometries
+  maps:
+  - id: rigid_frame_change
+    domain: labeled_inertial_configuration
+    codomain: labeled_coframed_configuration
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: distance_matrix
+    domain: labeled_configuration
+    codomain: labeled_symmetric_distance_matrix
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: bearing_only
+    domain: nonzero_observer_relative_positions
+    codomain: unit_direction_records
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: retarded_signal
+    domain: source_and_observer_worldlines
+    codomain: reception_time_measurement_record
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: spherical_LOS_graph
+    domain: labeled_configuration_body_and_thresholds
+    codomain: symmetric_snapshot_graph
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: uniform_sampler
+    domain: continuous_time_record
+    codomain: finite_sample_sequence
+    kind: discretizer
+    invertibility: not_required
+    information_loss: possible
+  - id: temporal_earliest_arrival
+    domain: ordered_contact_events_source_and_start_time
+    codomain: vertex_arrival_times
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  - id: centered_Gram_reconstruction
+    domain: labeled_Euclidean_distance_matrix
+    codomain: centered_Gram_matrix_and_rank
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: hidden_state
+    key: X_t
+    meaning: labeled_satellite_network_state
+  - scope: frame
+    key: R_t
+    meaning: orientation_from_frame_to_inertial
+  - scope: frame
+    key: o_t
+    meaning: frame_origin_in_inertial_coordinates
+  - scope: geometry
+    key: D_t
+    meaning: labeled_pairwise_distance_matrix
+  - scope: phase
+    key: L_omega
+    meaning: integer_resonance_lattice
+  - scope: phase
+    key: Gamma_theta_omega
+    meaning: exact_phase_orbit_closure
+  - scope: graph
+    key: A_t
+    meaning: snapshot_link_adjacency
+  - scope: relativity
+    key: tau_gamma
+    meaning: proper_time_on_fixed_worldline_segment
+  quantities:
+  - id: sn.r_i
+    symbol: r_i
+    semantic_kind: vector
+    dimension: &id001
+    - 1
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.r_j
+    symbol: r_j
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.c_E
+    symbol: c_E
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.o
+    symbol: o
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.a_common
+    symbol: a
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.p_i
+    symbol: p_i
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.p_j
+    symbol: p_j
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.d_segment
+    symbol: d_ij
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.segment_point
+    symbol: s_ij
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.y_i
+    symbol: y_i
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: sn.y_j
+    symbol: y_j
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: sn.c_frame
+    symbol: c_f
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: sn.frame_relative_i
+    symbol: z_i
+    semantic_kind: vector
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: sn.v_i
+    symbol: v_i
+    semantic_kind: vector
+    dimension: &id002
+    - 1
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.v_j
+    symbol: v_j
+    semantic_kind: vector
+    dimension: *id002
+    canonical_unit: m/s
+    unit_context: SI
+    frame: inertial
+    claim_status: definition
+  - id: sn.ydot_i
+    symbol: ydot_i
+    semantic_kind: vector
+    dimension: *id002
+    canonical_unit: m/s
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: sn.ydot_j
+    symbol: ydot_j
+    semantic_kind: vector
+    dimension: *id002
+    canonical_unit: m/s
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: sn.d_ij
+    symbol: D_ij
+    semantic_kind: scalar
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.rho_i
+    symbol: rho_i
+    semantic_kind: scalar
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.rho_j
+    symbol: rho_j
+    semantic_kind: scalar
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.semimajor_axis
+    symbol: a_orb
+    semantic_kind: scalar
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.R_occ
+    symbol: R_occ
+    semantic_kind: scalar
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.R_link
+    symbol: R_link
+    semantic_kind: scalar
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.R_star
+    symbol: R_star
+    semantic_kind: scalar
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.clearance
+    symbol: h_ij
+    semantic_kind: scalar
+    dimension: *id001
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.mu_E
+    symbol: mu_E
+    semantic_kind: scalar
+    dimension:
+    - 3
+    - 0
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^3/s^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.c
+    symbol: c
+    semantic_kind: scalar
+    dimension: *id002
+    canonical_unit: m/s
+    unit_context: SI
+    frame: invariant
+    claim_status: empirical
+  - id: sn.speed_i
+    symbol: v_i_norm
+    semantic_kind: scalar
+    dimension: *id002
+    canonical_unit: m/s
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.speed_squared_i
+    symbol: v_i_squared
+    semantic_kind: scalar
+    dimension: &id003
+    - 2
+    - 0
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2/s^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.potential_i
+    symbol: Phi_i
+    semantic_kind: scalar
+    dimension: *id003
+    canonical_unit: m^2/s^2
+    unit_context: SI
+    frame: model_dependent
+    claim_status: definition
+  - id: sn.acceleration_magnitude
+    symbol: a_i
+    semantic_kind: scalar
+    dimension: &id009
+    - 1
+    - 0
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.omega_i
+    symbol: omega_i
+    semantic_kind: scalar
+    dimension: &id004
+    - 0
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: rad/s
+    unit_context: SI
+    frame: model_time
+    claim_status: definition
+  - id: sn.omega_j
+    symbol: omega_j
+    semantic_kind: scalar
+    dimension: *id004
+    canonical_unit: rad/s
+    unit_context: SI
+    frame: model_time
+    claim_status: definition
+  - id: sn.omega_alias_shift
+    symbol: Delta_omega
+    semantic_kind: scalar
+    dimension: *id004
+    canonical_unit: rad/s
+    unit_context: SI
+    frame: sampling
+    claim_status: definition
+  - id: sn.omega_alias
+    symbol: omega_prime
+    semantic_kind: scalar
+    dimension: *id004
+    canonical_unit: rad/s
+    unit_context: SI
+    frame: sampling
+    claim_status: definition
+  - id: sn.mean_motion_squared
+    symbol: n_squared
+    semantic_kind: scalar
+    dimension: &id010
+    - 0
+    - 0
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: 1/s^2
+    unit_context: SI
+    frame: model_time
+    claim_status: definition
+  - id: sn.time
+    symbol: t
+    semantic_kind: scalar
+    dimension: &id005
+    - 0
+    - 0
+    - 1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: s
+    unit_context: SI
+    frame: coordinate_time
+    claim_status: definition
+  - id: sn.time_next
+    symbol: t_next
+    semantic_kind: scalar
+    dimension: *id005
+    canonical_unit: s
+    unit_context: SI
+    frame: coordinate_time
+    claim_status: definition
+  - id: sn.sampling_interval
+    symbol: Delta_t
+    semantic_kind: scalar
+    dimension: *id005
+    canonical_unit: s
+    unit_context: SI
+    frame: coordinate_time
+    claim_status: definition
+  - id: sn.horizon
+    symbol: T
+    semantic_kind: scalar
+    dimension: *id005
+    canonical_unit: s
+    unit_context: SI
+    frame: coordinate_time
+    claim_status: definition
+  - id: sn.contact_duration
+    symbol: W_ij
+    semantic_kind: scalar
+    dimension: *id005
+    canonical_unit: s
+    unit_context: SI
+    frame: coordinate_time
+    claim_status: definition
+  - id: sn.link_delay
+    symbol: ell_ij
+    semantic_kind: scalar
+    dimension: *id005
+    canonical_unit: s
+    unit_context: SI
+    frame: coordinate_time
+    claim_status: definition
+  - id: sn.tau_i
+    symbol: tau_i
+    semantic_kind: scalar
+    dimension: *id005
+    canonical_unit: s
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.tau_j
+    symbol: tau_j
+    semantic_kind: scalar
+    dimension: *id005
+    canonical_unit: s
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.volume_element
+    symbol: dV
+    semantic_kind: scalar
+    dimension:
+    - 3
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^3
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.kernel_value
+    symbol: K_ell
+    semantic_kind: scalar
+    dimension: &id006
+    - -3
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: 1/m^3
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: sn.density
+    symbol: rho
+    semantic_kind: scalar
+    dimension: *id006
+    canonical_unit: 1/m^3
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: sn.weight
+    symbol: w_i
+    semantic_kind: probability
+    dimension: &id007
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: sn.bin_probability
+    symbol: p_m
+    semantic_kind: probability
+    dimension: *id007
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: sn.los_indicator
+    symbol: L_ij
+    semantic_kind: probability
+    dimension: *id007
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: sn.range_indicator
+    symbol: R_ij
+    semantic_kind: probability
+    dimension: *id007
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: sn.adjacency_entry
+    symbol: A_ij
+    semantic_kind: probability
+    dimension: *id007
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: sn.contact_fraction
+    symbol: f_ij
+    semantic_kind: probability
+    dimension: *id007
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: sn.entropy_bit
+    symbol: H_2
+    semantic_kind: information
+    dimension: *id007
+    canonical_unit: bit
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+    log_base: 2
+  - id: sn.entropy_max_bit
+    symbol: H_max
+    semantic_kind: information
+    dimension: *id007
+    canonical_unit: bit
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+    log_base: 2
+  - id: sn.normalized_entropy
+    symbol: H_norm
+    semantic_kind: information
+    dimension: *id007
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+    log_base: 2
+    normalized: true
+  - id: sn.segment_parameter
+    symbol: u_star
+    semantic_kind: scalar
+    dimension: *id007
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+    normalized: true
+  - id: sn.clock_rate
+    symbol: d_tau_dt
+    semantic_kind: scalar
+    dimension: *id007
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+    normalized: true
+  - id: sn.graph_eigenvalue
+    symbol: lambda_G
+    semantic_kind: scalar
+    dimension: *id007
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: sn.count
+    symbol: N
+    semantic_kind: count
+    dimension: *id007
+    canonical_unit: count
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: sn.squared_distance
+    symbol: D_squared
+    semantic_kind: scalar
+    dimension: &id008
+    - 2
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.squared_distance_i0
+    symbol: D_i0_squared
+    semantic_kind: scalar
+    dimension: *id008
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.squared_distance_j0
+    symbol: D_j0_squared
+    semantic_kind: scalar
+    dimension: *id008
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.squared_distance_ij
+    symbol: D_ij_squared
+    semantic_kind: scalar
+    dimension: *id008
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: sn.Gram_entry
+    symbol: B_ij
+    semantic_kind: scalar
+    dimension: *id008
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  expressions:
+  - id: relative_position_inertial
+    anchor: equation (2.4)
+    ast:
+      op: sub
+      args:
+      - q: sn.r_i
+      - q: sn.r_j
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: inertial
+  - id: relative_position_observer
+    anchor: equation (2.4)
+    ast:
+      op: sub
+      args:
+      - q: sn.y_i
+      - q: sn.y_j
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: observer
+  - id: distance_inertial
+    anchor: equation (2.4)
+    ast:
+      op: norm
+      arg:
+        op: sub
+        args:
+        - q: sn.r_i
+        - q: sn.r_j
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: scalar
+      frame: scalar
+  - id: distance_observer
+    anchor: equation (2.4)
+    ast:
+      op: norm
+      arg:
+        op: sub
+        args:
+        - q: sn.y_i
+        - q: sn.y_j
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: scalar
+      frame: scalar
+  - id: translation_cancellation
+    anchor: proof of Theorem 2.1
+    ast:
+      op: sub
+      args:
+      - op: add
+        args:
+        - q: sn.r_i
+        - q: sn.a_common
+      - op: add
+        args:
+        - q: sn.r_j
+        - q: sn.a_common
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: inertial
+  - id: position_minus_origin
+    anchor: equation (2.1)
+    ast:
+      op: sub
+      args:
+      - q: sn.r_i
+      - q: sn.o
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: inertial
+  - id: central_body_minus_origin
+    anchor: equation (2.1)
+    ast:
+      op: sub
+      args:
+      - q: sn.c_E
+      - q: sn.o
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: inertial
+  - id: frame_relative_to_center
+    anchor: Section 5
+    ast:
+      op: sub
+      args:
+      - q: sn.y_i
+      - q: sn.c_frame
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: observer
+  - id: relative_velocity_inertial
+    anchor: equation (2.5)
+    ast:
+      op: sub
+      args:
+      - q: sn.v_i
+      - q: sn.v_j
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id002
+      semantic_kind: vector
+      frame: inertial
+  - id: relative_velocity_observer
+    anchor: equation (2.5)
+    ast:
+      op: sub
+      args:
+      - q: sn.ydot_i
+      - q: sn.ydot_j
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id002
+      semantic_kind: vector
+      frame: observer
+  - id: speed_norm
+    anchor: equation (7.2)
+    ast:
+      op: norm
+      arg:
+        q: sn.v_i
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id002
+      semantic_kind: scalar
+      frame: scalar
+  - id: speed_squared
+    anchor: equation (7.2)
+    ast:
+      op: dot
+      left:
+        q: sn.v_i
+      right:
+        q: sn.v_i
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id003
+      semantic_kind: scalar
+      frame: scalar
+  - id: gravitational_potential
+    anchor: equation (7.2)
+    ast:
+      op: div
+      left:
+        q: sn.mu_E
+      right:
+        q: sn.rho_i
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id003
+      semantic_kind: scalar
+      frame: none
+  - id: gravity_magnitude
+    anchor: equation (1.2)
+    ast:
+      op: div
+      left:
+        q: sn.mu_E
+      right:
+        op: pow
+        arg:
+          q: sn.rho_i
+        exponent: 2
+        semantic_kind: scalar
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id009
+      semantic_kind: scalar
+      frame: none
+  - id: mean_motion_squared
+    anchor: Section 1
+    ast:
+      op: div
+      left:
+        q: sn.mu_E
+      right:
+        op: pow
+        arg:
+          q: sn.semimajor_axis
+        exponent: 3
+        semantic_kind: scalar
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id010
+      semantic_kind: scalar
+      frame: none
+  - id: mean_motion
+    anchor: Section 1
+    ast:
+      op: sqrt
+      arg:
+        q: sn.mean_motion_squared
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id004
+      semantic_kind: scalar
+      frame: model_time
+  - id: orbital_period
+    anchor: Section 1
+    ast:
+      op: div
+      left:
+        const: 6.283185307179586
+        dimension: *id007
+        semantic_kind: scalar
+        unit_context: neutral
+        frame: none
+      right:
+        q: sn.omega_i
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id005
+      semantic_kind: scalar
+      frame: none
+  - id: phase_angle
+    anchor: equation (3.1)
+    ast:
+      op: mul
+      left:
+        q: sn.omega_i
+      right:
+        q: sn.time
+      semantic_kind: angle
+      frame: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: angle
+      frame: scalar
+  - id: frequency_ratio
+    anchor: Section 3
+    ast:
+      op: div
+      left:
+        q: sn.omega_i
+      right:
+        q: sn.omega_j
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: scalar
+      frame: none
+  - id: alias_shift
+    anchor: equation (4.3)
+    ast:
+      op: div
+      left:
+        const: 6.283185307179586
+        dimension: *id007
+        semantic_kind: scalar
+        unit_context: neutral
+        frame: none
+      right:
+        q: sn.sampling_interval
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id004
+      semantic_kind: scalar
+      frame: none
+  - id: alias_frequency
+    anchor: equation (4.3)
+    ast:
+      op: add
+      args:
+      - q: sn.omega_i
+      - q: sn.omega_alias_shift
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id004
+      semantic_kind: scalar
+      frame: model_time
+  - id: proper_time_difference
+    anchor: Section 7
+    ast:
+      op: sub
+      args:
+      - q: sn.tau_i
+      - q: sn.tau_j
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id005
+      semantic_kind: scalar
+      frame: invariant
+  - id: proper_time_rate
+    anchor: equation (7.2)
+    ast:
+      op: div
+      left:
+        q: sn.tau_i
+      right:
+        q: sn.time
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: scalar
+      frame: none
+  - id: potential_over_c_squared
+    anchor: equation (7.2)
+    ast:
+      op: div
+      left:
+        q: sn.potential_i
+      right:
+        op: pow
+        arg:
+          q: sn.c
+        exponent: 2
+        semantic_kind: scalar
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: scalar
+      frame: none
+  - id: kinetic_clock_term
+    anchor: equation (7.2)
+    ast:
+      op: div
+      left:
+        q: sn.speed_squared_i
+      right:
+        op: mul
+        left:
+          const: 2.0
+          dimension: *id007
+          semantic_kind: scalar
+          unit_context: neutral
+          frame: none
+        right:
+          op: pow
+          arg:
+            q: sn.c
+          exponent: 2
+          semantic_kind: scalar
+        semantic_kind: scalar
+        frame: none
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: scalar
+      frame: none
+  - id: weak_clock_rate_sum
+    anchor: equation (7.2)
+    ast:
+      op: sub
+      args:
+      - op: add
+        args:
+        - const: 1.0
+          dimension: *id007
+          semantic_kind: scalar
+          unit_context: neutral
+          frame: none
+        - op: div
+          left:
+            q: sn.potential_i
+          right:
+            op: pow
+            arg:
+              q: sn.c
+            exponent: 2
+            semantic_kind: scalar
+          semantic_kind: scalar
+          frame: none
+      - op: div
+        left:
+          q: sn.speed_squared_i
+        right:
+          op: mul
+          left:
+            const: 2.0
+            dimension: *id007
+            semantic_kind: scalar
+            unit_context: neutral
+            frame: none
+          right:
+            op: pow
+            arg:
+              q: sn.c
+            exponent: 2
+            semantic_kind: scalar
+          semantic_kind: scalar
+          frame: none
+        semantic_kind: scalar
+        frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: scalar
+      frame: none
+  - id: light_time_delay
+    anchor: equation (4.4)
+    ast:
+      op: div
+      left:
+        q: sn.d_ij
+      right:
+        q: sn.c
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id005
+      semantic_kind: scalar
+      frame: none
+  - id: emission_time
+    anchor: equation (4.4)
+    ast:
+      op: sub
+      args:
+      - q: sn.time
+      - q: sn.link_delay
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id005
+      semantic_kind: scalar
+      frame: coordinate_time
+  - id: body_relative_i
+    anchor: Section 5
+    ast:
+      op: sub
+      args:
+      - q: sn.r_i
+      - q: sn.c_E
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: inertial
+  - id: body_relative_j
+    anchor: Section 5
+    ast:
+      op: sub
+      args:
+      - q: sn.r_j
+      - q: sn.c_E
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: inertial
+  - id: segment_direction
+    anchor: equation (5.1)
+    ast:
+      op: sub
+      args:
+      - q: sn.p_j
+      - q: sn.p_i
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: inertial
+  - id: segment_dot_numerator
+    anchor: equation (5.1)
+    ast:
+      op: dot
+      left:
+        q: sn.p_i
+      right:
+        q: sn.d_segment
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id008
+      semantic_kind: scalar
+      frame: scalar
+  - id: segment_norm_squared
+    anchor: equation (5.1)
+    ast:
+      op: dot
+      left:
+        q: sn.d_segment
+      right:
+        q: sn.d_segment
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id008
+      semantic_kind: scalar
+      frame: scalar
+  - id: segment_parameter_ratio
+    anchor: equation (5.1)
+    ast:
+      op: div
+      left:
+        op: dot
+        left:
+          q: sn.p_i
+        right:
+          q: sn.d_segment
+      right:
+        op: dot
+        left:
+          q: sn.d_segment
+        right:
+          q: sn.d_segment
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: scalar
+      frame: none
+  - id: scaled_segment_direction
+    anchor: equation (5.2)
+    ast:
+      op: mul
+      left:
+        q: sn.segment_parameter
+      right:
+        q: sn.d_segment
+      semantic_kind: vector
+      frame: inertial
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: inertial
+  - id: closest_segment_point
+    anchor: equation (5.2)
+    ast:
+      op: add
+      args:
+      - q: sn.p_i
+      - op: mul
+        left:
+          q: sn.segment_parameter
+        right:
+          q: sn.d_segment
+        semantic_kind: vector
+        frame: inertial
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: vector
+      frame: inertial
+  - id: segment_clearance
+    anchor: equation (5.2)
+    ast:
+      op: norm
+      arg:
+        q: sn.segment_point
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: scalar
+      frame: scalar
+  - id: LOS_threshold
+    anchor: equation (5.3)
+    ast:
+      op: compare
+      left:
+        q: sn.clearance
+      right:
+        q: sn.R_occ
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: probability
+      frame: none
+  - id: range_threshold
+    anchor: equation (5.4)
+    ast:
+      op: compare
+      left:
+        q: sn.d_ij
+      right:
+        q: sn.R_link
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: probability
+      frame: none
+  - id: adjacency_product
+    anchor: equation (5.4)
+    ast:
+      op: mul
+      left:
+        q: sn.los_indicator
+      right:
+        q: sn.range_indicator
+      semantic_kind: probability
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: probability
+      frame: none
+  - id: squared_distance
+    anchor: equation (2.6)
+    ast:
+      op: pow
+      arg:
+        q: sn.d_ij
+      exponent: 2
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id008
+      semantic_kind: scalar
+      frame: invariant
+  - id: Gram_polarization_sum
+    anchor: equation (2.6)
+    ast:
+      op: mul
+      left:
+        const: 0.5
+        dimension: *id007
+        semantic_kind: scalar
+        unit_context: neutral
+        frame: none
+      right:
+        op: sub
+        args:
+        - op: add
+          args:
+          - q: sn.squared_distance_i0
+          - q: sn.squared_distance_j0
+        - q: sn.squared_distance_ij
+      semantic_kind: scalar
+      frame: invariant
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id008
+      semantic_kind: scalar
+      frame: invariant
+  - id: contact_fraction
+    anchor: Section 5
+    ast:
+      op: div
+      left:
+        q: sn.contact_duration
+      right:
+        q: sn.horizon
+      semantic_kind: probability
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: probability
+      frame: none
+  - id: range_latency
+    anchor: equation (5.6)
+    ast:
+      op: div
+      left:
+        q: sn.d_ij
+      right:
+        q: sn.c
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id005
+      semantic_kind: scalar
+      frame: none
+  - id: journey_arrival_sum
+    anchor: equation (5.6)
+    ast:
+      op: add
+      args:
+      - q: sn.time
+      - q: sn.link_delay
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id005
+      semantic_kind: scalar
+      frame: coordinate_time
+  - id: journey_causality_test
+    anchor: equation (5.6)
+    ast:
+      op: compare
+      left:
+        q: sn.time_next
+      right:
+        op: add
+        args:
+        - q: sn.time
+        - q: sn.link_delay
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: probability
+      frame: none
+  - id: density_contribution
+    anchor: equation (6.1)
+    ast:
+      op: mul
+      left:
+        q: sn.weight
+      right:
+        q: sn.kernel_value
+      semantic_kind: scalar
+      frame: observer
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id006
+      semantic_kind: scalar
+      frame: observer
+  - id: density_normalization
+    anchor: Section 6
+    ast:
+      op: integrate
+      integrand:
+        q: sn.density
+      measure:
+        q: sn.volume_element
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: scalar
+      frame: observer
+  - id: probability_log
+    anchor: Section 6
+    ast:
+      op: log
+      arg:
+        q: sn.bin_probability
+      base: 2
+      semantic_kind: information
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: information
+      frame: none
+  - id: entropy_term
+    anchor: Section 6
+    ast:
+      op: mul
+      left:
+        q: sn.bin_probability
+      right:
+        op: log
+        arg:
+          q: sn.bin_probability
+        base: 2
+        semantic_kind: information
+      semantic_kind: information
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: information
+      frame: none
+  - id: normalized_entropy
+    anchor: Section 6
+    ast:
+      op: normalize
+      value:
+        q: sn.entropy_bit
+      reference:
+        q: sn.entropy_max_bit
+      zero_policy: undefined_when_partition_has_fewer_than_two_positive_capacity_bins
+      semantic_kind: information
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id007
+      semantic_kind: information
+      frame: none
+  - id: proper_time_integrand_to_time
+    anchor: equation (7.1)
+    ast:
+      op: div
+      left:
+        q: sn.d_ij
+      right:
+        q: sn.c
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id005
+      semantic_kind: scalar
+      frame: none
+  - id: circular_clock_zero_radius
+    anchor: equation (7.4)
+    ast:
+      op: mul
+      left:
+        const: 1.5
+        dimension: *id007
+        semantic_kind: scalar
+        unit_context: neutral
+        frame: none
+      right:
+        q: sn.R_star
+      semantic_kind: scalar
+      frame: invariant
+    expect:
+      outcome: pass
+      rules: []
+      dimension: *id001
+      semantic_kind: scalar
+      frame: invariant
+  invariants:
+  - id: labeled_distance_matrix_at_common_time
+    claimed_invariant: true
+    group: time_dependent_common_SE3_frames
+    anchor: Theorem 2.1
+  - id: co_transformed_spherical_segment_clearance
+    claimed_invariant: true
+    group: time_dependent_common_SE3_frames
+    anchor: Section 5
+  - id: snapshot_LOS_graph_with_transformed_body
+    claimed_invariant: true
+    group: time_dependent_common_SE3_frames
+    anchor: equation (5.4)
+  - id: graph_Laplacian_spectrum
+    claimed_invariant: true
+    group: vertex_relabelings
+    anchor: Section 5
+  - id: proper_time_fixed_worldline_endpoints
+    claimed_invariant: true
+    group: spacetime_coordinate_diffeomorphisms
+    anchor: equation (7.1)
+  - id: flat_spacetime_event_interval
+    claimed_invariant: true
+    group: Poincare_event_transformations
+    anchor: Section 7
+  - id: partition_entropy_under_co_transport
+    claimed_invariant: true
+    group: transported_partition_rigid_isometries
+    anchor: Section 6
+  claim_register:
+  - id: distance_matrix_invariance
+    status: theorem
+    hypotheses:
+    - common_coordinate_time
+    - diagonal_C1_I_SE3_action
+    - co_transformed_labeled_nodes
+  - id: distance_matrix_identification_modulo_E3
+    status: theorem
+    hypotheses:
+    - labeled_finite_configuration
+    - positive_semidefinite_centered_Gram_matrix
+    - rank_at_most_three
+  - id: phase_closure_character_lattice
+    status: theorem
+    hypotheses:
+    - exact_constant_frequency_vector
+    - continuous_time_linear_flow_on_compact_torus
+  - id: closure_equivariance
+    status: proposition
+    hypotheses:
+    - constant_spatial_rigid_isometry
+    - continuous_observation_map
+  - id: time_dependent_frame_changes_closure
+    status: proposition
+    hypotheses:
+    - time_dependent_translation_allowed
+    - stationary_original_trace_counterexample
+  - id: uniform_sampling_alias
+    status: proposition
+    hypotheses:
+    - uniform_sampling_interval_positive
+    - integer_alias_shift
+  - id: spatial_locus_clock_nonidentifiability
+    status: proposition
+    hypotheses:
+    - unparameterized_spatial_locus
+    - distinct_speed_histories_allowed
+    - weak_field_or_Minkowski_clock_model
+  - id: proper_time_coordinate_scalar
+    status: theorem
+    hypotheses:
+    - fixed_timelike_worldline_segment
+    - fixed_endpoint_events
+    - Lorentzian_metric_with_minus_plus_plus_plus_signature
+  - id: benchmark_controls
+    status: empirical
+    hypotheses:
+    - 553_deterministic_rows
+    - declared_two_body_synthetic_network
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_final_satellite_frame_temporal_graph_reference_and_run_full_corpus_release
+duplicate_or_superseded_sources: []

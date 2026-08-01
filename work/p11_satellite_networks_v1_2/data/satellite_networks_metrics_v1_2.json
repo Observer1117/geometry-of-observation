@@ -1,0 +1,88 @@
+{
+  "schema": {
+    "id": "go-p11-satellite-network-benchmark-metrics",
+    "version": "1.2.0"
+  },
+  "date": "2026-07-28",
+  "constants": {
+    "mu_E_m3_s2": 398600441800000.0,
+    "R_E_m": 6378137.0,
+    "c_m_s": 299792458.0
+  },
+  "satellites": [
+    "LEO_A",
+    "LEO_B",
+    "MEO_A",
+    "MEO_B",
+    "GEO_A",
+    "HEO_A"
+  ],
+  "sample_count": 8,
+  "benchmark_rows": 553,
+  "failed_rows": 0,
+  "category_counts": {
+    "EDM": 16,
+    "clock": 8,
+    "entropy": 3,
+    "frame_clearance": 120,
+    "frame_distance": 120,
+    "graph_frame": 8,
+    "graph_relabel": 48,
+    "light_time": 1,
+    "sampling_alias": 128,
+    "temporal_graph": 5,
+    "two_body": 96
+  },
+  "max_abs_error_by_category": {
+    "EDM": 3.5705598821938633e-16,
+    "clock": 1.1102230246251565e-16,
+    "entropy": 0.0,
+    "frame_clearance": 1.6763806343078613e-07,
+    "frame_distance": 2.5331974029541016e-07,
+    "graph_frame": 0.0,
+    "graph_relabel": 4.440892098500626e-15,
+    "light_time": 5.5663806897143786e-14,
+    "sampling_alias": 1.2328332799071973e-13,
+    "temporal_graph": 2.220446049250313e-16,
+    "two_body": 4.57763671875e-05
+  },
+  "snapshot_edge_counts": [
+    10,
+    9,
+    10,
+    10,
+    10,
+    10,
+    10,
+    11
+  ],
+  "snapshot_component_counts": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "clock_offsets_microseconds_per_day": {
+    "zero_crossing": 0.0,
+    "LEO_7000km": -22.03326527954796,
+    "GPS_like": 38.43731151956109,
+    "GEO_like": 46.44611132267322
+  },
+  "alias": {
+    "sampling_interval_s": 37.0,
+    "base_angular_frequency_rad_s": 0.071,
+    "aliased_angular_frequency_rad_s": 0.5804474573388854,
+    "integer_shift": 3
+  },
+  "temporal_earliest_arrivals_s": [
+    0.0,
+    1.2,
+    1.5,
+    1.7000000000000002,
+    2.1
+  ]
+}

@@ -1,0 +1,376 @@
+schema:
+  id: go-satellite-networks-observation-contract
+  version: 1.2.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  inherited_contracts:
+    - go-regular-polyhedra-observation-contract@1.1.0
+  normative_document: satellite-networks-observation-v1-2
+
+dimension_basis: [L, M, T, I, Theta, N, J]
+exchange_unit_context: SI
+
+scope:
+  strict_reference:
+    - finite_labeled_satellite_configurations
+    - two_body_synthetic_benchmark
+    - time_dependent_rigid_spatial_frames_with_common_coordinate_time
+    - Euclidean_distance_matrix_channel
+    - quasiperiodic_phase_closure_with_exact_frequency_vector
+    - finite_uniform_sampling_and_exact_alias_control
+    - spherical_body_line_of_sight_graph
+    - finite_temporal_contact_events
+    - stationary_weak_field_clock_audit
+  qualified_extensions:
+    - high_fidelity_force_models
+    - light_time_for_moving_emitters_and_receivers
+    - stochastic_tracking_and_orbit_determination
+    - nonspherical_occultation_models
+    - directed_capacity_constrained_links
+    - curved_spacetime_clock_networks
+  excluded_without_extension:
+    - operational_ephemeris_generation
+    - TLE_without_compatible_SGP4_propagator
+    - conjunction_probability
+    - communication_link_budget
+    - clock_steering
+    - exact_closure_inference_from_finite_noisy_samples
+    - Lorentz_invariance_of_equal_time_Euclidean_distance
+
+hidden_state:
+  label_set: finite_fixed_vertex_set
+  state:
+    - central_body_center
+    - position_per_label
+    - velocity_per_label
+    - optional_worldline_and_proper_time_per_label
+  labels_preserved: true
+  two_body_model:
+    equations:
+      - position_derivative_equals_velocity
+      - velocity_derivative_equals_minus_mu_times_relative_position_over_radius_cubed
+    constants:
+      - mu_E
+      - R_E
+    status: synthetic_model
+  orbital_elements:
+    role: local_coordinate_chart
+    singular_limits:
+      - circular_orbit
+      - equatorial_orbit
+    not_the_hidden_object: true
+  TLE:
+    type: SGP4_family_mean_element_record
+    generic_Kepler_state: false
+
+frame_layer:
+  frame:
+    fields:
+      - origin_o_of_t
+      - orientation_R_of_t
+      - coordinate_time_and_scale
+    orientation_group: SO3
+    orientation_direction: frame_components_to_inertial_components
+  action_group:
+    id: time_dependent_common_SE3_frames
+    definition: C1_maps_from_I_to_SE3
+    action: diagonal_on_all_satellites_and_central_body
+    common_time_required: true
+  coordinate_map:
+    formula: y_i_equals_R_transpose_times_r_i_minus_o
+    invertible: true
+    information_loss: false
+  velocity_law:
+    formula: ydot_i_equals_R_transpose_times_v_i_minus_odot_minus_Omega_cross_y_i
+    Omega_cross: R_transpose_times_Rdot
+  exact_invariants:
+    - labeled_pairwise_distance_matrix_at_common_time
+    - deterministic_functions_of_that_distance_matrix
+    - spherical_segment_clearance_when_center_is_co_transformed
+  noninvariants:
+    - coordinate_position_components
+    - coordinate_velocity_components
+    - coordinate_acceleration_components
+    - component_power_spectrum_under_time_dependent_rotation
+    - single_object_spatial_orbit_closure_under_time_dependent_frame
+  frame_tree:
+    legal_composition: homogeneous_transform_matrix_multiplication
+    required_metadata:
+      - origin
+      - orientation
+      - epoch
+      - time_scale
+    prohibition:
+      - vectors_in_different_bases_are_not_added_without_conversion
+
+distance_matrix_layer:
+  definition: D_ij_equals_norm_r_i_minus_r_j
+  group: time_dependent_common_SE3_frames
+  invariance: exact_at_each_common_time
+  centered_Gram:
+    formula: B_equals_minus_one_half_J_times_D_squared_Hadamard_times_J
+    J: identity_minus_uniform_centering_projector
+  realization_test:
+    conditions:
+      - B_positive_semidefinite
+      - rank_B_at_most_3
+    identification: labeled_configuration_up_to_E3
+  information_loss:
+    translation: true
+    rotation: true
+    reflection_and_chirality: true
+    labels: false
+  prohibitions:
+    - distance_matrix_is_not_complete_modulo_SE3_without_parity_channel
+    - bearing_only_data_do_not_supply_distance_matrix
+
+phase_closure_layer:
+  phase_flow: theta_equals_theta0_plus_omega_t_mod_2pi
+  resonance_lattice: integer_m_with_m_dot_omega_equal_zero
+  exact_phase_closure:
+    object: coset_subtorus_Gamma_theta0_omega
+    dimension: k_minus_integer_rank_of_resonance_lattice
+  continuous_image:
+    formula: closure_of_F_phase_orbit_equals_F_of_phase_closure
+    hypotheses:
+      - compact_phase_torus
+      - continuous_observation_map
+  constant_isometry:
+    law: K_gF_equals_g_K_F
+    status: equivariance_not_pointwise_invariance
+  time_dependent_frame:
+    closure_congruence_guaranteed: false
+    counterexample: stationary_point_mapped_by_periodic_translation_to_circle
+  finite_horizon:
+    empirical_support_not_equal_exact_closure: true
+    rational_independence_certifiable_from_finite_noisy_data: false
+  prohibitions:
+    - intermediate_resonance_rank_is_not_omitted
+    - secular_noncompact_drift_is_not_a_torus_angle
+    - spatial_image_closure_is_not_observer_independent
+
+sampling_and_signal_layer:
+  sampling_times: t_m_equals_t0_plus_m_Delta_t
+  exact_alias:
+    formula: omega_prime_equals_omega_plus_2pi_q_over_Delta_t
+    identical_uniform_samples_for_integer_q: true
+  required_for_frequency_identification:
+    - admissible_frequency_band
+    - sampling_schedule
+    - horizon
+    - window
+    - estimator
+    - noise_or_exactness
+  light_time:
+    implicit_equation: reception_time_minus_emission_time_equals_range_over_c
+    satellite_specific_emission_times: true
+  bearing_channel:
+    formula: b_i_equals_y_i_over_norm_y_i
+    loses_range: true
+  prohibitions:
+    - coordinate_spectrum_is_not_a_frame_invariant
+    - sampled_peak_is_not_an_unrestricted_continuous_frequency
+    - retarded_apparent_separation_is_not_simultaneous_state_separation
+
+line_of_sight_graph:
+  central_body:
+    model: sphere
+    occulting_radius: positive_radius_plus_declared_margin
+  segment_clearance:
+    parameter: clip_minus_p_i_dot_d_ij_over_norm_d_ij_squared_to_zero_one
+    clearance: norm_p_i_plus_parameter_times_d_ij
+    degenerate_coincident_nodes: separate_branch
+  tangency_policy: blocked
+  adjacency:
+    tests:
+      - distinct_labels
+      - pairwise_distance_at_most_link_range
+      - segment_clearance_strictly_greater_than_occulting_radius
+    symmetric: true
+    self_loops: false
+  invariance_group: time_dependent_common_SE3_frames
+  invariance_requirements:
+    - co_transform_all_nodes
+    - co_transform_central_body
+    - preserve_length_units_and_thresholds
+    - evaluate_at_common_time
+  relabeling:
+    action: A_to_P_A_P_transpose
+    Laplacian_action: L_to_P_L_P_transpose
+    graph_spectrum_invariant: true
+    node_specific_outputs_equivariant: true
+  distinction:
+    proximity_graph: distance_threshold_only
+    conjunction_assessment: requires_covariance_sizes_prediction_and_time_window
+    operational_collision_risk_claimed: false
+
+temporal_graph_layer:
+  active_edge_event:
+    fields:
+      - time
+      - endpoints
+      - nonnegative_delay
+  journey_condition:
+    formula: next_edge_time_at_least_current_edge_time_plus_delay
+  derived_objects:
+    - temporal_reachability
+    - earliest_arrival
+  prohibitions:
+    - aggregated_static_connectivity_does_not_imply_temporal_reachability
+    - edge_order_is_not_discarded
+    - negative_transmission_delay_is_forbidden
+
+density_entropy_layer:
+  kernel:
+    nonnegative: true
+    integral_over_R3: 1
+    physical_dimension: inverse_volume
+    radial_for_rigid_covariance: true
+  weights:
+    nonnegative: true
+    sum_to_one: true
+  density:
+    integral_over_R3: 1
+    rigid_transform_status: covariant_scalar_density
+  partition_entropy:
+    finite_partition_required: true
+    logarithm_base: 2
+    zero_probabilities_omitted: true
+    invariant_only_when_partition_is_co_transformed: true
+  protocol_fields:
+    - kernel_scale
+    - partition
+    - log_base
+    - observation_horizon
+    - empty_total_policy
+  prohibitions:
+    - fixed_bin_entropy_is_not_a_frame_invariant
+    - occupancy_entropy_is_not_thermodynamic_entropy
+
+relativistic_clock_layer:
+  metric_signature: minus_plus_plus_plus
+  exact_proper_time:
+    formula: one_over_c_integral_sqrt_minus_g_dx_dx
+    endpoints: fixed_events
+    coordinate_change_status: scalar_invariant
+  flat_spacetime:
+    exact_group: Poincare
+    invariant_object: spacetime_interval_between_fixed_events
+    equal_time_Euclidean_distance_invariant_under_boosts: false
+  weak_field_model:
+    chart: stationary_Earth_centered
+    potential: minus_mu_E_over_radius
+    retained_order: c_to_minus_2
+    rate: one_plus_Phi_over_c_squared_minus_speed_squared_over_two_c_squared
+  reference_clock:
+    coordinate_stationary: true
+    radius: positive_R_star
+  circular_offset:
+    formula: mu_over_c_squared_times_one_over_R_star_minus_three_over_two_r
+    zero_radius: three_R_star_over_two
+  comparison_boundary:
+    individual_worldline_integral_invariant: true
+    equal_coordinate_time_endpoint_comparison_protocol_dependent: true
+  prohibitions:
+    - unparameterized_spatial_locus_does_not_determine_proper_time
+    - coordinate_rate_is_not_a_diffeomorphism_scalar
+    - weak_field_audit_is_not_operational_GNSS_clock_model
+
+observation_maps:
+  - id: rigid_frame_change
+    domain: labeled_inertial_configuration
+    codomain: labeled_coframed_configuration
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: distance_matrix
+    domain: labeled_configuration
+    codomain: labeled_symmetric_distance_matrix
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: bearing_only
+    domain: nonzero_observer_relative_positions
+    codomain: unit_direction_records
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: retarded_signal
+    domain: source_and_observer_worldlines
+    codomain: reception_time_measurement_record
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: spherical_LOS_graph
+    domain: labeled_configuration_body_and_thresholds
+    codomain: symmetric_snapshot_graph
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: uniform_sampler
+    domain: continuous_time_record
+    codomain: finite_sample_sequence
+    kind: discretizer
+    invertibility: not_required
+    information_loss: possible
+  - id: temporal_earliest_arrival
+    domain: ordered_contact_events_source_and_start_time
+    codomain: vertex_arrival_times
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  - id: centered_Gram_reconstruction
+    domain: labeled_Euclidean_distance_matrix
+    codomain: centered_Gram_matrix_and_rank
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+
+protocol_minimum:
+  required:
+    - labeled_vertex_set
+    - hidden_state_and_dynamics
+    - force_model_and_constants
+    - epoch_coordinate_time_and_time_scale
+    - frame_origin_orientation_and_composition_direction
+    - deterministic_sensor_channel
+    - light_time_policy
+    - occulting_body_and_margin
+    - link_range_or_elevation_masks
+    - sampling_schedule_and_horizon
+    - quantizer_partition_or_explicit_none
+    - noise_model_or_exactness_statement
+    - estimator_and_tolerances
+    - uncertainty_statement
+    - SI_unit_context
+    - defect_normalizations
+  clock_conditional:
+    - metric_signature
+    - coordinate_chart
+    - potential_convention
+    - synchronization
+    - endpoint_events
+    - retained_relativistic_order
+
+reference_gates:
+  - labeled_state_not_set_notation
+  - TLE_and_two_body_state_separated
+  - frame_origin_orientation_epoch_and_time_scale_typed
+  - time_dependent_SE3_group_declared
+  - distance_matrix_invariance_proved
+  - velocity_frame_law_present
+  - distance_matrix_identifiability_modulo_E3_scoped
+  - phase_resonance_lattice_and_dimension_present
+  - closure_equivariance_not_invariance
+  - time_dependent_closure_counterexample_present
+  - finite_horizon_not_exact_closure
+  - exact_sampling_alias_present
+  - retarded_and_simultaneous_channels_separated
+  - spherical_segment_clearance_typed
+  - snapshot_and_temporal_graphs_separated
+  - graph_relabeling_law_present
+  - proximity_not_conjunction_risk
+  - density_partition_covariance_scoped
+  - proper_time_scalar_and_clock_protocol_separated
+  - Lorentz_and_Euclidean_invariants_separated
+  - claim_firewall_present

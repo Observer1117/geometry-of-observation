@@ -1,0 +1,913 @@
+schema:
+  id: go-p4-lhc-si-hep-reference-ledgers
+  version: 0.5.0
+  date: 2026-07-28
+  core_contract: go-core-spec@0.2.0
+  extension_contract: go-si-hep-quantity-passport@0.5.0
+
+documents:
+  - id: si-hep-quantity-passport-v0-5
+    title: SI-HEP Quantity Passport for Relativistic Beam Observation
+    version: 0.5.0
+    source:
+      pdf: work/p4_lhc_si_hep_v0_5/build/passport/si_hep_quantity_passport_v0_5.pdf
+      tex: work/p4_lhc_si_hep_v0_5/src/si_hep_quantity_passport_v0_5.tex
+      text: work/p4_lhc_si_hep_v0_5/checks/passport_final/si_hep_quantity_passport_v0_5.txt
+      contract: work/p4_lhc_si_hep_v0_5/core/si_hep_quantity_passport_v0_5.yaml
+      data_yaml: work/p4_lhc_si_hep_v0_5/data/lhc_si_hep_inputs_v0_5.yaml
+      data_csv: work/p4_lhc_si_hep_v0_5/data/si_hep_conversion_table_v0_5.csv
+      metrics_json: work/p4_lhc_si_hep_v0_5/data/lhc_si_hep_metrics_v0_5.json
+      pages: 8
+      sha256: 9490d2d94a8b77e2a6f17d9f1098394d47e240cb98a38430a902132b534ad444
+    ledger_level: reference
+    migration_status: p4_reference_pass
+    unit_contexts: [SI, HEP_natural, neutral]
+    groups:
+      - coherent_si_unit_rescalings
+      - mechanical_dimension_lattice
+      - invertible_si_hep_representation_changes
+      - proper_orthochronous_lorentz_group
+    maps:
+      - id: mechanical_naturalization
+        domain: admissible_typed_si_mechanical_quantity_and_energy_anchor
+        codomain: hep_energy_coordinate
+        kind: interpretation
+        invertibility: required
+        information_loss: false
+      - id: mechanical_restoration
+        domain: hep_energy_coordinate_and_passport
+        codomain: typed_si_mechanical_quantity
+        kind: interpretation
+        invertibility: required
+        information_loss: false
+      - id: si_momentum_to_energy_four_vector
+        domain: si_four_momentum
+        codomain: si_energy_four_vector
+        kind: interpretation
+        invertibility: required
+        information_loss: false
+      - id: si_energy_to_hep_four_vector
+        domain: si_energy_four_vector_and_energy_anchor
+        codomain: hep_numerical_four_vector
+        kind: interpretation
+        invertibility: required
+        information_loss: false
+      - id: rigidity_bridge
+        domain: si_rigidity_and_signed_charge_state
+        codomain: hep_momentum_coordinate
+        kind: interpretation
+        invertibility: required
+        information_loss: false
+      - id: unit_conversion_audit
+        domain: conversion_event
+        codomain: pass_or_rejection_with_diagnostics
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - {scope: si_hep_passport, key: E0, meaning: declared_energy_anchor}
+      - {scope: si_hep_passport, key: d_E, meaning: hep_energy_dimension}
+      - {scope: si_hep_passport, key: U_SI, meaning: si_representative_of_one_natural_unit}
+      - {scope: si_hep_passport, key: N_E0, meaning: natural_coordinate_map}
+      - {scope: si_hep_passport, key: Pi_mu, meaning: si_energy_four_vector}
+      - {scope: si_hep_passport, key: z, meaning: signed_integer_charge_state}
+    quantities:
+      - id: shp.mass
+        extends: mechanics.mass
+        symbol: m
+      - id: shp.c
+        extends: relativity.speed_of_light
+        symbol: c
+      - id: shp.hbar
+        extends: quantum.hbar
+        symbol: hbar
+      - id: shp.energy_si
+        extends: mechanics.energy
+        symbol: E_SI
+        frame: lab
+      - id: shp.energy_anchor_si
+        extends: mechanics.energy
+        symbol: E0
+        frame: invariant
+      - id: shp.energy_hep
+        extends: mechanics.energy
+        symbol: E_N
+        canonical_unit: GeV
+        unit_context: HEP_natural
+        frame: lab
+      - id: shp.momentum_magnitude_si
+        symbol: p_abs
+        semantic_kind: scalar
+        dimension: [1, 1, -1, 0, 0, 0, 0]
+        canonical_unit: kg*m/s
+        unit_context: SI
+        frame: lab
+        claim_status: definition
+      - id: shp.momentum_energy_hep
+        extends: mechanics.energy
+        symbol: pi_N
+        canonical_unit: GeV
+        unit_context: HEP_natural
+        frame: lab
+      - id: shp.mass_energy_hep
+        extends: mechanics.energy
+        symbol: mu_N
+        canonical_unit: GeV
+        unit_context: HEP_natural
+        frame: invariant
+      - id: shp.length_si
+        extends: geometry.length
+        symbol: ell
+      - id: shp.duration_si
+        extends: time.duration
+        symbol: tau
+      - id: shp.charge_si
+        symbol: q
+        semantic_kind: scalar
+        dimension: [0, 0, 1, 1, 0, 0, 0]
+        canonical_unit: C
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: shp.rigidity_si
+        symbol: B_rho
+        semantic_kind: scalar
+        dimension: [1, 1, -2, -1, 0, 0, 0]
+        canonical_unit: T*m
+        unit_context: SI
+        frame: lab
+        claim_status: definition
+      - id: shp.voltage_si
+        symbol: V
+        semantic_kind: scalar
+        dimension: [2, 1, -3, -1, 0, 0, 0]
+        canonical_unit: V
+        unit_context: SI
+        frame: apparatus
+        claim_status: definition
+      - id: shp.phase
+        extends: geometry.angle
+        symbol: phi
+    expressions:
+      - id: si_mass_energy
+        anchor: section 5, mu=m*c^2
+        ast:
+          op: mul
+          left: {q: shp.mass}
+          right:
+            op: pow
+            arg: {q: shp.c}
+            exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: si_momentum_energy
+        anchor: section 5, pi=c*p
+        ast:
+          op: mul
+          left: {q: shp.c}
+          right: {q: shp.momentum_magnitude_si}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: si_mass_shell_energy_chart
+        anchor: section 5, mu^2=E^2-pi^2
+        ast:
+          op: sub
+          args:
+            - op: pow
+              arg: {q: shp.energy_si}
+              exponent: 2
+            - op: pow
+              arg:
+                op: mul
+                left: {q: shp.c}
+                right: {q: shp.momentum_magnitude_si}
+              exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: hep_mass_shell
+        anchor: section 5, mu_N^2=E_N^2-pi_N^2
+        ast:
+          op: sub
+          args:
+            - op: pow
+              arg: {q: shp.energy_hep}
+              exponent: 2
+            - op: pow
+              arg: {q: shp.momentum_energy_hep}
+              exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: one_gev_inverse_length
+        anchor: section 4, hbar*c/E0
+        ast:
+          op: div
+          left:
+            op: mul
+            left: {q: shp.hbar}
+            right: {q: shp.c}
+          right: {q: shp.energy_anchor_si}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: one_gev_inverse_duration
+        anchor: section 4, hbar/E0
+        ast:
+          op: div
+          left: {q: shp.hbar}
+          right: {q: shp.energy_anchor_si}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: one_gev_per_c_momentum
+        anchor: section 4, E0/c
+        ast:
+          op: div
+          left: {q: shp.energy_anchor_si}
+          right: {q: shp.c}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 1, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: one_gev_minus_two_area
+        anchor: section 4, (hbar*c/E0)^2
+        ast:
+          op: pow
+          arg:
+            op: div
+            left:
+              op: mul
+              left: {q: shp.hbar}
+              right: {q: shp.c}
+            right: {q: shp.energy_anchor_si}
+          exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: magnetic_rigidity_si
+        anchor: section 6, p=q*B*rho
+        ast:
+          op: mul
+          left: {q: shp.charge_si}
+          right: {q: shp.rigidity_si}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 1, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: rf_voltage_energy
+        anchor: section 6, DeltaE=q*V*sin(phi)
+        ast:
+          op: mul
+          left:
+            op: mul
+            left: {q: shp.charge_si}
+            right: {q: shp.voltage_si}
+          right:
+            op: trig
+            function: sin
+            arg: {q: shp.phase}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: explicit_si_to_hep_energy_boundary
+        anchor: section 3, N_E0(E)
+        ast:
+          op: convert
+          arg: {q: shp.energy_si}
+          to: HEP_natural
+          constants: [c, hbar, E0]
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: explicit_hep_to_si_energy_boundary
+        anchor: section 3, inverse naturalization
+        ast:
+          op: convert
+          arg: {q: shp.energy_hep}
+          to: SI
+          constants: [c, hbar, E0]
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+    invariants:
+      - id: mass_shell_representation_independence
+        claimed_invariant: true
+        group: invertible_si_hep_representation_changes
+        anchor: section 5
+      - id: lorentz_norm
+        claimed_invariant: true
+        group: proper_orthochronous_lorentz_group
+        anchor: section 5
+    claim_register:
+      - id: unique_mechanical_naturalization_exponents
+        status: theorem
+        hypotheses:
+          - quantity_dimension_lies_in_rational_LMT_sector
+          - positive_branch_declared_for_fractional_powers
+      - id: naturalization_round_trip
+        status: proposition
+        hypotheses:
+          - fixed_positive_energy_anchor
+          - exact_same_passport_used_in_both_directions
+      - id: rigidity_coefficient_exactness
+        status: proposition
+        hypotheses:
+          - q_equals_z_times_elementary_charge
+          - declared_units_are_GeV_per_c_and_tesla_metre
+          - si_defining_values_of_c_and_e
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    manual_findings: []
+    next_action: use_as_normative_unit_extension_for_remaining_physical_modules
+
+  - id: lhc-beam-observation-v1-3
+    title: Relativistic Beam Paths as Observation Geometry
+    version: 1.3.0
+    source:
+      pdf: work/p4_lhc_si_hep_v0_5/build/lhc/lhc_beam_observation_geometry_v1_3.pdf
+      tex: work/p4_lhc_si_hep_v0_5/src/lhc_beam_observation_geometry_v1_3.tex
+      text: work/p4_lhc_si_hep_v0_5/checks/lhc/lhc_beam_observation_geometry_v1_3.txt
+      metrics_json: work/p4_lhc_si_hep_v0_5/data/lhc_si_hep_metrics_v0_5.json
+      pages: 9
+      sha256: 5abbae43db274df13dddf2529a174b692dd6bb73717287b559d4d901cd911494
+    ledger_level: reference
+    migration_status: p4_reference_pass
+    unit_contexts: [SI, HEP_natural, neutral]
+    groups:
+      - proper_orthochronous_lorentz_group
+      - longitudinal_lorentz_boosts
+      - linear_symplectic_transport
+      - ideal_adiabatic_acceleration
+      - invertible_si_hep_representation_changes
+    maps:
+      - id: accelerator_state_reduction
+        domain: full_machine_beam_collision_detector_state
+        codomain: task_relevant_hidden_state
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: ideal_beam_observation
+        domain: reduced_hidden_beam_state
+        codomain: ideal_instrument_response
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: detector_response_channel
+        domain: ideal_instrument_response
+        codomain: probability_law_on_raw_detector_data
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: reconstructed_quantity_estimator
+        domain: raw_detector_data_and_calibration
+        codomain: estimate_and_uncertainty_region
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+      - id: lorentz_frame_transform
+        domain: minkowski_event_or_four_momentum
+        codomain: minkowski_event_or_four_momentum
+        kind: frame_transform
+        invertibility: required
+        information_loss: false
+      - id: past_light_cone_snapshot
+        domain: moving_source_worldtube_and_observer_event
+        codomain: camera_image
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: phase_space_projection
+        domain: six_dimensional_beam_law
+        codomain: profile_marginal
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: si_hep_four_momentum_interpretation
+        domain: si_energy_four_vector_and_energy_anchor
+        codomain: hep_numerical_four_vector
+        kind: interpretation
+        invertibility: required
+        information_loss: false
+    symbols:
+      - {scope: lhc_v1_3, key: X_t, meaning: typed_hidden_accelerator_state}
+      - {scope: lhc_v1_3, key: Pi_mu, meaning: energy_four_momentum}
+      - {scope: lhc_v1_3, key: mu_inv, meaning: invariant_mass_energy}
+      - {scope: lhc_v1_3, key: B_rho, meaning: magnetic_rigidity}
+      - {scope: lhc_v1_3, key: epsilon, meaning: geometric_rms_emittance}
+      - {scope: lhc_v1_3, key: epsilon_n, meaning: normalized_rms_emittance}
+      - {scope: lhc_v1_3, key: eta, meaning: pseudorapidity}
+      - {scope: lhc_v1_3, key: y, meaning: true_rapidity}
+    quantities:
+      - id: lhc13.energy_hep
+        extends: mechanics.energy
+        symbol: E
+        canonical_unit: GeV
+        unit_context: HEP_natural
+        frame: lab
+      - id: lhc13.momentum_energy_hep
+        extends: mechanics.energy
+        symbol: pi
+        canonical_unit: GeV
+        unit_context: HEP_natural
+        frame: lab
+      - id: lhc13.mass_energy_hep
+        extends: mechanics.energy
+        symbol: mu
+        canonical_unit: GeV
+        unit_context: HEP_natural
+        frame: invariant
+      - id: lhc13.energy_sum_hep
+        extends: mechanics.energy
+        symbol: E_sum
+        canonical_unit: GeV
+        unit_context: HEP_natural
+        frame: lab
+      - id: lhc13.momentum_sum_energy_hep
+        extends: mechanics.energy
+        symbol: pi_sum
+        canonical_unit: GeV
+        unit_context: HEP_natural
+        frame: lab
+      - id: lhc13.gamma_rel
+        extends: dimensionless.scalar
+        symbol: gamma_rel
+      - id: lhc13.beta_rel
+        extends: dimensionless.scalar
+        symbol: beta_rel
+      - id: lhc13.c
+        extends: relativity.speed_of_light
+        symbol: c
+      - id: lhc13.duration
+        extends: time.duration
+        symbol: Delta_t
+        frame: lab
+      - id: lhc13.displacement_magnitude
+        extends: geometry.length
+        symbol: Delta_r
+        frame: lab
+      - id: lhc13.circumference
+        extends: geometry.length
+        symbol: C
+        frame: lab
+      - id: lhc13.charge_si
+        symbol: q
+        semantic_kind: scalar
+        dimension: [0, 0, 1, 1, 0, 0, 0]
+        canonical_unit: C
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: lhc13.rigidity_si
+        symbol: B_rho
+        semantic_kind: scalar
+        dimension: [1, 1, -2, -1, 0, 0, 0]
+        canonical_unit: T*m
+        unit_context: SI
+        frame: lab
+        claim_status: definition
+      - id: lhc13.momentum_magnitude_si
+        symbol: p
+        semantic_kind: scalar
+        dimension: [1, 1, -1, 0, 0, 0, 0]
+        canonical_unit: kg*m/s
+        unit_context: SI
+        frame: lab
+        claim_status: definition
+      - id: lhc13.reference_momentum_si
+        symbol: p0
+        semantic_kind: scalar
+        dimension: [1, 1, -1, 0, 0, 0, 0]
+        canonical_unit: kg*m/s
+        unit_context: SI
+        frame: lab
+        claim_status: definition
+      - id: lhc13.voltage_si
+        symbol: V_eff
+        semantic_kind: scalar
+        dimension: [2, 1, -3, -1, 0, 0, 0]
+        canonical_unit: V
+        unit_context: SI
+        frame: apparatus
+        claim_status: definition
+      - id: lhc13.rf_phase
+        extends: geometry.angle
+        symbol: phi_s
+      - id: lhc13.x
+        extends: geometry.length
+        symbol: x
+        frame: lattice
+      - id: lhc13.s
+        extends: geometry.length
+        symbol: s
+        frame: lattice
+      - id: lhc13.xprime
+        extends: dimensionless.scalar
+        symbol: x_prime
+      - id: lhc13.K
+        symbol: K
+        semantic_kind: scalar
+        dimension: [-2, 0, 0, 0, 0, 0, 0]
+        canonical_unit: 1/m^2
+        unit_context: SI
+        frame: lattice
+        claim_status: model
+      - id: lhc13.twiss_alpha
+        extends: dimensionless.scalar
+        symbol: alpha_T
+      - id: lhc13.twiss_beta
+        extends: geometry.length
+        symbol: beta_T
+        frame: lattice
+      - id: lhc13.twiss_gamma
+        extends: geometry.curvature
+        symbol: gamma_T
+        frame: lattice
+      - id: lhc13.emittance
+        extends: geometry.length
+        symbol: epsilon
+        frame: lattice
+      - id: lhc13.normalized_emittance
+        extends: geometry.length
+        symbol: epsilon_n
+        frame: lattice
+      - id: lhc13.theta
+        extends: geometry.angle
+        symbol: theta
+      - id: lhc13.longitudinal_momentum_energy_hep
+        extends: mechanics.energy
+        symbol: pi_z
+        canonical_unit: GeV
+        unit_context: HEP_natural
+        frame: lab
+    expressions:
+      - id: hep_proton_mass_shell
+        anchor: section 5, E^2=pi^2+mu_p^2
+        ast:
+          op: sub
+          args:
+            - op: pow
+              arg: {q: lhc13.energy_hep}
+              exponent: 2
+            - op: pow
+              arg: {q: lhc13.momentum_energy_hep}
+              exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: lorentz_factor
+        anchor: section 5, gamma=E/mu_p
+        ast:
+          op: normalize
+          value: {q: lhc13.energy_hep}
+          reference: {q: lhc13.mass_energy_hep}
+          zero_policy: positive_proton_mass_energy
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: speed_ratio
+        anchor: section 5, beta=pi/E
+        ast:
+          op: normalize
+          value: {q: lhc13.momentum_energy_hep}
+          reference: {q: lhc13.energy_hep}
+          zero_policy: positive_total_energy
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: stable_one_minus_beta
+        anchor: section 5, (1/gamma^2)/(1+beta)
+        ast:
+          op: div
+          left:
+            op: div
+            left: {const: 1}
+            right:
+              op: pow
+              arg: {q: lhc13.gamma_rel}
+              exponent: 2
+          right:
+            op: add
+            args:
+              - {const: 1}
+              - {q: lhc13.beta_rel}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: minkowski_interval
+        anchor: section 6, Delta_s^2=c^2*Delta_t^2-Delta_r^2
+        ast:
+          op: sub
+          args:
+            - op: pow
+              arg:
+                op: mul
+                left: {q: lhc13.c}
+                right: {q: lhc13.duration}
+              exponent: 2
+            - op: pow
+              arg: {q: lhc13.displacement_magnitude}
+              exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: magnetic_rigidity
+        anchor: section 7, p=q*B*rho
+        ast:
+          op: mul
+          left: {q: lhc13.charge_si}
+          right: {q: lhc13.rigidity_si}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 1, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: rf_energy_gain
+        anchor: section 8, DeltaE=q*V_eff*sin(phi_s)
+        ast:
+          op: mul
+          left:
+            op: mul
+            left: {q: lhc13.charge_si}
+            right: {q: lhc13.voltage_si}
+          right:
+            op: trig
+            function: sin
+            arg: {q: lhc13.rf_phase}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: relative_momentum_offset
+        anchor: section 8, delta=(p-p0)/p0
+        ast:
+          op: normalize
+          value:
+            op: sub
+            args:
+              - {q: lhc13.momentum_magnitude_si}
+              - {q: lhc13.reference_momentum_si}
+          reference: {q: lhc13.reference_momentum_si}
+          zero_policy: positive_reference_momentum
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: hill_second_derivative
+        anchor: section 9, x_double_prime
+        ast:
+          op: derivative
+          dependent:
+            op: derivative
+            dependent: {q: lhc13.x}
+            independent: {q: lhc13.s}
+          independent: {q: lhc13.s}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [-1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: hill_focusing_term
+        anchor: section 9, K(s)*x
+        ast:
+          op: mul
+          left: {q: lhc13.K}
+          right: {q: lhc13.x}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [-1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: twiss_ellipse_sum
+        anchor: section 9, gamma_T*x^2+2*alpha_T*x*xprime+beta_T*xprime^2
+        ast:
+          op: add
+          args:
+            - op: mul
+              left: {q: lhc13.twiss_gamma}
+              right:
+                op: pow
+                arg: {q: lhc13.x}
+                exponent: 2
+            - op: mul
+              left:
+                op: mul
+                left: {const: 2}
+                right: {q: lhc13.twiss_alpha}
+              right:
+                op: mul
+                left: {q: lhc13.x}
+                right: {q: lhc13.xprime}
+            - op: mul
+              left: {q: lhc13.twiss_beta}
+              right:
+                op: pow
+                arg: {q: lhc13.xprime}
+                exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: normalized_emittance
+        anchor: section 9, epsilon_n=beta_rel*gamma_rel*epsilon
+        ast:
+          op: mul
+          left:
+            op: mul
+            left: {q: lhc13.beta_rel}
+            right: {q: lhc13.gamma_rel}
+          right: {q: lhc13.emittance}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: invariant_mass_hep
+        anchor: section 11, mu_inv^2=E_sum^2-|pi_sum|^2
+        ast:
+          op: sub
+          args:
+            - op: pow
+              arg: {q: lhc13.energy_sum_hep}
+              exponent: 2
+            - op: pow
+              arg: {q: lhc13.momentum_sum_energy_hep}
+              exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: pseudorapidity
+        anchor: section 11, eta=-ln(tan(theta/2))
+        ast:
+          op: log
+          base: e
+          arg:
+            op: trig
+            function: tan
+            arg:
+              op: div
+              left: {q: lhc13.theta}
+              right: {const: 2}
+              semantic_kind: angle
+              frame: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: true_rapidity
+        anchor: section 11, y=(1/2)ln((E+pi_z)/(E-pi_z))
+        ast:
+          op: mul
+          left: {const: 0.5}
+          right:
+            op: log
+            base: e
+            arg:
+              op: div
+              left:
+                op: add
+                args:
+                  - {q: lhc13.energy_hep}
+                  - {q: lhc13.longitudinal_momentum_energy_hep}
+              right:
+                op: sub
+                args:
+                  - {q: lhc13.energy_hep}
+                  - {q: lhc13.longitudinal_momentum_energy_hep}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: revolution_frequency
+        anchor: section 14, f_rev=beta*c/C
+        ast:
+          op: div
+          left:
+            op: mul
+            left: {q: lhc13.beta_rel}
+            right: {q: lhc13.c}
+          right: {q: lhc13.circumference}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+    invariants:
+      - id: lorentz_interval
+        claimed_invariant: true
+        group: proper_orthochronous_lorentz_group
+        anchor: section 6
+      - id: invariant_mass
+        claimed_invariant: true
+        group: proper_orthochronous_lorentz_group
+        anchor: section 11
+      - id: transverse_momentum
+        claimed_invariant: true
+        group: longitudinal_lorentz_boosts
+        anchor: section 11
+      - id: geometric_emittance
+        claimed_invariant: true
+        group: linear_symplectic_transport
+        anchor: section 9
+      - id: normalized_emittance
+        claimed_invariant: true
+        group: ideal_adiabatic_acceleration
+        anchor: section 9
+    claim_register:
+      - id: equal_head_on_sqrt_s
+        status: proposition
+        hypotheses:
+          - equal_beam_total_energies
+          - exactly_opposite_spatial_momenta
+          - common_energy_four_vector_convention
+      - id: geometric_emittance_invariance
+        status: proposition
+        hypotheses:
+          - linear_two_dimensional_symplectic_transport
+          - fixed_canonical_coordinate_convention
+          - finite_second_moments
+      - id: normalized_emittance_invariance
+        status: model
+        hypotheses:
+          - ideal_adiabatic_acceleration
+          - uncoupled_transport
+          - no_scattering_radiation_noise_losses_or_collective_growth
+      - id: run3_numeric_audit
+        status: diagnostic
+        hypotheses:
+          - declared_CERN_operational_reference
+          - CODATA_2022_proton_mass_energy
+          - exact_SI_defining_constants
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    manual_findings: []
+    next_action: use_as_reference_accelerator_module_and_migrate_remaining_mechanical_applications

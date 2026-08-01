@@ -1,0 +1,771 @@
+schema:
+  id: go-billiards-reference-ledger
+  version: 0.8.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  mechanics_contract: go-frame-force-dissipation-contract@0.6.0
+  extension_contract: go-billiards-observation-contract@0.8.0
+
+documents:
+  - id: billiards-observation-v1-1
+    title: Billiards as a Typed Geometry of Observation Laboratory
+    version: 1.1.0
+    source:
+      pdf: work/p7_billiards_v0_8/build/billiards/billiards_observation_laboratory_v1_1.pdf
+      tex: work/p7_billiards_v0_8/src/billiards_observation_laboratory_v1_1.tex
+      text: work/p7_billiards_v0_8/checks/billiards/billiards_observation_laboratory_v1_1.txt
+      pages: 9
+      sha256: 162775907ff1be26f95cacda82277e6a16ab340bd1a38198d38d451c1d0852e8
+    ledger_level: reference
+    migration_status: strict_reference_migrated
+    unit_contexts:
+      - SI
+      - neutral
+    groups:
+      - euclidean_table_isometries
+      - positive_table_similarities
+      - boundary_reparameterizations
+      - finite_symbol_relabelings
+      - elastic_time_reversal
+      - integer_collision_iteration_action
+      - disk_collision_iteration_action
+    maps:
+      - id: collision_section_reduction
+        domain: regular_continuous_billiard_flow
+        codomain: regular_boundary_collision_space
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: collision_map
+        domain: regular_boundary_collision_space_minus_forward_singularities
+        codomain: regular_boundary_collision_space
+        kind: reduction
+        invertibility: required
+        information_loss: false
+      - id: roof_time_readout
+        domain: regular_collision_state
+        codomain: positive_flight_duration
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: true
+      - id: impact_position_readout
+        domain: regular_collision_state
+        codomain: boundary_arclength
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: true
+      - id: two_impact_reconstruction
+        domain: ordered_pair_of_regular_impacts_on_known_strictly_convex_table
+        codomain: current_regular_collision_state
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+      - id: finite_symbolic_word
+        domain: regular_collision_state
+        codomain: finite_alphabet_word_of_declared_horizon
+        kind: discretizer
+        invertibility: not_required
+        information_loss: true
+      - id: recorded_symbol_channel
+        domain: true_finite_symbolic_word
+        codomain: observed_word_with_missing_or_misclassified_symbols
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: laplacian_spectral_map
+        domain: bounded_planar_domain_with_Dirichlet_boundary_condition
+        codomain: ordered_inverse_length_squared_spectrum_with_multiplicity
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: true
+      - id: laplacian_energy_bridge
+        domain: laplacian_eigenvalue_with_positive_particle_mass_and_hbar
+        codomain: nonrelativistic_energy
+        kind: interpretation
+        invertibility: required
+        information_loss: false
+      - id: finite_window_divergence_estimator
+        domain: declared_collision_space_distance_series_and_fit_window
+        codomain: dimensionless_slope_per_collision
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - scope: collision
+        key: T
+        meaning: regular_elastic_collision_map
+      - scope: collision
+        key: tau
+        meaning: positive_free_flight_roof_time
+      - scope: collision
+        key: phi
+        meaning: outgoing_angle_from_inward_normal
+      - scope: collision
+        key: p
+        meaning: sin_phi_tangent_collision_coordinate
+      - scope: information
+        key: H_b
+        meaning: declared_base_b_symbol_entropy
+      - scope: information
+        key: h_b
+        meaning: declared_partition_entropy_rate
+      - scope: spectral
+        key: lambda_n
+        meaning: Dirichlet_Laplacian_eigenvalue_with_dimension_inverse_length_squared
+      - scope: spectral
+        key: E_n
+        meaning: physical_nonrelativistic_energy_after_hbar_mass_bridge
+      - scope: diagnostics
+        key: lambda_hat
+        meaning: finite_window_log_distance_slope_not_asymptotic_exponent
+    quantities:
+      - id: billiards.position
+        extends: geometry.position
+        symbol: q
+        frame: lab
+      - id: billiards.chord_displacement
+        extends: geometry.displacement
+        symbol: q_prime_minus_q
+        frame: lab
+      - id: billiards.direction
+        symbol: u
+        semantic_kind: vector
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: lab
+        claim_status: definition
+      - id: billiards.normal
+        symbol: n
+        semantic_kind: vector
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: lab
+        claim_status: definition
+      - id: billiards.tangent
+        symbol: t
+        semantic_kind: vector
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: lab
+        claim_status: definition
+      - id: billiards.normal_component
+        symbol: u_dot_n
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: scalar
+        claim_status: definition
+      - id: billiards.tangent_coordinate
+        symbol: p
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: scalar
+        claim_status: definition
+      - id: billiards.speed
+        symbol: c_0
+        semantic_kind: scalar
+        dimension: [1, 0, -1, 0, 0, 0, 0]
+        canonical_unit: m/s
+        unit_context: SI
+        frame: lab
+        claim_status: definition
+      - id: billiards.normal_speed
+        symbol: v_n
+        semantic_kind: scalar
+        dimension: [1, 0, -1, 0, 0, 0, 0]
+        canonical_unit: m/s
+        unit_context: SI
+        frame: contact
+        claim_status: model
+      - id: billiards.duration
+        extends: time.duration
+        symbol: t
+      - id: billiards.roof_time
+        extends: time.duration
+        symbol: tau
+      - id: billiards.chord_length
+        extends: geometry.length
+        symbol: ell_chord
+      - id: billiards.flight_length
+        extends: geometry.length
+        symbol: ell_flight
+      - id: billiards.boundary_length
+        extends: geometry.length
+        symbol: L_boundary
+      - id: billiards.arclength
+        extends: geometry.length
+        symbol: s
+      - id: billiards.radius
+        extends: geometry.length
+        symbol: R
+      - id: billiards.disk_advance
+        extends: geometry.length
+        symbol: Delta_s
+      - id: billiards.reduced_angular_momentum_coordinate
+        extends: geometry.length
+        symbol: j_z
+      - id: billiards.angle
+        extends: geometry.angle
+        symbol: phi
+      - id: billiards.central_angle
+        extends: geometry.angle
+        symbol: Delta_theta
+      - id: billiards.full_turn_angle
+        extends: geometry.angle
+        symbol: 2_pi
+      - id: billiards.cos_phi
+        symbol: cos_phi
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: billiards.normalized_arclength
+        symbol: s_over_L
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: billiards.rotation_number
+        symbol: rho
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: turn
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: billiards.symbol_probability
+        extends: information.probability
+        symbol: p_j
+      - id: billiards.word_probability
+        extends: information.probability
+        symbol: P_n_w
+      - id: billiards.marginal_entropy
+        symbol: H_b
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: log_base_b_unit
+        unit_context: neutral
+        frame: none
+        log_base: b
+        claim_status: diagnostic
+      - id: billiards.block_entropy
+        symbol: H_b_n
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: log_base_b_unit
+        unit_context: neutral
+        frame: none
+        log_base: b
+        claim_status: definition
+      - id: billiards.max_marginal_entropy
+        symbol: log_b_m
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: log_base_b_unit
+        unit_context: neutral
+        frame: none
+        log_base: b
+        claim_status: definition
+      - id: billiards.observed_distance
+        extends: geometry.length
+        symbol: d_k
+      - id: billiards.reference_distance
+        extends: geometry.reference_length
+        symbol: d_star
+      - id: billiards.distance_ratio
+        symbol: d_k_over_d_star
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: diagnostic
+      - id: billiards.iteration_count
+        extends: discrete.count
+        symbol: N
+      - id: billiards.laplacian_eigenvalue
+        extends: spectral.laplacian_eigenvalue
+        symbol: lambda_n
+      - id: billiards.scaled_laplacian_eigenvalue
+        extends: spectral.laplacian_eigenvalue
+        symbol: lambda_n_scaled
+      - id: billiards.hbar
+        extends: quantum.hbar
+        symbol: hbar
+      - id: billiards.mass
+        extends: mechanics.mass
+        symbol: m
+      - id: billiards.energy
+        extends: mechanics.energy
+        symbol: E_n
+      - id: billiards.area
+        symbol: area_Omega
+        semantic_kind: scalar
+        dimension: [2, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m^2
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: billiards.scaled_area
+        symbol: area_scaled_Omega
+        semantic_kind: scalar
+        dimension: [2, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m^2
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: billiards.dimensionless_spectrum
+        symbol: lambda_tilde_n
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: billiards.restitution
+        symbol: e
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: billiards.restitution_factor
+        symbol: one_minus_e_squared
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: billiards.dissipative_loss
+        extends: mechanics.energy
+        symbol: Delta_E_diss
+    expressions:
+      - id: free_flight_length
+        anchor: equation (1), c0 times duration
+        ast:
+          op: mul
+          left: {q: billiards.speed}
+          right: {q: billiards.duration}
+          semantic_kind: scalar
+          frame: lab
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: lab
+      - id: incoming_normal_component
+        anchor: equation (2), dot(u_minus,n)
+        ast:
+          op: dot
+          left: {q: billiards.direction}
+          right: {q: billiards.normal}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: reflection_normal_correction
+        anchor: equation (2), scalar normal correction
+        ast:
+          op: mul
+          left: {q: billiards.normal_component}
+          right: {q: billiards.normal}
+          semantic_kind: vector
+          frame: lab
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: lab
+      - id: roof_time
+        anchor: definition 2.1, chord length divided by c0
+        ast:
+          op: div
+          left: {q: billiards.chord_length}
+          right: {q: billiards.speed}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: tangent_coordinate
+        anchor: section 2, p equals dot(u,t)
+        ast:
+          op: dot
+          left: {q: billiards.direction}
+          right: {q: billiards.tangent}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: cosine_of_collision_angle
+        anchor: equation (4), cos(phi)
+        ast:
+          op: trig
+          function: cos
+          arg: {q: billiards.angle}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: normalized_arclength
+        anchor: equation (4), ds divided by boundary length
+        ast:
+          op: normalize
+          value: {q: billiards.arclength}
+          reference: {q: billiards.boundary_length}
+          zero_policy: positive_boundary_length
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: normalized_collision_measure_factor
+        anchor: equation (4), cos(phi) ds over boundary length
+        ast:
+          op: mul
+          left: {q: billiards.cos_phi}
+          right: {q: billiards.normalized_arclength}
+          semantic_kind: scalar
+          frame: none
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: none
+      - id: reconstructed_unit_direction
+        anchor: equation (5), chord displacement divided by chord length
+        ast:
+          op: div
+          left: {q: billiards.chord_displacement}
+          right: {q: billiards.chord_length}
+          semantic_kind: vector
+          frame: lab
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: lab
+      - id: symbol_probability_logarithm
+        anchor: equation (9), log_b p_j
+        ast:
+          op: log
+          arg: {q: billiards.symbol_probability}
+          base: b
+          semantic_kind: information
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: word_probability_logarithm
+        anchor: equation (10), log_b P_n(w)
+        ast:
+          op: log
+          arg: {q: billiards.word_probability}
+          base: b
+          semantic_kind: information
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: normalized_marginal_entropy
+        anchor: section 4, H_b divided by log_b m
+        ast:
+          op: normalize
+          value: {q: billiards.marginal_entropy}
+          reference: {q: billiards.max_marginal_entropy}
+          zero_policy: alphabet_size_greater_than_one
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: disk_advance_length
+        anchor: equation (12), R times central angle
+        ast:
+          op: mul
+          left: {q: billiards.radius}
+          right: {q: billiards.central_angle}
+          semantic_kind: scalar
+          frame: invariant
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: invariant
+      - id: disk_rotation_number
+        anchor: equation (13), central angle divided by full turn
+        ast:
+          op: normalize
+          value: {q: billiards.central_angle}
+          reference: {q: billiards.full_turn_angle}
+          zero_policy: full_turn_nonzero
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: disk_roof_time
+        anchor: equation (13), chord length divided by speed
+        ast:
+          op: div
+          left: {q: billiards.chord_length}
+          right: {q: billiards.speed}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: disk_reduced_angular_momentum_coordinate
+        anchor: theorem 5.1, R times p
+        ast:
+          op: mul
+          left: {q: billiards.radius}
+          right: {q: billiards.tangent_coordinate}
+          semantic_kind: scalar
+          frame: invariant
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: invariant
+      - id: dimensionless_distance_ratio
+        anchor: equation (15), d_k divided by d_star
+        ast:
+          op: normalize
+          value: {q: billiards.observed_distance}
+          reference: {q: billiards.reference_distance}
+          zero_policy: positive_reference_distance
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: log_distance_ratio
+        anchor: equation (15), log(d_k/d_star)
+        ast:
+          op: log
+          arg: {q: billiards.distance_ratio}
+          base: e
+          semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: hbar_squared
+        anchor: proposition 7.1, hbar squared
+        ast:
+          op: pow
+          arg: {q: billiards.hbar}
+          exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: laplacian_energy_bridge
+        anchor: proposition 7.1, hbar squared lambda_n divided by mass
+        ast:
+          op: div
+          left:
+            op: mul
+            left:
+              op: pow
+              arg: {q: billiards.hbar}
+              exponent: 2
+            right: {q: billiards.laplacian_eigenvalue}
+          right: {q: billiards.mass}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: dimensionless_spectrum
+        anchor: equation (19), area times lambda_n
+        ast:
+          op: mul
+          left: {q: billiards.area}
+          right: {q: billiards.laplacian_eigenvalue}
+          semantic_kind: scalar
+          frame: invariant
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: invariant
+      - id: scaled_dimensionless_spectrum
+        anchor: proposition 7.2, scaled area times scaled lambda_n
+        ast:
+          op: mul
+          left: {q: billiards.scaled_area}
+          right: {q: billiards.scaled_laplacian_eigenvalue}
+          semantic_kind: scalar
+          frame: invariant
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: invariant
+      - id: normal_speed_squared
+        anchor: section 8, normal impact speed squared
+        ast:
+          op: pow
+          arg: {q: billiards.normal_speed}
+          exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 0, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: dissipative_collision_loss
+        anchor: section 8, mass times one-minus-e-squared times normal-speed-squared
+        ast:
+          op: mul
+          left:
+            op: mul
+            left: {q: billiards.mass}
+            right: {q: billiards.restitution_factor}
+          right:
+            op: pow
+            arg: {q: billiards.normal_speed}
+            exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+    invariants:
+      - id: elastic_collision_measure
+        claimed_invariant: true
+        group: integer_collision_iteration_action
+        anchor: proposition 2.2
+      - id: disk_tangent_coordinate
+        claimed_invariant: true
+        group: disk_collision_iteration_action
+        anchor: theorem 5.1
+      - id: Dirichlet_spectrum_under_rigid_motion
+        claimed_invariant: true
+        group: euclidean_table_isometries
+        anchor: proposition 7.2
+      - id: area_normalized_spectrum_under_similarity
+        claimed_invariant: true
+        group: positive_table_similarities
+        anchor: proposition 7.2
+      - id: marginal_entropy_under_symbol_relabeling
+        claimed_invariant: true
+        group: finite_symbol_relabelings
+        anchor: section 4
+    claim_register:
+      - id: collision_measure_preservation
+        status: proposition
+        hypotheses:
+          - elastic_specular_reflection
+          - regular_collision_orbit
+          - forward_and_backward_singular_sets_excluded
+      - id: two_impact_reconstruction
+        status: proposition
+        hypotheses:
+          - known_strictly_convex_C1_table
+          - distinct_ordered_consecutive_regular_impacts
+      - id: finite_symbol_noninjectivity
+        status: proposition
+        hypotheses:
+          - uncountable_regular_state_subset
+          - finite_alphabet
+          - finite_observation_horizon
+      - id: disk_collision_map
+        status: theorem
+        hypotheses:
+          - circular_table
+          - elastic_regular_collision
+          - declared_inward_normal_Birkhoff_coordinates
+      - id: stadium_hyperbolic_behavior
+        status: theorem
+        hypotheses:
+          - external_classical_Bunimovich_stadium_theorem
+      - id: finite_window_divergence
+        status: diagnostic
+        hypotheses:
+          - declared_metric
+          - dimensionless_log_ratio
+          - declared_window_weights_and_singularity_policy
+      - id: Laplacian_energy_bridge
+        status: proposition
+        hypotheses:
+          - nonrelativistic_particle
+          - positive_declared_mass
+          - SI_hbar
+      - id: spectral_covariance
+        status: proposition
+        hypotheses:
+          - bounded_planar_domain
+          - Dirichlet_boundary_condition
+          - positive_similarity_scale
+      - id: Weyl_area_readout
+        status: theorem
+        hypotheses:
+          - planar_open_set_of_finite_area
+          - full_Dirichlet_spectrum
+      - id: spectral_nonidentifiability
+        status: theorem
+        hypotheses:
+          - general_planar_domain_class
+          - external_Gordon_Webb_Wolpert_construction
+      - id: marginal_symbol_entropy
+        status: diagnostic
+        hypotheses:
+          - finite_partition
+          - positive_total_count
+          - explicit_logarithm_base
+      - id: dissipative_restitution_loss
+        status: model
+        hypotheses:
+          - frictionless_normal_restitution
+          - positive_particle_mass
+          - restitution_coefficient_in_unit_interval
+      - id: new_billiard_theory
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    next_action: retain_as_collision_symbolic_spectral_observation_reference

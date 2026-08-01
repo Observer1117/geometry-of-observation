@@ -1,0 +1,747 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.012}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Quantum Chemistry as a Typed Inference Stack under Observation Maps},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Many-electron states, reduced density matrices, orbital gauge, nuclear geometry, normal modes, spectra, and observation channels},
+  pdfkeywords={quantum chemistry, reduced density matrix, orbital gauge, Born-Oppenheimer approximation, normal modes, spectroscopy, observation geometry}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{obsviolet}{RGB}{94,64,145}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+\definecolor{lightviolet}{RGB}{246,242,252}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dd}{\mathop{}\!\mathrm d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\pair}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\Hcal}{\mathcal H}
+\newcommand{\Qcal}{\mathcal Q}
+\newcommand{\Scal}{\mathcal S}
+\newcommand{\Acal}{\mathcal A}
+\newcommand{\Bcal}{\mathcal B}
+\newcommand{\I}{\mathrm i}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\SE}{\operatorname{SE}}
+\newcommand{\ket}[1]{\left\lvert #1\right\rangle}
+\newcommand{\bra}[1]{\left\langle #1\right\rvert}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Quantum Chemistry as a Typed Inference Stack\\
+\large Many-electron states, reduced data, orbital gauge, nuclear geometry, and spectra}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.1 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working note
+v1.0 and is an application-layer reference migrated to GO Core v0.2.
+It does not introduce a new electronic-structure method, density
+functional, orbital interpretation, bond definition, or spectroscopic
+inversion theorem. Its internal contribution is a typed separation of
+the exact electron-nuclear state, clamped-nuclei electronic models,
+reduced density data, representation gauge, nuclear reduction,
+ideal observables, and finite-resolution measurement.}}
+\end{center}
+
+\begin{abstract}
+Quantum chemistry is not described by a single composable chain
+\(\Psi\to n\to E(R)\to R_\ast\to\) chemical behavior.  Those arrows
+have different domains, hypotheses, and information content.  This
+reference replaces that chain by a typed graph.  The exact
+nonrelativistic molecular state depends on electronic and nuclear
+coordinates.  A clamped-nuclei Hamiltonian family
+\(H_{\rm e}(R)\) generates potential-energy surfaces only after a
+Born--Oppenheimer reduction.  For an \(N\)-electron density operator
+\(\Gamma_N\), the one-body reduced density matrix
+\(\gamma=N\Tr_{2\ldots N}\Gamma_N\) satisfies
+\(\Tr\gamma=N\), and the spatial density integrates to \(N\), but this
+reduction is non-injective.  Occupied-orbital rotations leave a Slater
+determinant ray and its one-body projector invariant, so localized
+orbitals, hybridizations, and active-space populations require an
+explicit representation protocol.  At a stationary nuclear geometry,
+the mass-weighted Hessian has eigenvalues
+\(\lambda_k=\omega_k^2\), not frequencies; five rigid zero modes for a
+linear molecule or six for a nonlinear molecule must be removed in
+the isolated, unconstrained case.  An ideal transition spectrum
+depends on energies, populations, a transition operator, and a line
+profile, while measured data additionally depend on the instrument
+channel and noise.  The resulting formalism preserves the useful
+observation-geometry interpretation but forbids claims of canonical
+orbital observability, unique bond projection, exact degeneracy from
+finite resolution, or chemistry determined by energy differences
+alone.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope, state spaces, and unit firewall}
+
+Let \(N_{\rm e}\) electrons and \(N_{\rm n}\) nuclei be described in a
+declared inertial frame.  Electronic spin coordinates are denoted by
+\(x_i=(\bm r_i,\sigma_i)\), and nuclear Cartesian coordinates by
+\(R=(\bm R_1,\ldots,\bm R_{N_{\rm n}})\).  Ignoring relativity,
+external fields, nuclear spin, and finite nuclear size, the
+nonrelativistic Coulomb Hamiltonian in atomic units is
+\begin{equation}\label{eq:full-hamiltonian}
+\begin{split}
+\widehat H_{\rm mol}
+={}&-\frac12\sum_{i=1}^{N_{\rm e}}\nabla_i^2
+-\sum_{A=1}^{N_{\rm n}}\frac{1}{2M_A}\nabla_A^2
+-\sum_{i,A}\frac{Z_A}{r_{iA}}\\
+&+\sum_{i<j}\frac{1}{r_{ij}}
++\sum_{A<B}\frac{Z_AZ_B}{R_{AB}} .
+\end{split}
+\end{equation}
+The nuclear masses \(M_A\) are expressed in electron-mass units.  A
+full stationary state is
+\begin{equation}\label{eq:full-state}
+\Psi=\Psi(x_1,\ldots,x_{N_{\rm e}};R_1,\ldots,R_{N_{\rm n}}),
+\qquad
+\widehat H_{\rm mol}\Psi=E\Psi.
+\end{equation}
+Writing only electronic arguments after \cref{eq:full-hamiltonian}
+silently changes the problem and is therefore prohibited.
+
+\begin{warning}[Unit context]
+Atomic units suppress \(m_{\rm e},e,\hbar,4\pi\epsilon_0\), but do not
+erase physical dimensions.  A numerical atomic-unit expression may
+enter an SI formula only through an explicit conversion using the
+declared values of \(E_{\rm h},a_0,m_{\rm e},e,\hbar\).  No addition or
+comparison across SI and atomic contexts is implicit in this
+reference.
+\end{warning}
+
+For pure isolated electronic states, the state space is the
+antisymmetric sector
+\[
+\Hcal_{\rm e}^{(N)}
+=\bigwedge\nolimits^N
+L^2(\R^3;\C^2).
+\]
+Mixed or open-system electronic states are positive trace-one
+operators \(\Gamma_N\) on this sector.  A wavefunction is therefore
+not the universal state object; it is a pure-state representative.
+
+\section{Exact molecule and Born--Oppenheimer reduction}
+
+At fixed nuclear geometry \(R\), define the clamped-nuclei electronic
+Hamiltonian
+\begin{equation}\label{eq:clamped-hamiltonian}
+\widehat H_{\rm e}(R)
+=\widehat T_{\rm e}+\widehat V_{\rm ee}
++\widehat V_{\rm en}(R)+V_{\rm nn}(R).
+\end{equation}
+This document includes the scalar nuclear repulsion
+\(V_{\rm nn}(R)\) in \(\widehat H_{\rm e}(R)\); a convention that
+excludes it must add it back before calling an eigenvalue a
+potential-energy surface.
+
+The parametric eigenproblem is
+\begin{equation}\label{eq:electronic-eigenproblem}
+\widehat H_{\rm e}(R)\psi_k(x;R)=E_k(R)\psi_k(x;R).
+\end{equation}
+The map \(R\mapsto E_k(R)\) is not obtained by taking a marginal of the
+exact molecular wavefunction.  It is generated from the Hamiltonian
+family after choosing a clamped-nuclei model and an electronic state
+label.  A Born--Huang expansion has the form
+\begin{equation}\label{eq:born-huang}
+\Psi(x,R)=\sum_k\chi_k(R)\psi_k(x;R).
+\end{equation}
+Substitution into the full equation yields coupled nuclear equations
+containing derivative couplings.  A one-surface Born--Oppenheimer
+model is a reduction obtained by neglecting specified off-diagonal
+terms; it is not a lossless frame transform and it is not uniformly
+valid at a closing internal electronic gap.
+
+\begin{warning}[Conical-intersection inheritance]
+Near a conical intersection, the individual rank-one adiabatic
+projectors need not extend through the seam even when the retained
+two-state cluster remains regular.  Branching coordinates, gauge,
+Berry holonomy, derivative coupling, dynamics, and finite-resolution
+identifiability are governed by the separate P8 conical-intersection
+contract.  The present document does not replace that contract with
+the phrase ``observation caustic.''
+\end{warning}
+
+\section{Reduced density data and information loss}
+
+\begin{definition}[One-body reduced density matrix]
+For a normalized \(N\)-electron state \(\Gamma_N\), define
+\begin{equation}\label{eq:one-rdm}
+\gamma^{(1)}
+=N\,\Tr_{2,\ldots,N}\Gamma_N .
+\end{equation}
+Its spatial density is
+\begin{equation}\label{eq:density}
+n(\bm r)
+=\sum_{\sigma}
+\langle \bm r\sigma|\gamma^{(1)}|\bm r\sigma\rangle .
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Normalization and one-body observables]
+\label{prop:rdm-normalization}
+The reduction in \cref{eq:one-rdm} obeys
+\begin{equation}\label{eq:rdm-normalization}
+\Tr\gamma^{(1)}=N,
+\qquad
+\int_{\R^3}n(\bm r)\,\dd^3r=N.
+\end{equation}
+For every one-body observable
+\(\widehat A=\sum_{i=1}^N a(i)\),
+\begin{equation}\label{eq:one-body-expectation}
+\Tr(\Gamma_N\widehat A)=\Tr(\gamma^{(1)}a).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The partial trace preserves the trace, so
+\(\Tr\gamma^{(1)}=N\Tr\Gamma_N=N\).  Resolving the one-particle trace
+in the position-spin basis gives the density integral.  Permutation
+symmetry of \(\Gamma_N\) makes all \(N\) terms in \(\widehat A\)
+equal after tracing the other particles, which yields
+\cref{eq:one-body-expectation}.
+\end{proof}
+
+\begin{proposition}[The one-body reduction is non-injective]
+\label{prop:rdm-noninjective}
+Let \(\ket{ij}=a_i^\dagger a_j^\dagger\ket0\) in
+\(\bigwedge^2\C^4\), and define
+\[
+\ket{\Psi_\pm}=\frac{\ket{12}\pm\ket{34}}{\sqrt2}.
+\]
+Both states have
+\(\gamma^{(1)}=\tfrac12 I_4\), but the two-body coherence
+\[
+\widehat B=\ket{12}\!\bra{34}+\ket{34}\!\bra{12}
+\]
+has expectation \(+1\) in \(\Psi_+\) and \(-1\) in \(\Psi_-\).
+\end{proposition}
+
+\begin{proof}
+Each spin orbital occurs with probability \(1/2\), and all one-body
+cross terms vanish because the determinants differ by two orbitals.
+The operator \(\widehat B\) exchanges the two determinants, producing
+the stated signs.
+\end{proof}
+
+Thus neither \(\Gamma_N\mapsto\gamma^{(1)}\) nor
+\(\Gamma_N\mapsto n\) is generally invertible.  Electron correlation
+is not defined as an information-theoretic defect of this map.  It is
+method- and Hamiltonian-specific unless a precise correlation
+functional or entanglement quantity is declared.
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=6mm and 13mm,
+  box/.style={draw=obsblue,rounded corners,fill=lightblue,
+    align=center,inner sep=4pt,font=\scriptsize},
+  modelbox/.style={draw=obsviolet,rounded corners,fill=lightviolet,
+    align=center,inner sep=4pt,font=\scriptsize},
+  obsbox/.style={draw=obsgreen,rounded corners,fill=lightgreen,
+    align=center,inner sep=4pt,font=\scriptsize},
+  arr/.style={-{Latex[length=2mm]},thick,draw=obsblue},
+  marr/.style={-{Latex[length=2mm]},thick,draw=obsviolet},
+  oarr/.style={-{Latex[length=2mm]},thick,draw=obsgreen},
+  lab/.style={font=\tiny,fill=white,inner sep=1pt}
+]
+\node[box] (state) {\(\Gamma_N\)\\many-body state};
+\node[box,right=of state] (rdm) {\(\gamma^{(1)}\)\\one-body reduction};
+\node[box,right=of rdm] (density) {\(n(\bm r)\)\\density};
+\draw[arr] (state) -- node[above,lab] {partial trace} (rdm);
+\draw[arr] (rdm) -- node[above,lab] {diagonal} (density);
+
+\node[modelbox,below=of state] (family) {\(H_{\rm e}(R)\)\\model family};
+\node[modelbox,right=of family] (pes) {\(E_k(R)\)\\PES branch};
+\node[modelbox,right=of pes] (geom) {\([R_\ast]\)\\geometry class};
+\draw[marr] (family) -- node[above,lab] {eigensolve} (pes);
+\draw[marr] (pes) -- node[above,lab] {optimize} (geom);
+
+\node[obsbox,below=of family] (ideal) {\((\Gamma,A)\)\\state and probe};
+\node[obsbox,right=of ideal] (spectrum) {\(S_A(\omega)\)\\ideal signal};
+\node[obsbox,right=of spectrum] (data) {\(Y\)\\instrument data};
+\draw[oarr] (ideal) -- node[above,lab] {Born rule} (spectrum);
+\draw[oarr] (spectrum) -- node[above,lab] {channel} (data);
+\end{tikzpicture}
+\end{center}
+
+The three rows are related by a declared scientific workflow, but
+they are not a single automatic composition.
+
+\section{Finite bases, Hartree--Fock, and orbital gauge}
+
+Let \(\{\chi_\mu\}_{\mu=1}^K\) be a linearly independent, generally
+nonorthogonal one-particle basis with overlap matrix
+\[
+S_{\mu\nu}=\langle\chi_\mu,\chi_\nu\rangle,
+\qquad S=S^\dagger>0.
+\]
+Roothaan--Hall equations have the generalized form
+\begin{equation}\label{eq:roothaan}
+FC=SC\varepsilon,
+\qquad
+C^\dagger SC=I.
+\end{equation}
+Writing \(FC=C\varepsilon\) without either an orthonormal basis or the
+overlap matrix changes the discrete problem.  Small eigenvalues of
+\(S\) also require a declared linear-dependence threshold.
+
+For occupied columns \(C_{\rm o}\), define the AO density matrix
+\begin{equation}\label{eq:ao-density}
+P=C_{\rm o}C_{\rm o}^\dagger,
+\qquad
+\Tr(PS)=N_{\rm occ}
+\end{equation}
+for one electron per occupied spin orbital.  Closed-shell spatial
+orbital conventions add their declared occupation factor.
+
+\begin{proposition}[Occupied-orbital gauge]
+\label{prop:occupied-gauge}
+If \(U\in U(N_{\rm occ})\), then
+\[
+C_{\rm o}'=C_{\rm o}U
+\quad\Longrightarrow\quad
+P'=P.
+\]
+The associated normalized Slater determinant changes only by
+\(\det U\), hence represents the same quantum ray.
+\end{proposition}
+
+\begin{proof}
+\(P'=C_{\rm o}UU^\dagger C_{\rm o}^\dagger=P\).  Multilinearity of
+the exterior product gives
+\(\phi_1'\wedge\cdots\wedge\phi_{N_{\rm occ}}'
+=(\det U)\phi_1\wedge\cdots\wedge\phi_{N_{\rm occ}}\), and
+\(\abs{\det U}=1\).
+\end{proof}
+
+Consequently, localized occupied orbitals, hybrid orbitals, and
+orbital-by-orbital bond pictures are representation choices unless
+the localization or decomposition functional is part of the
+protocol.  Canonical orbitals diagonalize a chosen effective
+operator; that gauge choice does not turn every orbital or orbital
+energy into a many-body observable.
+
+Hartree--Fock is the variational problem
+\begin{equation}\label{eq:hf-variational}
+E_{\rm HF}
+=\inf_{\Phi\ {\rm Slater},\,\norm{\Phi}=1}
+\langle\Phi|\widehat H_{\rm e}|\Phi\rangle .
+\end{equation}
+The nonlinear SCF equations characterize stationary solutions.
+An iteration may converge to a local stationary point, oscillate, or
+break an exact symmetry; convergence alone does not certify the
+global Hartree--Fock minimum.
+
+For the same Hamiltonian and one-particle space,
+\begin{equation}\label{eq:correlation-energy}
+E_{\rm corr}=E_0-E_{\rm HF}\le0,
+\end{equation}
+where \(E_0\) is the exact or full-CI ground energy in the declared
+space.  Cross-method correlation energies are not comparable unless
+Hamiltonian, basis, frozen-core convention, geometry, and reference
+state agree.
+
+\section{Density-functional theory firewall}
+
+The density map is a partial trace followed by a diagonal readout.
+Ground-state density-functional theory adds a separate variational
+statement.  For fixed particle number and electron-electron
+interaction, a constrained-search functional can be written
+\begin{equation}\label{eq:levy-search}
+F[n]=\inf_{\Gamma\mapsto n}
+\Tr\!\left[\Gamma(\widehat T+\widehat W)\right].
+\end{equation}
+The external-potential ground energy is then
+\begin{equation}\label{eq:dft-variational}
+E_v=\inf_n\left\{
+F[n]+\int v_{\rm ext}(\bm r)n(\bm r)\,\dd^3r
+\right\},
+\end{equation}
+over the declared admissible density class.
+
+\begin{warning}[Hohenberg--Kohn scope]
+In its original ground-state setting, the density determines the
+external scalar potential up to an additive constant under fixed
+particle number and interaction, subject to the theorem's
+representability and degeneracy hypotheses.  This does not invert the
+density map for an arbitrary excited, time-dependent, mixed, or
+open-system state.  Degenerate and ensemble cases require their own
+formulation.
+\end{warning}
+
+The Kohn--Sham construction introduces auxiliary orbitals with
+\begin{equation}\label{eq:ks-density}
+n(\bm r)=\sum_i f_i\abs{\varphi_i(\bm r)}^2,
+\qquad
+\left[-\frac12\nabla^2+v_{\rm eff}[n]\right]\varphi_i
+=\varepsilon_i\varphi_i
+\end{equation}
+in atomic units.  The orbitals reproduce the target density within
+the model.  General Kohn--Sham eigenvalue differences are not equal
+by definition to interacting excitation energies, and approximate
+exchange-correlation functionals introduce model error not encoded
+by the density normalization.
+
+\section{Nuclear geometry and the normal-mode theorem}
+
+For an isolated molecule, absolute translation and rotation do not
+define internal geometry.  Away from collisions and singular
+configurations, an internal configuration is an equivalence class
+\[
+[R]\in
+\Qcal_{\rm int}
+=\bigl((\R^{3N_{\rm n}}\setminus\Delta)/\SE(3)\bigr)/
+\Pi_{\rm identical},
+\]
+where the final quotient is included when identical-nucleus
+permutations are physically identified.  A Cartesian minimizer is
+therefore not unique before this quotient or a gauge-fixing
+alignment.
+
+Let \(R_\ast\) be a stationary geometry of a smooth PES,
+\(H_R=\nabla_R^2E(R_\ast)\) its Cartesian Hessian, and
+\(\mathsf M=\diag(M_1,M_1,M_1,\ldots)\).  The mass-weighted dynamical
+matrix is
+\begin{equation}\label{eq:mass-weighted-hessian}
+\mathsf K
+=\mathsf M^{-1/2}H_R\mathsf M^{-1/2}.
+\end{equation}
+
+\begin{theorem}[Harmonic normal modes]
+\label{thm:normal-modes}
+If \(\mathsf K u_k=\lambda_k u_k\), then the linearized nuclear
+equation has modal solutions with
+\begin{equation}\label{eq:frequency-square}
+\lambda_k=\omega_k^2,
+\qquad
+\nu_k=\frac{\omega_k}{2\pi},
+\qquad
+\widetilde\nu_k=\frac{\omega_k}{2\pi c}.
+\end{equation}
+For an unconstrained isolated nonlinear molecule, six rigid
+translation/rotation directions are removed; for a linear molecule,
+five are removed.  A strict harmonic minimum has
+\(\lambda_k>0\) on the remaining vibrational subspace.  A first-order
+transition state has exactly one negative vibrational eigenvalue
+there.
+\end{theorem}
+
+\begin{proof}
+With displacement \(\delta R\), the linearized equation is
+\(\mathsf M\delta\ddot R+H_R\delta R=0\).  Setting
+\(q=\mathsf M^{1/2}\delta R\) gives
+\(\ddot q+\mathsf Kq=0\).  Substitution
+\(q(t)=u_ke^{\I\omega t}\) yields
+\(\mathsf Ku_k=\omega^2u_k\).  Euclidean invariance makes
+translations and infinitesimal rotations null directions at a
+stationary geometry.  Rotation about the molecular axis displaces no
+nucleus for a linear geometry, leaving five rather than six
+independent rigid directions.
+\end{proof}
+
+\begin{warning}[Qualification]
+Atoms, constraints, periodic cells, external fields, nonstationary
+points, exact symmetries beyond rigid motion, and numerical
+finite-difference Hessians change the null-space analysis.  A small
+computed value is not automatically an exact zero mode; the threshold
+must be scaled and reported.
+\end{warning}
+
+\section{Active spaces, valence, and bond interpretations}
+
+A mathematically typed active-space reduction begins with a declared
+one-particle projector \(P_{\Acal}\):
+\begin{equation}\label{eq:active-rdm}
+\gamma_{\Acal}
+=P_{\Acal}\gamma^{(1)}P_{\Acal},
+\qquad
+N_{\Acal}=\Tr(\gamma^{(1)}P_{\Acal}).
+\end{equation}
+The projector may be generated by atomic valence functions, energy
+windows, natural occupations, localized orbitals, or another stated
+algorithm.  Different admissible choices need not give the same
+\(N_{\Acal}\), oxidation assignment, or bond decomposition.
+
+\begin{definition}[Interpretation map]
+A population, partial charge, bond order, hybridization, or
+``valence projection'' is an interpretation map
+\[
+\mathfrak I_\alpha:
+(\Gamma,H,\Bcal,\Acal,\text{conventions})
+\longmapsto z_\alpha
+\]
+with a named scheme \(\alpha\), basis \(\Bcal\), active space
+\(\Acal\), and normalization.  It is not promoted to a
+scheme-independent observable without an invariance theorem.
+\end{definition}
+
+This distinction does not make such quantities useless.  It makes
+comparisons conditional: trends are meaningful within a controlled
+protocol, while equality across unrelated partition schemes is not
+assumed.
+
+\section{Ideal spectra and finite-resolution data}
+
+Let \(\{\ket i,E_i\}\) be stationary states, \(p_i\) initial
+populations, and \(\widehat A\) the probe-dependent transition
+operator.  With a normalized line profile
+\(\int L_\Gamma(\omega)\dd\omega=1\), define
+\begin{equation}\label{eq:ideal-spectrum}
+S_A(\omega)
+=\sum_{i,f}p_i
+\abs{\langle f|\widehat A|i\rangle}^2
+L_\Gamma\!\left(
+\omega-\frac{E_f-E_i}{\hbar}
+\right).
+\end{equation}
+The observed record is a separate channel, schematically
+\begin{equation}\label{eq:instrument-channel}
+Y
+=\mathcal D_\epsilon
+\mathcal C_{\rm inst}[S_A]+\eta,
+\end{equation}
+where \(\mathcal C_{\rm inst}\) includes response and convolution,
+\(\mathcal D_\epsilon\) sampling or quantization, and \(\eta\) a
+declared stochastic error process.
+
+Energy differences determine line locations only after a dynamical
+model identifies the relevant states.  Intensities also require
+populations and matrix elements.  Broadening, unresolved blends,
+calibration, baseline, and selection bias enter the inference from
+\(Y\) back to a molecular model.
+
+If a symmetry product contains the totally symmetric
+representation, a transition is symmetry-allowed for the declared
+operator.  This is a necessary symmetry condition, not a guarantee
+that the matrix element is numerically nonzero: additional quantum
+numbers, cancellation, population, or experimental geometry may
+suppress the line.
+
+\section{Approximation and identifiability ledger}
+
+A reproducible quantum-chemical claim separates at least the
+following errors:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{physical-model error:} nonrelativistic Hamiltonian,
+      nuclear model, environmental and field terms;
+\item \textbf{electron-nuclear reduction error:} Born--Oppenheimer,
+      retained surfaces, derivative couplings, nuclear quantum
+      effects;
+\item \textbf{discretization error:} one-particle basis, active space,
+      grid, pseudopotential, boundary conditions;
+\item \textbf{many-body model error:} determinant ansatz, excitation
+      rank, density functional, embedding approximation;
+\item \textbf{numerical error:} SCF stationarity, integral and
+      diagonalization tolerances, geometry and Hessian convergence;
+\item \textbf{property-model error:} response order, transition
+      operator, gauge, relativistic picture-change corrections;
+\item \textbf{observation error:} instrument response, resolution,
+      calibration, noise, estimator, and assignment ambiguity.
+\end{enumerate}
+Agreement of one final scalar with experiment does not identify these
+components separately.
+
+\begin{warning}[Relativistic boundary]
+For heavy elements, a relativistic model must state its nuclear charge
+distribution, chosen positive-energy or no-pair space, two-electron
+terms, and finite-basis kinetic balance.  An unqualified
+nonrelativistic Rayleigh--Ritz argument cannot be transferred to the
+Dirac operator across its negative-energy continuum.
+\end{warning}
+
+\section{Reproducible controls and claim register}
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabularx}{\linewidth}{L{0.31\linewidth} L{0.23\linewidth} Y}
+\toprule
+Control & Exact result & Purpose \\
+\midrule
+\(\ket{\Psi_\pm}=(\ket{12}\pm\ket{34})/\sqrt2\) &
+\(\gamma^{(1)}=\tfrac12I_4\), \(\langle B\rangle=\pm1\) &
+Non-injectivity of one-body reduction \\
+\(C_{\rm o}\mapsto C_{\rm o}U\) &
+\(P'=P\), Slater ray unchanged &
+Occupied-orbital gauge \\
+Diatomic spring \(k\), masses \(m_1,m_2\) &
+\(\omega^2=k(m_1^{-1}+m_2^{-1})\) &
+Frequency-square and rigid-mode test \\
+Two-determinant matrix
+\(\bigl(\begin{smallmatrix}0&V\\V&\Delta\end{smallmatrix}\bigr)\) &
+\(E_0=(\Delta-\sqrt{\Delta^2+4V^2})/2\le0\) &
+Variational correlation sign \\
+Gaussian \(L_\sigma\) &
+\(\int L_\sigma(\omega-\omega_0)\dd\omega=1\) &
+Line-profile normalization \\
+Nested Ritz spaces &
+\(E_0^{(K+1)}\le E_0^{(K)}\) &
+Finite-basis variational control \\
+\bottomrule
+\end{tabularx}
+\caption{Reference values implemented by the P9 regression suite.}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabularx}{\linewidth}{L{0.36\linewidth} L{0.18\linewidth} Y}
+\toprule
+Claim & Status & Scope \\
+\midrule
+\(\Tr\gamma^{(1)}=N\) and \(\int n=N\) &
+Proposition & Normalized \(N\)-electron state \\
+One-body reduction is non-injective &
+Proposition & Explicit two-electron four-orbital control \\
+Occupied rotations preserve \(P\) &
+Proposition & Unitary rotations within occupied space \\
+\(\lambda_k=\omega_k^2\) &
+Theorem & Harmonic mass-weighted Hessian \\
+Five or six rigid zero modes &
+Qualified theorem & Isolated linear or nonlinear molecule \\
+Density uniquely reconstructs any state &
+Rejected & Hohenberg--Kohn is a ground-state theorem \\
+Orbitals or bonds are unique observables &
+Rejected & Representation and scheme must be declared \\
+Energy differences alone determine a spectrum &
+Rejected & Probe, populations, line shape, and channel are required \\
+New quantum-chemical method &
+Rejected & Not claimed \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{center}
+\fcolorbox{obsgreen}{lightgreen}{%
+\parbox{0.89\linewidth}{\small
+The strict program-level result is a typed inference graph:
+Hamiltonian selection, state preparation, many-body reduction,
+representation choice, nuclear reduction, ideal property evaluation,
+and measurement are distinct operations.  Structural analogy is
+retained only where their domains and invariants are explicit.}}
+\end{center}
+
+\section*{Protocol minimum}
+\addcontentsline{toc}{section}{Protocol minimum}
+
+A complete record states at least: particle numbers and isotope
+masses; Hamiltonian and unit context; frame, geometry convention, and
+symmetry; pure or mixed state; electronic and nuclear reduction;
+basis, overlap threshold, active space, and frozen sectors; orbital
+gauge or localization rule; correlation or density-functional model;
+SCF and geometry stationarity criteria; Hessian projection and
+zero-mode threshold; property operator and gauge; populations, line
+profile, instrument response, noise law, estimator, uncertainty, and
+identifiability scope.
+
+\clearpage
+\section*{References}
+\addcontentsline{toc}{section}{References}
+\begingroup
+\raggedright
+\begin{enumerate}[label={[\arabic*]},leftmargin=*,itemsep=3pt]
+\item M. Born and R. Oppenheimer, ``Zur Quantentheorie der
+Molekeln,'' \emph{Annalen der Physik} 389, 457--484 (1927),
+\href{https://doi.org/10.1002/andp.19273892002}
+{doi:10.1002/andp.19273892002}.
+\item J. C. Slater, ``The Theory of Complex Spectra,''
+\emph{Physical Review} 34, 1293--1322 (1929),
+\href{https://doi.org/10.1103/PhysRev.34.1293}
+{doi:10.1103/PhysRev.34.1293}.
+\item C. C. J. Roothaan, ``New Developments in Molecular Orbital
+Theory,'' \emph{Reviews of Modern Physics} 23, 69--89 (1951),
+\href{https://doi.org/10.1103/RevModPhys.23.69}
+{doi:10.1103/RevModPhys.23.69}.
+\item P.-O. Lowdin, ``Quantum Theory of Many-Particle Systems. I.
+Physical Interpretations by Means of Density Matrices, Natural
+Spin-Orbitals, and Convergence Problems in the Method of
+Configurational Interaction,'' \emph{Physical Review} 97, 1474--1489
+(1955),
+\href{https://doi.org/10.1103/PhysRev.97.1474}
+{doi:10.1103/PhysRev.97.1474}.
+\item A. J. Coleman, ``Structure of Fermion Density Matrices,''
+\emph{Reviews of Modern Physics} 35, 668--686 (1963),
+\href{https://doi.org/10.1103/RevModPhys.35.668}
+{doi:10.1103/RevModPhys.35.668}.
+\item P. Hohenberg and W. Kohn, ``Inhomogeneous Electron Gas,''
+\emph{Physical Review} 136, B864--B871 (1964),
+\href{https://doi.org/10.1103/PhysRev.136.B864}
+{doi:10.1103/PhysRev.136.B864}.
+\item W. Kohn and L. J. Sham, ``Self-Consistent Equations Including
+Exchange and Correlation Effects,'' \emph{Physical Review} 140,
+A1133--A1138 (1965),
+\href{https://doi.org/10.1103/PhysRev.140.A1133}
+{doi:10.1103/PhysRev.140.A1133}.
+\item M. Levy, ``Universal variational functionals of electron
+densities, first-order density matrices, and natural spin-orbitals
+and solution of the \(v\)-representability problem,''
+\emph{Proceedings of the National Academy of Sciences USA} 76,
+6062--6065 (1979),
+\href{https://doi.org/10.1073/pnas.76.12.6062}
+{doi:10.1073/pnas.76.12.6062}.
+\item C. A. Mead and D. G. Truhlar, ``On the determination of
+Born--Oppenheimer nuclear motion wave functions including
+complications due to conical intersections and identical nuclei,''
+\emph{Journal of Chemical Physics} 70, 2284--2296 (1979),
+\href{https://doi.org/10.1063/1.437734}
+{doi:10.1063/1.437734}.
+\end{enumerate}
+\endgroup
+
+\end{document}

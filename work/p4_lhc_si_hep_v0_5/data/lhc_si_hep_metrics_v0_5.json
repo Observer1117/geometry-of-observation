@@ -1,0 +1,65 @@
+{
+  "schema": {
+    "id": "go-lhc-si-hep-metrics",
+    "version": "0.5.0",
+    "date": "2026-07-28"
+  },
+  "defining_constants": {
+    "c_m_per_s": "299792458",
+    "h_J_s": "6.62607015e-34",
+    "hbar_J_s": "1.0545718176461564e-34",
+    "e_C": "1.602176634e-19",
+    "GeV_J": "1.602176634e-10",
+    "rigidity_coefficient": "0.299792458"
+  },
+  "standard_conversions": {
+    "one_GeV_inverse_length_m": "1.973269804593025e-16",
+    "one_GeV_inverse_length_fm": "0.197326980459",
+    "one_GeV_inverse_time_s": "6.582119569509066e-25",
+    "one_GeV_per_c2_kg": "1.782661921627898e-27",
+    "one_GeV_per_c_kg_m_per_s": "5.344285992678308e-19",
+    "one_GeV_minus2_m2": "3.893793721718594e-32",
+    "one_GeV_minus2_mbarn": "0.389379372172",
+    "hbar_c_MeV_fm": "197.326980459302",
+    "angular_frequency_per_GeV_rad_per_s": "1.519267447878626e24",
+    "ordinary_frequency_per_GeV_Hz": "2.417989242084918e23"
+  },
+  "lhc_run3_audit": {
+    "epoch": "Run_3_standard_pp_operation_2022_2026",
+    "status_at_document_date": "Long_Shutdown_3",
+    "energy_GeV": "6800",
+    "energy_J_per_proton": "1.089480111120e-6",
+    "proton_mass_energy_GeV": "0.93827208943",
+    "gamma": "7.24736467876e3",
+    "beta": "0.99999999048060",
+    "one_minus_beta": "9.519404390069e-9",
+    "speed_deficit_m_per_s": "2.853845641",
+    "momentum_GeV_per_c": "6799.999935268",
+    "magnetic_rigidity_T_m": "22682.358258",
+    "revolution_frequency_Hz": "11245.450135",
+    "turns_per_second_public_reference": "11245",
+    "sqrt_s_GeV": "13600",
+    "approximate_bunch_energy_J": "1.7431681778e5",
+    "approximate_beam_energy_J": "4.3579204445e8",
+    "mass_shell_relative_residual": "2.16262976e-70"
+  },
+  "exactness": {
+    "definition_exact": [
+      "c",
+      "h",
+      "e",
+      "eV_to_J",
+      "GeV_to_J",
+      "rigidity_coefficient_for_declared_units"
+    ],
+    "measured": [
+      "proton_mass_energy"
+    ],
+    "operational_or_rounded": [
+      "beam_energy",
+      "circumference",
+      "bunches_per_beam",
+      "protons_per_bunch"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "catalogue_rows": 24,
+  "computed_constants": {
+    "hbar_J_s": 1.0545718176461565e-34,
+    "planck_length_m": 1.6162550244237053e-35,
+    "planck_mass_kg": 2.1764343427178984e-08,
+    "planck_time_s": 5.391246448313605e-44
+  },
+  "cosmology_landmark": {
+    "H0_per_s": 2.1842852410855023e-18,
+    "age_s": 4.354002072e+17,
+    "baryonic_mass_span_decades": 60.838417269506195,
+    "cosmic_baryonic_mass_equivalent": 1.5002470148476825e+53,
+    "cosmic_matter_mass_equivalent": 9.585756788580527e+53,
+    "cosmic_total_energy_mass_equivalent": 3.0430973932001673e+54,
+    "critical_density_kg_per_m3": 8.532855163739318e-27,
+    "flat_horizon_volume_m3": 3.5663295987161737e+80,
+    "horizon_diameter_m": 8.798479339500144e+26,
+    "length_legacy_span_decades": 61.73589773715564,
+    "matter_mass_span_decades": 61.643880904018566,
+    "time_age_span_decades": 60.90719940189129,
+    "total_energy_mass_span_decades": 62.145570350228965,
+    "uncertainty_status": "not_propagated_without_full_covariance"
+  },
+  "schema": {
+    "id": "go-planck-cosmos-generated-metrics",
+    "input_sha256": "1bb77d9c41386e02eb94687b07e291d49c38d2f082f883d07ae9ffb242e89307",
+    "version": "0.4.0"
+  }
+}

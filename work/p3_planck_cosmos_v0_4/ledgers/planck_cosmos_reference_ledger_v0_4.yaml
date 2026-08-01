@@ -1,0 +1,534 @@
+schema:
+  id: go-p3-planck-cosmos-reference-ledger
+  version: 0.4.0
+  date: 2026-07-28
+  core_contract: go-core-spec@0.2.0
+  inherited_contract: go-distance-scale-contract@0.3.0
+  extension_contract: go-planck-cosmos-scale-contract@0.4.0
+
+documents:
+  - id: planck-cosmos-rulers-v1-1
+    title: Planck-to-Cosmos Observation Rulers
+    version: 1.1.0
+    source:
+      pdf: work/p3_planck_cosmos_v0_4/build/planck/planck_cosmos_observation_rulers_v1_1.pdf
+      tex: work/p3_planck_cosmos_v0_4/src/planck_cosmos_observation_rulers_v1_1.tex
+      text: work/p3_planck_cosmos_v0_4/checks/planck/planck_cosmos_observation_rulers_v1_1.txt
+      data_yaml: work/p3_planck_cosmos_v0_4/data/planck_cosmos_inputs_v0_4.yaml
+      data_csv: work/p3_planck_cosmos_v0_4/data/planck_cosmos_landmarks_v0_4.csv
+      metrics_json: work/p3_planck_cosmos_v0_4/data/planck_cosmos_metrics_v0_4.json
+      pages: 12
+      sha256: ded3c6b041e8dbadef53edf67e2f4ae3475f0d1914a045f0cec39cd2c44ff9a5
+    ledger_level: reference
+    migration_status: p3_reference_pass
+    unit_contexts: [SI, neutral]
+    groups:
+      - positive_coherent_axis_rescalings
+      - logarithmic_anchor_translations
+      - positive_base_changes_with_weight_covariance
+      - declared_reference_frame_group
+    maps:
+      - id: labelled_scale_extraction
+        domain: hidden_system_and_intrinsic_descriptor
+        codomain: typed_partial_scale_catalogue
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: logarithmic_descriptor_chart
+        domain: positive_length_mass_time_cone
+        codomain: R3
+        kind: deterministic_observation
+        invertibility: required
+        information_loss: false
+      - id: protocol_resolution_chart
+        domain: applicable_positive_resolution_tuple
+        codomain: partial_log_resolution_space
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: ideal_scale_dependent_observation
+        domain: reduced_hidden_system
+        codomain: ideal_observed_data
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: stochastic_measurement_channel
+        domain: ideal_observed_data
+        codomain: probability_law_on_observed_data
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: scale_estimator
+        domain: observed_data
+        codomain: typed_scale_estimate_or_region
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+      - id: monomial_log_interpretation
+        domain: positive_typed_quantities_and_reference_tuple
+        codomain: affine_log_constraint
+        kind: interpretation
+        invertibility: not_required
+        information_loss: not_applicable
+      - id: cosmological_landmark_interpretation
+        domain: cosmological_model_epoch_distance_volume_component_passport
+        codomain: typed_cosmological_scale_record
+        kind: interpretation
+        invertibility: not_required
+        information_loss: not_applicable
+    symbols:
+      - {scope: planck_cosmos_v1_1, key: Xi_X, meaning: labelled_intrinsic_scale_catalogue}
+      - {scope: planck_cosmos_v1_1, key: lambda_protocol, meaning: observation_protocol}
+      - {scope: planck_cosmos_v1_1, key: chi_L, meaning: logarithmic_length_descriptor_coordinate}
+      - {scope: planck_cosmos_v1_1, key: chi_M, meaning: logarithmic_mass_descriptor_coordinate}
+      - {scope: planck_cosmos_v1_1, key: chi_T, meaning: logarithmic_time_descriptor_coordinate}
+      - {scope: planck_cosmos_v1_1, key: eta_i, meaning: protocol_resolution_depth}
+      - {scope: planck_cosmos_v1_1, key: g_i, meaning: anchor_independent_resolution_margin}
+      - {scope: planck_cosmos_v1_1, key: W, meaning: declared_log_scale_weight_matrix}
+      - {scope: planck_cosmos_v1_1, key: ell_P, meaning: planck_length_normalization}
+      - {scope: planck_cosmos_v1_1, key: m_P, meaning: planck_mass_normalization}
+      - {scope: planck_cosmos_v1_1, key: t_P, meaning: planck_time_normalization}
+      - {scope: planck_cosmos_v1_1, key: rho_c0, meaning: model_dependent_critical_mass_density}
+    quantities:
+      - id: pcr.length
+        extends: geometry.length
+        symbol: L
+      - id: pcr.planck_length
+        extends: geometry.reference_length
+        symbol: ell_P
+      - id: pcr.reference_length
+        extends: geometry.reference_length
+        symbol: r_L_star
+      - id: pcr.spatial_resolution
+        extends: observation.spatial_resolution
+        symbol: epsilon_L
+      - id: pcr.length_uncertainty
+        extends: geometry.length
+        symbol: u_L
+      - id: pcr.mass
+        extends: mechanics.mass
+        symbol: M
+      - id: pcr.planck_mass
+        extends: mechanics.mass
+        symbol: m_P
+      - id: pcr.reference_mass
+        extends: mechanics.mass
+        symbol: r_M_star
+      - id: pcr.mass_resolution
+        symbol: epsilon_M
+        semantic_kind: scalar
+        dimension: [0, 1, 0, 0, 0, 0, 0]
+        canonical_unit: kg
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: pcr.duration
+        extends: time.duration
+        symbol: T
+      - id: pcr.planck_time
+        extends: time.reference_duration
+        symbol: t_P
+        frame: invariant
+      - id: pcr.reference_duration
+        extends: time.reference_duration
+        symbol: r_T_star
+      - id: pcr.temporal_resolution
+        extends: time.duration
+        symbol: epsilon_T
+      - id: pcr.energy_threshold
+        extends: mechanics.energy
+        symbol: epsilon_E
+      - id: pcr.speed_of_light
+        extends: relativity.speed_of_light
+      - id: pcr.speed_of_light_squared
+        symbol: c_squared
+        semantic_kind: scalar
+        dimension: [2, 0, -2, 0, 0, 0, 0]
+        canonical_unit: m^2/s^2
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: pcr.hbar
+        extends: quantum.hbar
+      - id: pcr.gravitational_constant
+        symbol: G
+        semantic_kind: scalar
+        dimension: [3, -1, -2, 0, 0, 0, 0]
+        canonical_unit: m^3/(kg*s^2)
+        unit_context: SI
+        frame: invariant
+        claim_status: empirical
+      - id: pcr.hubble_rate
+        symbol: H_0
+        semantic_kind: scalar
+        dimension: [0, 0, -1, 0, 0, 0, 0]
+        canonical_unit: 1/s
+        unit_context: SI
+        frame: cosmological
+        claim_status: model
+      - id: pcr.density_fraction
+        extends: dimensionless.scalar
+        symbol: Omega
+      - id: pcr.density
+        symbol: rho
+        semantic_kind: scalar
+        dimension: [-3, 1, 0, 0, 0, 0, 0]
+        canonical_unit: kg/m^3
+        unit_context: SI
+        frame: cosmological
+        claim_status: model
+      - id: pcr.volume
+        symbol: V
+        semantic_kind: scalar
+        dimension: [3, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m^3
+        unit_context: SI
+        frame: cosmological
+        claim_status: model
+      - id: pcr.log_coordinate
+        extends: dimensionless.scalar
+        symbol: chi
+      - id: pcr.log_coordinate_second
+        extends: dimensionless.scalar
+        symbol: chi_prime
+    expressions:
+      - id: logarithmic_length_descriptor
+        anchor: section 3, chi_L=log_b(L/ell_P)
+        ast:
+          op: log
+          base: b
+          arg:
+            op: normalize
+            value: {q: pcr.length}
+            reference: {q: pcr.planck_length}
+            zero_policy: positive_planck_length
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: logarithmic_mass_descriptor
+        anchor: section 3, chi_M=log_b(M/m_P)
+        ast:
+          op: log
+          base: b
+          arg:
+            op: normalize
+            value: {q: pcr.mass}
+            reference: {q: pcr.planck_mass}
+            zero_policy: positive_planck_mass
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: logarithmic_time_descriptor
+        anchor: section 3, chi_T=log_b(T/t_P)
+        ast:
+          op: log
+          base: b
+          arg:
+            op: normalize
+            value: {q: pcr.duration}
+            reference: {q: pcr.planck_time}
+            zero_policy: positive_planck_time
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: spatial_resolution_depth
+        anchor: section 5, eta_L=log_b(r_L_star/epsilon_L)
+        ast:
+          op: log
+          base: b
+          arg:
+            op: normalize
+            value: {q: pcr.reference_length}
+            reference: {q: pcr.spatial_resolution}
+            zero_policy: positive_spatial_resolution
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: mass_resolution_depth
+        anchor: section 5, eta_M=log_b(r_M_star/epsilon_M)
+        ast:
+          op: log
+          base: b
+          arg:
+            op: normalize
+            value: {q: pcr.reference_mass}
+            reference: {q: pcr.mass_resolution}
+            zero_policy: positive_mass_resolution
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: temporal_resolution_depth
+        anchor: section 5, eta_T=log_b(r_T_star/epsilon_T)
+        ast:
+          op: log
+          base: b
+          arg:
+            op: normalize
+            value: {q: pcr.reference_duration}
+            reference: {q: pcr.temporal_resolution}
+            zero_policy: positive_temporal_resolution
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: spatial_resolution_margin
+        anchor: section 5, g_L=log_b(L/epsilon_L)
+        ast:
+          op: log
+          base: b
+          arg:
+            op: normalize
+            value: {q: pcr.length}
+            reference: {q: pcr.spatial_resolution}
+            zero_policy: positive_spatial_resolution
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: energy_to_mass_resolution_converter
+        anchor: section 2, epsilon_M=epsilon_E/c^2
+        ast:
+          op: div
+          left: {q: pcr.energy_threshold}
+          right: {q: pcr.speed_of_light_squared}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 1, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: planck_speed_identity
+        anchor: section 6, ell_P/t_P=c
+        ast:
+          op: div
+          left: {q: pcr.planck_length}
+          right: {q: pcr.planck_time}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: planck_action_identity
+        anchor: section 6, ell_P m_P c=hbar
+        ast:
+          op: mul
+          left:
+            op: mul
+            left: {q: pcr.planck_length}
+            right: {q: pcr.planck_mass}
+          right: {q: pcr.speed_of_light}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: planck_energy_identity
+        anchor: section 6, E_P=m_P c^2
+        ast:
+          op: mul
+          left: {q: pcr.planck_mass}
+          right: {q: pcr.speed_of_light_squared}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: planck_density
+        anchor: section 6, rho_P=m_P/ell_P^3
+        ast:
+          op: div
+          left: {q: pcr.planck_mass}
+          right:
+            op: pow
+            arg: {q: pcr.planck_length}
+            exponent: 3
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [-3, 1, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: reduced_compton_length
+        anchor: section 6, lambda_bar_C=hbar/(Mc)
+        ast:
+          op: div
+          left: {q: pcr.hbar}
+          right:
+            op: mul
+            left: {q: pcr.mass}
+            right: {q: pcr.speed_of_light}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: schwarzschild_length_without_dimensionless_two
+        anchor: section 6, r_s=2GM/c^2
+        ast:
+          op: div
+          left:
+            op: mul
+            left: {q: pcr.gravitational_constant}
+            right: {q: pcr.mass}
+          right: {q: pcr.speed_of_light_squared}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: causal_dimensionless_ratio
+        anchor: section 6, L/(cT)
+        ast:
+          op: div
+          left: {q: pcr.length}
+          right:
+            op: mul
+            left: {q: pcr.speed_of_light}
+            right: {q: pcr.duration}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: first_order_relative_length_uncertainty
+        anchor: section 7, u_L/L
+        ast:
+          op: normalize
+          value: {q: pcr.length_uncertainty}
+          reference: {q: pcr.length}
+          zero_policy: positive_measurand
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: critical_density_dimension
+        anchor: section 8, rho_c0=3H_0^2/(8piG)
+        ast:
+          op: div
+          left:
+            op: pow
+            arg: {q: pcr.hubble_rate}
+            exponent: 2
+          right: {q: pcr.gravitational_constant}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [-3, 1, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: flat_horizon_volume_dimension
+        anchor: section 8, V_flat=(4pi/3)R^3
+        ast:
+          op: pow
+          arg: {q: pcr.length}
+          exponent: 3
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [3, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: cosmological_mass_equivalent_dimension
+        anchor: section 8, M=Omega rho V
+        ast:
+          op: mul
+          left:
+            op: mul
+            left: {q: pcr.density_fraction}
+            right: {q: pcr.density}
+          right: {q: pcr.volume}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 1, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+    invariants:
+      - id: coherent_unit_invariance
+        claimed_invariant: true
+        group: positive_coherent_axis_rescalings
+        anchor: theorem 4.1(i)
+      - id: anchor_independence_of_coordinate_differences
+        claimed_invariant: true
+        group: logarithmic_anchor_translations
+        anchor: theorem 4.1(ii)
+      - id: covariant_base_invariance_of_weighted_distance
+        claimed_invariant: true
+        group: positive_base_changes_with_weight_covariance
+        anchor: theorem 4.3
+    claim_register:
+      - id: positive_cone_global_chart
+        status: theorem
+        hypotheses:
+          - positive_scale_triple
+          - positive_reference_triple
+          - logarithm_base_greater_than_one
+      - id: coordinate_covariance
+        status: theorem
+        hypotheses:
+          - coherent_unit_conversion_or_declared_anchor_or_base_change
+      - id: weighted_log_scale_metric
+        status: theorem
+        hypotheses:
+          - symmetric_positive_definite_dimensionless_weight_matrix
+      - id: anchor_independent_resolution_margin
+        status: proposition
+        hypotheses:
+          - matched_measurand_and_resolution_axis
+          - positive_scales
+      - id: monomial_log_linearization
+        status: theorem
+        hypotheses:
+          - positive_quantities
+          - dimensionally_matched_references
+      - id: causal_log_half_space
+        status: corollary
+        hypotheses:
+          - length_and_duration_of_same_causal_process
+          - L_less_or_equal_c_times_T
+      - id: compton_schwarzschild_log_planes
+        status: corollary
+        hypotheses:
+          - standard_reduced_compton_and_schwarzschild_formulas
+          - planck_normalization
+      - id: first_order_log_uncertainty
+        status: proposition
+        hypotheses:
+          - positive_measurand_and_reference
+          - differentiable_first_order_covariance_propagation
+      - id: cosmic_mass_anchor_ambiguity
+        status: proposition
+        hypotheses:
+          - declared_flat_volume_landmark
+          - declared_H0_Omega_b_Omega_m
+      - id: cosmological_landmark_catalogue
+        status: model
+        hypotheses:
+          - Planck2018_flat_base_LambdaCDM_landmark
+          - rounded_93_Gly_present_comoving_particle_horizon
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    next_action: retain_as_planck_cosmos_scale_reference_and_migrate_application_modules
+

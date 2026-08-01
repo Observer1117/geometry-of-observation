@@ -1,0 +1,331 @@
+schema:
+  id: go-conical-intersections-observation-contract
+  version: 0.9.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  normative_document: conical-intersections-observation-v1-1
+
+dimension_basis: [L, M, T, I, Theta, N, J]
+exchange_unit_context: SI
+
+mathematical_scope:
+  strict_reference:
+    - finite_dimensional_C2_Hermitian_family
+    - isolated_two_state_spectral_cluster
+    - real_symmetric_two_state_branching_model
+    - declared_length_nuclear_coordinate_chart
+  unbounded_operator_extension_requires:
+    - common_dense_domain
+    - self_adjointness
+    - resolvent_regular_family
+    - isolated_cluster_contour
+  excluded_without_extension:
+    - spin_orbit_complex_class
+    - Kramers_degeneracy
+    - higher_multiplicity_crossing
+    - symmetry_enforced_lower_codimension_crossing
+    - global_exact_diabatization
+
+coordinate_typing:
+  physical_chart:
+    symbol: q
+    reference_dimension: length
+    displacement: delta_q = q - q_star
+  energy_branching_map:
+    symbol: F
+    signature: q -> (x(q),y(q))
+    linearization:
+      - x = g_mu*delta_q_mu
+      - y = h_mu*delta_q_mu
+    dimensions:
+      x: energy
+      y: energy
+      g: energy_per_length
+      h: energy_per_length
+      jacobian: energy_per_length
+  prohibition:
+    - nuclear_length_coordinates_are_not_energy_coordinates
+    - H_equals_Q1_sigma_z_plus_Q2_sigma_x_requires_energy_valued_Q1_Q2
+    - mass_weighted_coordinates_require_their_own_dimension_contract
+
+spectral_cluster:
+  family: H_e(q)
+  external_gap: positive_on_declared_neighborhood
+  cluster_projector:
+    formula: P_cl(q) = contour_integral_resolvent_over_fixed_Gamma
+    regularity: inherited_from_family_and_resolvent_hypotheses
+    behavior_at_internal_degeneracy: smooth_if_external_gap_remains_open
+  internal_splitting:
+    domain: neighborhood_minus_seam
+    outputs:
+      - ordered_energies
+      - rank_one_projectors
+    behavior_at_seam:
+      ordered_energy_values: equal
+      rank_one_projectors: no_unique_extension
+      cluster_projector: remains_defined
+
+real_two_state_normal_form:
+  exact_benchmark:
+    formula: H(x,y) = x*sigma_z + y*sigma_x
+    matrix: [[x, y], [y, -x]]
+    radius: r = sqrt(x^2+y^2)
+    energies: E_plus_minus = plus_minus_r
+    gap: Delta = 2*r
+  local_physical_form:
+    formula: H_eff(q) = E0(q)*I + x(q)*sigma_z + y(q)*sigma_x + O(norm(delta_q)^2)
+  seam:
+    formula: S = {q:x(q)=0 and y(q)=0}
+    codimension_two_hypothesis: rank(D_q(x,y)) = 2
+    tangent_space: kernel(D_q(x,y))
+  symmetry_boundary:
+    real_symmetric_traceless_parameters: 2
+    complex_Hermitian_traceless_parameters: 3
+    prohibition: codimension_two_is_not_universal_across_symmetry_classes
+
+projector_and_gauge:
+  rank_one_projectors:
+    formula: P_plus_minus = (I plus_minus (x*sigma_z+y*sigma_x)/r)/2
+    domain: r > 0
+    gauge_invariant: true
+    seam_extension: false
+  cluster_projector:
+    formula: P_plus + P_minus = I_2
+    seam_extension: true
+  local_real_sections:
+    u_minus: [-sin(phi/2), cos(phi/2)]
+    u_plus: [cos(phi/2), sin(phi/2)]
+    periodicity: u(phi+2*pi) = -u(phi)
+  complex_gauge_action:
+    formula: u_a(q) -> exp(i*chi_a(q))*u_a(q)
+    projector_invariant: true
+    off_diagonal_derivative_coupling:
+      transformation: phase_covariant
+      norm_invariant: true
+    diagonal_connection:
+      transformation: inhomogeneous_connection_law
+  prohibition:
+    - global_eigenvector_is_not_a_gauge_invariant_observation
+    - individual_projector_is_not_defined_at_exact_degeneracy
+
+berry_holonomy:
+  loop_domain: punctured_branching_plane
+  winding_number: integer
+  real_line_holonomy: (-1)^w
+  geometric_phase: pi*w modulo 2*pi
+  discrete_overlap_product:
+    formula: product_j overlap(u_j,u_j_plus_1)/abs(overlap(u_j,u_j_plus_1))
+    closure: u_N = u_0
+    guards:
+      - loop_avoids_seam
+      - neighboring_overlaps_nonzero
+      - loop_orientation_declared
+      - sampling_fine_enough_for_selected_branch
+    gauge_invariant: true
+  curvature_boundary:
+    smooth_curvature_off_origin_in_real_2D_model: zero
+    nontrivial_phase_source: global_holonomy
+  prohibition:
+    - berry_phase_is_not_the_sign_of_one_arbitrary_eigenvector_sample
+    - complex_line_triviality_does_not_force_zero_connection_holonomy
+
+nonadiabatic_geometry:
+  energy_coordinate_coupling:
+    formula: d_plus_minus_E = (y,-x)/(2*r^2)
+    norm: 1/(2*r)
+    dimension: inverse_energy
+    gauge_status: vector_is_covariant_norm_is_invariant
+  quantum_metric:
+    formula: g_E = [[y^2,-x*y],[-x*y,x^2]]/(4*r^4)
+    equivalent_projector_formula: g_mu_nu = trace(partial_mu_P*partial_nu_P)/2
+    trace: 1/(4*r^2)
+    dimension: inverse_energy_squared
+  physical_pullback:
+    jacobian: J = D_q(x,y)
+    coupling: d_q = transpose(J)*d_E
+    metric: g_q = transpose(J)*g_E*J
+    dimensions:
+      d_q: inverse_length
+      g_q: inverse_length_squared
+  prohibition:
+    - one_over_2r_is_not_a_coordinate_independent_physical_NAC_norm
+    - derivative_coupling_vector_is_not_gauge_invariant
+
+born_oppenheimer_dynamics:
+  molecular_expansion: Psi(q,r_e) = sum_a chi_a(q)*u_a(q,r_e)
+  nuclear_kinetic_matrix:
+    formula: minus_sum_A hbar^2_over_2M_A times [delta_ab_laplacian + 2*d_ab_dot_gradient + tau_ab]
+    covariance: complete_matrix_operator_under_internal_unitary_gauge
+  one_surface_reduction:
+    status: approximation
+    uniform_validity_near_internal_gap_closure: false
+  adiabatic_parameter:
+    formula: eta_ab = hbar*abs(matrix_element(u_a,H_dot,u_b))/gap_ab^2
+    dimension: dimensionless
+    status: local_model_dependent_diagnostic
+  landau_zener_control:
+    Hamiltonian: H(t) = v*t*sigma_z + b*sigma_x
+    assumptions:
+      - two_levels
+      - constant_off_diagonal_coupling
+      - linear_infinite_time_sweep
+      - coherent_unitary_evolution
+    minimum_gap: 2*b
+    diabatic_survival_probability: exp(-pi*b^2/(hbar*v))
+  prohibition:
+    - static_gap_does_not_determine_transition_probability
+    - berry_phase_does_not_determine_product_branching_ratio
+    - divergent_local_coupling_does_not_replace_wavepacket_dynamics
+
+spectral_discriminant:
+  discriminant: repeated_eigenvalue_subset_of_Hermitian_matrix_space
+  seam: preimage_of_discriminant_under_effective_Hamiltonian_family
+  conical_intersection_requirements:
+    - transverse_preimage_in_declared_symmetry_class
+    - conical_leading_eigenvalue_splitting
+    - rank_one_eigenprojector_nonextendability
+  caustic_language:
+    formal_status: analogy
+    allowed_phrase: observation_caustic_as_singular_reduced_description
+    forbidden_equivalence: conical_intersection_equals_optical_Lagrangian_caustic
+  rank_boundary:
+    optical_generic_criterion: rank_loss_of_declared_ray_projection
+    determinant_criterion: only_for_square_local_Jacobian
+    prohibition: parameter_to_Hamiltonian_map_need_not_lose_rank_at_CI
+
+observation_chain:
+  hidden_state:
+    - molecular_Hamiltonian
+    - electron_nuclear_state
+  reduction:
+    - isolated_cluster_reduction
+    - adiabatic_rank_one_splitting_off_seam
+  deterministic_observations:
+    - ordered_energy_readout_off_seam
+    - unordered_spectrum_at_and_off_seam
+    - rank_one_projector_field_off_seam
+    - declared_spectroscopic_observable
+    - declared_product_observable
+  stochastic_channel:
+    required_if_any:
+      - energy_noise
+      - finite_spectral_resolution
+      - missed_spectral_line
+      - line_misassignment
+      - product_misclassification
+  estimator:
+    outputs:
+      - unresolved_near_degeneracy
+      - fitted_branching_plane
+      - discrete_holonomy
+      - dynamical_transition_probability
+  identifiability:
+    energy_values_alone:
+      recover_projectors: false
+      recover_Berry_holonomy: false
+      prove_conical_topology_from_one_gap: false
+
+finite_resolution:
+  measured_energies: Y_plus_minus = E_plus_minus + epsilon_plus_minus
+  measured_gap: Delta_hat = Y_plus - Y_minus
+  gap_variance: sigma_Delta^2 = sigma_plus^2 + sigma_minus^2 - 2*cov_plus_minus
+  resolution: epsilon_E >= 0
+  unresolved_rule: abs(Delta_hat) <= kappa*sigma_Delta + epsilon_E
+  rule_semantics: unresolved_near_degeneracy_not_exact_CI_certificate
+  required_guards:
+    - covariance_matrix_positive_semidefinite
+    - kappa_nonnegative
+    - resolution_nonnegative
+    - energy_assignment_rule
+    - sampling_region_declared
+
+gapped_control:
+  Hamiltonian: H_delta(x,y) = x*sigma_z + y*sigma_x + delta*sigma_y
+  symmetry_class: complex_Hermitian
+  gap: 2*sqrt(x^2+y^2+delta^2)
+  minimum_gap: 2*abs(delta)
+  interpretation: symmetry_breaking_gap_opening_control
+  circular_lower_phase_magnitude:
+    formula: pi*(1-delta/sqrt(R^2+delta^2))
+    hypotheses:
+      - R_positive
+      - delta_positive
+      - declared_positive_loop_orientation
+  prohibition:
+    - sigma_y_control_is_not_in_the_original_real_symmetric_class
+    - nonzero_delta_phase_is_not_Z2_quantized
+
+protocol:
+  required_core_fields:
+    - hidden_space
+    - system_descriptor
+    - reduction
+    - deterministic_observation
+    - stochastic_channel_or_explicit_noiseless_model
+    - observed_space
+    - reference_frame
+    - spatial_resolution
+    - temporal_resolution
+    - observation_horizon
+    - estimator_or_declared_direct_readout
+    - uncertainty_or_exactness_statement
+    - unit_context
+  conical_intersection_specific_fields:
+    - nuclear_coordinate_chart
+    - nuclear_coordinate_dimensions
+    - reference_geometry
+    - electronic_Hamiltonian_class
+    - operator_domain_or_finite_matrix_declaration
+    - symmetry_class
+    - retained_cluster
+    - external_cluster_gap
+    - physical_to_branching_Jacobian
+    - eigenvalue_ordering_policy
+    - projector_or_local_eigenvector_output
+    - gauge_convention
+    - loop_orientation_and_winding_rule
+    - overlap_zero_guard
+    - nuclear_path_and_speed_for_dynamics
+    - masses_and_initial_state
+    - spectral_resolution
+    - covariance_model
+    - degeneracy_detection_threshold
+    - estimator_and_identifiability_scope
+
+reference_gates:
+  - id: coordinate_energy_typing
+    severity: error
+    requirement: physical_nuclear_and_energy_branching_coordinates_are_distinct
+  - id: cluster_projector
+    severity: error
+    requirement: cluster_and_rank_one_projectors_are_distinct_at_internal_degeneracy
+  - id: eigenvector_gauge
+    severity: error
+    requirement: global_output_is_projector_or_eigenline_not_single_eigenvector
+  - id: seam_codimension
+    severity: error
+    requirement: symmetry_class_and_transversality_rank_are_declared
+  - id: berry_holonomy
+    severity: error
+    requirement: phase_uses_closed_gauge_invariant_loop_protocol
+  - id: derivative_coupling_units
+    severity: error
+    requirement: energy_coordinate_coupling_is_pulled_back_to_physical_coordinates
+  - id: adiabatic_dynamics
+    severity: error
+    requirement: static_singularity_and_transition_dynamics_are_not_conflated
+  - id: spectral_discriminant
+    severity: error
+    requirement: conical_intersection_is_not_defined_by_rank_loss_of_Hamiltonian_parameter_map
+  - id: caustic_analogy
+    severity: error
+    requirement: optical_caustic_equivalence_is_not_claimed
+  - id: finite_resolution
+    severity: error
+    requirement: unresolved_gap_is_not_exact_degeneracy_certificate
+  - id: gapped_control
+    severity: error
+    requirement: sigma_y_gap_opening_declares_symmetry_class_change
+  - id: claim_firewall
+    severity: error
+    requirement: no_new_quantum_chemistry_method_or_universal_CI_theorem_claimed

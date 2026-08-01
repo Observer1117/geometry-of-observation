@@ -1,0 +1,745 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=21mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Distance and Scale Interface under Observation Maps},
+  pdfauthor={Stassis Research Program},
+  pdfsubject={GO Core v0.2 reference module for observed pseudometrics, quotient metrics, shells, resolutions, and unit-distance graphs},
+  pdfkeywords={metric, pseudometric, observation map, quotient metric, scale, resolution, unit distance, Geometry of Observation}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\Ocal}{\mathcal{O}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Bcal}{\mathcal{B}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\Lip}{\operatorname{Lip}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\card}{\operatorname{card}}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\status}[1]{\textsf{\footnotesize #1}}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Distance and Scale Interface under Observation Maps\\
+\large Global pseudometrics, quotient geometry, matched resolutions, and calibrated shells}
+\author{Stassis Research Program}
+\date{Strict GO Core reference revision v0.2 --- 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.91\linewidth}{\small
+\textbf{Status.} This document replaces \emph{Unit Distances under
+Observation Maps v0.1} as the distance-scale reference module for
+GO Core v0.2. A numerical value ``1'' is never compared with a physical
+distance without a declared reference radius. The global observed
+pseudometric is separated from the local pullback tensor, all resolution
+maps are typed, and exact-shell statements are separated from tolerant or
+noisy decisions.}}
+\end{center}
+
+\begin{abstract}
+Let $O:(X,d_X)\to(Y,d_Y)$ be an observation map between metric spaces.
+The globally observed distance on hidden states is the pseudometric
+$d_O(x,x')=d_Y(Ox,Ox')$. Its zero classes are the observation fibers, and
+the metric quotient is canonically isometric to the image $O(X)$. This
+global construction is distinct from the local pullback quadratic form
+$O^*g_Y$; the corresponding path pseudometric can exceed the ambient
+image distance unless a minimizing image geodesic is liftable. A
+distance shell is defined relative to a positive, typed radius $r_*$,
+while finite resolution and measurement error require a tolerance
+$\tau$ and an explicit decision rule. Under coherent changes of unit,
+$d_Y,r_*,\tau$, and the output resolution rescale together, leaving all
+normalized predicates invariant. Lipschitz observations propagate input
+resolution to output resolution and compose multiplicatively. The
+orthogonal-projection cylinder, fiber multiplicities in observed
+unit-distance graphs, and periodic half-step aliasing are derived as
+applications. The module is an interface built from standard metric and
+differential geometry; it does not solve the classical Erdos unit-distance
+problem.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope, objects, and claim boundary}
+
+The purpose of this module is to make every use of ``distance'' and
+``scale'' in Geometry of Observation type-checkable. It supplies a common
+interface for metric entropy, ruler traces, mechanics, and later
+observation modules. It does not impose a physical ontology on the hidden
+space.
+
+\begin{warning}[Claim boundary]
+An observation-induced pseudometric is a standard pullback construction.
+Fiber multiplicity can create quadratically many hidden-state pairs, but
+this is not a new lower bound for the classical planar unit-distance
+function. A degenerate pullback tensor does not by itself imply a physical
+extra dimension.
+\end{warning}
+
+\begin{definition}[Typed metric datum]
+A typed metric datum is a tuple
+\[
+  \mathfrak M_X=(X,d_X,U_X),
+\]
+where $d_X:X\times X\to\R_{\geq0}U_X$ is a metric and $U_X$ names its
+scale type. For a physical spatial metric, $U_X$ may be metres; for a
+normalized abstract metric, $U_X=1$.
+\end{definition}
+
+The notation $\R_{\geq0}U_X$ is a bookkeeping device: it records that
+$d_X$ is length-valued (or more generally scale-valued), not an
+untyped real number. Ratios of two positive quantities with the same
+scale type are dimensionless.
+
+\begin{definition}[System and protocol passports]
+The intrinsic descriptor and the observation protocol are distinct:
+\[
+ \xi_X=(X,d_X,\diam X,\text{intrinsic regularity data},\ldots),
+\]
+\[
+ \lambda=(O,d_Y,r_*,\varepsilon_X,\varepsilon_Y,\tau,
+          Q,\mathsf E,\mathsf U,\ldots).
+\]
+Here $r_*>0$ is a declared output-space reference radius,
+$\varepsilon_X,\varepsilon_Y>0$ are input and output resolutions,
+$\tau\geq0$ is a decision tolerance, $Q$ is a quantizer or partition,
+$\mathsf E$ is an estimator or direct readout, and $\mathsf U$ is an
+uncertainty model.
+\end{definition}
+
+An intrinsic diameter is not an instrument resolution. A shell radius is
+not a regression reference length. The same physical dimension therefore
+does not imply the same semantic role.
+
+\section{The global observed pseudometric}
+
+\begin{definition}[Observed pseudometric]
+Let $(Y,d_Y)$ be a metric space and let $O:X\to Y$ be any map. Define
+\[
+  d_O(x,x'):=d_Y\bigl(O(x),O(x')\bigr).
+\]
+\end{definition}
+
+\begin{theorem}[Pseudometric and separation criterion]
+\label{thm:pseudometric}
+The function $d_O$ is a pseudometric on $X$. It is a metric if and only if
+$O$ is injective.
+\end{theorem}
+
+\begin{proof}
+Nonnegativity and symmetry follow from $d_Y$. For $x,x',x''\in X$,
+\[
+d_O(x,x'')
+=d_Y(Ox,Ox'')
+\leq d_Y(Ox,Ox')+d_Y(Ox',Ox'')
+=d_O(x,x')+d_O(x',x'').
+\]
+Thus the triangle inequality holds. Moreover,
+$d_O(x,x')=0$ if and only if $O(x)=O(x')$. Hence separation is equivalent
+to injectivity.
+\end{proof}
+
+\begin{definition}[Observation equivalence]
+Write
+\[
+ x\sim_O x'
+ \quad\Longleftrightarrow\quad
+ O(x)=O(x').
+\]
+Let $X/{\sim_O}$ denote the set of observation fibers.
+\end{definition}
+
+\begin{theorem}[Canonical quotient metric]
+\label{thm:quotient}
+The formula
+\[
+ \bar d_O([x],[x']):=d_Y(Ox,Ox')
+\]
+is well-defined and is a metric on $X/{\sim_O}$. The map
+\[
+ \iota_O:X/{\sim_O}\longrightarrow O(X),\qquad [x]\longmapsto O(x),
+\]
+is an isometry onto the metric subspace $O(X)\subseteq Y$.
+\end{theorem}
+
+\begin{proof}
+Changing representatives leaves both images unchanged, so the formula is
+well-defined. The pseudometric axioms descend from
+\cref{thm:pseudometric}; zero distance now implies equality of classes.
+The map $\iota_O$ is a bijection and preserves the displayed distance.
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=12mm and 18mm,
+  box/.style={draw,rounded corners,minimum width=29mm,minimum height=10mm,align=center},
+  arr/.style={-{Latex[length=2.1mm]},thick}
+]
+\node[box,fill=lightblue] (x) {$X$\\hidden states};
+\node[box,fill=lightred,right=of x] (q) {$X/{\sim_O}$\\observable classes};
+\node[box,fill=lightgreen,right=of q] (y) {$O(X)\subseteq Y$\\metric image};
+\draw[arr] (x) -- node[above] {quotient} (q);
+\draw[arr] (q) -- node[above] {$\iota_O$ isometry} (y);
+\draw[arr,obsred,bend right=24] (x.south) to node[below] {$O$} (y.south);
+\end{tikzpicture}
+\end{center}
+
+\section{Local pullback form versus global distance}
+
+Suppose now that $X$ and $Y$ are smooth manifolds, $Y$ has Riemannian
+metric $g_Y$, and $O:X\to Y$ is smooth.
+
+\begin{definition}[Pullback quadratic form]
+\[
+ g_O:=O^*g_Y,\qquad
+ (g_O)_x(v,w)=
+ (g_Y)_{O(x)}\bigl(\dd O_xv,\dd O_xw\bigr).
+\]
+\end{definition}
+
+\begin{proposition}[Degeneracy directions]
+$g_O$ is positive semidefinite and
+\[
+ \ker \dd O_x\subseteq\ker(g_O)_x.
+\]
+If $g_Y$ is positive definite, equality holds.
+\end{proposition}
+
+\begin{proof}
+Positive semidefiniteness follows from
+$g_O(v,v)=g_Y(\dd O\,v,\dd O\,v)\geq0$. If $\dd O\,v=0$, then
+$g_O(v,w)=0$ for every $w$. Conversely, if $g_O(v,v)=0$, positive
+definiteness of $g_Y$ gives $\dd O\,v=0$.
+\end{proof}
+
+For every piecewise $C^1$ curve $\gamma$ in $X$,
+\[
+ L_{g_O}(\gamma)=L_{g_Y}(O\circ\gamma).
+\]
+Define the extended path pseudometric
+\[
+ \rho_O(x,x')
+ :=
+ \inf_{\gamma:x\leadsto x'}L_{g_O}(\gamma),
+\]
+with value $+\infty$ if there is no admissible path.
+
+\begin{proposition}[Ambient versus intrinsic image distance]
+\label{prop:path}
+For all path-connected pairs,
+\[
+ d_O(x,x')\leq\rho_O(x,x').
+\]
+Equality holds if a $d_Y$-minimizing geodesic from $O(x)$ to $O(x')$
+lies in $O(X)$ and has a lift joining $x$ to $x'$.
+\end{proposition}
+
+\begin{proof}
+Every image curve joining $O(x)$ to $O(x')$ has length at least their
+ambient Riemannian distance. Taking the infimum gives the inequality. A
+lift of a minimizing geodesic realizes equality.
+\end{proof}
+
+\begin{remark}
+The local tensor $g_O$, the path pseudometric $\rho_O$, and the global
+pullback pseudometric $d_O=d_Y\circ(O\times O)$ are therefore not
+interchangeable without the hypotheses of \cref{prop:path}. This corrects
+the ambiguity in v0.1.
+\end{remark}
+
+\section{Reference shells and calibrated decisions}
+
+\begin{definition}[Exact and tolerant shells]
+Let $r_*>0$ and $\tau\geq0$ have the same scale type as $d_Y$. For
+$x\in X$, define
+\[
+ S_O(x;r_*):=
+ \set{x'\in X:d_O(x,x')=r_*},
+\]
+\[
+ S_O^\tau(x;r_*):=
+ \set{x'\in X:\abs{d_O(x,x')-r_*}\leq\tau}.
+\]
+The exact shell is the case $\tau=0$.
+\end{definition}
+
+\begin{definition}[Observed distance graph]
+For a finite set $A=\{x_1,\ldots,x_n\}\subseteq X$, define
+\[
+ G_{O,r_*,\tau}(A)
+ :=
+ \bigl(A,E_{O,r_*,\tau}\bigr),
+\]
+\[
+ \{x_i,x_j\}\in E_{O,r_*,\tau}
+ \quad\Longleftrightarrow\quad
+ \abs{d_O(x_i,x_j)-r_*}\leq\tau.
+\]
+\end{definition}
+
+\begin{warning}[Exact equality and measured data]
+For continuously noisy data, exact numerical equality is generally not a
+stable event. The mathematical shell $\tau=0$ remains valid, but an
+empirical classifier must declare a tolerance or a hypothesis test.
+\end{warning}
+
+\begin{proposition}[Deterministic error guarantee]
+\label{prop:error}
+Suppose an estimated distance $\widehat d_{ij}$ obeys
+\[
+ \abs{\widehat d_{ij}-d_O(x_i,x_j)}\leq u
+\]
+with a declared bound $u\geq0$. The rule
+\[
+ \abs{\widehat d_{ij}-r_*}\leq\tau
+\]
+has the following guarantees:
+\begin{enumerate}[label=(\roman*)]
+\item every exact-shell pair is accepted if $\tau\geq u$;
+\item every accepted pair satisfies
+      $\abs{d_O(x_i,x_j)-r_*}\leq\tau+u$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Both statements are direct applications of the triangle inequality.
+\end{proof}
+
+If $u$ is probabilistic rather than deterministic, the confidence level,
+dependence structure, and multiple-testing policy belong to the protocol.
+
+\section{Coherent unit covariance}
+
+Let $a>0$ be a change of numerical length unit. Define
+\[
+ d_Y'=a\,d_Y,\qquad
+ r_*'=a\,r_*,\qquad
+ \tau'=a\,\tau,\qquad
+ \varepsilon_Y'=a\,\varepsilon_Y.
+\]
+
+\begin{theorem}[Unit covariance of shells and graphs]
+\label{thm:unit}
+\[
+ S_{O,d_Y'}^{\tau'}(x;r_*')
+ =
+ S_{O,d_Y}^{\tau}(x;r_*),
+\]
+and therefore
+\[
+ G_{O,r_*',\tau'}(A;d_Y')
+ =
+ G_{O,r_*,\tau}(A;d_Y).
+\]
+\end{theorem}
+
+\begin{proof}
+\[
+\abs{a\,d_O(x,x')-a\,r_*}\leq a\,\tau
+\quad\Longleftrightarrow\quad
+\abs{d_O(x,x')-r_*}\leq\tau.
+\]
+\end{proof}
+
+The normalized quantities
+\[
+ \bar d_O=\frac{d_O}{r_*},
+ \qquad
+ \bar\tau=\frac{\tau}{r_*},
+ \qquad
+ \bar\varepsilon_Y=\frac{\varepsilon_Y}{r_*}
+\]
+are invariant under the same coherent rescaling. A formula
+$d_O(x,x')=1$ is admissible only after the convention $r_*=1\,U_Y$ has
+been declared. The typed formula is $d_O(x,x')=r_*$.
+
+\begin{definition}[Dimensionless log-scale coordinate]
+For a positive reference scale $\ell_*$ and resolution $\varepsilon>0$,
+\[
+ s_b(\varepsilon;\ell_*):=
+ \log_b\frac{\ell_*}{\varepsilon},
+ \qquad b>1.
+\]
+\end{definition}
+
+No logarithm of a bare physical length is admissible.
+
+\section{Matched resolutions under Lipschitz observation}
+
+\begin{definition}[Typed Lipschitz converter]
+An observation $O:(X,d_X)\to(Y,d_Y)$ is $L_O$-Lipschitz if
+\[
+ d_Y(Ox,Ox')\leq L_O\,d_X(x,x')
+\]
+for all $x,x'$. Semantically,
+\[
+ [L_O]=U_Y/U_X.
+\]
+\end{definition}
+
+\begin{proposition}[Resolution propagation]
+\label{prop:resolution}
+If an input cell has $d_X$-diameter at most $\varepsilon_X$, its image has
+$d_Y$-diameter at most $L_O\varepsilon_X$. Hence a conservative matched
+output resolution satisfies
+\[
+ L_O\varepsilon_X\leq\varepsilon_Y.
+\]
+\end{proposition}
+
+\begin{proof}
+Apply the Lipschitz inequality to every pair in the input cell.
+\end{proof}
+
+\begin{theorem}[Composition law]
+\label{thm:composition}
+If $O_1:(X,d_X)\to(Y,d_Y)$ is $L_1$-Lipschitz and
+$O_2:(Y,d_Y)\to(Z,d_Z)$ is $L_2$-Lipschitz, then
+$O_2\circ O_1$ is $L_2L_1$-Lipschitz. Matched scales propagate as
+\[
+ \varepsilon_Y\geq L_1\varepsilon_X,\qquad
+ \varepsilon_Z\geq L_2\varepsilon_Y
+ \quad\Longrightarrow\quad
+ \varepsilon_Z\geq L_2L_1\varepsilon_X.
+\]
+\end{theorem}
+
+\begin{proof}
+Substitute the first Lipschitz inequality into the second. The scale
+statement follows by transitivity.
+\end{proof}
+
+This is the distance-scale bridge to the matched covering defect in the
+Metric Entropy v0.2 module.
+
+\section{Orthogonal projection: cylinder and quotient}
+
+Let
+\[
+ \pi:\R^3\to\R^2,\qquad \pi(x,y,z)=(x,y),
+\]
+with Euclidean metrics.
+
+\begin{proposition}[Observed shell under projection]
+For $X_0=(x_0,y_0,z_0)$ and $r_*>0$,
+\[
+ S_\pi(X_0;r_*)
+ =
+ \set{(x,y,z):(x-x_0)^2+(y-y_0)^2=r_*^2}.
+\]
+Thus the exact observed shell is a circular cylinder of radius $r_*$.
+\end{proposition}
+
+\begin{proof}
+The condition
+$d_\pi(X,X_0)=\norm{\pi(X)-\pi(X_0)}_2=r_*$ is precisely the displayed
+equation; $z$ is free.
+\end{proof}
+
+\begin{corollary}[Hidden distance profile]
+If $d_\pi(X,X')=r_*$, then
+\[
+ \norm{X-X'}_2^2
+ =
+ r_*^2+(z-z')^2.
+\]
+One observed shell radius therefore corresponds to a continuum of hidden
+Euclidean distances greater than or equal to $r_*$.
+\end{corollary}
+
+The quotient $\R^3/{\sim_\pi}$ is isometric to $\R^2$; the cylinder is the
+preimage of a planar circle, not a new type of planar unit-distance
+configuration.
+
+\section{Fiber multiplicity and counting rules}
+
+Two non-equivalent counts must be declared:
+\begin{enumerate}[label=(\alph*)]
+\item \emph{visible count}: replace $A$ by the set of distinct images
+      $O(A)$ and count image pairs;
+\item \emph{hidden-multiplicity count}: count pairs of distinct hidden
+      states whose images satisfy the shell predicate.
+\end{enumerate}
+
+\begin{theorem}[Complete bipartite fiber lift]
+\label{thm:fibers}
+Let $F_a=O^{-1}(a)$ and $F_b=O^{-1}(b)$, with
+$d_Y(a,b)=r_*$. If a finite sample contains $m$ states in $F_a$ and $k$
+states in $F_b$, its hidden-multiplicity graph contains $K_{m,k}$ and at
+least $mk$ shell edges.
+\end{theorem}
+
+\begin{proof}
+Every cross-fiber pair has observed distance $d_Y(a,b)=r_*$.
+\end{proof}
+
+\begin{proposition}[Reduction to the visible problem]
+If $O$ is injective on a finite sample $A$ and the count is taken over
+distinct images, then
+\[
+ \abs{E_{O,r_*,0}(A)}
+ =
+ \#\set{\{a,b\}\subset O(A):d_Y(a,b)=r_*}.
+\]
+\end{proposition}
+
+\begin{proof}
+The restriction $O|_A$ is a vertex bijection preserving the edge
+predicate.
+\end{proof}
+
+\section{Dimensionally valid periodic and half-step readout}
+
+Let a hidden diameter ladder be
+\[
+ d_n=d_0+n\Delta d,\qquad n\in\Z,
+\]
+where $d_0$ and $\Delta d$ are lengths. Let $P>0$ be a physical period and
+$\phi_0$ an angle. Define
+\[
+ h(n)
+ =
+ \cos\left(
+ 2\pi\,\frac{d_n-d_0}{P}+\phi_0
+ \right).
+\]
+The trigonometric argument is an angle because $(d_n-d_0)/P$ is
+dimensionless.
+
+\begin{theorem}[Rational-step factorization]
+\label{thm:alias}
+If
+\[
+ \frac{\Delta d}{P}=\frac pq,\qquad
+ p\in\Z,\ q\in\mathbb N,\ \gcd(p,q)=1,
+\]
+then $h$ factors through $\Z/q\Z$.
+\end{theorem}
+
+\begin{proof}
+For every $n$,
+\[
+h(n+q)
+=
+\cos\left(2\pi\frac{p(n+q)}q+\phi_0\right)
+=
+\cos\left(2\pi\frac{pn}q+2\pi p+\phi_0\right)
+=h(n).
+\]
+\end{proof}
+
+The theorem states factorization, not injectivity on the $q$ residue
+classes; cosine symmetry may identify additional classes.
+
+\begin{corollary}[Half-step parity]
+If $\Delta d=P/2$ and $\phi_0=0$, then
+\[
+ h(n)=\cos(\pi n)=(-1)^n,
+\]
+so the readout is exactly the parity quotient $\Z\to\Z/2\Z$.
+\end{corollary}
+
+This replaces the dimensionally invalid expression
+$d_n=d_0+n/2$ unless a length unit for the half-step has first been
+declared.
+
+\section{Unit-distance graphs as an application}
+
+For $P\subset\R^2$ finite and $r_*>0$, write
+\[
+ U_{r_*}(P)
+ :=
+ \#\set{\{p,q\}\subset P:\norm{p-q}_2=r_*}.
+\]
+Euclidean similarity $p\mapsto p/r_*$ gives
+\[
+ \max_{\abs P=n}U_{r_*}(P)
+ =
+ \max_{\abs P=n}U_1(P).
+\]
+Thus the classical extremal function is independent of the chosen
+positive reference radius after coherent rescaling.
+
+For an observation map $O:X\to\R^2$, define instead
+\[
+ U_{O,r_*}^{\mathrm{hidden}}(A)
+ :=
+ \#E_{O,r_*,0}(A).
+\]
+This quantity can be quadratic because of \cref{thm:fibers}. It is a
+different problem: multiplicity inside observation fibers is part of the
+data.
+
+\begin{warning}[Erdos firewall]
+The present interface proves no new asymptotic upper or lower bound for
+the classical planar unit-distance function. It only states the data
+needed to define observed-distance variants without dimensional or
+counting ambiguity.
+\end{warning}
+
+\section{Normative protocol ledger}
+
+For a static theorem with exact metric data, the stochastic-channel field
+is recorded as \texttt{explicit-noiseless}, while temporal resolution and
+observation horizon are recorded as \texttt{not-applicable}. They become
+active fields for time-dependent geometry. This module defines no scalar
+defect, so \texttt{defect-normalizations} is recorded as
+\texttt{not-applicable}; a downstream distortion or decision loss must
+provide its own typed normalization.
+
+\begin{longtable}{L{0.23\textwidth}L{0.18\textwidth}L{0.49\textwidth}}
+\toprule
+Field & Type & Required declaration\\
+\midrule
+\endhead
+Hidden space & set, manifold, or state space & admissible points and
+equivalence before observation\\
+Hidden metric $d_X$ & $U_X$ & metric convention and domain\\
+Observation $O$ & map $X\to Y$ & deterministic, stochastic, or composed
+channel role\\
+Noise/channel policy & kernel or exact flag & stochastic law or explicit
+noiseless statement\\
+Observed metric $d_Y$ & $U_Y$ & ambient or intrinsic convention\\
+Observed pseudometric $d_O$ & $U_Y$ & global formula
+$d_Y(Ox,Ox')$\\
+Reference radius $r_*$ & $U_Y$, positive & shell or incidence target\\
+Input resolution $\varepsilon_X$ & $U_X$, positive & quantizer or cover
+convention\\
+Output resolution $\varepsilon_Y$ & $U_Y$, positive & matched-scale rule\\
+Temporal resolution & time or not applicable & required for
+time-dependent geometry\\
+Observation horizon & time or not applicable & required for a dynamic
+trace\\
+Tolerance $\tau$ & $U_Y$, nonnegative & exact, bounded-error, or
+hypothesis-test policy\\
+Uncertainty $u$ or law & $U_Y$ or distribution & confidence/dependence
+statement\\
+Counting rule & discrete & visible images or hidden multiplicities\\
+Reference scale $\ell_*$ & same type as scale variable & normalization and
+zero policy\\
+Logarithm base $b$ & dimensionless, $b>1$ & every logarithmic trace\\
+Estimator & declared map & output, window, and uncertainty summary\\
+Defect normalization & typed ratio or not applicable & required before
+any scalar loss aggregation\\
+\bottomrule
+\end{longtable}
+
+\section{Claim audit}
+
+\begin{longtable}{L{0.44\textwidth}L{0.20\textwidth}L{0.26\textwidth}}
+\toprule
+Statement & Status & Necessary hypotheses\\
+\midrule
+\endhead
+$d_O=d_Y\circ(O\times O)$ is a pseudometric & theorem & $d_Y$ metric,
+$O$ a map\\
+$X/{\sim_O}$ is isometric to $O(X)$ & theorem & quotient by equal
+observations\\
+$g_O=O^*g_Y$ determines the same global distance as $d_O$ & not generally
+true & requires a suitable lift of minimizing image paths\\
+Observed exact shells are unit-covariant & theorem & coherent rescaling
+of metric, radius, and tolerance\\
+Fiber multiplicity produces $K_{m,k}$ & theorem & two finite sampled
+fibers at the target separation\\
+Half-step readout recovers the hidden state & false & parity readout is
+many-to-one\\
+Observation-map graphs solve the classical unit-distance problem & not
+claimed & the classical problem is only the injective visible special
+case\\
+\bottomrule
+\end{longtable}
+
+\section{Conclusion}
+
+The common distance-scale object is not a bare number. It is
+\[
+\bigl(X,d_X,O,Y,d_Y,d_O,r_*,
+\varepsilon_X,\varepsilon_Y,\tau,\mathsf U,\text{counting rule}\bigr).
+\]
+The global pseudometric identifies exactly the observation fibers; its
+quotient is the metric image. Physical comparisons use typed radii and
+tolerances, logarithms use reference ratios, and resolutions propagate
+through declared Lipschitz converters. These rules are the dependency
+needed by scale-trace modules such as Mandelbrot rulers.
+
+\begin{thebibliography}{9}
+
+\bibitem{BBI}
+D. Burago, Y. Burago, and S. Ivanov,
+\emph{A Course in Metric Geometry},
+American Mathematical Society, 2001.
+
+\bibitem{Heinonen}
+J. Heinonen,
+\emph{Lectures on Analysis on Metric Spaces},
+Springer, 2001.
+
+\bibitem{Lee}
+J. M. Lee,
+\emph{Riemannian Manifolds: An Introduction to Curvature},
+Springer, 1997.
+
+\bibitem{Erdos}
+P. Erdos,
+``On sets of distances of $n$ points,''
+\emph{American Mathematical Monthly} 53 (1946), 248--250.
+
+\end{thebibliography}
+
+\end{document}

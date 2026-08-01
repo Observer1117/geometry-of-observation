@@ -1,0 +1,63 @@
+schema:
+  id: go-p10-visual-qa
+  version: 1.1.0
+date: 2026-07-28
+status: PASS
+
+document:
+  id: regular-polyhedra-observation-v1-1
+  pdf: work/p10_regular_polyhedra_v1_1/build/polyhedra/regular_polyhedra_observation_filters_v1_1.pdf
+  pages: 7
+  sha256: 9193ad45b5dbbb2fac52392d383eb8878e937eacf817fd686b5f895ae0af1b0d
+  page_size: A4
+  encrypted: false
+  form_fields: 0
+
+render:
+  engine: Poppler
+  command: pdftoppm
+  resolution_dpi: 144
+  dimensions_pixels: [1191, 1684]
+  page_pattern: work/p10_regular_polyhedra_v1_1/render/polyhedra/page-*.png
+  contact_sheet: work/p10_regular_polyhedra_v1_1/checks/polyhedra/contact_sheet.png
+
+global_checks:
+  all_pages_renderable: PASS
+  no_clipping: PASS
+  no_overlap: PASS
+  no_missing_glyphs: PASS
+  consistent_margins: PASS
+  readable_equations: PASS
+  readable_tables: PASS
+  diagram_labels_clear: PASS
+  bibliography_heading_unique: PASS
+  page_numbers_present: PASS
+
+inspection:
+  pages:
+    - page: 1
+      status: PASS
+      focus: title, status box, abstract, contents
+    - page: 2
+      status: PASS
+      focus: abstract-polyhedron axioms, realization groupoid, flag regularity
+    - page: 3
+      status: PASS
+      focus: string C-group, abstract and geometric symmetry, typed observation
+    - page: 4
+      status: PASS
+      focus: two preorders, typed filter diagram, spherical count
+    - page: 5
+      status: PASS
+      focus: Platonic incidence table, duality, cube-Petrial control
+    - page: 6
+      status: PASS
+      focus: bounded-noise residual, half-separation theorem, claim firewall
+    - page: 7
+      status: PASS
+      focus: convention-scoped count table, protocol minimum, references
+
+notes:
+  - Every final page was inspected at the native 144 dpi render resolution.
+  - The filter diagram keeps domain selection distinct from lossy observation channels.
+  - The bibliography occurs once and remains on the final page without clipping.

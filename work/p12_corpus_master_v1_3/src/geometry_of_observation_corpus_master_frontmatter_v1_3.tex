@@ -1,0 +1,417 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\newfontfamily\cyrillicfont{DejaVu Serif}
+\newfontfamily\cyrillicfontsf{DejaVu Sans}
+\newfontfamily\cyrillicfonttt{DejaVu Sans Mono}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.015}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit}
+\usepackage{xurl}
+\usepackage{seqsplit}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Geometry of Observation: Frozen Typed Corpus and Reproducibility Master},
+  pdfauthor={Stassis Stashkevichyus},
+  pdfsubject={P12 corpus freeze of eighteen GO Core reference modules},
+  pdfkeywords={geometry of observation, typed observation maps, invariance, covariance, identifiability, reproducibility, corpus freeze}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{obsviolet}{RGB}{94,64,145}
+\definecolor{obsgray}{RGB}{74,78,84}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+\definecolor{lightviolet}{RGB}{246,242,252}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{protocol}[definition]{Protocol}
+\theoremstyle{plain}
+\newtheorem{proposition}[definition]{Proposition}
+\theoremstyle{remark}
+\newtheorem{boundary}[definition]{Boundary}
+\newtheorem{remark}[definition]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Prob}{\mathsf P}
+\newcommand{\Hash}{\operatorname{SHA256}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\qual}[2]{\texttt{#1::#2}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\Xcal}{\mathcal X}
+\newcommand{\Ycal}{\mathcal Y}
+\newcommand{\Ical}{\mathcal I}
+\newcommand{\Qcal}{\mathcal Q}
+\newcommand{\Scal}{\mathcal S}
+\newcommand{\Acal}{\mathcal A}
+\newcommand{\Fcal}{\mathfrak F}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\input{work/p12_corpus_master_v1_3/generated/freeze_macros_v1_3.tex}
+
+\title{\bfseries Geometry of Observation\\
+\Large Frozen Typed Corpus and Reproducibility Master\\[0.35em]
+\large Eighteen reference modules, one scoped contract, and an immutable release map}
+\author{Stassis Stashkevichyus\\
+\small Independent Research Program\\
+\small ORCID: \href{https://orcid.org/0009-0000-2294-705X}{0009-0000-2294-705X}}
+\date{P12 corpus freeze v1.3.0 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Release status.}
+This master freezes \ModuleCount\ normative modules with
+\ComponentPageCount\ component pages, \TypedExpressionCount\ typed
+expressions, and zero GO Core findings.  It is a provenance and
+reproducibility object.  Concatenation does not turn the component
+results into one theorem, does not establish physical equivalence
+between application domains, and does not claim a new theory of
+general relativity, information theory, mechanics, quantum chemistry,
+accelerator physics, or astrodynamics.}}
+\end{center}
+
+\begin{abstract}
+This release freezes the strict Geometry of Observation corpus after
+the P0--P11 migration sequence.  The common mathematical discipline is
+not a universal physical dynamics but a typed separation of hidden
+state, invertible representation change, reduction, observation
+channel, sampling protocol, estimator, and declared invariant or
+recoverable target.  The frozen object contains eighteen independently
+scoped reference modules, the GO Core v0.2 type and dimension contract,
+a machine-readable corpus ledger, an acyclic dependency ledger,
+canonical release metadata, exact component hashes, and executable
+validation.  Every component PDF is embedded without textual revision;
+its original hash remains the authority for component identity.
+Short identifiers are document-scoped and receive fully qualified
+release names.  Strong, model, hypothesis, diagnostic, and empirical
+claims remain separated.  The master therefore records a clean corpus
+state while preserving the scientific boundaries of each module.
+\end{abstract}
+
+\begin{sloppypar}
+\raggedright
+\noindent\textbf{Аннотация.}
+Релиз фиксирует строгий корпус геометрии наблюдения после миграций
+P0--P11. Общей структурой является не единая физическая динамика, а
+типизированное разделение скрытого состояния, обратимой смены
+представления, редукции, канала наблюдения, дискретизации, оценивателя и
+явно объявленного инварианта или восстанавливаемой величины. В master
+включены восемнадцать модулей без переписывания их содержимого,
+машинные реестры, зависимости, контрольные суммы и воспроизводимые
+проверки. Совпадение структуры между областями не трактуется как
+доказательство физической эквивалентности.
+\end{sloppypar}
+
+\tableofcontents
+\clearpage
+
+\section{The frozen release object}
+
+\begin{definition}[Corpus freeze]
+Let
+\begin{equation}
+\Fcal
+=
+\bigl(C,L,O,D,S,H,M\bigr)
+\end{equation}
+denote, respectively, the core contract, corpus ledger, canonical
+module order, dependency ledger, component source map, component hash
+map, and release metadata.  A release is frozen when all seven entries
+are versioned and every file named by \(S\) has a verified digest in
+\(H\).  Two freezes are identical precisely when their canonical
+serializations and every referenced byte stream agree.
+\end{definition}
+
+The baseline ledger is
+\texttt{go-corpus-ledgers@1.2.0}, with digest
+\BaselineLedgerHash.  P12 does not mutate that ledger.
+Instead it adds a release-level ledger whose order and dependency
+semantics are explicit.  A change to a component byte, ordering rule,
+dependency edge, author identity, licence, or release metadata requires
+a new release version.  A filename change alone is not sufficient to
+create a new scientific object, while a changed byte stream cannot
+retain the old freeze identity.
+
+\begin{proposition}[Hash-addressed component identity]
+Assume collision resistance of SHA-256 for the finite release set.
+If two release records have the same ordered component paths, byte
+counts, and SHA-256 digests, then the probability of an undetected
+component substitution is negligible under the stated cryptographic
+assumption.
+\end{proposition}
+
+\begin{boundary}
+This is an integrity statement, not a mathematical proof that the
+scientific claims are true.  Hash agreement proves preservation of the
+audited object; it does not replace peer review.
+\end{boundary}
+
+\section{Common typed architecture}
+
+The minimal release-wide observation pattern is
+\begin{equation}\label{eq:master-chain}
+\Xcal
+\xrightarrow{\ \Phi_t\ }
+\Xcal_t
+\xrightarrow{\ F_g\ }
+\Xcal_t'
+\xrightarrow{\ R_\lambda\ }
+\Xcal_\lambda
+\xrightarrow{\ \Qcal_\lambda\ }
+\Ycal_\lambda
+\xrightarrow{\ \Scal_{\Delta t,T}\ }
+\Ycal_\lambda^M
+\xrightarrow{\ \Acal\ }
+\Ical .
+\end{equation}
+Here \(F_g\) is an invertible frame, gauge, coordinate, or basis
+change.  The reduction \(R_\lambda\), observation \(\Qcal_\lambda\),
+and sampler \(\Scal_{\Delta t,T}\) may lose information.  The estimator
+\(\Acal\) is a decision rule, not a physical transformation of the
+hidden system.  A module may omit stages only by declaring the
+corresponding identity or noiseless map.
+
+For a declared group \(G\), protocol \(\lambda\), and representation
+\(\rho\), the release distinguishes
+\begin{align}
+I(g\!\cdot\!x;\lambda)&=I(x;\lambda)
+&&\text{(invariance)},\\
+\Qcal_\lambda(g\!\cdot\!x)&=\rho(g)\Qcal_\lambda(x)
+&&\text{(covariance)},\\
+T(x)&=\overline T\!\left(\Qcal_\lambda(x)\right)
+&&\text{(deterministic recoverability)}.
+\end{align}
+In a stochastic finite-alphabet setting, exact recoverability of a
+target \(T(X)\) from \(Y\) is equivalently stated as
+\begin{equation}
+H\!\left(T(X)\mid Y\right)=0
+\end{equation}
+under the declared probability law.  None of these statements is
+well-typed without its transformation group, domain, protocol, and
+unit context.
+
+\begin{boundary}[No cross-domain identity claim]
+The recurrence of \cref{eq:master-chain} in geometry, mechanics,
+spectroscopy, molecular inference, or satellite networks records a
+shared inference architecture.  It does not identify their state
+spaces, Hamiltonians, field equations, probability laws, or empirical
+content.
+\end{boundary}
+
+\section{Corpus layers and canonical order}
+
+The master order is semantic rather than chronological.  It preserves
+every component identity while placing interfaces before the
+laboratories that use them.
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=7mm and 8mm,
+  box/.style={draw,rounded corners,minimum width=34mm,minimum height=9mm,
+    align=center,font=\small,fill=lightblue},
+  app/.style={box,fill=lightgreen},
+  spec/.style={box,fill=lightviolet},
+  arr/.style={-{Latex[length=2mm]},thick,obsgray}
+]
+\node[box] (foundation) {Foundations\\typed maps and losses};
+\node[box,below=of foundation] (metric) {Metric and scale\\quotients and resolution};
+\node[app,below left=of metric] (mechanics) {Classical systems\\frames and contact};
+\node[spec,below right=of metric] (spectral) {Spectral inference\\molecular channels};
+\node[app,below=15mm of metric] (relativistic) {Relativistic and temporal systems};
+\draw[arr] (foundation) -- (metric);
+\draw[arr] (metric) -- (mechanics);
+\draw[arr] (metric) -- (spectral);
+\draw[arr] (foundation.east) to[bend left=22] (relativistic.east);
+\draw[arr] (mechanics) -- (relativistic);
+\end{tikzpicture}
+\end{center}
+
+\input{work/p12_corpus_master_v1_3/generated/module_catalog_v1_3.tex}
+
+\section{Inter-module dependency audit}
+
+Dependencies are typed.  A \emph{core-contract} edge is normative: the
+target ledger must validate against GO Core v0.2.  An
+\emph{extension-contract} edge binds a module to an auxiliary
+contract such as the SI--HEP passport or the mechanics interface.  A
+\emph{documented-interface} edge records an explicit source-level
+reference between modules.  A \emph{contextual} relation is excluded
+from the normative graph and cannot be used as a proof dependency.
+
+\input{work/p12_corpus_master_v1_3/generated/dependency_table_v1_3.tex}
+
+The normative and documented-interface graph has
+\DependencyNodeCount\ nodes and \DependencyEdgeCount\ edges.  Its
+topological sort is unique only up to independent branches; acyclicity
+is the relevant release condition.  Each edge endpoint resolves to a
+frozen module or a versioned contract, and each documented evidence
+fragment is checked against the cited source.
+
+\section{Namespaces and symbol discipline}
+
+Document-local identifiers are not silently promoted to global names.
+For document \(d\) and local identifier \(a\), the master name is
+\begin{equation}
+\operatorname{qid}(d,a)=\texttt{d::a}.
+\end{equation}
+This operation is injective on ordered pairs.  The audit found
+\ShortIdentifierOverlapCount\ repeated short identifiers across
+expression and claim registers; all become distinct after
+qualification.  These overlaps are reuse of local vocabulary, not
+ledger collisions.  Map identifiers and quantity identifiers are
+already globally unique in the frozen ledger.
+
+Symbols remain scoped records, not bare glyphs.  Thus \(G\) may denote
+a symmetry group in one module and the gravitational constant in
+another only when the scope and quantity identifier are carried with
+the expression.  The master does not create a universal symbol table
+by typographic coincidence.
+
+\section{Claim stratification and scientific boundary}
+
+The corpus claim register contains \ClaimCount\ entries:
+\StrongClaimCount\ theorem/proposition/corollary records,
+\ModelClaimCount\ models, \HypothesisClaimCount\ hypotheses,
+\DiagnosticClaimCount\ diagnostics, and \EmpiricalClaimCount\ empirical
+record.  A strong label is accepted by the release only when the local
+ledger supplies the hypotheses and the source states the result in its
+declared scope.  P12 does not strengthen a component claim.
+
+\begin{center}
+\begin{tabularx}{0.96\linewidth}{@{}L{49mm}Y@{}}
+\toprule
+Layer & Release interpretation\\
+\midrule
+Definition & Fixes notation or an object; no empirical claim.\\
+Theorem, proposition, corollary & Mathematical statement under the local hypotheses.\\
+Model & Declared idealization or computational benchmark.\\
+Hypothesis & Unproved assumption or proposed condition.\\
+Diagnostic & Protocol-dependent summary; not an invariant unless separately proved.\\
+Empirical & Externally measured input with provenance and uncertainty requirements.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{boundary}[Master claim firewall]
+The release does not claim a theory of everything, a derivation of
+Standard Model parameters, a new electronic-structure method, a new
+ergodicity theorem, a new classification of regular polyhedra, or an
+operational orbit-determination system.  Its defensible contribution
+is the typed audit infrastructure and the module-specific corrections
+recorded in the appended documents.
+\end{boundary}
+
+\section{Metadata normalization and provenance}
+
+The canonical release author is \textbf{Stassis Stashkevichyus},
+identified by ORCID
+\href{https://orcid.org/0009-0000-2294-705X}
+{0009-0000-2294-705X}.  Earlier component PDFs contain the historical
+display strings \emph{Stassis Research Program} or
+\emph{Stas, Independent Research Program}.  Their bytes are preserved;
+the container metadata supplies one normalized creator record without
+pretending that the old PDF metadata was rewritten.
+
+No DOI is fabricated in this freeze.  The release metadata is prepared
+for one corpus-level archival record; component modules are not assigned
+separate placeholder identifiers.  If a DOI is minted, the immutable
+release metadata must be updated in a successor version or by an
+archive-controlled identifier field that does not alter the deposited
+files.
+
+The root citation file follows Citation File Format 1.2.0.  The Zenodo
+metadata file follows the documented GitHub-release override structure.
+The release is marked CC BY-NC-ND 4.0 as directed by the author.  This
+licence permits non-commercial redistribution of unadapted material
+with attribution; it is not an open-source software licence and does
+not permit distribution of modified versions.
+
+\section{Validation and reproducibility}
+
+The P12 gate requires all of the following:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+  \item exact resolution of all \ModuleCount\ PDF and source paths;
+  \item agreement of component page counts, byte counts, and SHA-256
+    digests with the freeze ledger;
+  \item a clean GO Core replay:
+    \(18\,\mathrm{PASS}/0\,\mathrm{FAIL}/0\,\mathrm{BLOCKED}\);
+  \item uniqueness of document IDs and fully qualified local IDs;
+  \item an acyclic, endpoint-complete dependency graph with verified
+    source evidence;
+  \item successful execution of the P1--P11 release validators;
+  \item A4 geometry, no encryption or form fields, embedded fonts, and
+    extractable text for every component and the master;
+  \item page-content preservation between each source PDF and its
+    corresponding master page interval;
+  \item valid citation, archival, licence, and checksum records;
+  \item a deterministic ZIP archive with fixed timestamps, sorted
+    members, and byte-identical rebuild.
+\end{enumerate}
+
+The master contains \FrontMatterPageCount\ release-front-matter pages
+followed by the \ComponentPageCount\ unchanged component pages, for a
+total of \MasterPageCount\ pages.  PDF bookmarks and the external page
+map identify every component boundary.  The component PDFs, not the
+master page numbering, remain the primary unit of scientific citation.
+
+\section{How to cite and review this object}
+
+Scientific review should proceed module by module.  A reviewer should
+first inspect the claim register and protocol fields, then the local
+proofs or counterexamples, and finally the numerical and release
+checks.  A criticism of one application module does not automatically
+invalidate the typed core; conversely, a clean core lint does not
+validate an application theorem whose hypotheses are false.
+
+Until an archival DOI exists, cite the title, author, ORCID, version,
+date, and the SHA-256 digest recorded in
+\texttt{SHA256SUMS\_v1\_3.txt}:
+\begin{quote}\small
+Stassis Stashkevichyus,
+\emph{Geometry of Observation: Frozen Typed Corpus and Reproducibility
+Master}, P12 corpus freeze v1.3.0, 28 July 2026,
+ORCID 0009-0000-2294-705X.
+\end{quote}
+
+\section{Release conclusion}
+
+P12 closes the migration sequence at the corpus level.  The defensible
+result is an immutable, typed, hash-addressed collection of eighteen
+reference modules with explicit claim boundaries and reproducible
+validation.  The release is suitable for archival provenance and
+external module-by-module review.  It is not, by itself, evidence that
+the umbrella programme has become a single new physical theory.
+
+\end{document}

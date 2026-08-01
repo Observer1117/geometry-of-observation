@@ -1,0 +1,536 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={SI-HEP Quantity Passport for Relativistic Beam Observation},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={A reversible dimensional contract between SI, HEP natural units, and accelerator mixed units},
+  pdfkeywords={natural units, SI, HEP, dimensional analysis, LHC, magnetic rigidity, four-momentum}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\Ezero}{\mathcal E_0}
+\newcommand{\USI}{\mathcal U_{\mathrm{SI}}}
+\newcommand{\Nhep}{\mathcal N_{\Ezero}}
+\newcommand{\GeV}{\mathrm{GeV}}
+\newcommand{\MeV}{\mathrm{MeV}}
+\newcommand{\SI}{\mathrm{SI}}
+\newcommand{\HEP}{\mathrm{HEP}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries SI--HEP Quantity Passport\\
+\large A reversible dimensional contract for relativistic beam observation}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{GO Core extension v0.5 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} Normative infrastructure for GO Core v0.2 and the LHC
+beam module. The passport fixes the meaning of \(c=\hbar=1\), gives an
+invertible SI--HEP chart on the mechanical sector, and defines exact
+accelerator-unit bridges. It does not propose a new physical law.}}
+\end{center}
+
+\begin{abstract}
+Natural units suppress conversion constants in formulas but do not
+erase physical dimensions. For a mechanical quantity with SI dimension
+\(L^aM^bT^\tau\), fix an energy anchor \(\Ezero>0\), set
+\[
+ d_E=b-a-\tau,\qquad u=a+\tau,\qquad v=a-2b,
+\]
+and define the SI representative of one natural unit by
+\[
+ \USI(a,b,\tau;\Ezero)=\hbar^u c^v\Ezero^{d_E}.
+\]
+Then
+\(\Nhep(Q)=Q/\USI(a,b,\tau;\Ezero)\) is dimensionless and the inverse
+map is multiplication by the same representative. This gives a
+multiplicative, exponent-additive, reversible chart on the \(LMT\)
+sector. It does not automatically cover current, temperature, amount
+of substance, luminous intensity, or electromagnetic field
+normalization. For LHC beam kinematics the missing electromagnetic
+step is bypassed by the exact mixed-unit identity
+\[
+ p[\GeV/c]=0.299792458\,z\,B\rho[\mathrm{T\,m}],
+\qquad q=ze.
+\]
+The passport also separates the SI momentum chart
+\(p^\mu=(E/c,\bm p)\), the SI energy chart
+\(\Pi^\mu=(E,c\bm p)\), and the HEP numerical chart. Consequently the
+usual shorthand \(E^2=\bm p^2+m^2\) is admitted only after every
+component has been represented in the same energy unit. Exact
+definition-based conversions, measured constants, and operational
+machine parameters are assigned distinct uncertainty statuses.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and failure mode}
+
+The blocked LHC manuscript used four locally familiar notations:
+\[
+ E\,[\mathrm{TeV}],\qquad
+ p\,[\GeV/c],\qquad
+ B\rho\,[\mathrm{T\,m}],\qquad
+ E^2=\bm p^2+m^2\quad(c=1).
+\]
+Each can be correct. Their untyped composition is not a quantity
+calculus. In particular, the last equation does not permit an SI mass
+in kilograms to be added to a numerical momentum in \(\GeV/c\).
+
+\begin{warning}[Claim firewall]
+Setting \(c=\hbar=1\) is a coordinate choice on the dimension group,
+not an empirical statement that the constants have ceased to exist.
+It neither fixes an electromagnetic rationalization convention nor
+makes tesla an energy squared without further definitions.
+\end{warning}
+
+The present passport covers:
+\begin{enumerate}[label=(\roman*)]
+  \item the mechanical \(LMT\) sector;
+  \item relativistic four-momentum in a declared metric signature;
+  \item charged-particle magnetic rigidity through a mixed-unit bridge;
+  \item RF voltage-to-energy conversion through a declared charge state;
+  \item uncertainty and provenance fields needed for reproducibility.
+\end{enumerate}
+
+\section{Typed quantity records}
+
+\begin{definition}[Quantity record]
+A quantity record is
+\[
+\mathsf q=
+(\mathsf{id},Q,\bm d,\mathsf{kind},\mathsf{frame},
+ \mathsf{context},\mathsf{representation},\mathsf U),
+\]
+where \(Q\) is the physical quantity, \(\bm d\) is its seven-component
+SI dimension vector, \(\mathsf{kind}\) is its semantic type,
+\(\mathsf{frame}\) is a reference-frame label. The context obeys
+\[
+\mathsf{context}\in
+\{\SI,\ \HEP\text{-natural},\ \text{accelerator-mixed}\}.
+\]
+The field \(\mathsf{representation}\) specifies which powers of
+\(c\) and \(\hbar\) have been absorbed, and
+\(\mathsf U\) contains exactness, uncertainty, and provenance.
+\end{definition}
+
+Equality and addition are permitted only for records with compatible
+physical dimension, semantic type, frame law, and representation.
+Multiplication combines dimension vectors and representations.
+A context change is an explicit map; it is never inferred from a unit
+label alone.
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=10mm and 14mm,
+  box/.style={draw,rounded corners,minimum width=39mm,minimum height=12mm,align=center},
+  arr/.style={-{Latex[length=2mm]},thick}
+]
+\node[box,fill=lightblue] (si) {SI quantity\\\(Q,\ L^aM^bT^\tau\)};
+\node[box,fill=lightgreen,right=of si] (hep) {HEP coordinate\\\(\Nhep(Q),\ E^{d_E}\)};
+\node[box,fill=lightred,below=of $(si)!0.5!(hep)$] (pass) {passport\\\(\hbar^u c^v\Ezero^{d_E}\)};
+\draw[arr] (si) -- node[above]{naturalize} (hep);
+\draw[arr] (hep) -- node[below]{restore} (si);
+\draw[arr] (pass) -- (si);
+\draw[arr] (pass) -- (hep);
+\end{tikzpicture}
+\end{center}
+
+\section{Mechanical naturalization theorem}
+
+Let the admissible dimension lattice be
+\[
+\mathcal D_{\mathrm{mech}}
+=\{(a,b,\tau,0,0,0,0):a,b,\tau\in\mathbb Q\}.
+\]
+The last four exponents must vanish. Fractional exponents are allowed
+when a positive branch is part of the quantity definition.
+
+\begin{theorem}[Unique \(c,\hbar\) reduction to an energy dimension]
+For \(D=L^aM^bT^\tau\), there is a unique triple
+\((d_E,u,v)\in\mathbb Q^3\) such that
+\[
+ D=[\hbar]^u[c]^v[E]^{d_E}.
+\]
+It is
+\[
+ \boxed{d_E=b-a-\tau,\qquad u=a+\tau,\qquad v=a-2b.}
+\]
+\end{theorem}
+
+\begin{proof}
+Using
+\([E]=ML^2T^{-2}\), \([\hbar]=ML^2T^{-1}\), and
+\([c]=LT^{-1}\), equality of the \(M,L,T\) exponents gives
+\[
+ d_E+u=b,\qquad
+ 2d_E+2u+v=a,\qquad
+ -2d_E-u-v=\tau.
+\]
+This linear system has determinant \(1\), hence a unique solution.
+Solving yields the displayed exponents.
+\end{proof}
+
+\begin{definition}[Natural coordinate and inverse]
+Fix an energy anchor \(\Ezero\), here \(1\,\GeV\). Define
+\[
+\USI(D;\Ezero)=
+\hbar^{a+\tau}c^{a-2b}\Ezero^{\,b-a-\tau},
+\qquad
+\Nhep(Q)=\frac{Q}{\USI(D;\Ezero)}.
+\]
+The inverse is
+\[
+Q=\Nhep(Q)\,\USI(D;\Ezero).
+\]
+\end{definition}
+
+\begin{proposition}[Algebraic consistency]
+For admissible positive quantities \(Q_1,Q_2\) and rational \(r\),
+\[
+\Nhep(Q_1Q_2)=\Nhep(Q_1)\Nhep(Q_2),\qquad
+\Nhep(Q_1^r)=\Nhep(Q_1)^r.
+\]
+For quantities of the same complete type,
+\(\Nhep(Q_1+Q_2)=\Nhep(Q_1)+\Nhep(Q_2)\).
+\end{proposition}
+
+\begin{proof}
+The exponent maps \(D\mapsto(d_E,u,v)\) are linear, so the SI
+representatives multiply under dimension addition. Division by the
+representative proves the product and power laws. The addition law
+holds only when both terms share the same representative.
+\end{proof}
+
+If the anchor changes from \(\Ezero\) to
+\(\Ezero'=\lambda\Ezero\), then
+\[
+\mathcal N_{\Ezero'}(Q)=\lambda^{-d_E}\mathcal N_{\Ezero}(Q).
+\]
+The physical quantity is unchanged; its numerical coordinate is
+covariant with its energy dimension.
+
+\section{Standard conversion rows}
+
+The defining values
+\[
+c=299\,792\,458\ \mathrm{m\,s^{-1}},\quad
+h=6.62607015\times10^{-34}\ \mathrm{J\,s},\quad
+e=1.602176634\times10^{-19}\ \mathrm C
+\]
+are exact in the SI. Hence
+\[
+1\,\mathrm{eV}=e(1\,\mathrm V)
+=1.602176634\times10^{-19}\,\mathrm J,
+\qquad
+1\,\GeV=1.602176634\times10^{-10}\,\mathrm J
+\]
+are exact.
+The displayed decimal for \(\hbar=h/(2\pi)\) is rounded, although
+\(\hbar\) is an exactly defined quantity.
+
+\begin{center}
+\small
+\input{generated/conversion_table.tex}
+\end{center}
+
+Useful equivalent forms are
+\[
+\hbar c=197.326980459302\ \MeV\,\mathrm{fm},
+\qquad
+1\,\GeV^{-2}=0.389379372172\ \mathrm{mb}.
+\]
+The time row uses angular frequency:
+\[
+E=\hbar\omega,\qquad
+1\,\GeV\longleftrightarrow
+1.519267447878626\times10^{24}\ \mathrm{rad\,s^{-1}}.
+\]
+For ordinary frequency one must instead use
+\(E=h\nu\), giving
+\[
+1\,\GeV\longleftrightarrow
+2.417989242084918\times10^{23}\ \mathrm{Hz}.
+\]
+The factor \(2\pi\) is part of the passport and cannot be discarded.
+
+\section{Four-momentum and invariant-mass passports}
+
+Adopt metric signature \(\eta=\operatorname{diag}(1,-1,-1,-1)\).
+There are three representations of the same four-momentum.
+
+\begin{longtable}{@{}L{36mm}L{55mm}L{55mm}@{}}
+\toprule
+Representation & Definition & Mass shell \\
+\midrule
+\endhead
+SI momentum chart &
+\(p^\mu_{\SI}=(E/c,\bm p)\) &
+\(p_{\SI,\mu}p^\mu_{\SI}=m^2c^2\) \\
+SI energy chart &
+\(\Pi^\mu_{\SI}=c\,p^\mu_{\SI}=(E,c\bm p)\) &
+\(\Pi_{\SI,\mu}\Pi^\mu_{\SI}=(mc^2)^2\) \\
+HEP numerical chart &
+\(P^\mu_{\HEP}=\Pi^\mu_{\SI}/\Ezero\) &
+\(P_{\HEP,\mu}P^\mu_{\HEP}=(mc^2/\Ezero)^2\) \\
+\bottomrule
+\end{longtable}
+
+Thus the collider shorthand
+\[
+m^2=E^2-\norm{\bm p}^2
+\]
+is legal only when \(m\) means the energy-valued mass \(mc^2\),
+\(\bm p\) means \(c\bm p_{\SI}\), and all three numerical entries use
+the same energy anchor. The passport-preferred notation is
+\[
+\mu:=mc^2,\qquad \bm\pi:=c\bm p_{\SI},\qquad
+\mu^2=E^2-\norm{\bm\pi}^2.
+\]
+
+For a reconstructed system,
+\[
+\mu_{\mathrm{inv}}^2
+=
+\left(\sum_i E_i\right)^2
+-\left\lVert\sum_i\bm\pi_i\right\rVert^2.
+\]
+Equivalently in SI momentum coordinates,
+\[
+m_{\mathrm{inv}}^2c^4
+=
+\left(\sum_i E_i\right)^2
+-c^2\left\lVert\sum_i\bm p_i\right\rVert^2.
+\]
+These are the same equation under the explicit map
+\(\bm\pi_i=c\bm p_i\).
+
+\section{Exact accelerator bridges}
+
+\subsection{Magnetic rigidity}
+
+For transverse motion in a magnetic field,
+\[
+\abs{q}\,B\rho=\abs{\bm p}_{\SI}.
+\]
+Let \(q=ze\), with signed dimensionless charge state \(z\).
+Write \(e_0=e/(1\,\mathrm C)\) and
+\(c_0=c/(1\,\mathrm{m\,s^{-1}})\) for the exact numerical values in
+the declared SI units. Then
+\[
+q=z e_0\,\mathrm C,\qquad
+1\,\GeV=10^9e_0\,\mathrm J,\qquad
+1\,\GeV/c=\frac{10^9e_0}{c_0}\ \mathrm{kg\,m\,s^{-1}},
+\]
+division by the momentum unit gives
+\[
+\boxed{
+p[\GeV/c]=0.299792458\,z\,B\rho[\mathrm{T\,m}].
+}
+\]
+The coefficient is exact for the declared units because
+\[
+0.299792458=\frac{c[\mathrm{m\,s^{-1}}]}{10^9}.
+\]
+Signs encode bending orientation; magnitudes use \(\abs z\).
+
+\begin{warning}[Geometry boundary]
+The dipole bending radius is not \(C/(2\pi)\) for a ring with straight
+sections. A circumference may determine the revolution frequency, but
+it cannot be substituted for \(\rho\) in \(B\rho\) without a lattice
+model.
+\end{warning}
+
+\subsection{RF voltage}
+
+For a particle crossing an idealized RF gap at phase \(\phi\),
+\[
+\Delta E[\mathrm J]=q[\mathrm C]\,V[\mathrm V]\sin\phi.
+\]
+With \(q=ze\), the exact unit identity is
+\[
+\boxed{
+\Delta E[\mathrm{eV}]=z\,V[\mathrm V]\sin\phi,\qquad
+\Delta E[\GeV]=10^{-9}z\,V[\mathrm V]\sin\phi.
+}
+\]
+The conversion is exact. The single-gap sinusoidal model is an
+approximation to a real cavity and has a distinct model-error status.
+
+\section{Electromagnetic normalization boundary}
+
+The mechanical theorem requires zero exponents of \(I,\Theta,N,J\).
+It therefore does not naturalize coulombs, amperes, tesla, or volts
+by itself. In a rationalized Heaviside--Lorentz field convention one
+often writes
+\[
+e_{\mathrm{HL}}=\sqrt{4\pi\alpha},
+\]
+whereas other conventions distribute factors of \(4\pi\) differently
+between fields and couplings. The statements
+\[
+c=\hbar=1,\qquad B\sim E^2
+\]
+do not select among these conventions.
+
+The normative LHC policy is therefore:
+\begin{enumerate}[label=(\alph*)]
+  \item retain the Lorentz force and \(B\) in SI;
+  \item encode charge as \(q=ze\);
+  \item cross to HEP momentum only through the rigidity bridge;
+  \item do not register a standalone tesla-to-\(\GeV^2\) conversion.
+\end{enumerate}
+This is a deliberate restriction, not a missing calculation.
+
+\section{Exactness and uncertainty}
+
+\begin{longtable}{@{}L{38mm}L{50mm}L{59mm}@{}}
+\toprule
+Status & Examples & Rule \\
+\midrule
+\endhead
+Definition-exact &
+\(c,h,e,\mathrm{eV}\leftrightarrow\mathrm J\),
+rigidity coefficient &
+Adds no physical uncertainty; printed decimals may be rounded. \\
+Measured constant &
+proton mass energy &
+Retain the source value, standard uncertainty, edition, and covariance
+when relevant. \\
+Operational reference &
+LHC beam energy, bunch population &
+Record epoch, machine mode, nominal/measured status, and precision. \\
+Rounded geometry &
+public circumference \(26659\,\mathrm m\) &
+Do not report derived revolution frequency as more accurate than the
+input geometry. \\
+Model-dependent &
+single-gap RF gain, ideal linear optics &
+Separate model discrepancy from unit conversion. \\
+\bottomrule
+\end{longtable}
+
+For a differentiable derived vector \(\bm y=f(\bm x)\), the first-order
+covariance rule is
+\[
+\Sigma_y=J_f\Sigma_xJ_f^{\mathsf T}.
+\]
+Exact conversion constants enter \(J_f\) but contribute no independent
+variance. Correlated inputs must not be propagated as independent
+errors.
+
+\section{Normative machine contract}
+
+A valid conversion event must contain:
+\[
+\begin{aligned}
+(&\mathsf{quantity\_id},\mathsf{semantic\_kind},
+\bm d_{\SI},\mathsf{frame},\\
+ &\mathsf{source\_context},\mathsf{source\_unit},
+\mathsf{target\_context},\mathsf{target\_unit},\\
+ &\mathsf{absorbed\_constants},\Ezero,
+\mathsf{representation},\mathsf{exactness},
+\mathsf{uncertainty},\mathsf{provenance}).
+\end{aligned}
+\]
+The conversion is rejected if:
+\begin{itemize}
+  \item a residual \(I,\Theta,N,J\) dimension crosses into the mechanical
+  HEP chart without an extension contract;
+  \item \(m\), \(p\), and \(E\) are combined without a common
+  four-momentum representation;
+  \item a field is converted without an electromagnetic convention;
+  \item an operational LHC value lacks an epoch or mode;
+  \item a rounded public input is marked exact.
+\end{itemize}
+
+\section{Claim audit}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}L{47mm}L{28mm}Y@{}}
+\toprule
+Statement & Status & Reason \\
+\midrule
+Mechanical exponent map & theorem & linear dimension algebra \\
+Round-trip conversion & theorem & inverse by construction \\
+Rigidity coefficient \(0.299792458\) & exact identity & SI definitions and declared units \\
+\(\mu^2=E^2-\bm\pi^2\) & standard result & Lorentz metric and representation choice \\
+Run 3 \(6.8\,\mathrm{TeV}\) reference & operational datum & CERN epoch-dependent value \\
+Completeness for all SI quantities & rejected & electromagnetic and other residual dimensions excluded \\
+New physical prediction & not claimed & passport is infrastructure \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section*{References}
+\addcontentsline{toc}{section}{References}
+
+\begin{enumerate}[label={[\arabic*]}]
+  \item BIPM, \emph{The International System of Units (SI)},
+  9th ed., version 4.01.
+  \url{https://www.bipm.org/documents/20126/41483022/SI-Brochure-9-EN.pdf}
+  \item P.\ J.\ Mohr et al., ``CODATA recommended values of the
+  fundamental physical constants: 2022,'' 2025.
+  \url{https://physics.nist.gov/cuu/pdf/JPCRD2022CODATA.pdf}
+  \item Particle Data Group, ``Physical Constants,'' in
+  \emph{Review of Particle Physics 2024}.
+  \url{https://pdg.lbl.gov/2024/reviews/rpp2024-rev-phys-constants.pdf}
+  \item CERN, ``Large Hadron Collider: facts and figures.''
+  \url{https://home.cern/science/accelerators/large-hadron-collider/}
+  \item CERN, \emph{LHC Design Report}, Vol.\ I, 2004.
+  \url{https://cds.cern.ch/record/782076/files/CERN-2004-003-V1-ft.pdf}
+\end{enumerate}
+
+\end{document}

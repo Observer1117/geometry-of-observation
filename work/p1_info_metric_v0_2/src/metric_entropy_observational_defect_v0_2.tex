@@ -1,0 +1,906 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=21mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Metric Entropy and Observational Entropy Defect},
+  pdfauthor={Stassis Research Program},
+  pdfsubject={GO Core v0.2 reference module for covering numbers, matched-scale defects, fibers, curvature, and heat trace},
+  pdfkeywords={covering number, packing number, metric entropy, observation map, entropy defect, heat trace, GO Core}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Ccal}{\mathcal{C}}
+\newcommand{\Hmet}{\mathscr{H}}
+\newcommand{\Dmet}{\mathscr{D}^{\mathrm{met}}}
+\newcommand{\dmet}{\delta^{\mathrm{met}}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\Vol}{\operatorname{Vol}}
+\newcommand{\Scal}{\operatorname{Scal}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\Lip}{\operatorname{Lip}}
+\newcommand{\card}{\operatorname{card}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\status}[1]{\textsf{\footnotesize #1}}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Metric Entropy and Observational Entropy Defect\\
+\large Matched resolutions, hidden fibers, curvature, and heat-trace complexity}
+\author{Stassis Research Program}
+\date{Strict GO Core reference revision v0.2 --- 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.91\linewidth}{\small
+\textbf{Status.} This revision is the metric-scale P1 reference module for
+GO Core v0.2. It replaces dimensional logarithms by reference-scale ratios,
+uses separate input and output resolutions, types the Lipschitz constant,
+assigns the heat parameter geometric dimension $L^2$ before
+nondimensionalization, and removes the untyped curvature/gradient/entropy
+sum of v0.1.}}
+\end{center}
+
+\begin{abstract}
+Covering numbers quantify the number of metric cells needed to resolve a
+set at a declared scale. Their logarithms are information-valued because
+their arguments are counts, but all scale limits must use dimensionless
+ratios. For a Lipschitz observation
+$O:(X,d_X)\to(Y,d_Y)$, the physically correct interface uses two
+resolutions, $\varepsilon_X$ and $\varepsilon_Y$, satisfying
+$L_O\varepsilon_X\leq\varepsilon_Y$. The matched-scale defect
+\[
+\Dmet_{O,b}(A;\varepsilon_X,\varepsilon_Y)
+=
+\log_b N_{\varepsilon_X}(A,d_X)
+-
+\log_b N_{\varepsilon_Y}(O(A),d_Y)
+\]
+is then nonnegative. Its normalized version has an explicit zero policy
+and is invariant under changes of length unit and information unit.
+Defects telescope exactly under composable matched observations. Product
+fibers, a hidden circle, finite parity, and chromatic graph lifts are
+treated with stated metric hypotheses. Curvature enters only through
+dimensionless small-ball asymptotics. The heat-trace logarithm is typed as
+a smooth spectral complexity proxy, not as Shannon or thermodynamic
+entropy. The module is a strict interface built from standard metric,
+Riemannian, and spectral facts; no new gravity law is claimed.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and terminology}
+
+This document uses \emph{metric entropy} in the
+Kolmogorov--Tikhomirov covering sense
+\[
+\Hmet_{b,\varepsilon}(A,d)=\log_bN_\varepsilon(A,d),
+\]
+not in the Kolmogorov--Sinai dynamical sense. The logarithm base $b>1$ is
+always declared. A physical metric can be length-valued; an abstract metric
+may carry another declared scale type. Every set placed inside a logarithm
+is assumed nonempty. The empty-set covering number is not assigned an
+entropy in this module.
+
+\begin{warning}[Claim boundary]
+Covering entropy is neither thermodynamic entropy nor physical energy.
+Curvature influences local volume and hence covering estimates, but this
+does not derive Einstein's equations. A hidden metric fiber is a
+mathematical non-identifiability mechanism, not automatically an extra
+physical dimension.
+\end{warning}
+
+\section{Covering, packing, and scale passports}
+
+\begin{definition}[Internal covering number]
+Let $(X,d)$ be a metric space, $A\subseteq X$, and $\varepsilon>0$ with the
+same scale type as $d$. Using closed balls
+$\overline B_d(x,\varepsilon)$, define
+\[
+N_\varepsilon(A,d)
+=
+\min\left\{
+\abs{S}:
+S\subseteq A,\ 
+A\subseteq\bigcup_{s\in S}\overline B_d(s,\varepsilon)
+\right\},
+\]
+and set $N_\varepsilon(A,d)=+\infty$ when no finite cover exists.
+\end{definition}
+
+\begin{definition}[Packing number]
+For $\varepsilon>0$, define
+\[
+P_\varepsilon(A,d)
+=
+\sup\left\{
+\abs{S}:
+S\subseteq A,\ 
+d(x,x')>\varepsilon\ \text{for }x\neq x'
+\right\}.
+\]
+For a totally bounded set this number is finite; for compact $A$ the
+supremum is attained.
+\end{definition}
+
+\begin{proposition}[Covering-packing sandwich]
+\label{prop:packing-covering}
+For every totally bounded $A$ and $\varepsilon>0$,
+\[
+P_{2\varepsilon}(A,d)
+\leq
+N_\varepsilon(A,d)
+\leq
+P_\varepsilon(A,d).
+\]
+\end{proposition}
+
+\begin{proof}
+An $\varepsilon$-ball contains at most one point of a
+$2\varepsilon$-separated set, which gives the first inequality. A maximal
+$\varepsilon$-separated set is an $\varepsilon$-net, giving the second.
+\end{proof}
+
+\begin{definition}[Covering entropy]
+For $N_\varepsilon(A,d)<\infty$,
+\[
+\Hmet_{b,\varepsilon}(A,d)
+:=
+\log_bN_\varepsilon(A,d).
+\]
+Its physical dimension is $\mathbf0$, its semantic type is
+\texttt{information}, and its information unit is fixed by $b$.
+\end{definition}
+
+\subsection{Coherent changes of length and information unit}
+
+\begin{theorem}[Metric-unit covariance]
+\label{thm:metric-rescale}
+For every scale factor $a>0$,
+\[
+N_{a\varepsilon}(A,ad)=N_\varepsilon(A,d),
+\qquad
+\Hmet_{b,a\varepsilon}(A,ad)
+=
+\Hmet_{b,\varepsilon}(A,d).
+\]
+\end{theorem}
+
+\begin{proof}
+$\overline B_{ad}(x,a\varepsilon)=
+\overline B_d(x,\varepsilon)$ as subsets of $X$, so the admissible covers
+are identical.
+\end{proof}
+
+\begin{theorem}[Information-unit covariance]
+\label{thm:metric-base}
+For $b,c>1$,
+\[
+\Hmet_{b,\varepsilon}(A,d)
+=
+\log_b(c)\,\Hmet_{c,\varepsilon}(A,d).
+\]
+Therefore ratios of finite positive covering entropies computed at the
+same base are base independent.
+\end{theorem}
+
+\section{Dimension without dimensional logarithms}
+
+Choose a positive reference scale $\ell_*$ with the same physical
+dimension as $d$, and write
+\[
+\bar d=\frac{d}{\ell_*},
+\qquad
+\rho=\frac{\varepsilon}{\ell_*}.
+\]
+Both are dimensionless. The lower and upper box dimensions are
+\begin{align}
+\underline{\dim}_{B}(A,d)
+&=
+\liminf_{\varepsilon\downarrow0}
+\frac{\Hmet_{b,\varepsilon}(A,d)}
+{\log_b(\ell_*/\varepsilon)},\\
+\overline{\dim}_{B}(A,d)
+&=
+\limsup_{\varepsilon\downarrow0}
+\frac{\Hmet_{b,\varepsilon}(A,d)}
+{\log_b(\ell_*/\varepsilon)}.
+\end{align}
+When they agree, their common value is $\dim_B(A,d)$.
+
+\begin{proposition}[Convention independence]
+\label{prop:dimension-invariance}
+The lower and upper box dimensions are independent of the logarithm base,
+the coherent length unit, and the choice of fixed positive reference
+length $\ell_*$.
+\end{proposition}
+
+\begin{proof}
+Changing the logarithm base multiplies numerator and denominator by the
+same positive constant. A coherent unit change leaves the ratios
+$d/\ell_*$ and $\varepsilon/\ell_*$ unchanged by
+\cref{thm:metric-rescale}. Replacing $\ell_*$ by $a\ell_*$ adds the constant
+$\log_b a$ to the denominator; this does not alter the limiting quotient.
+\end{proof}
+
+\begin{remark}[Prohibited shorthand]
+The expression $\log(1/\varepsilon)$ is not physically typed when
+$\varepsilon$ is a length. It is permitted only after an explicit
+nondimensionalization, as $\log(1/\rho)$ or
+$\log(\ell_*/\varepsilon)$.
+\end{remark}
+
+\section{Lipschitz observations at matched resolutions}
+
+Let $d_X$ and $d_Y$ have declared scale types $U_X$ and $U_Y$. A Lipschitz
+constant has type $U_Y/U_X$:
+\[
+d_Y(Ox,Ox')
+\leq
+L_O\,d_X(x,x').
+\]
+When both metrics are lengths, $L_O$ is physically dimensionless.
+
+\begin{definition}[Matched scale pair]
+A pair $(\varepsilon_X,\varepsilon_Y)$ is admissible for $O$ if
+\[
+\varepsilon_X>0,\qquad
+\varepsilon_Y>0,\qquad
+L_O\varepsilon_X\leq\varepsilon_Y.
+\]
+\end{definition}
+
+\begin{theorem}[Matched-scale covering contraction]
+\label{thm:matched-contraction}
+If $O:(X,d_X)\to(Y,d_Y)$ is $L_O$-Lipschitz and
+$(\varepsilon_X,\varepsilon_Y)$ is matched, then for every totally bounded
+$A\subseteq X$,
+\[
+N_{\varepsilon_Y}(O(A),d_Y)
+\leq
+N_{\varepsilon_X}(A,d_X),
+\]
+and hence
+\[
+\Hmet_{b,\varepsilon_Y}(O(A),d_Y)
+\leq
+\Hmet_{b,\varepsilon_X}(A,d_X).
+\]
+\end{theorem}
+
+\begin{proof}
+The image of every $d_X$-ball of radius $\varepsilon_X$ is contained in a
+$d_Y$-ball of radius $L_O\varepsilon_X\leq\varepsilon_Y$. Map the centers
+of an optimal finite input cover through $O$.
+\end{proof}
+
+\begin{definition}[Matched-scale observational defect]
+\label{def:metric-defect}
+For an admissible scale pair, define
+\[
+\Dmet_{O,b}(A;\varepsilon_X,\varepsilon_Y)
+:=
+\Hmet_{b,\varepsilon_X}(A,d_X)
+-
+\Hmet_{b,\varepsilon_Y}(O(A),d_Y)
+\geq0.
+\]
+This is an information-valued scale profile, not a physical length or
+energy.
+\end{definition}
+
+\begin{definition}[Normalized metric defect]
+\label{def:normalized-metric-defect}
+Set
+\[
+\dmet_O(A;\varepsilon_X,\varepsilon_Y)
+=
+\begin{cases}
+\dfrac{\Dmet_{O,b}(A;\varepsilon_X,\varepsilon_Y)}
+{\Hmet_{b,\varepsilon_X}(A,d_X)},
+&
+\Hmet_{b,\varepsilon_X}(A,d_X)>0,\\[1.2ex]
+0,&
+\Hmet_{b,\varepsilon_X}(A,d_X)=0.
+\end{cases}
+\]
+The second line is the declared one-cell zero policy.
+\end{definition}
+
+\begin{proposition}[Invariances and bounds]
+\label{prop:metric-defect-invariance}
+$0\leq\dmet_O\leq1$. It is invariant under information-base changes and
+under coherent rescaling of each metric together with its own resolution.
+\end{proposition}
+
+\begin{proof}
+Nonnegativity follows from \cref{thm:matched-contraction}; the upper bound
+uses nonnegativity of the image entropy. Base factors cancel by
+\cref{thm:metric-base}, and coherent metric rescaling leaves both covering
+numbers unchanged by \cref{thm:metric-rescale}.
+\end{proof}
+
+\begin{theorem}[Exact composition law]
+\label{thm:defect-composition}
+Let $O_1:X\to Y$ and $O_2:Y\to Z$ be Lipschitz. If
+\[
+L_1\varepsilon_X\leq\varepsilon_Y,
+\qquad
+L_2\varepsilon_Y\leq\varepsilon_Z,
+\]
+then
+\begin{align*}
+\Dmet_{O_2\circ O_1,b}
+(A;\varepsilon_X,\varepsilon_Z)
+={}&
+\Dmet_{O_1,b}
+(A;\varepsilon_X,\varepsilon_Y)\\
+&+
+\Dmet_{O_2,b}
+(O_1(A);\varepsilon_Y,\varepsilon_Z).
+\end{align*}
+\end{theorem}
+
+\begin{proof}
+Expand the two terms on the right. The intermediate covering entropy
+$\Hmet_{b,\varepsilon_Y}(O_1(A),d_Y)$ cancels. Each term is nonnegative by
+\cref{thm:matched-contraction}.
+\end{proof}
+
+\begin{remark}
+The uncorrected same-symbol difference
+$\Hmet_{b,\varepsilon}(A,d_X)
+-\Hmet_{b,\varepsilon}(O(A),d_Y)$
+has no invariant meaning until the input and output scale types and unit
+conversion are declared.
+\end{remark}
+
+\section{Hidden product fibers}
+
+\begin{proposition}[Product covering bounds]
+\label{prop:product}
+Let $B,F$ be nonempty totally bounded metric spaces and equip $B\times F$
+with
+\[
+d_\infty((b,f),(b',f'))
+=
+\max\set{d_B(b,b'),d_F(f,f')}.
+\]
+Then
+\[
+N_\varepsilon(B,d_B)
+\leq
+N_\varepsilon(B\times F,d_\infty)
+\leq
+N_\varepsilon(B,d_B)N_\varepsilon(F,d_F).
+\]
+For the projection $\pi:B\times F\to B$,
+\[
+0\leq
+\Dmet_{\pi,b}(B\times F;\varepsilon,\varepsilon)
+\leq
+\Hmet_{b,\varepsilon}(F,d_F).
+\]
+\end{proposition}
+
+\begin{proof}
+An $\varepsilon$-cover of the product restricts to an
+$\varepsilon$-cover of the isometric copy $B\times\set{f_0}$, giving the
+lower bound. The Cartesian product of input covers gives the upper bound.
+The entropy inequalities follow by taking logarithms.
+\end{proof}
+
+\begin{theorem}[Compact manifold fiber asymptotics]
+\label{thm:manifold-fiber}
+Let $B$ and $F$ be compact Riemannian manifolds of dimensions $m$ and $n$,
+and let a common reference length $\ell_*>0$ nondimensionalize their
+distance metrics. For the max product metric,
+\[
+\Dmet_{\pi,b}(B\times F;\varepsilon,\varepsilon)
+=
+n\log_b\frac{\ell_*}{\varepsilon}+O(1)
+\quad
+(\varepsilon\downarrow0).
+\]
+\end{theorem}
+
+\begin{proof}
+For every compact smooth $k$-manifold, local Euclidean comparison and a
+finite atlas yield constants $0<c<C<\infty$ such that
+\[
+c\left(\frac{\ell_*}{\varepsilon}\right)^k
+\leq
+N_\varepsilon(M)
+\leq
+C\left(\frac{\ell_*}{\varepsilon}\right)^k
+\]
+for sufficiently small $\varepsilon$. Apply this to $B\times F$ and $B$
+and subtract the logarithms.
+\end{proof}
+
+\begin{corollary}[Hidden circle]
+For the intrinsic geodesic metric on a circle $S^1_R$ of radius $R$,
+\[
+N_\varepsilon(S^1_R)
+=
+\left\lceil\frac{\pi R}{\varepsilon}\right\rceil,
+\qquad
+0<\varepsilon<\pi R.
+\]
+Hence a forgotten circle contributes
+\[
+\log_b\frac{R}{\varepsilon}+O(1)
+\]
+to the small-scale projection defect.
+\end{corollary}
+
+\begin{proof}
+A closed geodesic ball of radius $\varepsilon$ covers an arc of length
+$2\varepsilon$. The circle has circumference $2\pi R$; equally spaced
+centers attain the stated ceiling.
+\end{proof}
+
+\begin{corollary}[Finite parity fiber]
+Let $F=\mathbb{Z}/2\mathbb{Z}$ with point separation $a>0$. Then
+\[
+\Hmet_{b,\varepsilon}(F)
+=
+\begin{cases}
+\log_b2,&0<\varepsilon<a,\\
+0,&\varepsilon\geq a.
+\end{cases}
+\]
+The finite defect therefore depends explicitly on whether the protocol
+resolves the two points.
+\end{corollary}
+
+\section{Operational bridge to probabilistic information}
+
+The packing number is the largest codebook size at a declared minimum
+separation. A uniform random variable $X_S$ on a finite
+$\varepsilon$-separated codebook $S$ has
+\[
+H_b(X_S)=\log_b\abs{S}
+\leq
+\log_bP_\varepsilon(A,d).
+\]
+Conversely, a chosen $\varepsilon$-cover produces a deterministic
+finite quantizer with at most $N_\varepsilon(A,d)$ labels, so its output
+entropy is at most $\Hmet_{b,\varepsilon}(A,d)$ for every source law.
+Together with \cref{prop:packing-covering}, this gives an operational
+packing/covering bracket on finite-resolution distinguishability.
+
+\begin{warning}[No automatic equality]
+The metric defect depends on worst-case covering capacity, while
+$H_b(X\mid Y)$ depends on a source law and conditional probabilities.
+They can agree in calibrated finite symmetric examples, but there is no
+general identity between them.
+\end{warning}
+
+\section{Chromatic graph lifts}
+
+Let $(X,d_X)$ be length-valued and let $(C,d_C)$ be a declared feature
+space. Choose a scale converter $\lambda>0$ of type
+$[d_X]/[d_C]$ and define
+\[
+D_\lambda((x,a),(y,c))^2
+=
+d_X(x,y)^2+\lambda^2d_C(a,c)^2.
+\]
+For a field $c:X\to C$, its graph is
+\[
+\Gamma_c=\set{(x,c(x)):x\in X}.
+\]
+
+\begin{proposition}[Typed chromatic entropy sandwich]
+\label{prop:chromatic}
+If $c$ is $L_c$-Lipschitz, then $\lambda L_c$ is dimensionless and
+\[
+\Hmet_{b,\varepsilon}(X,d_X)
+\leq
+\Hmet_{b,\varepsilon}(\Gamma_c,D_\lambda)
+\leq
+\Hmet_{b,\varepsilon/\sqrt{1+(\lambda L_c)^2}}(X,d_X).
+\]
+\end{proposition}
+
+\begin{proof}
+Projection $\Gamma_c\to X$ is $1$-Lipschitz. The graph map
+$x\mapsto(x,c(x))$ is
+$\sqrt{1+(\lambda L_c)^2}$-Lipschitz. Apply
+\cref{thm:matched-contraction} to both maps.
+\end{proof}
+
+The chromatic excess
+\[
+\mathscr{L}^{\mathrm{ch}}_{b,\varepsilon}(X,c;\lambda)
+=
+\Hmet_{b,\varepsilon}(\Gamma_c,D_\lambda)
+-
+\Hmet_{b,\varepsilon}(X,d_X)
+\]
+is therefore nonnegative. It measures graph-metric complexity, not hidden
+probabilistic label entropy. If labels are random conditional on position,
+the separate quantity $H_b(C\mid X)$ belongs to the information-theoretic
+module.
+
+\section{Local volume, curvature, and a typed pressure model}
+
+Let $(M,g)$ be a closed Riemannian $n$-manifold. Fix $\ell_*>0$ and define
+\[
+\bar d=\frac{d_g}{\ell_*},
+\qquad
+\dd\bar V=\frac{\dd V_g}{\ell_*^n},
+\qquad
+\overline{\Scal}=\ell_*^2\Scal_g,
+\qquad
+\bar r=\frac{r}{\ell_*}.
+\]
+Every barred quantity in this display is dimensionless.
+
+\begin{proposition}[Dimensionless small-ball expansion]
+\label{prop:small-ball}
+As $\bar r\downarrow0$,
+\[
+\bar V(B_{\bar d}(x,\bar r))
+=
+\omega_n\bar r^n
+\left[
+1-\frac{\overline{\Scal}(x)}{6(n+2)}\bar r^2
++O(\bar r^4)
+\right].
+\]
+\end{proposition}
+
+\begin{remark}
+The statement is local and asymptotic. The sign of scalar curvature
+controls the leading relative volume correction; it does not by itself
+determine a finite-scale covering number or a gravitational field equation.
+\end{remark}
+
+Choose a positive reference information $h_*$ in base-$b$ units and a
+positive dimensionless reference volume $\bar v_*$. A typed local
+complexity density is
+\[
+\widehat\rho_{b,\varepsilon,r}(x)
+=
+\frac{
+\Hmet_{b,\varepsilon}
+\bigl(B_g(x,r),d_g\bigr)
+}{h_*}
+\,
+\frac{\bar v_*}
+{\bar V(B_{\bar d}(x,\bar r))}.
+\]
+Both ratios are dimensionless and both denominators have strict positivity
+policies.
+
+\begin{model}[Dimensionless entropy-pressure functional]
+Let $\Phi:[0,\infty)\to[0,\infty)$ be declared and let
+$\dd\bar\mu_g=\dd\bar V/\bar V(M)$. Then
+\[
+\mathcal{P}_{b,\varepsilon,r}[g]
+=
+\int_M
+\Phi\!\left(\widehat\rho_{b,\varepsilon,r}(x)\right)
+\dd\bar\mu_g(x)
+\]
+is dimensionless. Any combination with curvature, gradient, or physical
+energy terms must first normalize each component separately:
+\[
+\mathcal{J}
+=
+\sum_{k=1}^Nw_k\,\phi_k(\nu_k),
+\qquad
+w_k\geq0,\quad\sum_kw_k=1,
+\]
+where every $\nu_k$ is a declared nonnegative dimensionless quantity with
+zero and infinity policies. This is a decision functional, not a universal
+invariant.
+\end{model}
+
+\section{Heat trace with a geometric scale}
+
+Let $\Delta_g\geq0$ be the nonnegative Laplace--Beltrami operator on a
+closed Riemannian manifold. Its eigenvalues have physical dimension
+$L^{-2}$. Define
+\[
+\overline\Delta=\ell_*^2\Delta_g,
+\qquad
+\bar\lambda_j=\ell_*^2\lambda_j,
+\qquad
+\tau=\frac{s}{\ell_*^2}>0,
+\]
+where the geometric heat parameter $s$ has dimension $L^2$. Then
+\[
+\tau\bar\lambda_j=s\lambda_j
+\]
+is dimensionless.
+
+\begin{definition}[Heat-trace complexity]
+\[
+Z_g(\tau)
+=
+\Tr(e^{-\tau\overline\Delta})
+=
+\sum_{j=0}^{\infty}e^{-\tau\bar\lambda_j},
+\qquad
+\Ccal^{\mathrm{heat}}_{b,\tau}(M,g)
+=
+\log_bZ_g(\tau).
+\]
+\end{definition}
+
+\begin{warning}[Semantic status]
+$\log_bZ_g(\tau)$ is a log heat trace, analogous to a log partition
+function. It is not Shannon entropy, von Neumann entropy, or thermodynamic
+entropy unless a separate normalized state and physical model are supplied.
+\end{warning}
+
+\begin{theorem}[Small-$\tau$ heat-trace expansion]
+\label{thm:heat}
+For a closed smooth $n$-manifold,
+\[
+Z_g(\tau)
+\sim
+(4\pi\tau)^{-n/2}
+\left[
+\bar V(M)
++\frac{\tau}{6}
+\int_M\overline{\Scal}\,\dd\bar V
++O(\tau^2)
+\right]
+\quad
+(\tau\downarrow0).
+\]
+All terms in the bracket are dimensionless.
+\end{theorem}
+
+If $t_{\mathrm{phys}}$ is a diffusion time and $\kappa$ has dimension
+$L^2T^{-1}$, then
+\[
+\tau
+=
+\frac{\kappa t_{\mathrm{phys}}}{\ell_*^2}
+\]
+is the required dimensionless parameter. Writing
+$e^{-t_{\mathrm{phys}}\Delta_g}$ without a diffusivity is dimensionally
+incorrect when $\Delta_g$ has dimension $L^{-2}$.
+
+\section{Shell graphs and a conditional cylindrical example}
+
+For a finite configuration $P=\set{p_1,\ldots,p_N}$, define a shell graph
+using a radius $r>0$ and tolerance $\sigma\geq0$ of the same dimension:
+\[
+E_{r,\sigma}(P)
+=
+\set{\set{i,j}:1\leq i<j\leq N,\ 
+\abs{d(p_i,p_j)-r}<\sigma}.
+\]
+Under coherent rescaling
+$(d,r,\sigma)\mapsto(ad,ar,a\sigma)$, the graph is unchanged. Exact
+unit-distance incidence corresponds to a declared Euclidean reference
+length and $\sigma=0$; it is not inferred from covering numbers alone.
+
+\begin{model}[Cylindrical parameter fiber]
+Suppose a nondimensionalized compact parameter space has the product form
+\[
+\mathcal{P}=S^2\times D\times S^1\times SO(2),
+\]
+where $D$ is a finite set of $q$ separated diameter states. With a regular
+product metric,
+\[
+\Hmet_{b,\rho}(\mathcal{P})
+=
+4\log_b(1/\rho)+\log_bq+O(1).
+\]
+If a Lipschitz observation has bounded image in a one-dimensional interval,
+then its image covering entropy is at most
+$\log_b(1/\rho)+O(1)$ at matched dimensionless scales. Thus the defect is
+at least
+\[
+3\log_b(1/\rho)+\log_bq+O(1)
+\]
+under these stated hypotheses. No such rate is asserted for an arbitrary
+non-Lipschitz readout or an undeclared product metric.
+\end{model}
+
+\section{GO Core quantity and protocol ledger}
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}L{30mm}L{24mm}L{28mm}Y@{}}
+\toprule
+Quantity & Physical dimension & Semantic type & Required protocol fields\\
+\midrule
+$d_X,\varepsilon_X,\ell_{*,X}$ & $U_X$ & metric scale
+& metric, ball convention, input resolution, reference scale\\
+$d_Y,\varepsilon_Y,\ell_{*,Y}$ & $U_Y$ & metric scale
+& output metric, output resolution, reference scale\\
+$L_O$ & $U_Y/U_X$ & Lipschitz scale converter
+& domain, codomain, certified or assumed bound\\
+$N_\varepsilon,P_\varepsilon$ & $\mathbf0$ & count
+& internal/external centers, closed/open balls, separation convention\\
+$\Hmet_{b,\varepsilon}$ & $\mathbf0$ & information in base $b$
+& logarithm base and finite/infinite policy\\
+$\Dmet_{O,b}$ & $\mathbf0$ & scale-profile information defect
+& matched pair $(\varepsilon_X,\varepsilon_Y)$\\
+$\dmet_O$ & $\mathbf0$ & normalized loss
+& positive entropy denominator or one-cell zero policy\\
+$s$ & $L^2$ & geometric heat parameter
+& $\ell_*$ or physical diffusivity map\\
+$\tau=s/\ell_*^2$ & $\mathbf0$ & normalized heat scale
+& strictly positive $\ell_*$\\
+$\lambda$ & $[d_X]/[d_C]$ & feature scale converter
+& feature metric and chromatic protocol\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The protocol ledger declares the hidden metric space, system descriptor,
+reduction (or identity), deterministic observation, stochastic channel (or
+noiseless statement), observed metric space, reference frame or
+\texttt{not applicable}, quantizer/partition, both spatial resolutions,
+temporal resolution, observation horizon, estimator/direct readout,
+uncertainty/exactness status, SI/neutral unit contexts, and defect
+normalizations.
+
+\section{Claim audit and conclusion}
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}YY@{}}
+\toprule
+Established under stated hypotheses & Not established by this module\\
+\midrule
+Matched Lipschitz observations contract covering numbers.
+&
+A same-numerical-scale entropy difference is invariant across arbitrary
+metric units.\\
+Product fibers contribute their box dimension to logarithmic defect growth.
+&
+Every hidden mathematical fiber is a physical compact dimension.\\
+The normalized defect is invariant under coherent length and information
+unit changes.
+&
+Covering entropy is automatically equal to conditional Shannon entropy.\\
+Scalar curvature enters the leading small-ball volume correction.
+&
+An entropy-pressure ansatz derives a gravitational field equation.\\
+The nondimensionalized heat trace has standard spectral asymptotics.
+&
+The heat-trace logarithm is thermodynamic entropy without a state model.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The strict observable is the scale profile
+\[
+\boxed{
+(\varepsilon_X,\varepsilon_Y)
+\longmapsto
+\Dmet_{O,b}(A;\varepsilon_X,\varepsilon_Y),
+\qquad
+L_O\varepsilon_X\leq\varepsilon_Y.
+}
+\]
+It is not collapsed into a single universal defect unless a protocol
+chooses a scale distribution or a decision functional. The principal
+addition of v0.2 is type safety and compositional closure; the covering,
+manifold, and heat-kernel results themselves are standard.
+
+\begin{thebibliography}{99}
+
+\bibitem{KolmogorovTikhomirov}
+A.~N. Kolmogorov and V.~M. Tikhomirov,
+\newblock $\varepsilon$-entropy and $\varepsilon$-capacity of sets in
+function spaces,
+\newblock \emph{American Mathematical Society Translations, Series 2}
+\textbf{17} (1961), 277--364,
+\newblock \href{https://doi.org/10.1090/trans2/017/10}
+{doi:10.1090/trans2/017/10}.
+
+\bibitem{Dudley}
+R.~M. Dudley,
+\newblock \emph{Real Analysis and Probability},
+\newblock Cambridge University Press, Cambridge, 2002.
+
+\bibitem{BuragoBuragoIvanov}
+D. Burago, Y. Burago, and S. Ivanov,
+\newblock \emph{A Course in Metric Geometry},
+\newblock American Mathematical Society, Providence, 2001.
+
+\bibitem{Falconer}
+K. Falconer,
+\newblock \emph{Fractal Geometry: Mathematical Foundations and
+Applications}, third edition,
+\newblock Wiley, Chichester, 2014.
+
+\bibitem{Petersen}
+P. Petersen,
+\newblock \emph{Riemannian Geometry}, third edition,
+\newblock Springer, Cham, 2016.
+
+\bibitem{GrayTubes}
+A. Gray,
+\newblock \emph{Tubes}, second edition,
+\newblock Birkhauser, Basel, 2004.
+
+\bibitem{MinakshisundaramPleijel}
+S. Minakshisundaram and A. Pleijel,
+\newblock Some properties of the eigenfunctions of the Laplace-operator on
+Riemannian manifolds,
+\newblock \emph{Canadian Journal of Mathematics} \textbf{1} (1949),
+242--256,
+\newblock \href{https://doi.org/10.4153/CJM-1949-021-5}
+{doi:10.4153/CJM-1949-021-5}.
+
+\bibitem{Gilkey}
+P.~B. Gilkey,
+\newblock \emph{Invariance Theory, the Heat Equation, and the
+Atiyah--Singer Index Theorem}, second edition,
+\newblock CRC Press, Boca Raton, 1995.
+
+\bibitem{CoverThomas}
+T.~M. Cover and J.~A. Thomas,
+\newblock \emph{Elements of Information Theory}, second edition,
+\newblock Wiley, Hoboken, 2006.
+
+\end{thebibliography}
+
+\end{document}

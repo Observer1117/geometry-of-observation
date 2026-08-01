@@ -1,0 +1,237 @@
+schema:
+  id: go-gear-contact-contract
+  version: 0.7.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  mechanics_contract: go-frame-force-dissipation-contract@0.6.0
+  normative_document: gear-contact-v1-1
+
+dimension_basis: [L, M, T, I, Theta, N, J]
+exchange_unit_context: SI
+
+orientation_convention:
+  common_axis_orientation: positive_counterclockwise_in_declared_frame
+  mesh_sign:
+    external: -1
+    internal: 1
+  phase_constraint: N1*theta1 - sigma*N2*theta2 - phi0 = 0 mod 2*pi
+  velocity_constraint: N1*omega1 - sigma*N2*omega2 = 0
+  directed_ratio: rho_2_from_1 = omega2/omega1 = sigma*N1/N2
+  zero_guard: omega1_must_be_nonzero_for_ratio
+
+finite_event_model:
+  state_space: Z_N1 times Z_N2
+  event_semantics: one_declared_reference_pitch_crossing_per_gear1_tooth_advance
+  translation: T_sigma(i,j) = (i+1,j+sigma) mod (N1,N2)
+  hypotheses:
+    - N1_and_N2_are_positive_integers
+    - tooth_labels_are_calibrated
+    - event_section_is_declared
+    - ideal_one_pitch_advance
+  exact_results:
+    orbit_length: lcm(N1,N2)
+    cycle_count: gcd(N1,N2)
+    one_orbit_full_coverage: gcd(N1,N2) = 1
+    orbit_fraction: 1/gcd(N1,N2)
+  relabeling:
+    translation: ell_a_b(i,j) = (i+a,j+b)
+    commutation: ell_a_b*T_sigma = T_sigma*ell_a_b
+  orientation_reversal:
+    map: R(i,j) = (i,-j)
+    conjugacy: R*T_sigma*inverse(R) = T_minus_sigma
+  prohibition:
+    - pitch_event_state_is_not_simultaneous_active_contact_set
+    - event_count_is_not_load
+    - event_count_is_not_wear
+
+ratio_observation:
+  map: O_ratio(N1,N2,sigma) = sigma*N1/N2
+  reduced_magnitude:
+    observed: abs(O_ratio) = u/v
+    hypotheses:
+      - gcd(u,v) = 1
+      - u_and_v_are_positive
+    fiber: (N1,N2) = (c*u,c*v) for positive_integer_c
+    hidden_common_scale:
+      cycle_count: c
+      orbit_length: c*u*v
+  domain_requirement:
+    - declare_bounded_or_unbounded_tooth_count_class
+  prohibition:
+    - ratio_alone_does_not_identify_cycle_count
+    - ratio_alone_does_not_identify_return_period
+
+ideal_constraint_power:
+  reaction_covector: Q_c = lambda*dh
+  admissible_power: pairing(Q_c,(omega1,omega2)) = 0
+  scope:
+    - smooth_ideal_holonomic_mesh
+    - fixed_declared_phase_branch
+  excludes:
+    - sliding_friction
+    - lubricant_shear
+    - backlash_impact
+    - profile_error
+    - bearing_loss
+
+contact_convention:
+  active_pair: alpha = (i,j)
+  gap:
+    positive_side: separation
+    complementarity:
+      - g_alpha >= 0
+      - N_alpha >= 0
+      - N_alpha*g_alpha = 0
+  force:
+    normal_direction: from_gear1_to_gear2
+    force_on_gear2: F_alpha = N_alpha*n_alpha + T_alpha
+    force_on_gear1: -F_alpha
+    generalized_pullback: Q_alpha = transpose(J_rel_alpha)*F_alpha
+  sliding:
+    relative_velocity: v_rel_alpha = v2_alpha - v1_alpha
+    tangent_velocity: v_T_alpha = (I-n_alpha*transpose(n_alpha))*v_rel_alpha
+    dissipative_inequality: dot(T_alpha,v_T_alpha) <= 0
+    nonnegative_loss: P_fric_alpha = -dot(T_alpha,v_T_alpha) >= 0
+    total_loss: P_fric = sum_active(P_fric_alpha)
+  smooth_regime_boundary:
+    excludes:
+      - impact
+      - separation_event
+      - backlash_switch
+      - stick_slip_switch
+      - measure_valued_impulse
+
+exposure_channels:
+  event_count:
+    formula: C_ij(K) = sum_k indicator(x_k=(i,j))
+    dimension: count
+  normal_impulse_exposure:
+    formula: I_ij(T) = integral indicator((i,j) in A(t))*N_ij(t) dt
+    dimension: force_times_time
+  dissipative_work:
+    formula: D_ij(T) = integral indicator((i,j) in A(t))*P_fric_ij(t) dt
+    dimension: energy
+  normalization:
+    precondition: W = sum_alpha w_alpha > 0
+    probability: p_alpha = w_alpha/W
+    entropy: H_b = -sum_positive p_alpha*log_b(p_alpha)
+    log_base: b > 1
+    zero_total_policy: undefined
+  full_event_orbit:
+    entropy: H_b = log_b(lcm(N1,N2))
+    support_defect: Delta_b = log_b(gcd(N1,N2))
+    normalized_defect: log_b(gcd(N1,N2))/log_b(N1*N2)
+    normalized_guard: N1*N2 > 1
+  wear_boundary:
+    required_external_inputs:
+      - local_pressure
+      - sliding_distance
+      - material_hardness
+      - lubrication
+      - temperature
+      - surface_evolution_law
+      - uncertainty_model
+
+fixed_axis_trains:
+  mesh_row: N_a*omega_a - sigma_e*N_b*omega_b = 0
+  compound_shaft_row: omega_a - omega_b = 0
+  stacked_system: C*omega = 0
+  admissible_velocity_space: kernel(C)
+  oriented_path_ratio: product_e sigma_e*N_source(e)/N_target(e)
+  nonzero_closed_loop_condition: signed_ratio_product = 1
+  warning: terminal_idler_cancellation_does_not_cancel_contact_history_or_losses
+
+planetary_frame_action:
+  group: real_additive_group
+  action: G_alpha(omega) = omega - alpha*(1,1,1)
+  composition: G_alpha*G_beta = G_alpha_plus_beta
+  quotient_map: pi(omega) = (omega_s-omega_c,omega_r-omega_c)
+  quotient: R3/span((1,1,1)) isomorphic_to R2
+  willis_relation: N_s*(omega_s-omega_c) + N_r*(omega_r-omega_c) = 0
+  gauge_scope:
+    allowed_only_if: observation_factors_through_pi
+    prohibition: laboratory_absolute_encoder_does_not_factor_through_pi
+  fixed_ring_solution: omega_c = N_s*omega_s/(N_s+N_r)
+  equal_module_geometry_compatibility: N_r = N_s + 2*N_p
+
+periodic_noncircular_model:
+  hypotheses:
+    - r1_and_r2_are_positive_C1_periodic_functions
+    - theta1_is_monotone
+    - scalar_flow_is_unique
+  ode: dtheta2_dtheta1 = sigma*r1(theta1)/r2(theta2)
+  return_lift:
+    formula: F_tilde(x) = theta2_tilde(2*pi;x)
+    degree_one: F_tilde(x+2*pi) = F_tilde(x)+2*pi
+  induced_map: orientation_preserving_circle_homeomorphism
+  translation_number:
+    formula: limit_n (iterate(F_tilde,n,x)-x)/(2*pi*n)
+    independent_of_initial_point: true
+    lift_change: adding_2*pi*k_changes_translation_number_by_k
+    rotation_number: translation_number mod integers
+  invariant_measure:
+    required_property: pushforward(F,mu) = mu
+    displacement_average: translation_number = integral(displacement)dmu/(2*pi)
+    uniqueness_claimed: false
+  exclusions:
+    - manufacturability
+    - tooth_interference_clearance
+    - elastic_stability
+    - KAM_persistence
+    - Diophantine_locking_claim
+
+observation_protocol:
+  required_fields:
+    - hidden_space
+    - system_descriptor
+    - reduction
+    - deterministic_observation
+    - stochastic_channel_or_explicit_noiseless_model
+    - observed_space
+    - reference_frame
+    - quantizer_or_partition
+    - spatial_resolution
+    - temporal_resolution
+    - observation_horizon
+    - estimator_or_declared_direct_readout
+    - uncertainty_or_exactness_statement
+    - unit_context
+    - defect_normalizations
+  gear_specific_fields:
+    - tooth_label_calibration
+    - pitch_event_section
+    - mesh_sign
+    - ratio_direction
+    - active_contact_resolution
+    - missed_event_policy
+    - misclassification_channel
+    - load_calibration
+
+reference_gates:
+  - id: pitch_event_scope
+    severity: error
+    requirement: pitch_event_and_active_contact_set_are_distinct
+  - id: ratio_direction
+    severity: error
+    requirement: numerator_denominator_sign_and_frame_are_declared
+  - id: frame_action_scope
+    severity: error
+    requirement: carrier_subtraction_has_group_action_and_quotient
+  - id: contact_force_sign
+    severity: error
+    requirement: gap_reaction_and_force_on_body_conventions_are_declared
+  - id: dissipation_sign
+    severity: error
+    requirement: P_diss_is_nonnegative
+  - id: exposure_dimensions
+    severity: error
+    requirement: count_impulse_and_energy_channels_are_not_added
+  - id: entropy_guard
+    severity: error
+    requirement: base_support_and_positive_total_are_declared
+  - id: rotation_number_scope
+    severity: error
+    requirement: return_map_lift_and_hypotheses_are_declared
+  - id: wear_boundary
+    severity: error
+    requirement: event_counts_are_not_called_wear_without_constitutive_model

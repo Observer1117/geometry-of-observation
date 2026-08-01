@@ -1,0 +1,639 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.008}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Satellite Networks under Typed Frames and Temporal Observation Channels},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Rigid-frame covariance, torus closures, line-of-sight temporal graphs, sampling, and relativistic clock protocols},
+  pdfkeywords={satellite networks, observation geometry, SE(3), temporal graph, orbit closure, sampling alias, proper time, identifiability}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{obsviolet}{RGB}{94,64,145}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+\definecolor{lightviolet}{RGB}{246,242,252}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Torus}{\mathbb{T}}
+\newcommand{\SO}{\operatorname{SO}}
+\newcommand{\SE}{\operatorname{SE}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\clip}{\operatorname{clip}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\spec}{\operatorname{spec}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\Xcal}{\mathcal X}
+\newcommand{\Ycal}{\mathcal Y}
+\newcommand{\Gcal}{\mathcal G}
+\newcommand{\Kcal}{\mathcal K}
+\newcommand{\Qcal}{\mathcal Q}
+\newcommand{\Scal}{\mathcal S}
+\newcommand{\Acal}{\mathcal A}
+\newcommand{\Ical}{\mathcal I}
+\newcommand{\Ecal}{\mathcal E}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Satellite Networks under Typed Frames and Temporal Observation Channels\\
+\large Rigid-frame covariance, torus closures, line-of-sight graphs, sampling, and clock protocols}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.2 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working note
+v1.1 and is an application-layer reference migrated to GO Core v0.2.
+It is not an orbit-determination method, an operational constellation
+model, a replacement for TLE/SGP4, or a new result in astrodynamics.
+Its contribution is a typed separation of hidden state, coordinate
+frame, sensor channel, temporal graph, sampling protocol, closure,
+and relativistic clock comparison.}}
+\end{center}
+
+\begin{abstract}
+A satellite constellation is represented by one labeled dynamical
+state but by many coordinate traces and still more sensor records.
+The legacy note treated all of these as observer-frame drawings and
+then called pairwise distances, coordinate spectra, orbit closures,
+density statistics, and clock offsets ``invariants''.  This reference
+states the transformation group and protocol for every such claim.
+For a time-dependent rigid frame
+\(\mathfrak f=(o,R)\in C^1(I,\SE(3))\), the labeled Euclidean distance
+matrix is invariant at each common time, while component velocities,
+coordinate spectra, and single-object orbit closures generally are
+not.  A distance matrix determines a labeled configuration only up to
+an element of \(E(3)\), so chirality is lost.  For a quasiperiodic
+phase flow, the exact phase closure is the coset subtorus determined
+by the integer resonance lattice; its image under a continuous
+observation map is channel-dependent and is only equivariant under a
+constant rigid isometry.  Finite sampling introduces exact frequency
+aliases and cannot certify rational independence.  Spherical-body
+line-of-sight and range gates define a temporal graph whose snapshot
+and time-respecting connectivity are separated.  Proper time along a
+fixed worldline segment is a spacetime scalar, whereas comparing
+different clocks at equal coordinate time requires a declared
+synchronization and gravity model.  These distinctions close the
+last frame-law defect in the Geometry of Observation corpus.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope, hidden state, and the observation chain}
+
+Fix a coordinate-time interval \(I\subset\R\), a finite label set
+\(V=\{1,\ldots,N\}\), and an Earth-centered inertial reference chart.
+The minimal spatial state is the labeled tuple
+\begin{equation}\label{eq:hidden-state}
+X(t)=\bigl(c_E(t),(r_i(t),v_i(t))_{i\in V}\bigr),
+\qquad v_i=\dot r_i ,
+\end{equation}
+where \(c_E\) is the center of the occulting body.  A set notation
+\(\{r_i\}\) is insufficient: it discards labels and multiplicity, both
+of which are required for tracking and temporal edges.
+
+\begin{model}[Two-body benchmark]
+\label{model:two-body}
+The reproducibility controls use
+\begin{equation}\label{eq:two-body}
+\dot r_i=v_i,\qquad
+\dot v_i=-\mu_E\frac{r_i-c_E}{\norm{r_i-c_E}^{3}},
+\end{equation}
+with a spherical exclusion radius \(R_E\).  This is an exact model
+definition, not an ephemeris accuracy claim.
+\end{model}
+
+Classical elements \((a,e,i,\Omega,\omega,M_0)\) are a local
+coordinate chart for \cref{model:two-body}; they are singular at
+standard circular and equatorial limits and are not the hidden object.
+Likewise, a two-line element set is a model-specific mean-element
+record intended for a compatible SGP4-family propagator, not an
+arbitrary Kepler state.  The former phrase ``TLE-like benchmark'' is
+therefore removed.
+
+\begin{definition}[Typed observation protocol]
+A protocol is the composite
+\begin{equation}\label{eq:chain}
+\Xcal
+\xrightarrow{\ \Phi_t\ }\Xcal_t
+\xrightarrow{\ F_{\mathfrak f}\ }\Ycal_{\mathfrak f}
+\xrightarrow{\ \Qcal\ }\mathcal D
+\xrightarrow{\ \Scal_{\Delta t,T}\ }\mathcal D^M
+\xrightarrow{\ \Acal\ }\Ical ,
+\end{equation}
+where \(\Phi_t\) is the declared dynamics,
+\(F_{\mathfrak f}\) is an invertible coordinate change,
+\(\Qcal\) is a possibly lossy sensor or graph channel,
+\(\Scal_{\Delta t,T}\) samples over a finite horizon, and
+\(\Acal\) is an estimator or diagnostic.  Information loss is
+attributed to \(\Qcal\) or \(\Scal\), not to a frame change.
+\end{definition}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=7mm and 8mm,
+  box/.style={draw=obsblue,rounded corners,fill=lightblue,
+    align=center,inner sep=4pt,font=\scriptsize},
+  lossy/.style={draw=obsviolet,rounded corners,fill=lightviolet,
+    align=center,inner sep=4pt,font=\scriptsize},
+  arr/.style={-{Latex[length=2mm]},thick,draw=obsblue},
+  larr/.style={-{Latex[length=2mm]},thick,draw=obsviolet},
+  lab/.style={font=\tiny,fill=white,inner sep=1pt}
+]
+\node[box] (state) {labeled\\state};
+\node[box,right=of state] (frame) {coframed\\coordinates};
+\node[lossy,right=of frame] (channel) {range, bearing,\\LOS, graph};
+\node[lossy,right=of channel] (sample) {sampled/noisy\\record};
+\node[box,below=of channel] (inference) {protocol-scoped\\inference};
+\draw[arr] (state) -- node[above,lab] {dynamics} (frame);
+\draw[larr] (frame) -- node[above,lab] {channel} (channel);
+\draw[larr] (channel) -- node[above,lab] {sampling} (sample);
+\draw[arr] (sample) |- (inference);
+\end{tikzpicture}
+\end{center}
+
+\section{Time-dependent rigid frames and exact spatial invariants}
+
+Let \(o:I\to\R^3\) be a frame origin and let
+\(R:I\to\SO(3)\) map frame components to inertial components.  The
+coordinates of satellite \(i\) and of the Earth center are
+\begin{equation}\label{eq:frame-map}
+y_i=R^\mathsf T(r_i-o),\qquad
+c_{\mathfrak f}=R^\mathsf T(c_E-o).
+\end{equation}
+Thus a frame is not merely an observer point.  Position vectors may
+be composed across an Earth--Sun--barycentric tree only after all
+origins, orientations, epochs, and time scales are declared.  In
+homogeneous coordinates the legal composition is matrix
+multiplication,
+\begin{equation}\label{eq:frame-composition}
+T_{A\leftarrow C}(t)
+=T_{A\leftarrow B}(t)T_{B\leftarrow C}(t),
+\end{equation}
+not an untyped sum of vectors stored in different bases.
+
+Let
+\[
+\Gcal_I=C^1(I,\SE(3))
+\]
+act diagonally on every node and on the central body through
+\cref{eq:frame-map}.
+
+\begin{theorem}[Distance-matrix invariance]
+\label{thm:distance}
+For every \(\mathfrak f\in\Gcal_I\), every common time \(t\), and
+every \(i,j\in V\),
+\begin{equation}\label{eq:distance-invariant}
+D_{ij}^{\mathfrak f}(t)
+=\norm{y_i(t)-y_j(t)}
+=\norm{r_i(t)-r_j(t)}
+=D_{ij}(t).
+\end{equation}
+Consequently, every deterministic function of the labeled distance
+matrix is invariant under this declared action.
+\end{theorem}
+
+\begin{proof}
+Translations cancel and \(R^\mathsf TR=I\):
+\[
+y_i-y_j=R^\mathsf T(r_i-r_j),\qquad
+\norm{R^\mathsf T(r_i-r_j)}^2
+=(r_i-r_j)^\mathsf T RR^\mathsf T(r_i-r_j).
+\]
+\end{proof}
+
+The corresponding velocity law is different.  With
+\(\Omega^\times=R^\mathsf T\dot R\in\mathfrak{so}(3)\),
+\begin{equation}\label{eq:velocity-law}
+\dot y_i=R^\mathsf T(v_i-\dot o)-\Omega^\times y_i .
+\end{equation}
+Therefore coordinate velocities, accelerations, and component spectra
+are not invariants of \(\Gcal_I\).  Even the norm of a relative
+velocity acquires the rotational term unless \(R\) is constant.
+
+\begin{theorem}[What the distance matrix identifies]
+\label{thm:edm}
+Let \(D\) be the labeled Euclidean distance matrix of \(N\) points,
+let \(J=I_N-\frac1N\bm1\bm1^\mathsf T\), and define
+\begin{equation}\label{eq:gram}
+B=-\frac12J(D\circ D)J .
+\end{equation}
+Then \(B\) is the centered Gram matrix.  If \(B\succeq0\) and
+\(\rank B\le3\), its factorization reconstructs the configuration up
+to \(E(3)\).  Pairwise distances do not distinguish translations,
+rotations, or reflections.
+\end{theorem}
+
+\begin{proof}
+Centering the points gives \(B=X_cX_c^\mathsf T\).  Any two
+factorizations of the same positive semidefinite Gram matrix differ
+by an orthogonal map on the realized span.  Restoring the centroid
+adds an arbitrary translation.
+\end{proof}
+
+Thus the distance channel is complete for a labeled snapshot modulo
+\(E(3)\), but not modulo \(\SE(3)\): chirality requires an oriented
+volume or another parity-sensitive channel.
+
+\section{Phase closure, image closure, and frame covariance}
+
+For a quasiperiodic idealization, let
+\begin{equation}\label{eq:phase-flow}
+\theta(t)=\theta_0+\omega t\pmod{2\pi},
+\qquad \theta\in\Torus^k ,
+\end{equation}
+and define the integer resonance lattice
+\begin{equation}\label{eq:lattice}
+L_\omega=\{m\in\Z^k:m\cdot\omega=0\}.
+\end{equation}
+
+\begin{theorem}[Exact phase closure]
+\label{thm:torus}
+The closure of the phase orbit is the coset subtorus
+\begin{equation}\label{eq:phase-closure}
+\Gamma_{\theta_0,\omega}
+=\{\theta\in\Torus^k:
+m\cdot(\theta-\theta_0)=0\pmod{2\pi}
+\text{ for every }m\in L_\omega\},
+\end{equation}
+with
+\[
+\dim\Gamma_{\theta_0,\omega}
+=k-\rank_{\Z}L_\omega .
+\]
+For every continuous \(F:\Torus^k\to\R^d\),
+\begin{equation}\label{eq:image-closure}
+\cl\{F(\theta(t)):t\in\R\}
+=F(\Gamma_{\theta_0,\omega}).
+\end{equation}
+\end{theorem}
+
+The rationally commensurate and rationally independent cases are only
+the two endpoints of \cref{thm:torus}; intermediate resonance rank is
+possible.  Compactness and continuity justify
+\cref{eq:image-closure}.  A noncompact secular drift is not silently
+treated as another torus angle.
+
+\begin{proposition}[Closure is equivariant, not invariant]
+\label{prop:closure}
+For a constant \(g=(a,R)\in\SE(3)\) and
+\(F_g(\theta)=a+RF(\theta)\),
+\begin{equation}\label{eq:closure-equivariance}
+K_{F_g}=gK_F .
+\end{equation}
+Equality \(K_{F_g}=K_F\) requires an additional symmetry of the set.
+For a time-dependent \(g(t)\), even congruence may fail.
+\end{proposition}
+
+\begin{proof}
+A homeomorphism commutes with closure, giving the first statement.
+For the second, take \(F(\theta(t))\equiv0\) and
+\(a(t)=(\cos\alpha t,\sin\alpha t,0)\).  The original closure is one
+point and the transformed closure is a circle.
+\end{proof}
+
+The protocol-invariant object is therefore the phase-flow resonance
+lattice, when the dynamical model and time parameter are fixed.  The
+single-object spatial closure \(K_F\) is a channel output.
+
+\section{Sampling, retarded observation, and non-identifiability}
+
+At times \(t_m=t_0+m\Delta t\), \(m=0,\ldots,M-1\), the record is
+finite.  Its support
+\begin{equation}\label{eq:empirical-support}
+\widehat K_{M,\Delta t}
+=\{Q(X(t_m)):0\le m<M\}
+\end{equation}
+is not the infinite-time closure in \cref{eq:image-closure}.
+
+\begin{proposition}[Exact sampling alias]
+\label{prop:alias}
+For any \(q\in\Z\) and \(t_m=m\Delta t\),
+\begin{equation}\label{eq:alias}
+e^{i(\omega+2\pi q/\Delta t)t_m}
+=e^{i\omega t_m}.
+\end{equation}
+Hence a sampled coordinate spectrum does not identify an unrestricted
+continuous frequency.
+\end{proposition}
+
+Finite noisy data also cannot decide whether a frequency ratio is
+exactly rational: arbitrarily close rational and irrational vectors
+produce arbitrarily close records on a fixed horizon.  Statements
+about closure dimension therefore require either a declared exact
+model or uncertainty-bounded inference.
+
+The distinction between state and sensor time is equally important.
+For a reception event \((t_r,o(t_r))\), a one-way ideal observation
+uses an emission time \(t_{e,i}\) satisfying
+\begin{equation}\label{eq:light-time}
+t_r-t_{e,i}
+=\frac{\norm{r_i(t_{e,i})-o(t_r)}}{c}.
+\end{equation}
+Different satellites are generally seen at different emission times.
+Pairwise distances between apparent retarded positions are not the
+simultaneous distance matrix in \cref{thm:distance}.
+
+Bearing-only data
+\[
+b_i(t)=\frac{y_i(t)}{\norm{y_i(t)}}
+\]
+discard range.  Even without noise, one viewpoint therefore does not
+recover \(D(t)\) unless additional baselines, ranging, or dynamical
+hypotheses are supplied.
+
+\section{Line-of-sight and temporal network geometry}
+
+Let \(p_i=r_i-c_E\), \(d_{ij}=p_j-p_i\), and let the spherical
+occulting radius including a declared margin be \(R_{\rm occ}>0\).
+For \(i\ne j\), define
+\begin{align}
+u^\ast_{ij}
+&=\clip\!\left(
+-\frac{p_i\cdot d_{ij}}{\norm{d_{ij}}^2},0,1\right),\label{eq:clip}\\
+h_{ij}
+&=\norm{p_i+u^\ast_{ij}d_{ij}}.\label{eq:clearance}
+\end{align}
+The degenerate case \(p_i=p_j\) is handled separately.  A strict
+spherical line of sight is declared when
+\begin{equation}\label{eq:los}
+\operatorname{LOS}_{ij}(t)
+=\bm1\{h_{ij}(t)>R_{\rm occ}\}.
+\end{equation}
+Tangency belongs to the blocked class in this convention.
+
+For link range \(R_{\rm link}>0\), the symmetric snapshot graph has
+\begin{equation}\label{eq:adjacency}
+A_{ij}(t)=
+\bm1\{i\ne j\}
+\bm1\{D_{ij}(t)\le R_{\rm link}\}
+\operatorname{LOS}_{ij}(t).
+\end{equation}
+Because the satellites, the Earth center, and the segment are all
+transformed together, \cref{eq:adjacency} is invariant under
+\(\Gcal_I\).  A fixed spatial bin or an untransformed occulting center
+would break that statement.
+
+Under a vertex relabeling by a permutation matrix \(P\),
+\[
+A\longmapsto PAP^\mathsf T,\qquad
+L_G=\diag(A\bm1)-A
+\longmapsto PL_GP^\mathsf T.
+\]
+Connected-component counts and \(\spec(L_G)\) are label-invariant,
+while node-specific routing outputs are equivariant under the same
+relabeling.
+
+\begin{definition}[Time-respecting journey]
+Let an active edge \(e_k=(v_{k-1},v_k)\) be entered at \(t_k\) and
+have a declared nonnegative transmission delay
+\(\ell_{e_k}(t_k)\).  A journey satisfies
+\begin{equation}\label{eq:journey}
+t_{k+1}\ge t_k+\ell_{e_k}(t_k)
+\end{equation}
+for every consecutive edge.  Temporal reachability and earliest
+arrival are defined by such journeys, not by connectivity of the
+time-aggregated graph.
+\end{definition}
+
+The range-only graph
+\(\bm1\{D_{ij}\le\rho\}\) is called a \emph{proximity graph}.
+It is not a conjunction-risk calculation.  Operational collision
+assessment additionally requires predicted relative states,
+covariances, object sizes, maneuver hypotheses, and a time-window
+protocol.
+
+\section{Density and entropy require transported partitions}
+
+Let \(K_\ell:\R^3\to[0,\infty)\) satisfy
+\(\int_{\R^3}K_\ell(x)\,dx=1\), and let
+\(w_i\ge0\), \(\sum_iw_i=1\).  The normalized occupancy density is
+\begin{equation}\label{eq:density}
+\rho_{\mathfrak f}(x,t)
+=\sum_{i=1}^Nw_iK_\ell(x-y_i(t)).
+\end{equation}
+For a radial kernel and a rigid transform \(g=(a,R)\),
+\(\rho_g(x,t)=\rho(R^\mathsf T(x-a),t)\).  This is covariance of a
+field, not pointwise invariance at one fixed coordinate \(x\).
+
+For a finite measurable partition
+\(\Pi=\{B_1,\ldots,B_M\}\), define
+\[
+p_m=\int_{B_m}\rho(x,t)\,dx,\qquad
+H_\Pi^{(2)}=-\sum_{p_m>0}p_m\log_2p_m .
+\]
+The entropy is preserved when \(\Pi\) is transported with the rigid
+frame.  With fixed angular or Cartesian bins it is a
+protocol-dependent diagnostic.  Kernel scale, partition, logarithm
+base, horizon, and empty-total policy are mandatory fields.
+
+\section{Proper time and the synchronization boundary}
+
+Use metric signature \((-+++)\).  Along a fixed timelike worldline
+segment \(\gamma_i\) with fixed endpoint events,
+\begin{equation}\label{eq:proper-time}
+\tau_i[\gamma_i]
+=\frac1c\int_{\gamma_i}
+\sqrt{-g_{\mu\nu}\,dx^\mu dx^\nu}.
+\end{equation}
+This scalar is invariant under coordinate changes.  In flat
+spacetime, the corresponding event interval is invariant under the
+Poincar\'e group.  Equal-time Euclidean distances are not Lorentz
+invariants because a boost changes simultaneity.
+
+In a declared stationary weak-field Earth chart with
+\(\rho_i=\norm{r_i-c_E}\),
+\(\Phi_i=-\mu_E/\rho_i\), and \(v\ll c\),
+\begin{equation}\label{eq:weak-field}
+\frac{d\tau_i}{dt}
+=1+\frac{\Phi_i}{c^2}
+-\frac{\norm{v_i}^2}{2c^2}
++O(c^{-4}).
+\end{equation}
+Relative to an ideal coordinate-stationary reference clock at
+\(R_\star\),
+\begin{equation}\label{eq:clock-offset}
+\delta_i^{(t,\Phi)}
+=\frac{d\tau_i}{dt}-\frac{d\tau_\star}{dt}
+\simeq
+\frac{\mu_E}{c^2}
+\left(\frac1{R_\star}-\frac1{\rho_i}\right)
+-\frac{\norm{v_i}^2}{2c^2}.
+\end{equation}
+For a circular two-body orbit,
+\begin{equation}\label{eq:circular-offset}
+\delta_{\rm circ}(r)
+=\frac{\mu_E}{c^2}
+\left(\frac1{R_\star}-\frac{3}{2r}\right).
+\end{equation}
+
+\begin{proposition}[A spatial locus does not determine proper time]
+\label{prop:locus-clock}
+An unparameterized spatial image \(K=\{r(t)\}\) does not determine
+\(\tau\).
+\end{proposition}
+
+\begin{proof}
+The same circle can be traversed with two different speed histories.
+The spatial image is unchanged, while the kinetic term in
+\cref{eq:weak-field} changes.  A time-stamped trajectory in a known
+chart and a declared metric contains strictly more information than
+its image.
+\end{proof}
+
+The comparison
+\(\tau_i(T)-\tau_j(T)\) for endpoints selected by ``the same
+coordinate time \(T\)'' is protocol-dependent: the time coordinate,
+slicing, reference potential, and synchronization convention select
+the endpoint events.  This does not contradict scalar invariance of
+each fixed worldline integral.
+
+\section{Benchmark controls and claim firewall}
+
+The reproducibility bundle propagates a synthetic labeled network
+under \cref{model:two-body}.  It checks time-dependent rigid-frame
+distance invariance, Euclidean-distance-matrix reconstruction,
+spherical segment clearance, graph invariance under co-transformed
+geometry, Laplacian spectral invariance under relabeling, exact
+sampling aliases, temporal earliest arrival, and weak-field clock
+rates.  The numerical values are regression controls, not calibrated
+constellation predictions.
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Typed status of the principal legacy quantities.}
+\begin{tabularx}{\linewidth}{L{30mm}L{34mm}Y}
+\toprule
+Object & Transformation or protocol & Correct status\\
+\midrule
+Distance matrix \(D(t)\) &
+\(C^1(I,\SE(3))\), common time &
+Invariant when every node is transformed diagonally.\\
+Coordinate trace \(y_i(t)\) &
+chosen frame \(\mathfrak f\) &
+Covariant representation, not invariant.\\
+Spatial closure \(K_F\) &
+constant rigid isometry &
+Equivariant up to congruence; generally changes for \(g(t)\).\\
+Phase closure \(\Gamma_{\theta_0,\omega}\) &
+fixed dynamics and time parameter &
+Model-defined coset subtorus.\\
+Coordinate spectrum &
+frame plus sampling schedule &
+Protocol-dependent and aliased.\\
+LOS/link graph &
+co-transformed body, fixed thresholds &
+Snapshot invariant; temporal reachability needs ordered contacts.\\
+Proper time \(\tau[\gamma]\) &
+fixed worldline endpoints and metric &
+Spacetime scalar.\\
+Clock difference at \(t=T\) &
+declared synchronization and potential &
+Protocol-dependent comparison.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{warning}[Claim boundary]
+This reference proves elementary transformation, closure, sampling,
+and graph statements inside declared models.  It does not provide
+operational orbit determination, high-fidelity force models,
+covariance propagation, collision probability, communication-link
+budgets, clock steering, or a new theory of satellite networks.
+\end{warning}
+
+The minimum reproducible protocol records:
+\begin{enumerate}[label=(\roman*),leftmargin=1.7em]
+  \item labeled state variables, dynamics, constants, force model,
+  epoch, reference frame, orientation convention, and time scale;
+  \item observer origin and attitude, sensor type, light-time policy,
+  occulting-body model, range/elevation masks, and noise model;
+  \item sampling cadence, horizon, missing-data rule, quantizer or
+  partition, estimator, tolerances, and uncertainty statement;
+  \item for clocks, metric signature, potential convention,
+  coordinate time, synchronization, endpoint events, and retained
+  order in \(c^{-1}\).
+\end{enumerate}
+
+\section*{References}
+\addcontentsline{toc}{section}{References}
+
+\begin{enumerate}[label={[\arabic*]},leftmargin=2em,itemsep=2pt]
+  \item G. Petit and B. Luzum (eds.),
+  \emph{IERS Conventions (2010)}, IERS Technical Note 36,
+  especially Chapters 5 and 10.
+  \item CCSDS, \emph{Orbit Data Messages},
+  CCSDS 502.0-B-3, Issue 3, April 2023.
+  \item D. A. Vallado, P. Crawford, R. Hujsak, and T. S. Kelso,
+  ``Revisiting Spacetrack Report \#3,''
+  AIAA 2006-6753, \url{https://doi.org/10.2514/6.2006-6753}.
+  \item GPS Directorate,
+  \emph{Navstar GPS Space Segment/Navigation User Segment
+  Interfaces}, IS-GPS-200N, 1 August 2022.
+  \item N. Ashby, ``Relativity in the Global Positioning System,''
+  \emph{Living Reviews in Relativity} 6, 1 (2003),
+  \url{https://doi.org/10.12942/lrr-2003-1}.
+  \item D. Kempe, J. Kleinberg, and A. Kumar,
+  ``Connectivity and Inference Problems for Temporal Networks,''
+  STOC 2000, 504--513,
+  \url{https://doi.org/10.1145/335305.335364}.
+  \item I. J. Schoenberg,
+  ``Remarks to Maurice Frechet's Article,''
+  \emph{Annals of Mathematics} 36 (1935), 724--732,
+  \url{https://www.jstor.org/stable/1968654}.
+  \item V. I. Arnold,
+  \emph{Mathematical Methods of Classical Mechanics},
+  2nd ed., Springer, 1989.
+\end{enumerate}
+
+\end{document}

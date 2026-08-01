@@ -1,0 +1,460 @@
+schema:
+  id: go-quantum-chemistry-observation-contract
+  version: 1.0.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  inherited_contracts:
+    - go-conical-intersections-observation-contract@0.9.0
+  normative_document: quantum-chemistry-observation-v1-1
+
+dimension_basis: [L, M, T, I, Theta, N, J]
+exchange_unit_context: SI
+
+scope:
+  strict_reference:
+    - finite_particle_nonrelativistic_Coulomb_model
+    - normalized_fermionic_density_operators
+    - finite_linearly_independent_one_particle_basis
+    - isolated_unconstrained_molecular_normal_modes
+    - ideal_discrete_transition_spectrum_with_declared_line_profile
+    - finite_resolution_instrument_channel
+  qualified_extensions:
+    - unbounded_operator_domains
+    - degenerate_and_ensemble_DFT
+    - open_system_dynamics
+    - periodic_and_constrained_nuclear_geometry
+    - relativistic_no_pair_electronic_structure
+  excluded_without_extension:
+    - new_exchange_correlation_functional
+    - new_wavefunction_ansatz
+    - universal_bond_observable
+    - universal_valence_projector
+    - exact_spectroscopic_inversion
+    - replacement_for_P8_conical_intersection_contract
+
+unit_firewall:
+  declared_formula_contexts:
+    molecular_Hamiltonian: atomic
+    Kohn_Sham_equation: atomic
+    dimension_ledger: SI
+  atomic_unit_constants_required_for_exchange:
+    - hartree_energy
+    - bohr_radius
+    - electron_mass
+    - elementary_charge
+    - reduced_Planck_constant
+  prohibitions:
+    - atomic_units_do_not_make_physical_dimensions_disappear
+    - no_SI_atomic_addition_without_explicit_conversion
+    - no_frequency_energy_identification_without_h_or_hbar
+
+state_layer:
+  electronic_one_particle_space: L2(R3;C2)
+  N_electron_space: antisymmetric_exterior_power
+  pure_state:
+    object: normalized_ray
+    representative: wavefunction_or_state_vector
+  mixed_state:
+    object: positive_trace_one_density_operator
+  full_molecular_state:
+    arguments:
+      - all_electronic_space_spin_coordinates
+      - all_nuclear_coordinates
+  prohibition:
+    - full_electron_nuclear_Hamiltonian_cannot_have_electronic_only_state_arguments
+    - wavefunction_is_not_the_universal_state_object
+    - global_phase_is_not_observable
+
+Hamiltonian_layer:
+  full_nonrelativistic_molecule:
+    terms:
+      - electronic_kinetic
+      - nuclear_kinetic
+      - electron_nuclear_attraction
+      - electron_electron_repulsion
+      - nucleus_nucleus_repulsion
+    omissions_must_be_declared:
+      - relativity
+      - external_fields
+      - finite_nuclear_size
+      - nuclear_spin
+      - environment
+  clamped_nuclei_family:
+    symbol: H_e(R)
+    nuclear_repulsion_convention: included
+    output:
+      - parametric_electronic_eigenvalues
+      - parametric_electronic_eigenprojectors
+  prohibition:
+    - full_molecular_and_clamped_nuclei_Hamiltonians_are_not_interchangeable
+    - PES_requires_declared_nuclear_repulsion_convention
+
+Born_Oppenheimer_reduction:
+  exact_expansion: Psi(x,R) = sum_k chi_k(R)*psi_k(x;R)
+  reduced_model:
+    kind: reduction
+    information_loss: possible
+    requires:
+      - selected_electronic_cluster_or_surface
+      - nuclear_mass_and_coordinate_model
+      - derivative_coupling_policy
+      - energy_gap_scope
+  one_surface_model:
+    status: approximation
+    uniformly_valid_at_internal_gap_closure: false
+  conical_intersections:
+    inherited_contract: go-conical-intersections-observation-contract@0.9.0
+  prohibitions:
+    - Born_Oppenheimer_reduction_is_not_a_frame_transform
+    - PES_is_not_a_marginal_of_the_exact_wavefunction
+    - static_gap_does_not_determine_nonadiabatic_transition_probability
+
+reduced_density_layer:
+  N_body_state:
+    symbol: Gamma_N
+    normalization: trace_one
+  one_RDM:
+    symbol: gamma_1
+    formula: gamma_1 = N*partial_trace_2_to_N(Gamma_N)
+    properties:
+      - positive_semidefinite
+      - trace_N
+      - fermionic_occupations_between_zero_and_one_for_spin_orbitals
+  spatial_density:
+    symbol: n(r)
+    formula: spin_sum_diagonal_of_gamma_1
+    normalization: integral_n_d3r = N
+  one_body_observable:
+    formula: expectation_sum_i_a_i = trace(gamma_1*a)
+  information_loss_control:
+    states:
+      - (ket_12_plus_ket_34)/sqrt_2
+      - (ket_12_minus_ket_34)/sqrt_2
+    same_one_RDM: one_half_identity_4
+    distinct_two_body_coherence: plus_one_versus_minus_one
+  prohibitions:
+    - one_RDM_does_not_determine_arbitrary_many_body_state
+    - density_does_not_determine_arbitrary_excited_or_mixed_state
+    - correlation_is_not_defined_as_untyped_information_loss
+
+finite_basis_layer:
+  basis:
+    symbol: chi_mu
+    linearly_independent: true
+    overlap:
+      symbol: S
+      properties:
+        - Hermitian
+        - positive_definite
+  generalized_eigenproblem:
+    formula: F*C = S*C*epsilon
+    normalization: C_dagger*S*C = I
+    required_guards:
+      - linear_dependence_threshold
+      - Hermitian_F
+      - positive_definite_S
+  orthogonalization:
+    symmetric: X = S^(-1/2)
+    transformed_operator: F_orth = X_dagger*F*X
+  prohibitions:
+    - overlap_matrix_cannot_be_dropped_in_nonorthogonal_basis
+    - ill_conditioned_overlap_requires_reported_threshold
+
+orbital_gauge:
+  occupied_coefficients: C_occ
+  action: C_occ -> C_occ*U_occ
+  group: U(N_occ)
+  invariants:
+    - AO_density_matrix_P_equals_C_occ_C_occ_dagger
+    - one_body_density
+    - occupied_subspace
+    - Slater_determinant_ray
+  Slater_phase: det(U_occ)
+  noninvariants_without_protocol:
+    - localized_orbital_labels
+    - hybrid_orbital_labels
+    - orbital_by_orbital_bond_picture
+    - active_space_population_under_changed_projector
+  prohibitions:
+    - representation_choice_is_not_measurement
+    - canonical_orbital_is_not_automatically_many_body_observable
+
+Hartree_Fock_layer:
+  variational_domain: normalized_Slater_determinants
+  energy: expectation_of_declared_electronic_Hamiltonian
+  SCF_equations:
+    status: nonlinear_stationarity_condition
+    convergence_implication: stationary_solution_only
+  correlation_energy:
+    formula: E_corr = E_0 - E_HF
+    sign: nonpositive
+    comparison_requires_same:
+      - Hamiltonian
+      - one_particle_space_or_basis_limit
+      - frozen_core_convention
+      - geometry
+      - reference_symmetry_scope
+  prohibitions:
+    - SCF_convergence_does_not_certify_global_minimum
+    - truncated_coupled_cluster_is_not_variational_by_default
+    - correlation_energy_is_not_scheme_free
+
+DFT_layer:
+  constrained_search:
+    formula: F[n] = inf_Gamma_to_n trace(Gamma*(T+W))
+    fixed:
+      - particle_number
+      - interaction
+  ground_state_variation:
+    formula: E_v = inf_n(F[n] + integral(v_ext*n*d3r))
+  Hohenberg_Kohn_scope:
+    original:
+      - ground_state
+      - external_scalar_potential_modulo_constant
+      - fixed_particle_number
+      - fixed_interaction
+    extensions_require:
+      - representability_class
+      - degeneracy_or_ensemble_formulation
+  Kohn_Sham:
+    status: auxiliary_noninteracting_construction
+    density: n(r) = sum_i f_i*abs(phi_i(r))^2
+  prohibitions:
+    - ground_state_density_theorem_is_not_arbitrary_state_tomography
+    - general_KS_eigenvalue_differences_are_not_defined_as_interacting_excitations
+    - approximate_XC_error_is_not_removed_by_density_normalization
+
+nuclear_geometry:
+  ambient_space: R^(3*N_nuc)
+  collision_set: removed
+  isolated_internal_quotient:
+    continuous_group: SE(3)
+    discrete_group: identical_nucleus_permutations_if_identified
+  stationary_geometry:
+    gradient: zero_on_declared_internal_chart
+  prohibitions:
+    - Cartesian_minimizer_is_not_unique_before_rigid_motion_quotient
+    - atom_labels_of_identical_nuclei_require_a_convention
+
+normal_modes:
+  Cartesian_Hessian:
+    symbol: H_R
+    dimension: energy_per_length_squared
+  mass_matrix:
+    symbol: M
+    dimension: mass
+  mass_weighted_Hessian:
+    symbol: K
+    formula: K = M^(-1/2)*H_R*M^(-1/2)
+    dimension: inverse_time_squared
+  eigenproblem:
+    formula: K*u_k = lambda_k*u_k
+    relation: lambda_k = omega_k^2
+  conversions:
+    cyclic_frequency: nu_k = omega_k/(2*pi)
+    wavenumber: nu_tilde_k = omega_k/(2*pi*c)
+  rigid_zero_modes:
+    isolated_nonlinear_molecule: 6
+    isolated_linear_molecule: 5
+  stable_minimum:
+    condition: positive_lambda_on_vibrational_subspace
+  first_order_transition_state:
+    condition: exactly_one_negative_lambda_on_vibrational_subspace
+  required_guards:
+    - stationary_geometry
+    - isolated_or_declared_external_constraints
+    - linear_or_nonlinear_classification
+    - zero_mode_projection
+    - scaled_numerical_threshold
+  prohibitions:
+    - mass_weighted_Hessian_eigenvalue_is_not_frequency
+    - full_Cartesian_Hessian_is_not_positive_definite_for_isolated_molecule
+    - imaginary_frequency_is_shorthand_for_negative_lambda
+
+active_space_and_interpretation:
+  active_projector:
+    symbol: P_A
+    required:
+      - construction_algorithm
+      - basis
+      - threshold_or_energy_window
+  reduced_one_RDM:
+    formula: gamma_A = P_A*gamma_1*P_A
+  active_occupation:
+    formula: N_A = trace(gamma_1*P_A)
+  interpretation_map_inputs:
+    - state_or_density_matrix
+    - Hamiltonian_if_used
+    - basis
+    - active_space
+    - named_scheme
+    - normalization
+  scheme_dependent_outputs:
+    - partial_charge
+    - bond_order
+    - oxidation_assignment
+    - hybridization
+    - valence_population
+  prohibitions:
+    - valence_projection_is_not_canonical_without_projector
+    - chemical_bond_is_not_a_unique_scheme_independent_scalar
+    - cross_scheme_numeric_equality_is_not_assumed
+
+spectroscopy:
+  transition_location:
+    angular_frequency: omega_fi = (E_f-E_i)/hbar
+    cyclic_frequency: nu_fi = (E_f-E_i)/h
+  ideal_spectrum:
+    required_inputs:
+      - stationary_energies
+      - initial_populations
+      - transition_operator
+      - state_matrix_elements
+      - normalized_line_profile
+    formula: S_A(omega) = sum_if p_i*abs(A_fi)^2*L_Gamma(omega-omega_fi)
+  line_profile:
+    normalization: integral_L_domega = 1
+    width: positive
+  symmetry_selection_rule:
+    role: necessary_symmetry_allowance_condition
+    sufficient_for_nonzero_intensity: false
+  prohibitions:
+    - energy_differences_alone_do_not_define_observed_spectrum
+    - symmetry_allowed_does_not_guarantee_nonzero_line
+    - finite_resolution_nonobservation_does_not_prove_zero_matrix_element
+
+observation_channel:
+  ideal_signal: S_A
+  instrument_response: C_inst
+  sampling_or_quantization: D_epsilon
+  stochastic_error: eta
+  observed_data: Y = D_epsilon(C_inst(S_A)) + eta
+  estimator_requires:
+    - calibration
+    - response_kernel
+    - resolution
+    - baseline_model
+    - noise_law
+    - assignment_rule
+    - uncertainty
+  identifiability_limits:
+    - unresolved_lines_may_have_multiple_latent_explanations
+    - one_property_does_not_identify_all_error_budget_components
+    - electron_density_is_often_inferred_through_an_inverse_problem
+
+relativistic_boundary:
+  four_component_model_requires:
+    - finite_nucleus_convention
+    - positive_energy_or_no_pair_projection
+    - kinetic_balance
+    - two_electron_relativistic_term_policy
+    - picture_change_correction_for_properties
+  prohibition:
+    - nonrelativistic_Rayleigh_Ritz_argument_is_not_transferred_across_negative_energy_continuum
+
+approximation_ledger:
+  required_layers:
+    - physical_model
+    - electron_nuclear_reduction
+    - basis_or_grid_discretization
+    - active_space_or_frozen_sector
+    - many_body_or_density_functional_model
+    - nonlinear_and_numerical_stationarity
+    - property_operator
+    - instrument_and_statistical_inference
+
+protocol:
+  required_core_fields:
+    - hidden_space
+    - system_descriptor
+    - reduction
+    - deterministic_observation
+    - stochastic_channel_or_explicit_noiseless_model
+    - observed_space
+    - reference_frame
+    - spatial_resolution
+    - temporal_resolution
+    - observation_horizon
+    - quantizer_or_partition
+    - estimator_or_declared_direct_readout
+    - uncertainty_or_exactness_statement
+    - unit_context
+    - defect_normalizations
+  required_quantum_chemistry_fields:
+    - particle_numbers_and_isotopes
+    - Hamiltonian_terms
+    - pure_or_mixed_state
+    - clamped_or_full_electron_nuclear_model
+    - basis_and_overlap_threshold
+    - active_and_frozen_spaces
+    - orbital_gauge_or_localization_rule
+    - correlation_or_density_functional_model
+    - SCF_stationarity_criterion
+    - nuclear_geometry_quotient
+    - Hessian_projection_and_zero_mode_threshold
+    - property_operator_and_gauge
+    - state_populations
+    - line_profile
+    - instrument_response
+    - noise_law
+    - assignment_rule
+    - identifiability_scope
+
+reference_gates:
+  - exact_and_clamped_state_spaces_are_separated
+  - full_state_contains_electronic_and_nuclear_arguments
+  - one_RDM_and_density_normalizations_are_explicit
+  - one_body_reduction_noninjectivity_is_acknowledged
+  - nonorthogonal_basis_uses_overlap_matrix
+  - occupied_orbital_gauge_is_explicit
+  - SCF_convergence_is_not_global_optimality
+  - Hohenberg_Kohn_scope_is_qualified
+  - normal_mode_eigenvalues_are_frequency_squared
+  - rigid_zero_modes_are_removed_before_minimum_or_saddle_classification
+  - active_space_projector_is_declared
+  - ideal_spectrum_contains_operator_populations_and_line_profile
+  - instrument_channel_is_separate_from_ideal_spectrum
+  - relativistic_variational_boundary_is_qualified
+  - approximation_and_identifiability_ledgers_are_present
+
+claim_register:
+  - id: one_RDM_normalization
+    status: proposition
+    hypotheses:
+      - normalized_N_electron_density_operator
+  - id: one_RDM_noninjectivity
+    status: proposition
+    hypotheses:
+      - explicit_two_electron_four_orbital_control
+  - id: occupied_orbital_gauge
+    status: proposition
+    hypotheses:
+      - unitary_rotation_within_occupied_subspace
+  - id: harmonic_frequency_square
+    status: theorem
+    hypotheses:
+      - stationary_geometry
+      - harmonic_linearization
+      - positive_nuclear_masses
+  - id: rigid_zero_mode_count
+    status: theorem
+    hypotheses:
+      - isolated_unconstrained_molecule
+      - stationary_geometry
+      - nonexceptional_linear_or_nonlinear_geometry
+  - id: unique_orbital_observable
+    status: hypothesis
+    hypotheses:
+      - forbidden_not_claimed
+  - id: unique_bond_observable
+    status: hypothesis
+    hypotheses:
+      - forbidden_not_claimed
+  - id: exact_spectrum_from_energy_differences
+    status: hypothesis
+    hypotheses:
+      - forbidden_not_claimed
+  - id: new_quantum_chemistry_method
+    status: hypothesis
+    hypotheses:
+      - forbidden_not_claimed

@@ -1,0 +1,311 @@
+schema:
+  id: go-billiards-observation-contract
+  version: 0.8.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  information_reference: information-theoretic-observation-v0-2
+  mechanics_contract: go-frame-force-dissipation-contract@0.6.0
+  normative_document: billiards-observation-v1-1
+
+dimension_basis: [L, M, T, I, Theta, N, J]
+exchange_unit_context: SI
+
+table_class:
+  ambient_space: R2
+  domain:
+    - bounded
+    - connected
+    - open
+  default_boundary:
+    - finite_union_of_piecewise_C3_arcs
+    - finite_corner_set
+  additional_hypotheses_not_default:
+    - convex
+    - strictly_convex
+    - dispersing
+    - focusing
+    - finite_horizon
+    - ergodic
+    - mixing
+    - hyperbolic
+  singular_orbit_policy:
+    excluded_by_default:
+      - corner_hit
+      - grazing_collision
+      - nonunique_next_collision
+      - undefined_next_collision
+      - collision_accumulation_in_finite_time
+
+elastic_flow:
+  hidden_state: z = (q,u)
+  position: q in Omega
+  direction: u in S1
+  declared_speed: c0 > 0
+  velocity: v = c0*u
+  free_flight:
+    - dq_dt = c0*u
+    - du_dt = 0
+  inward_normal_convention:
+    incoming_sign: dot(u_minus,n) < 0
+    reflection: u_plus = u_minus - 2*dot(u_minus,n)*n
+  scope:
+    - fixed_boundary
+    - elastic_specular_reflection
+    - unit_direction_state
+
+collision_section:
+  coordinates:
+    boundary_arclength: s
+    outgoing_angle: phi in (-pi/2,pi/2) measured_from_inward_normal
+    tangent_coordinate: p = sin(phi) in (-1,1)
+  outgoing_direction: u = cos(phi)*n + sin(phi)*t
+  regular_space: M_boundary = {(s,phi) on regular boundary}
+  collision_map:
+    symbol: T
+    signature: M_boundary_minus_S1 to M_boundary
+    invertible: almost_everywhere_outside_forward_backward_singular_sets
+  roof:
+    formula: tau(s,phi) = norm(q(s_prime)-q(s))/c0
+    dimension: time
+    positivity: strictly_positive_on_regular_noncoincident_collisions
+  invariant_form:
+    formula: omega_boundary = cos(phi)*ds_wedge_dphi = ds_wedge_dp
+  invariant_probability:
+    formula: dmu_boundary = cos(phi)*ds*dphi/(2*boundary_length)
+    equivalent_formula: dmu_boundary = ds*dp/(2*boundary_length)
+    normalization: one
+  prohibition:
+    - collision_map_is_not_itself_an_information_loss_channel
+    - flow_is_not_reconstructed_from_collision_map_without_roof_and_time_phase
+
+observation_chain:
+  reduction: continuous_flow_to_collision_section
+  deterministic_channels:
+    full_collision_N: (s_k,p_k) for k=0,...,N-1
+    impact_position_N: s_k for k=0,...,N-1
+    symbolic_word_N: alpha(s_k) for k=0,...,N-1
+    spectrum: ordered_Dirichlet_eigenvalues_with_multiplicity
+  stochastic_channel:
+    required_if_any:
+      - impact_miss
+      - duplicate_detection
+      - position_noise
+      - symbol_misclassification
+      - spectrum_measurement_noise
+  instantaneous_position:
+    map: pi_s(s,p) = s
+    injective: false
+  two_impact_reconstruction:
+    hypotheses:
+      - known_strictly_convex_C1_table
+      - distinct_consecutive_regular_impacts
+      - ordered_impact_pair
+    direction: u_n_plus = (q_n_plus_1-q_n)/norm(q_n_plus_1-q_n)
+    tangent_coordinate: p_n = dot(u_n_plus,t(s_n))
+    conclusion: current_collision_state_is_reconstructed
+  finite_symbol_noninjectivity:
+    hypotheses:
+      - uncountable_regular_state_subset
+      - finite_alphabet_m
+      - finite_horizon_N
+    codomain_cardinality_upper_bound: m^N
+    conclusion: not_injective
+  infinite_symbol_boundary:
+    allowed_statement: may_be_generating_under_separate_hypotheses
+    forbidden_statement: every_symbolic_coding_is_information_losing
+
+symbolic_entropy:
+  alphabet_size: m >= 2
+  logarithm_base: b > 1
+  zero_probability_convention: omit_zero_terms
+  marginal:
+    formula: H_b(A0) = -sum_positive p_j*log_b(p_j)
+    semantics: one_symbol_channel_statistic
+  block:
+    formula: H_b(A0_to_A_n_minus_1) = -sum_positive P_n(w)*log_b(P_n(w))
+  rate:
+    formula: h_b(T,alpha) = limit_n H_b(A0_to_A_n_minus_1)/n
+    existence_scope: stationary_finite_alphabet_process
+  kolmogorov_sinai:
+    formula: h_mu_b(T) = supremum_over_partitions h_b(T,alpha)
+    equality_for_one_partition_requires: generating_partition
+  normalization:
+    formula: H_b/log_b(m)
+    guard: m > 1
+  prohibition:
+    - marginal_entropy_is_not_entropy_rate
+    - marginal_entropy_is_not_KS_entropy
+    - high_marginal_entropy_does_not_imply_chaos
+
+disk_reference:
+  hypotheses:
+    - Omega_is_disk_of_radius_R
+    - R > 0
+    - elastic_regular_collision
+  boundary_length: 2*pi*R
+  map:
+    s_prime: s + 2*R*arccos(p) mod 2*pi*R
+    p_prime: p
+  conserved_reduced_angular_momentum_coordinate: j_z = R*p
+  physical_specific_angular_momentum: c0*j_z
+  rotation_number: rho(p) = arccos(p)/pi mod 1
+  roof_time: tau_R(p) = 2*R*sqrt(1-p^2)/c0
+  guards:
+    - abs(p) < 1
+    - c0 > 0
+
+chaos_diagnostics:
+  asymptotic_lyapunov:
+    formula: limit_N log(norm(DT^N_z*xi)/norm(xi))/N
+    conditions:
+      - derivative_cocycle_defined_along_orbit
+      - nonzero_tangent_vector
+      - limit_exists
+  finite_window_slope:
+    status: diagnostic
+    required_fields:
+      - collision_space_metric
+      - dimensionless_reference_distance
+      - fit_window
+      - nonnegative_weights
+      - renormalization_rule
+      - saturation_cutoff
+      - singularity_handling
+      - uncertainty_model_or_deterministic_residual_statement
+  prohibition:
+    - positive_finite_window_slope_does_not_prove_positive_Lyapunov_exponent
+    - positive_finite_window_slope_does_not_prove_ergodicity
+    - positive_finite_window_slope_does_not_prove_mixing
+    - positive_finite_window_slope_does_not_prove_positive_KS_entropy
+
+spectral_layer:
+  operator:
+    quadratic_form: q_Omega[psi] = integral_Omega norm(grad(psi))^2 dx
+    form_domain: H0_1(Omega)
+    realization: nonnegative_self_adjoint_Dirichlet_Laplacian
+    resolvent: compact_for_bounded_Omega
+  eigenvalues:
+    symbol: lambda_n
+    ordering: nondecreasing_with_multiplicity
+    dimension: inverse_length_squared
+    positivity: lambda_1 > 0
+  physical_hamiltonian:
+    formula: H_hat = -(hbar^2/(2*m))*Delta_D
+    hypotheses:
+      - nonrelativistic_particle
+      - declared_mass_m_positive
+      - SI_hbar
+    energy_bridge: E_n = hbar^2*lambda_n/(2*m)
+  transformations:
+    euclidean_isometry: lambda_n(g*Omega) = lambda_n(Omega)
+    scaling: lambda_n(a*Omega) = a^-2*lambda_n(Omega)
+    similarity_invariant_2D: area(Omega)*lambda_n(Omega)
+  Weyl:
+    counting_function: N_Omega(Lambda) = count(lambda_n < Lambda)
+    planar_asymptotic: N_Omega(Lambda) ~ area(Omega)*Lambda/(4*pi)
+    conclusion: full_Dirichlet_spectrum_determines_area
+    boundary_term_guard: additional_regular_boundary_theorem_required
+  inverse_boundary:
+    known_noninjectivity: noncongruent_isospectral_planar_domains_exist
+    prohibition:
+      - spectrum_does_not_determine_arbitrary_planar_domain
+      - lambda_n_must_not_be_called_energy_without_bridge
+      - classical_map_is_not_identified_with_quantum_spectrum
+
+dissipative_boundary:
+  normal_restitution:
+    coefficient: e in [0,1]
+    normal_update: v_n_plus = -e*v_n_minus
+    tangential_update: unchanged_in_frictionless_model
+    nonnegative_loss: Delta_E_diss = m*(1-e^2)*(v_n_minus)^2/2
+  state_space_change:
+    if_e_less_than_one: speed_or_energy_must_be_added_to_collision_state
+  not_inherited_automatically:
+    - elastic_invariant_measure
+    - constant_speed_collision_space
+    - time_reversibility
+
+transformation_classes:
+  euclidean_isometries:
+    classical_status: conjugacy
+    spectral_status: invariance
+  positive_similarities:
+    classical_normalized_collision_status: covariance
+    roof_status: scales_by_length
+    spectral_status: inverse_square_covariance
+  boundary_reparameterization:
+    status: coordinate_change
+    requirement: measure_and_readout_are_transformed_consistently
+  symbol_relabeling:
+    status: finite_group_action
+    marginal_entropy_invariant: true
+    literal_word_invariant: false
+
+observation_protocol:
+  required_fields:
+    - hidden_space
+    - system_descriptor
+    - reduction
+    - deterministic_observation
+    - stochastic_channel_or_explicit_noiseless_model
+    - observed_space
+    - reference_frame
+    - quantizer_or_partition
+    - spatial_resolution
+    - temporal_resolution
+    - observation_horizon
+    - estimator_or_declared_direct_readout
+    - uncertainty_or_exactness_statement
+    - unit_context
+    - defect_normalizations
+  billiards_specific_fields:
+    - table_class
+    - boundary_regularization
+    - corner_policy
+    - grazing_policy
+    - boundary_parameterization
+    - tangent_orientation
+    - normal_orientation
+    - speed_or_energy_convention
+    - collision_section
+    - roof_time_treatment
+    - missed_impact_policy
+    - duplicate_impact_policy
+    - symbol_boundary_assignment
+    - logarithm_base
+    - collision_space_metric
+    - spectral_boundary_condition
+    - spectral_multiplicity_convention
+    - particle_mass_if_energy_is_reported
+
+reference_gates:
+  - id: collision_reduction_scope
+    severity: error
+    requirement: collision_map_and_observation_channel_are_distinct
+  - id: collision_measure
+    severity: error
+    requirement: angle_convention_singular_set_and_normalization_are_declared
+  - id: roof_time
+    severity: error
+    requirement: flow_reconstruction_does_not_drop_roof
+  - id: sequential_identifiability
+    severity: error
+    requirement: instantaneous_and_sequence_observations_are_not_conflated
+  - id: symbolic_semantics
+    severity: error
+    requirement: marginal_block_rate_and_KS_entropies_are_distinct
+  - id: chaos_window
+    severity: error
+    requirement: finite_slope_has_metric_window_and_scope
+  - id: spectral_quantity
+    severity: error
+    requirement: lambda_n_and_E_n_are_dimensionally_distinct
+  - id: spectral_covariance
+    severity: error
+    requirement: rigid_invariance_and_scale_covariance_are_distinct
+  - id: inverse_spectral_boundary
+    severity: error
+    requirement: general_spectral_map_is_not_called_injective
+  - id: dissipative_state
+    severity: error
+    requirement: nonelastic_model_expands_state_and_rechecks_measure

@@ -1,0 +1,37 @@
+{
+  "schema": {
+    "id": "go-p2-validation-summary",
+    "version": "0.3.0"
+  },
+  "status": "PASS",
+  "documents": [
+    {
+      "id": "distance-scale-interface-v0-2",
+      "pages": 9,
+      "sha256": "11b99c7e9e0eddb038796e2982f42d9a48111eb883e7ea228ecd41a35268f71f",
+      "embedded_font_rows": 19,
+      "rendered_pages_verified": 9,
+      "extracted_characters": 22695
+    },
+    {
+      "id": "mandelbrot-rulers-v1-1",
+      "pages": 11,
+      "sha256": "0a3b02c620c681b07bc279944e4fd2082b6ab8a088ee8f9dd377d2994cb6868f",
+      "embedded_font_rows": 22,
+      "rendered_pages_verified": 11,
+      "extracted_characters": 28364
+    }
+  ],
+  "reference_ledgers": 2,
+  "typed_expressions": 24,
+  "reference_lint_findings": 0,
+  "regression_tests": 27,
+  "total_pages": 20,
+  "rendered_pages_verified": 20,
+  "embedded_font_rows_checked": 41,
+  "corpus_statuses": {
+    "BLOCKED": 2,
+    "FAIL": 9,
+    "PASS": 6
+  }
+}

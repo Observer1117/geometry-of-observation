@@ -1,0 +1,83 @@
+{
+  "schema": {
+    "id": "go-lint-corpus-report",
+    "version": "0.2.0",
+    "core_contract": "0.2.0",
+    "corpus_id": "go-p5-mechanics-reference-ledgers"
+  },
+  "summary": {
+    "canonical_documents": 4,
+    "reference_documents": 4,
+    "critical_adapters": 0,
+    "expressions_checked": 39,
+    "findings_total": 0,
+    "core_findings": 0,
+    "status_counts": {
+      "PASS": 4
+    },
+    "rule_counts": {}
+  },
+  "documents": [
+    {
+      "id": "frames-forces-dissipation-interface-v0-1",
+      "title": "Frames, Forces, Constraints, and Dissipation under Observation Maps",
+      "version": "0.1.0",
+      "ledger_level": "reference",
+      "migration_status": "p5_reference_pass",
+      "expressions": 10,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_common_mechanics_reference"
+    },
+    {
+      "id": "celestial-foucault-networks-v1-1",
+      "title": "Foucault Networks on Celestial Bodies",
+      "version": "1.1.0",
+      "ledger_level": "reference",
+      "migration_status": "p5_reference_pass",
+      "expressions": 7,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_frame_consistent_celestial_toy_reference"
+    },
+    {
+      "id": "bobsleigh-contact-v1-1",
+      "title": "Bobsleigh Contact Geometry as a Typed Observation System",
+      "version": "1.1.0",
+      "ledger_level": "reference",
+      "migration_status": "p5_reference_pass",
+      "expressions": 11,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_typed_contact_observation_reference"
+    },
+    {
+      "id": "roller-coaster-v1-1",
+      "title": "Roller-Coaster Geometry as a Typed Observation Laboratory",
+      "version": "1.1.0",
+      "ledger_level": "reference",
+      "migration_status": "p5_reference_pass",
+      "expressions": 11,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_framed_curve_observation_reference"
+    }
+  ],
+  "findings": []
+}

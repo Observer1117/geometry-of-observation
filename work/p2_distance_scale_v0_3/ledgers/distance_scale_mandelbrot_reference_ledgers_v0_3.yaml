@@ -1,0 +1,691 @@
+schema:
+  id: go-p2-distance-scale-reference-ledgers
+  version: 0.3.0
+  date: 2026-07-28
+  core_contract: go-core-spec@0.2.0
+  extension_contract: go-distance-scale-contract@0.3.0
+
+documents:
+  - id: distance-scale-interface-v0-2
+    title: Distance and Scale Interface under Observation Maps
+    version: 0.2.0
+    source:
+      pdf: work/p2_distance_scale_v0_3/build/distance/distance_scale_interface_observation_maps_v0_2.pdf
+      tex: work/p2_distance_scale_v0_3/src/distance_scale_interface_observation_maps_v0_2.tex
+      text: work/p2_distance_scale_v0_3/checks/distance/distance_scale_interface_observation_maps_v0_2.txt
+      pages: 9
+      sha256: 11b99c7e9e0eddb038796e2982f42d9a48111eb883e7ea228ecd41a35268f71f
+    ledger_level: reference
+    migration_status: p2_reference_pass
+    unit_contexts: [SI, neutral]
+    groups:
+      - positive_coherent_metric_rescalings
+      - observed_space_isometries
+    maps:
+      - id: distance_observation
+        domain: hidden_metric_space
+        codomain: observed_metric_space
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: global_pseudometric_pullback
+        domain: observed_metric_and_observation_map
+        codomain: hidden_state_pseudometric
+        kind: pullback
+        invertibility: not_required
+        information_loss: not_applicable
+      - id: observation_fiber_quotient
+        domain: hidden_state_pseudometric_space
+        codomain: metric_quotient
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: local_tensor_pullback
+        domain: observed_riemannian_metric
+        codomain: source_semidefinite_quadratic_form
+        kind: pullback
+        invertibility: not_required
+        information_loss: not_applicable
+      - id: distance_estimator
+        domain: registered_measurement
+        codomain: estimated_observed_distance
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+      - id: shell_graph_discretizer
+        domain: finite_hidden_sample
+        codomain: observed_distance_graph
+        kind: discretizer
+        invertibility: not_required
+        information_loss: possible
+    symbols:
+      - {scope: distance_v0_2, key: O, meaning: deterministic_observation_map}
+      - {scope: distance_v0_2, key: d_O, meaning: global_observed_pseudometric}
+      - {scope: distance_v0_2, key: rho_O, meaning: pullback_path_pseudometric}
+      - {scope: distance_v0_2, key: r_star, meaning: positive_reference_shell_radius}
+      - {scope: distance_v0_2, key: epsilon_X, meaning: input_resolution}
+      - {scope: distance_v0_2, key: epsilon_Y, meaning: output_resolution}
+      - {scope: distance_v0_2, key: tau, meaning: decision_tolerance}
+      - {scope: distance_v0_2, key: u, meaning: deterministic_distance_error_bound}
+      - {scope: distance_v0_2, key: P, meaning: physical_readout_period}
+      - {scope: distance_v0_2, key: delta_d, meaning: physical_ladder_step}
+    quantities:
+      - id: dsi.observed_distance
+        extends: geometry.length
+        symbol: d_O
+      - id: dsi.shell_radius
+        extends: geometry.reference_length
+        symbol: r_star
+      - id: dsi.tolerance
+        extends: observation.spatial_resolution
+        symbol: tau
+      - id: dsi.error_bound
+        extends: geometry.length
+        symbol: u
+      - id: dsi.input_resolution
+        extends: observation.spatial_resolution
+        symbol: epsilon_X
+      - id: dsi.output_resolution
+        extends: observation.spatial_resolution
+        symbol: epsilon_Y
+      - id: dsi.reference_length
+        extends: geometry.reference_length
+        symbol: ell_star
+      - id: dsi.lipschitz_converter
+        extends: dimensionless.scalar
+        symbol: L_O
+      - id: dsi.lipschitz_converter_first
+        extends: dimensionless.scalar
+        symbol: L_1
+      - id: dsi.lipschitz_converter_second
+        extends: dimensionless.scalar
+        symbol: L_2
+      - id: dsi.normalized_distance
+        extends: dimensionless.scalar
+        symbol: d_bar_O
+      - id: dsi.normalized_tolerance
+        extends: dimensionless.scalar
+        symbol: tau_bar
+      - id: dsi.diameter_origin
+        extends: geometry.length
+        symbol: d_0
+      - id: dsi.diameter_offset
+        extends: geometry.length
+        symbol: d_n_minus_d_0
+      - id: dsi.step_length
+        extends: geometry.length
+        symbol: delta_d
+      - id: dsi.readout_period
+        extends: geometry.length
+        symbol: P
+      - id: dsi.hidden_index
+        extends: discrete.count
+        symbol: n
+      - id: dsi.hidden_vertical_separation
+        extends: geometry.length
+        symbol: delta_z
+      - id: dsi.phase
+        extends: geometry.angle
+        symbol: phi
+      - id: dsi.distance_squared
+        symbol: d_squared
+        semantic_kind: scalar
+        dimension: [2, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m^2
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+    expressions:
+      - id: exact_shell_comparison
+        anchor: section 4, d_O(x,x_prime)=r_star
+        ast:
+          op: compare
+          left: {q: dsi.observed_distance}
+          right: {q: dsi.shell_radius}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: probability
+      - id: tolerant_shell_comparison
+        anchor: section 4, abs(d_O-r_star)<=tau
+        ast:
+          op: compare
+          left:
+            op: sub
+            args:
+              - {q: dsi.observed_distance}
+              - {q: dsi.shell_radius}
+          right: {q: dsi.tolerance}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: probability
+      - id: deterministic_error_envelope
+        anchor: section 4, accepted deviation <= tau+u
+        ast:
+          op: add
+          args:
+            - {q: dsi.tolerance}
+            - {q: dsi.error_bound}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: normalized_observed_distance
+        anchor: section 5, d_bar_O=d_O/r_star
+        ast:
+          op: normalize
+          value: {q: dsi.observed_distance}
+          reference: {q: dsi.shell_radius}
+          zero_policy: strictly_positive_shell_radius
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: normalized_tolerance
+        anchor: section 5, tau_bar=tau/r_star
+        ast:
+          op: normalize
+          value: {q: dsi.tolerance}
+          reference: {q: dsi.shell_radius}
+          zero_policy: strictly_positive_shell_radius
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: logarithmic_resolution_coordinate
+        anchor: section 5, s_b=log_b(ell_star/epsilon)
+        ast:
+          op: log
+          base: b
+          arg:
+            op: normalize
+            value: {q: dsi.reference_length}
+            reference: {q: dsi.output_resolution}
+            zero_policy: strictly_positive_output_resolution
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: matched_output_resolution
+        anchor: section 6, L_O epsilon_X
+        ast:
+          op: mul
+          left: {q: dsi.lipschitz_converter}
+          right: {q: dsi.input_resolution}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: composed_lipschitz_converter
+        anchor: section 6, L_21=L_2 L_1
+        ast:
+          op: mul
+          left: {q: dsi.lipschitz_converter_second}
+          right: {q: dsi.lipschitz_converter_first}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: projected_hidden_distance_squared
+        anchor: section 7, norm(X-X_prime)^2=r_star^2+delta_z^2
+        ast:
+          op: add
+          args:
+            - op: pow
+              arg: {q: dsi.shell_radius}
+              exponent: 2
+            - op: pow
+              arg: {q: dsi.hidden_vertical_separation}
+              exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: typed_diameter_ladder
+        anchor: section 9, d_n=d_0+n delta_d
+        ast:
+          op: add
+          args:
+            - {q: dsi.diameter_origin}
+            - op: mul
+              left: {q: dsi.hidden_index}
+              right: {q: dsi.step_length}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: dimensionless_periodic_ratio
+        anchor: section 9, (d_n-d_0)/P
+        ast:
+          op: normalize
+          value: {q: dsi.diameter_offset}
+          reference: {q: dsi.readout_period}
+          zero_policy: strictly_positive_period
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: typed_periodic_readout
+        anchor: section 9, cos(phi)
+        ast:
+          op: trig
+          function: cos
+          arg: {q: dsi.phase}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+    invariants:
+      - id: normalized_shell_predicate
+        claimed_invariant: true
+        group: positive_coherent_metric_rescalings
+        anchor: section 5
+      - id: quotient_distance_under_observed_isometry
+        claimed_invariant: true
+        group: observed_space_isometries
+        anchor: sections 2 and 3
+    claim_register:
+      - id: observed_pseudometric_theorem
+        status: theorem
+        hypotheses: [observed_space_is_metric, observation_is_a_map]
+      - id: canonical_quotient_metric_theorem
+        status: theorem
+        hypotheses: [quotient_by_equal_observations]
+      - id: ambient_path_inequality
+        status: proposition
+        hypotheses: [smooth_observation, riemannian_target, admissible_connecting_paths]
+      - id: deterministic_error_guarantee
+        status: proposition
+        hypotheses: [uniform_declared_distance_error_bound]
+      - id: unit_covariance_of_shells
+        status: theorem
+        hypotheses: [positive_coherent_rescaling]
+      - id: lipschitz_resolution_propagation
+        status: proposition
+        hypotheses: [typed_lipschitz_observation, positive_input_resolution]
+      - id: rational_step_factorization
+        status: theorem
+        hypotheses: [positive_period, rational_step_ratio_in_lowest_terms]
+      - id: erdos_extension_firewall
+        status: model
+        hypotheses: [declared_visible_or_hidden_multiplicity_count]
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    next_action: retain_as_common_distance_scale_reference_and_migrate_planck_cosmos
+
+  - id: mandelbrot-rulers-v1-1
+    title: Mandelbrot Rulers as Observation-Scale Geometry
+    version: 1.1.0
+    source:
+      pdf: work/p2_distance_scale_v0_3/build/mandelbrot/mandelbrot_rulers_observation_scale_v1_1.pdf
+      tex: work/p2_distance_scale_v0_3/src/mandelbrot_rulers_observation_scale_v1_1.tex
+      text: work/p2_distance_scale_v0_3/checks/mandelbrot/mandelbrot_rulers_observation_scale_v1_1.txt
+      pages: 11
+      sha256: 0a3b02c620c681b07bc279944e4fd2082b6ab8a088ee8f9dd377d2994cb6868f
+    ledger_level: reference
+    migration_status: p2_reference_pass
+    unit_contexts: [SI, neutral]
+    groups:
+      - positive_coherent_metric_rescalings
+      - logarithm_base_changes
+      - bi_lipschitz_observations
+      - exponent_equivalent_protocols
+    maps:
+      - id: covering_discretizer
+        domain: totally_bounded_metric_set_and_resolution
+        codomain: finite_cover_count
+        kind: discretizer
+        invertibility: not_required
+        information_loss: possible
+      - id: divider_discretizer
+        domain: ordered_curve_and_protocol
+        codomain: ruler_step_count
+        kind: discretizer
+        invertibility: not_required
+        information_loss: possible
+      - id: dilation_observation
+        domain: euclidean_set_and_radius
+        codomain: minkowski_sausage_volume
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: scale_coordinate_reduction
+        domain: positive_reference_and_resolution
+        codomain: dimensionless_log_scale
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: finite_window_slope_estimator
+        domain: declared_scale_trace_window
+        codomain: exponent_and_residual_report
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - {scope: mandelbrot_v1_1, key: epsilon, meaning: physical_observation_resolution}
+      - {scope: mandelbrot_v1_1, key: ell_star, meaning: positive_reference_length}
+      - {scope: mandelbrot_v1_1, key: t, meaning: dimensionless_log_scale_coordinate}
+      - {scope: mandelbrot_v1_1, key: N_epsilon, meaning: protocol_specific_count}
+      - {scope: mandelbrot_v1_1, key: W, meaning: declared_fit_window}
+      - {scope: mandelbrot_v1_1, key: D_hat, meaning: finite_window_slope_estimate}
+      - {scope: mandelbrot_v1_1, key: Sigma, meaning: declared_log_count_covariance}
+    quantities:
+      - id: mr11.epsilon
+        extends: observation.spatial_resolution
+        symbol: epsilon
+      - id: mr11.reference_length
+        extends: geometry.reference_length
+        symbol: ell_star
+      - id: mr11.count
+        extends: discrete.count
+        symbol: N_epsilon
+      - id: mr11.count_fine
+        extends: discrete.count
+        symbol: N_fine
+      - id: mr11.count_coarse
+        extends: discrete.count
+        symbol: N_coarse
+      - id: mr11.ruler_length
+        extends: geometry.length
+        symbol: L_epsilon
+      - id: mr11.normalized_ruler_length
+        extends: dimensionless.scalar
+        symbol: L_bar_epsilon
+      - id: mr11.log_scale
+        extends: dimensionless.scalar
+        symbol: t
+      - id: mr11.log_scale_first
+        extends: dimensionless.scalar
+        symbol: t_i
+      - id: mr11.log_scale_second
+        extends: dimensionless.scalar
+        symbol: t_j
+      - id: mr11.log_count
+        symbol: y
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: declared_by_b
+        unit_context: neutral
+        frame: none
+        log_base: b
+        claim_status: definition
+      - id: mr11.log_count_first
+        extends: mr11.log_count
+        symbol: y_i
+      - id: mr11.log_count_second
+        extends: mr11.log_count
+        symbol: y_j
+      - id: mr11.dimension_estimate
+        extends: dimensionless.scalar
+        symbol: D_hat
+      - id: mr11.lipschitz_converter
+        extends: dimensionless.scalar
+        symbol: L_O
+      - id: mr11.output_resolution
+        extends: observation.spatial_resolution
+        symbol: epsilon_Y
+      - id: mr11.area
+        symbol: V_epsilon
+        semantic_kind: scalar
+        dimension: [2, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m^2
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: mr11.reference_area
+        extends: mr11.area
+        symbol: ell_star_squared
+      - id: mr11.normalized_volume
+        extends: dimensionless.scalar
+        symbol: V_bar
+      - id: mr11.koch_initial_length
+        extends: geometry.reference_length
+        symbol: ell_0
+      - id: mr11.koch_segment_length
+        extends: geometry.length
+        symbol: epsilon_n
+      - id: mr11.residual
+        extends: dimensionless.scalar
+        symbol: r_i
+    expressions:
+      - id: normalized_resolution_ratio
+        anchor: section 2, ell_star/epsilon
+        ast:
+          op: normalize
+          value: {q: mr11.reference_length}
+          reference: {q: mr11.epsilon}
+          zero_policy: strictly_positive_resolution
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: typed_log_scale_coordinate
+        anchor: section 2, t=log_b(ell_star/epsilon)
+        ast:
+          op: log
+          base: b
+          arg:
+            op: normalize
+            value: {q: mr11.reference_length}
+            reference: {q: mr11.epsilon}
+            zero_policy: strictly_positive_resolution
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: typed_log_cover_count
+        anchor: section 3, H_b_epsilon=log_b N_epsilon
+        ast:
+          op: log
+          base: b
+          semantic_kind: information
+          arg: {q: mr11.count}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: ruler_length
+        anchor: section 6, L_epsilon=epsilon N_epsilon
+        ast:
+          op: mul
+          left: {q: mr11.count}
+          right: {q: mr11.epsilon}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: normalized_ruler_length
+        anchor: section 6, L_epsilon/ell_star
+        ast:
+          op: normalize
+          value: {q: mr11.ruler_length}
+          reference: {q: mr11.reference_length}
+          zero_policy: strictly_positive_reference_length
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: normalized_minkowski_area
+        anchor: section 6, V_A(epsilon)/ell_star^2
+        ast:
+          op: normalize
+          value: {q: mr11.area}
+          reference: {q: mr11.reference_area}
+          zero_policy: strictly_positive_reference_length
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: finite_pairwise_slope
+        anchor: section 7, (y_j-y_i)/(t_j-t_i)
+        ast:
+          op: div
+          left:
+            op: sub
+            args:
+              - {q: mr11.log_count_second}
+              - {q: mr11.log_count_first}
+          right:
+            op: sub
+            args:
+              - {q: mr11.log_scale_second}
+              - {q: mr11.log_scale_first}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: matched_lipschitz_resolution
+        anchor: section 4, L_O epsilon_X
+        ast:
+          op: mul
+          left: {q: mr11.lipschitz_converter}
+          right: {q: mr11.epsilon}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: covering_monotonicity_comparison
+        anchor: section 3, N_fine >= N_coarse
+        ast:
+          op: compare
+          left: {q: mr11.count_fine}
+          right: {q: mr11.count_coarse}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: probability
+      - id: koch_normalized_segment_scale
+        anchor: section 10, epsilon_n/ell_0
+        ast:
+          op: normalize
+          value: {q: mr11.koch_segment_length}
+          reference: {q: mr11.koch_initial_length}
+          zero_policy: strictly_positive_initial_length
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: koch_dimension_ratio
+        anchor: section 10, log(4)/log(3)
+        ast:
+          op: div
+          left:
+            op: log
+            base: e
+            arg: {const: 4}
+          right:
+            op: log
+            base: e
+            arg: {const: 3}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: residual_is_dimensionless
+        anchor: section 7, r_i=y_i-alpha-D_hat t_i
+        ast: {q: mr11.residual}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+    invariants:
+      - id: scale_coordinate_under_length_units
+        claimed_invariant: true
+        group: positive_coherent_metric_rescalings
+        anchor: sections 2 and 7
+      - id: finite_slope_under_log_base
+        claimed_invariant: true
+        group: logarithm_base_changes
+        anchor: section 7
+      - id: box_dimensions_under_bilipschitz_observation
+        claimed_invariant: true
+        group: bi_lipschitz_observations
+        anchor: section 4
+      - id: asymptotic_exponent_under_comparable_protocols
+        claimed_invariant: true
+        group: exponent_equivalent_protocols
+        anchor: section 5
+    claim_register:
+      - id: covering_count_monotonicity
+        status: proposition
+        hypotheses: [fixed_metric, fixed_cover_convention, positive_resolutions]
+      - id: box_dimension_reference_independence
+        status: theorem
+        hypotheses: [positive_reference_length, totally_bounded_nonempty_set]
+      - id: matched_lipschitz_cover
+        status: theorem
+        hypotheses: [positive_typed_lipschitz_constant, totally_bounded_input_set]
+      - id: bilipschitz_box_dimension_invariance
+        status: corollary
+        hypotheses: [positive_lower_and_upper_distance_bounds]
+      - id: protocol_comparison_theorem
+        status: theorem
+        hypotheses: [two_sided_count_comparison_by_fixed_positive_constants]
+      - id: finite_window_weighted_slope
+        status: diagnostic
+        hypotheses: [at_least_two_distinct_log_scales, positive_declared_weights]
+      - id: gls_confidence_interval
+        status: model
+        hypotheses: [declared_stochastic_log_count_model, positive_definite_covariance]
+      - id: koch_divider_benchmark
+        status: theorem
+        hypotheses: [generator_aligned_koch_construction_scales]
+      - id: natural_coastline_exponent
+        status: diagnostic
+        hypotheses: [declared_protocol_window_residual_and_uncertainty]
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    next_action: retain_as_scale_trace_reference_and_migrate_planck_cosmos

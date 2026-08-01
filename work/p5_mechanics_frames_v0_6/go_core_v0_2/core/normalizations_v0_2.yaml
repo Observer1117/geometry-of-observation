@@ -1,0 +1,34 @@
+schema:
+  id: go-normalization-registry
+  version: 0.2.0
+
+normalizations:
+  - id: normalize.by_reference
+    formula: q / q_ref
+    input_dimension_relation: equal
+    output_dimension: [0, 0, 0, 0, 0, 0, 0]
+    zero_policy_required: true
+  - id: normalize.logarithmic_coordinate
+    formula: log_b(q / q_ref)
+    preconditions: [q_positive, q_ref_positive, equal_dimensions, log_base_declared]
+    output_dimension: [0, 0, 0, 0, 0, 0, 0]
+  - id: normalize.mahalanobis_residual
+    formula: Sigma_y^(-1/2) * (y_model - y_data)
+    preconditions: [covariance_positive_definite_or_regularized, matching_data_passport]
+    output_dimension: [0, 0, 0, 0, 0, 0, 0]
+  - id: bridge.laplacian_to_schrodinger_energy
+    formula: hbar^2 * lambda_Delta / (2*m)
+    input_dimension: [-2, 0, 0, 0, 0, 0, 0]
+    output_dimension: [2, 1, -2, 0, 0, 0, 0]
+    required_quantities: [quantum.hbar, mechanics.mass]
+  - id: bridge.frequency_squared_to_frequency
+    formula: sqrt(lambda_MW)
+    input_dimension: [0, 0, -2, 0, 0, 0, 0]
+    output_dimension: [0, 0, -1, 0, 0, 0, 0]
+    zero_and_negative_policy: stable_positive_modes_only
+  - id: normalize.dynamic_closure
+    formula: output_distance / output_resolution
+    input_dimension_relation: equal
+    output_dimension: [0, 0, 0, 0, 0, 0, 0]
+    zero_policy_required: true
+

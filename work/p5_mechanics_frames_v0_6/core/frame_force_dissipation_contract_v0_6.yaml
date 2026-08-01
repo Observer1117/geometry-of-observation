@@ -1,0 +1,171 @@
+schema:
+  id: go-frame-force-dissipation-contract
+  version: 0.6.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  normative_document: frames-forces-dissipation-interface-v0-1
+
+dimension_basis: [L, M, T, I, Theta, N, J]
+exchange_unit_context: SI
+
+object_types:
+  point:
+    carrier: affine_space
+    frame_map: x_F = c_F_from_G + A_F_from_G * x_G
+    forbidden:
+      - translate_free_vector
+  free_vector:
+    carrier: vector_space
+    frame_map: v_F = A_F_from_G * v_G
+  configuration_velocity:
+    carrier: tangent_bundle
+    signature: qdot in T_q_Q
+  generalized_force:
+    carrier: cotangent_bundle
+    signature: Q in Tstar_q_Q
+    pairing: power = pairing(Q, qdot)
+  observation:
+    carrier: map_or_markov_kernel
+    information_loss: possible
+
+frame_convention:
+  rotation_edge:
+    symbol: A_F_from_G
+    group: SO3
+    direction: components_in_G_to_components_in_F
+    inverse: A_G_from_F = transpose(A_F_from_G)
+    composition: A_F_from_H = A_F_from_G * A_G_from_H
+  point_map:
+    formula: x_I = c_F_I + A_I_from_F * x_F
+  angular_velocity:
+    formula: transpose(A_I_from_F) * derivative(A_I_from_F) = cross_matrix(Omega_F)
+  kinematics:
+    velocity:
+      formula: v_I = c_dot_I + A_I_from_F * (v_F + Omega_F cross x_F)
+    acceleration:
+      formula: a_I = c_ddot_I + A_I_from_F * (a_F + 2 Omega_F cross v_F + Omega_dot_F cross x_F + Omega_F cross (Omega_F cross x_F))
+  effective_force_terms:
+    - translational
+    - coriolis
+    - euler
+    - centrifugal
+  prohibition:
+    - do_not_add_inertial_and_body_components
+    - do_not_insert_effective_forces_in_both_frames
+    - do_not_treat_camera_projection_as_frame_transform
+
+constraint_convention:
+  equality:
+    formula: h(t,q) = 0
+    jacobian: A_h = partial_q_h
+    reaction: Q_h = transpose(A_h) * lambda
+    admissible_velocity: A_h * qdot + partial_t_h = 0
+    reaction_power: P_h = -transpose(lambda) * partial_t_h
+  unilateral:
+    gap_side: g_positive_means_separation
+    normal_side: N_positive_means_compression_on_modeled_body
+    complementarity:
+      - g >= 0
+      - N >= 0
+      - N * g = 0
+  smooth_regime_boundary:
+    excludes:
+      - impacts
+      - restitution
+      - measure_valued_impulses
+      - active_set_switch_singularity
+
+force_and_power:
+  spatial_to_generalized:
+    formula: Q = transpose(J) * F
+  orthogonal_power_covariance:
+    formula: dot(A*F, A*v) = dot(F,v)
+  moving_application_point:
+    velocity: v = J*qdot + v_0
+    power: dot(F,v) = pairing(transpose(J)*F,qdot) + dot(F,v_0)
+
+dissipation_convention:
+  generalized:
+    dissipative_inequality: pairing(Q_d,qdot) <= 0
+    nonnegative_loss: P_diss = -pairing(Q_d,qdot) >= 0
+  rayleigh:
+    function: R = 0.5 * transpose(qdot) * C * qdot
+    hypotheses:
+      - C_is_symmetric_positive_semidefinite
+    force: Q_d = -partial_qdot_R
+    loss: P_diss = 2*R
+  friction:
+    contact_force_on_body: F_j = N_j*n_j + T_j
+    tangent_velocity: v_T_j = P_T_j * (v_body_j - v_support_j)
+    cone: norm(T_j) <= mu_j*N_j
+    dissipative_inequality: dot(T_j,v_T_j) <= 0
+    nonnegative_loss: P_fric_j = -dot(T_j,v_T_j)
+    zero_load_guard:
+      utilization:
+        positive_capacity: norm(T_j)/(mu_j*N_j)
+        zero_capacity_and_zero_tangent_force: 0
+      prohibited: zero_capacity_and_nonzero_tangent_force
+
+energy_balance:
+  lagrangian_energy: E_L = pairing(partial_qdot_L,qdot) - L
+  forced_equation: d_dt_partial_qdot_L - partial_q_L = Q_act + Q_d + Q_con
+  identity: dE_L_dt = P_act - P_diss + P_con - partial_t_L
+  ideal_scleronomous_case:
+    hypotheses:
+      - partial_t_h_is_zero
+      - ideal_reaction
+    consequence: P_con = 0
+  no_double_counting:
+    - use_ambient_support_power_or_reduced_time_dependent_L
+    - never_add_the_same_support_work_twice
+
+application_profiles:
+  foucault:
+    required_frames: [inertial, body, local_tangent, observer, camera]
+    signed_rate: precession_rate_body = -dot(Omega_body, normal_body)
+    hypotheses:
+      - linear_small_amplitude_model
+      - fixed_local_vertical
+      - constant_normal_spin_component
+    dissipation: P_diss = 2*m*beta*norm(u_dot)^2
+  bobsleigh:
+    required_frames: [world, track, body, contact]
+    required_guards:
+      - track_chart_regular
+      - contact_gap_sign
+      - zero_normal_load
+      - active_set
+    friction_loss: P_fric = -sum_j dot(T_j,v_T_j)
+  roller_coaster:
+    required_frames: [world, adapted_track, apparatus]
+    frame_strain: transpose(R)*derivative_s(R) = cross_matrix(kappa_R)
+    angular_velocity: Omega_body = speed*kappa_R
+    load_vector: G_vec = transpose(R)*(a-g)/g0
+    load_norm: G = norm(G_vec)
+    offset_regular_sufficient_condition: 0.5*d*sup_norm_derivative(e2) < 1
+
+reference_gates:
+  - id: frame_closure
+    severity: error
+    requirement: every_vector_sum_has_one_frame
+  - id: point_vector_separation
+    severity: error
+    requirement: point_maps_are_affine_and_vector_maps_are_linear
+  - id: force_type
+    severity: error
+    requirement: spatial_force_is_pulled_back_before_generalized_addition
+  - id: constraint_sign
+    severity: error
+    requirement: gap_normal_and_complementarity_signs_declared
+  - id: dissipation_sign
+    severity: error
+    requirement: P_diss_is_nonnegative
+  - id: moving_support_power
+    severity: error
+    requirement: rheonomous_constraint_power_is_not_silently_zero
+  - id: friction_zero_guard
+    severity: error
+    requirement: utilization_has_zero_capacity_policy
+  - id: invariant_scope
+    severity: error
+    requirement: acting_group_and_hypotheses_declared

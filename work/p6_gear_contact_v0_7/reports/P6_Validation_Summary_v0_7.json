@@ -1,0 +1,193 @@
+{
+  "schema": {
+    "id": "go-p6-validation-summary",
+    "version": "0.7.0"
+  },
+  "date": "2026-08-01",
+  "status": "PASS",
+  "summary": {
+    "checks_passed": 16,
+    "checks_total": 16,
+    "pdf_pages": 9,
+    "typed_expressions": 20,
+    "reference_findings": 0,
+    "regression_tests": 55,
+    "corpus_statuses": {
+      "PASS": 13,
+      "FAIL": 5,
+      "BLOCKED": 0
+    }
+  },
+  "checks": [
+    {
+      "id": "required_files",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "pdf_sha256",
+      "status": "PASS",
+      "detail": {
+        "expected": "6455a0f05ffaa36ba866f1db86dbc8fcccc6388eeb56ff2493a36c3d0d7497f7",
+        "actual": "6455a0f05ffaa36ba866f1db86dbc8fcccc6388eeb56ff2493a36c3d0d7497f7"
+      }
+    },
+    {
+      "id": "pdf_metadata",
+      "status": "PASS",
+      "detail": {
+        "pages": 9,
+        "title": "Gear Contact Geometry as a Typed Finite Observation System",
+        "author": "Stas, Independent Research Program"
+      }
+    },
+    {
+      "id": "no_prohibited_tokens",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "bibliography_heading_unique",
+      "status": "PASS",
+      "detail": {
+        "extracted_heading_count": 1,
+        "explicit_heading_in_source": false
+      }
+    },
+    {
+      "id": "required_source_fragments",
+      "status": "PASS",
+      "detail": {
+        "absent": []
+      }
+    },
+    {
+      "id": "latex_log",
+      "status": "PASS",
+      "detail": {
+        "hits": []
+      }
+    },
+    {
+      "id": "embedded_fonts",
+      "status": "PASS",
+      "detail": {
+        "font_count": 21,
+        "nonembedded": [],
+        "returncode": 0
+      }
+    },
+    {
+      "id": "contract_schema_and_gates",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-gear-contact-contract",
+          "version": "0.7.0",
+          "date": "2026-07-28",
+          "base_contract": "go-core-spec@0.2.0",
+          "mechanics_contract": "go-frame-force-dissipation-contract@0.6.0",
+          "normative_document": "gear-contact-v1-1"
+        },
+        "reference_gate_count": 9
+      }
+    },
+    {
+      "id": "reference_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 1,
+        "reference_documents": 1,
+        "critical_adapters": 0,
+        "expressions_checked": 20,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 1
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "corpus_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 18,
+        "reference_documents": 13,
+        "critical_adapters": 5,
+        "expressions_checked": 151,
+        "findings_total": 15,
+        "core_findings": 0,
+        "status_counts": {
+          "FAIL": 5,
+          "PASS": 13
+        },
+        "rule_counts": {
+          "CAUSTIC-RANK": 1,
+          "COVERAGE-INCOMPLETE": 5,
+          "DUPLICATE-SOURCE": 1,
+          "EIGENBUNDLE-GAUGE": 1,
+          "FILTER-ORDER": 1,
+          "FRAME-COVERAGE": 1,
+          "FRAME-LAW": 1,
+          "LOG-BASE": 1,
+          "RESULT-DIM": 2,
+          "ZERO-MODES": 1
+        }
+      }
+    },
+    {
+      "id": "gear_supersession",
+      "status": "PASS",
+      "detail": {
+        "old_present": false,
+        "new_present": true,
+        "target_recorded": true
+      }
+    },
+    {
+      "id": "reference_strict_run",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stdout": "GO-LINT documents=1 expressions=20 findings=0 statuses={'PASS': 1}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "corpus_strict_expected_failure",
+      "status": "PASS",
+      "detail": {
+        "returncode": 1,
+        "stdout": "GO-LINT documents=18 expressions=151 findings=15 statuses={'FAIL': 5, 'PASS': 13}",
+        "stderr": "",
+        "interpretation": "five retained legacy adapters fail by design"
+      }
+    },
+    {
+      "id": "regression_tests",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "tests_run": 55,
+        "tail": [
+          "----------------------------------------------------------------------",
+          "Ran 55 tests in 0.406s",
+          "",
+          "OK"
+        ]
+      }
+    },
+    {
+      "id": "visual_qa",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "pages": 9,
+        "findings": []
+      }
+    }
+  ]
+}

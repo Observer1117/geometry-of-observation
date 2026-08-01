@@ -1,0 +1,177 @@
+schema:
+  id: go-si-hep-quantity-passport
+  version: 0.5.0
+  date: 2026-07-28
+  inherited_contract: go-core-spec@0.2.0
+  dimension_basis_si: [L, M, T, I, Theta, N, J]
+  primary_hep_dimension: E
+
+claim_boundary:
+  role: reversible_quantity_chart_for_relativistic_mechanics_and_lhc_beam_kinematics
+  not_claimed:
+    - a_new_physical_law
+    - a_complete_electromagnetic_unit_system
+    - a_replacement_for_accelerator_or_detector_software
+    - exactness_of_operational_lhc_parameters
+
+contexts:
+  SI:
+    role: canonical_exchange_context
+    base_units: {L: m, M: kg, T: s, I: A, Theta: K, N: mol, J: cd}
+  HEP_natural:
+    role: energy_chart_for_high_energy_kinematics
+    fixed_constants: {c: 1, hbar: 1}
+    energy_anchor: 1_GeV
+    metric_signature: [1, -1, -1, -1]
+  accelerator_mixed:
+    role: exact_bridge_for_rigidity_voltage_and_charge_state
+    units: [GeV_per_c, TeV_per_c, T_m, V, eV]
+
+defining_constants:
+  c:
+    value: "299792458"
+    unit: m/s
+    exactness: exact_si_definition
+  h:
+    value: "6.62607015e-34"
+    unit: J*s
+    exactness: exact_si_definition
+  hbar:
+    expression: h/(2*pi)
+    unit: J*s
+    exactness: exact_defined_quantity_decimal_rounded
+  e:
+    value: "1.602176634e-19"
+    unit: C
+    exactness: exact_si_definition
+  eV:
+    expression: e*V
+    value: "1.602176634e-19"
+    unit: J
+    exactness: exact
+  GeV:
+    value: "1.602176634e-10"
+    unit: J
+    exactness: exact
+
+mechanical_naturalization:
+  admissibility:
+    si_dimension_form: [a, b, t, 0, 0, 0, 0]
+    forbidden_implicit_residual_dimensions: [I, Theta, N, J]
+  exponents:
+    energy_dimension: "d_E=b-a-t"
+    hbar_exponent: "u=a+t"
+    c_exponent: "v=a-2*b"
+  si_unit_representative:
+    formula: "U_Q(SI;E0)=hbar^u*c^v*E0^d_E"
+  forward_map:
+    formula: "Q_N=Q_SI/U_Q(SI;E0)"
+  inverse_map:
+    formula: "Q_SI=Q_N*U_Q(SI;E0)"
+  algebraic_properties:
+    - multiplicative
+    - exponent_additive
+    - dimensionally_reversible_on_admissible_sector
+    - no_uncertainty_added_by_exact_defining_constants
+
+standard_rows:
+  - id: energy
+    si_dimension: [2, 1, -2, 0, 0, 0, 0]
+    hep_energy_dimension: 1
+    si_representative: E0
+    hep_unit: GeV
+  - id: mass
+    si_dimension: [0, 1, 0, 0, 0, 0, 0]
+    hep_energy_dimension: 1
+    si_representative: E0/c^2
+    hep_unit: GeV/c^2
+  - id: momentum
+    si_dimension: [1, 1, -1, 0, 0, 0, 0]
+    hep_energy_dimension: 1
+    si_representative: E0/c
+    hep_unit: GeV/c
+  - id: length
+    si_dimension: [1, 0, 0, 0, 0, 0, 0]
+    hep_energy_dimension: -1
+    si_representative: hbar*c/E0
+    hep_unit: GeV^-1
+  - id: duration
+    si_dimension: [0, 0, 1, 0, 0, 0, 0]
+    hep_energy_dimension: -1
+    si_representative: hbar/E0
+    hep_unit: GeV^-1
+  - id: area_or_cross_section
+    si_dimension: [2, 0, 0, 0, 0, 0, 0]
+    hep_energy_dimension: -2
+    si_representative: (hbar*c/E0)^2
+    hep_unit: GeV^-2
+  - id: force
+    si_dimension: [1, 1, -2, 0, 0, 0, 0]
+    hep_energy_dimension: 2
+    si_representative: E0^2/(hbar*c)
+    hep_unit: GeV^2
+
+four_momentum_passport:
+  si_momentum_chart:
+    definition: "p^mu=(E/c,p_vector)"
+    invariant: "p_mu*p^mu=m^2*c^2"
+    component_unit: kg*m/s
+  si_energy_chart:
+    definition: "Pi^mu=c*p^mu=(E,c*p_vector)"
+    invariant: "Pi_mu*Pi^mu=(m*c^2)^2"
+    component_unit: J_or_GeV
+  hep_energy_chart:
+    definition: "Pi_N^mu=Pi^mu/E0"
+    invariant: "mu_N^2=E_N^2-|p_N|^2"
+    notation_rule: "HEP p means c times SI momentum expressed in energy units"
+
+accelerator_bridges:
+  magnetic_rigidity:
+    domain:
+      charge: "q=z*e with dimensionless signed charge state z"
+      rigidity: T*m
+    si_equation: "p_SI=q*B*rho"
+    exact_numerical_equation: "p[GeV/c]=0.299792458*z*B*rho[T*m]"
+    inverse: "B*rho[T*m]=p[GeV/c]/(0.299792458*z)"
+    exactness: exact_for_declared_units_and_charge_state
+    prohibition:
+      - do_not_identify_ring_circumference_over_2pi_with_dipole_bending_radius
+      - do_not_convert_B_alone_without_an_electromagnetic_convention
+  rf_voltage:
+    si_equation: "DeltaE[J]=q[C]*V[V]*sin(phi)"
+    exact_numerical_equation: "DeltaE[eV]=z*V[V]*sin(phi)"
+    gev_equation: "DeltaE[GeV]=z*V[V]*sin(phi)/1e9"
+    exactness: unit_conversion_exact_model_formula_approximate_for_real_cavity
+
+electromagnetic_boundary:
+  status: explicit
+  rule: >
+    c=hbar=1 does not by itself specify the normalization of electric charge,
+    A_mu, E, or B. A rationalization convention such as Heaviside-Lorentz and
+    an explicit coupling normalization are required before field conversion.
+  lhc_policy: use_SI_Lorentz_force_and_exact_rigidity_bridge
+  prohibited:
+    - implicit_SI_current_to_HEP_natural_conversion
+    - treating_tesla_as_energy_squared_without_field_normalization
+    - mixing_dimensionless_HEP_charge_with_coulombs
+
+uncertainty_policy:
+  exact_conversions:
+    contribution_to_uncertainty: zero
+  measured_constants:
+    rule: retain_source_value_standard_uncertainty_and_covariance_if_available
+  operational_parameters:
+    rule: label_epoch_mode_nominal_or_measured_status
+  nonlinear_derived_quantities:
+    rule: propagate_with_declared_jacobian_or_sampling_model
+
+machine_checks:
+  - mechanical_round_trip
+  - exponent_homomorphism
+  - exact_eV_to_joule
+  - exact_rigidity_coefficient
+  - mass_shell_equivalence
+  - invariant_mass_equivalence
+  - rf_voltage_equivalence
+  - beta_stable_evaluation
+  - forbidden_electromagnetic_shortcut

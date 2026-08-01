@@ -1,0 +1,9 @@
+quantity,si_dimension_L,si_dimension_M,si_dimension_T,hep_energy_dimension,hbar_exponent,c_exponent,hep_unit,si_value,si_unit,exactness
+energy,2,1,-2,1,0,0,1 GeV,1.60217663400000e-10,J,exact definition; displayed decimal rounded
+mass,0,1,0,1,0,-2,1 GeV/c^2,1.78266192162790e-27,kg,exact definition; displayed decimal rounded
+momentum,1,1,-1,1,0,-1,1 GeV/c,5.34428599267831e-19,kg m s^-1,exact definition; displayed decimal rounded
+length,1,0,0,-1,1,1,1 GeV^-1,1.97326980459302e-16,m,exact definition; displayed decimal rounded
+duration,0,0,1,-1,1,0,1 GeV^-1,6.58211956950907e-25,s,exact definition; displayed decimal rounded
+area,2,0,0,-2,2,2,1 GeV^-2,3.89379372171859e-32,m^2,exact definition; displayed decimal rounded
+action,2,1,-1,0,1,0,1,1.05457181764616e-34,J s,exact definition; displayed decimal rounded
+force,1,1,-2,2,-1,-1,1 GeV^2,8.11939974082986e5,N,exact definition; displayed decimal rounded

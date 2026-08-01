@@ -1,0 +1,28 @@
+{
+  "benchmark_rows": 302,
+  "categories": [
+    "Platonic_incidence",
+    "bounded_noise_symmetry",
+    "cube_Petrial",
+    "finite_library",
+    "flag_orbits",
+    "spherical_type"
+  ],
+  "controls": {
+    "Platonic_objects": 5,
+    "bounded_noise_seeds": 24,
+    "cube_Petrie_faces": 4,
+    "cube_group_order": 48,
+    "cube_square_faces": 6,
+    "cuboid_group_order": 8,
+    "finite_library_seeds": 24,
+    "spherical_pair_grid": 100
+  },
+  "date": "2026-07-28",
+  "failed_rows": 0,
+  "max_absolute_error": 1.3322676295501878e-15,
+  "schema": {
+    "id": "go-p10-regular-polyhedra-metrics",
+    "version": "1.1.0"
+  }
+}

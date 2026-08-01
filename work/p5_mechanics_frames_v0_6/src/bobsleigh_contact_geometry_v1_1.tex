@@ -1,0 +1,455 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.0}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Bobsleigh Contact Geometry as a Typed Observation System},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Mass geometry, unilateral contact, frictional dissipation, and observation loss},
+  pdfkeywords={bobsleigh, contact mechanics, Lagrange-d'Alembert, friction, dissipation, observation geometry}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\pair}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SE}{\mathrm{SE}}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Kcal}{\mathcal K}
+\newcommand{\Rcal}{\mathcal R}
+\newcommand{\Acal}{\mathcal A}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Bobsleigh Contact Geometry\\
+\large Mass distribution, unilateral contact, and typed observation loss}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.1 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working draft
+v1.0. It is migrated to GO Core v0.2 and the Frames--Forces--Dissipation
+Interface v0.1. Contact and friction are diagnostic smooth-regime
+models. No sled design, ice constitutive law, safety calculation, or
+engineering validation is claimed.}}
+\end{center}
+
+\begin{abstract}
+A center-of-mass trace does not determine the contact state of a sled
+moving on a shaped surface. We formalize this observation using a
+regular track parametrization, a finite mass realization, a
+configuration-space mass form, unilateral gaps, normal reactions, and
+tangential contact forces. The mass form
+\[
+G_{ij}(q)=\sum_a m_a\,\partial_i x_a(q)\cdot\partial_jx_a(q)
+\]
+is positive semidefinite and is a metric precisely where the
+realization map is an immersion. Contact uses the fixed convention
+\[
+g_j\ge0,\qquad N_j\ge0,\qquad N_jg_j=0,\qquad
+\norm{T_j}\le\mu_jN_j .
+\]
+With \(T_j\) defined as the tangential force on the sled and
+\(v_{T,j}\) as its velocity relative to the ice, the nonnegative
+frictional loss is
+\[
+P_{\rm fric}=-\sum_jT_j\cdot v_{T,j}\ge0.
+\]
+Consequently the autonomous stationary-track energy balance is
+\(\dot E=P_{\rm act}-P_{\rm fric}\) in the smooth active-contact
+regime. This corrects the sign in v1.0. Cone utilization is defined
+piecewise at zero normal load, and load entropy has an explicit
+logarithm base and normalization. Center-of-mass, pose, inertial,
+contact, load, and thermal channels remain distinct observations of a
+larger hidden state.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and protocol}
+
+Let \(\lambda\) specify a track chart, world and sled frames, clock,
+contact convention, sampling rates, sensor calibration, estimator, and
+uncertainty model. The observation chain is
+\[
+X_t\xrightarrow{\Rcal}\widetilde X_t
+\xrightarrow{\Ocal_\lambda}Z_t
+\xrightarrow{\Kcal_\lambda}\operatorname{Law}(Y_t\mid Z_t)
+\xrightarrow{\widehat\theta_\lambda}\widehat\theta_t.
+\]
+A kinematic centerline supplied as input is not a dynamically
+predicted trajectory. A proxy load rule is not a solved contact
+reaction. These statuses are recorded separately.
+
+\begin{warning}[Smooth-regime boundary]
+The equations below apply between impacts while the active contact set
+is fixed and the state is differentiable. Impact impulses,
+restitution, Painlev\'e-type inconsistency, stick--slip switching, and
+ice deformation require a nonsmooth differential inclusion or
+complementarity time-stepper and are not proved here.
+\end{warning}
+
+\section{Track as a shaped surface}
+
+Let \((e_s,e_u,n_{\rm tr})\) be an orthonormal track frame and let
+\(\gamma(s)\) be a reference curve. A local trough chart is
+\begin{equation}\label{eq:surface}
+X_{\rm tr}(s,u)
+=\gamma(s)+R_{\rm tr}(s)
+\begin{pmatrix}0\\u\\h(s,u)\end{pmatrix},
+\qquad R_{\rm tr}=(e_s,e_u,n_{\rm tr})\in\SO(3).
+\end{equation}
+Its admissible domain \(D\subset\R^2\) must satisfy
+\begin{equation}\label{eq:surface-regular}
+\partial_sX_{\rm tr}\times\partial_uX_{\rm tr}\ne0
+\quad\text{on }D.
+\end{equation}
+The surface normal is therefore
+\[
+n_\Sigma
+=\frac{\partial_sX_{\rm tr}\times\partial_uX_{\rm tr}}
+{\norm{\partial_sX_{\rm tr}\times\partial_uX_{\rm tr}}}.
+\]
+Centerline curvature, banking, transverse trough curvature, and chart
+regularity are distinct data. A centerline alone does not determine
+contact geometry.
+
+\section{Finite mass realization}
+
+Let a rigid sled be represented by masses \(m_a>0\) at body points
+\(r_a^B\). Its total mass, center of mass, and inertia about the center
+of mass are
+\begin{align}
+M&=\sum_{a=1}^nm_a,&
+r_{\rm cm}^B&=\frac1M\sum_{a=1}^nm_ar_a^B,\\
+I_B&=\sum_{a=1}^nm_a
+\left(
+\norm{\rho_a}^2I_3-\rho_a\rho_a^{\mathsf T}
+\right),&
+\rho_a&=r_a^B-r_{\rm cm}^B .
+\end{align}
+For world origin \(x^I(t)\) and attitude
+\(A_{I\leftarrow B}(t)\in\SO(3)\),
+\[
+x_a^I=x^I+A_{I\leftarrow B}\rho_a.
+\]
+
+Let \(q\in Q\) be local generalized coordinates after a declared
+reduction, and let
+\(\Phi(q)=(x_1(q),\ldots,x_n(q))\). Define
+\begin{equation}\label{eq:mass-form}
+G_{ij}(q)=\sum_{a=1}^nm_a
+\partial_i x_a(q)\cdot\partial_jx_a(q).
+\end{equation}
+
+\begin{proposition}[When the mass form is a metric]
+\(G(q)\) is positive semidefinite. It is positive definite if and only
+if \(\dd\Phi_q\) is injective.
+\end{proposition}
+
+\begin{proof}
+For \(\xi\in T_qQ\),
+\[
+\xi^{\mathsf T}G(q)\xi
+=\sum_am_a\norm{\dd\Phi_q(\xi)_a}^2.
+\]
+\end{proof}
+
+Thus redundant coordinates produce a degenerate mass form. Calling it
+a Riemannian metric requires the immersion hypothesis.
+
+\section{Unilateral contact and force pullback}
+
+For candidate contact \(j\), let \(g_j(t,q)\) be the signed gap, with
+\(g_j>0\) meaning separation. In the smooth force regime:
+\begin{equation}\label{eq:comp}
+g_j\ge0,\qquad N_j\ge0,\qquad N_jg_j=0.
+\end{equation}
+Let \(n_j^I\) be the ice-to-sled unit normal and
+\(P_{T,j}=I-n_j^I(n_j^I)^{\mathsf T}\). The contact force on the sled
+is
+\begin{equation}\label{eq:contact-force}
+F_j^I=N_jn_j^I+T_j^I,\qquad
+T_j^I\cdot n_j^I=0.
+\end{equation}
+If \(J_j^I=\partial_qc_j^I\) is the contact-point Jacobian, its
+generalized force is
+\[
+Q_j=J_j^{\mathsf T}F_j^I\in T_q^*Q.
+\]
+This pullback is required before adding \(Q_j\) to other generalized
+forces.
+
+Let
+\[
+v_{T,j}^I
+=P_{T,j}\bigl(v_{{\rm sled},j}^I-v_{{\rm ice},j}^I\bigr).
+\]
+A Coulomb-type admissibility condition is
+\begin{equation}\label{eq:friction-cone}
+\norm{T_j^I}\le\mu_jN_j,\qquad
+T_j^I\cdot v_{T,j}^I\le0.
+\end{equation}
+For sliding, a maximum-dissipation selection is
+\[
+T_j^I=-\mu_jN_j
+\frac{v_{T,j}^I}{\norm{v_{T,j}^I}}.
+\]
+For sticking, \(v_{T,j}=0\) and \(T_j\) is set-valued inside the cone.
+
+\section{Dynamics and corrected energy balance}
+
+In a smooth reduced chart, let
+\[
+L(t,q,\dot q)
+=\frac12\dot q^{\mathsf T}G(t,q)\dot q-V(t,q).
+\]
+The Lagrange--d'Alembert equation is
+\begin{equation}\label{eq:lda-bob}
+\frac{\dd}{\dd t}\partial_{\dot q}L-\partial_qL
+=Q_{\rm act}+Q_{\rm fric}+Q_{\rm con}.
+\end{equation}
+With
+\[
+E_L=\partial_{\dot q}L\cdot\dot q-L,
+\]
+the frame--force interface gives
+\begin{equation}\label{eq:energy-general}
+\dot E_L
+=P_{\rm act}-P_{\rm fric}
++P_{\rm con}-\partial_tL,
+\end{equation}
+where the nonnegative frictional dissipation is
+\begin{equation}\label{eq:pfric}
+\boxed{
+P_{\rm fric}
+=-\sum_jT_j^I\cdot v_{T,j}^I\ge0 .
+}
+\end{equation}
+
+\begin{corollary}[Stationary ideal support]
+If the track is stationary, normal constraints are ideal, \(L\) is
+autonomous, and no other nonconservative forces act, then between
+impacts
+\[
+\dot E_L=-P_{\rm fric}\le0.
+\]
+\end{corollary}
+
+\begin{remark}[Correction to v1.0]
+Version v1.0 defined \(T_j\) as the tangential force on the sled but
+wrote
+\(\dot E=-P_{\rm fric}\) with
+\(P_{\rm fric}=\sum_jT_j\cdot v_{j,\rm rel}\).
+Under dissipative friction that sum is nonpositive, so the displayed
+energy law increased energy. Equation \cref{eq:pfric} defines the loss
+with the required leading minus sign.
+\end{remark}
+
+For a moving support, normal reactions can exchange power and
+\(P_{\rm con}\) need not vanish. The same support work must not also
+be inserted through a reduced time-dependent \(L\).
+
+\section{Guarded diagnostics}
+
+\subsection{Cone utilization}
+
+Define
+\[
+u_j=
+\begin{cases}
+\norm{T_j}/(\mu_jN_j),&\mu_jN_j>0,\\
+0,&\mu_jN_j=0\ \text{and}\ T_j=0 .
+\end{cases}
+\]
+The cone law excludes \(\mu_jN_j=0,T_j\ne0\). For a finite candidate
+set \(J\),
+\[
+S_{\rm slip}=1-\max_{j\in J}u_j,\qquad
+\max\varnothing:=0.
+\]
+Then \(0\le S_{\rm slip}\le1\) on admissible states. This is a cone
+margin, not a probability of slipping.
+
+\subsection{Load distribution and entropy}
+
+If \(N_{\rm tot}=\sum_{j=1}^KN_j>0\), set
+\[
+p_j=\frac{N_j}{N_{\rm tot}},\qquad
+H_b(N)=-\sum_{j:p_j>0}p_j\log_b p_j,
+\quad b>1.
+\]
+For a declared \(K\ge2\), the normalized diagnostic is
+\[
+\overline H_b=\frac{H_b(N)}{\log_bK}\in[0,1].
+\]
+It is independent of the logarithm base. If \(N_{\rm tot}=0\), the
+load distribution and entropy are undefined rather than silently set
+to zero.
+
+\subsection{Two-runner imbalance}
+
+For \(N_L+N_R>0\),
+\[
+\Delta_N
+=\frac{\lvert N_R-N_L\rvert}{N_R+N_L}\in[0,1].
+\]
+The diagnostic is undefined in free flight.
+
+\subsection{Geometric demand and banking mismatch}
+
+For a centerline with curvature \(\kappa\) and speed \(v\),
+\[
+a_\kappa=v^2\kappa
+\]
+has acceleration dimension. If \(f_{\rm req}=m(a-g)\ne0\), define the
+unsigned mismatch
+\[
+\Delta_b
+=\operatorname{atan2}
+\left(
+\norm{n_{\rm tr}\times f_{\rm req}},
+n_{\rm tr}\cdot f_{\rm req}
+\right)\in[0,\pi].
+\]
+This is a directional diagnostic; it does not solve the contact
+forces.
+
+\section{Observation channels}
+
+The hidden record may contain
+\[
+X_t=(\Sigma,\{m_a,r_a^B\},q,\dot q,\Acal_t,
+\{c_j,N_j,T_j\}_{j\in\Acal_t},\vartheta),
+\]
+where \(\Acal_t\) is the active contact set and \(\vartheta\) collects
+constitutive parameters. Useful deterministic channels include
+\begin{align*}
+\Ocal_{\rm cm}(X_t)&=x_{\rm cm}^I(t),&
+\Ocal_{\rm pose}(X_t)&=A_{I\leftarrow B}(t),\\
+\Ocal_{\rm imu}(X_t)&=(f^B,\Omega^B),&
+\Ocal_{\rm load}(X_t)&=(N_j)_{j\in\Acal_t},\\
+\Ocal_{\rm contact}(X_t)&=(c_j)_{j\in\Acal_t},&
+\Ocal_{\rm heat}(X_t)&=P_{\rm fric}(t).
+\end{align*}
+No equality between these channels is implied.
+
+\begin{proposition}[Conditional center-of-mass non-identifiability]
+Assume the admissible hidden-state class contains two records
+\(X_t^{(1)}\ne X_t^{(2)}\) with the same center-of-mass curve but
+different mass realization or contact record. Then
+\(\Ocal_{\rm cm}\) is not injective on that class.
+\end{proposition}
+
+\begin{proof}
+By hypothesis,
+\(\Ocal_{\rm cm}(X_t^{(1)})=\Ocal_{\rm cm}(X_t^{(2)})\) while the
+arguments differ.
+\end{proof}
+
+This proposition is deliberately conditional. Showing that two
+specific sleds admit the same trajectory under a fixed constitutive
+model is a separate dynamical existence problem.
+
+\section{Reproducibility record}
+
+A numerical benchmark is admissible only if it reports:
+\begin{enumerate}[label=(\roman*)]
+  \item the surface chart and its regularity domain;
+  \item mass points, center of mass, inertia, and coordinate chart;
+  \item active-set and contact-law solver;
+  \item ice-motion convention and friction parameters;
+  \item integration method, tolerances, event handling, and convergence
+  study;
+  \item sensor map, sampling, noise, and estimator;
+  \item which outputs are solved reactions and which are proxies.
+\end{enumerate}
+The proxy values in v1.0 are not retained as validated mechanics
+because no complementarity/contact solver or convergence study was
+attached.
+
+\section{Claim boundary}
+
+The strict result is a corrected and typed interface to standard
+constrained mechanics. It does not claim:
+\begin{itemize}
+  \item a predictive ice--runner friction law;
+  \item uniqueness of the contact solution;
+  \item engineering accuracy or safety certification;
+  \item physiological rider limits;
+  \item a new theorem beyond the stated interface propositions.
+\end{itemize}
+
+\begingroup
+\small
+\hbadness=10000
+\begin{thebibliography}{9}
+
+\bibitem{brogliato}
+B. Brogliato, \emph{Nonsmooth Mechanics: Models, Dynamics and
+Control}, 3rd ed., Springer, 2016.
+\href{https://doi.org/10.1007/978-3-319-28664-8}
+{doi:10.1007/978-3-319-28664-8}.
+
+\bibitem{bloch}
+A.~M. Bloch, \emph{Nonholonomic Mechanics and Control}, 2nd ed.,
+Springer, 2015.
+\href{https://doi.org/10.1007/978-1-4939-3017-3}
+{doi:10.1007/978-1-4939-3017-3}.
+
+\bibitem{acary}
+V. Acary and B. Brogliato,
+\emph{Numerical Methods for Nonsmooth Dynamical Systems},
+Springer, 2008.
+\href{https://doi.org/10.1007/978-3-540-75392-6}
+{doi:10.1007/978-3-540-75392-6}.
+
+\end{thebibliography}
+\endgroup
+
+\end{document}

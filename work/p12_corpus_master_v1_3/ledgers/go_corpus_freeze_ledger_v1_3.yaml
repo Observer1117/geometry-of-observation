@@ -1,0 +1,829 @@
+schema:
+  id: go-corpus-freeze-ledger
+  version: 1.3.0
+  date: '2026-07-28'
+  phase: P12
+status: CORPUS_FREEZE
+core_contract: go-core-spec@0.2.0
+baseline:
+  id: go-corpus-ledgers@1.2.0
+  path: work/p11_satellite_networks_v1_2/ledgers/corpus_ledgers_v1_2.yaml
+  bytes: 305931
+  sha256: 3f50f7941f8549c4b9de626fdb107431c07238582cdf8ebce90203500189f68e
+  canonical_documents: 18
+release_identity:
+  title: 'Geometry of Observation: Frozen Typed Corpus and Reproducibility Master'
+  version: 1.3.0
+  date: '2026-07-28'
+  author: Stassis Stashkevichyus
+  orcid: 0009-0000-2294-705X
+  affiliation: Independent Research Program
+  homepage: https://theobserverofmultiverses.info
+  doi: null
+  license: CC-BY-NC-ND-4.0
+  component_pdf_author_variants:
+  - Stas, Independent Research Program
+  - Stassis Research Program
+corpus_totals:
+  modules: 18
+  component_pages: 158
+  front_matter_pages: 8
+  master_pages: 166
+  maps: 131
+  symbols: 132
+  quantities: 559
+  expressions: 347
+  invariants: 45
+  claims: 136
+  claim_statuses:
+    corollary: 5
+    diagnostic: 7
+    empirical: 1
+    hypothesis: 11
+    model: 14
+    proposition: 53
+    theorem: 45
+  corpus_statuses:
+    PASS: 18
+    FAIL: 0
+    BLOCKED: 0
+  findings: 0
+namespace_audit:
+  qualification: <document-id>::<local-id>
+  qualified_expression_and_claim_ids: 483
+  short_identifier_overlap_count: 7
+  short_identifier_overlaps:
+  - field: expressions
+    local_id: energy_balance_rhs
+    documents:
+    - frames-forces-dissipation-interface-v0-1
+    - bobsleigh-contact-v1-1
+  - field: expressions
+    local_id: energy_rate
+    documents:
+    - frames-forces-dissipation-interface-v0-1
+    - bobsleigh-contact-v1-1
+  - field: expressions
+    local_id: guarded_cone_utilization
+    documents:
+    - frames-forces-dissipation-interface-v0-1
+    - bobsleigh-contact-v1-1
+  - field: expressions
+    local_id: normalized_entropy
+    documents:
+    - satellite-networks-observation-v1-2
+    - gear-contact-v1-1
+  - field: expressions
+    local_id: typed_periodic_readout
+    documents:
+    - distance-scale-interface-v0-2
+    - celestial-foucault-networks-v1-1
+  - field: claim_register
+    local_id: mass_form_rank
+    documents:
+    - frames-forces-dissipation-interface-v0-1
+    - bobsleigh-contact-v1-1
+  - field: claim_register
+    local_id: new_quantum_chemistry_method
+    documents:
+    - conical-intersections-observation-v1-1
+    - quantum-chemistry-observation-v1-1
+  qualified_collisions: 0
+  map_id_collisions: 0
+  quantity_id_collisions: 0
+dependency_audit:
+  ledger: work/p12_corpus_master_v1_3/ledgers/go_corpus_dependencies_v1_3.yaml
+  ledger_sha256: 34ae54d8364245886255a42b22e104e696cdbaecb16af130649964bcdaf75262
+  nodes: 29
+  edges: 36
+  acyclic: true
+  topological_order:
+  - go-billiards-observation-contract@0.8.0
+  - go-conical-intersections-observation-contract@0.9.0
+  - go-core-spec@0.2.0
+  - go-distance-scale-contract@0.3.0
+  - go-frame-force-dissipation-contract@0.6.0
+  - go-gear-contact-contract@0.7.0
+  - go-planck-cosmos-scale-contract@0.4.0
+  - go-quantum-chemistry-observation-contract@1.0.0
+  - go-regular-polyhedra-observation-contract@1.1.0
+  - go-satellite-networks-observation-contract@1.2.0
+  - go-si-hep-quantity-passport@0.5.0
+  - billiards-observation-v1-1
+  - conical-intersections-observation-v1-1
+  - functional-interface-go-qs-v0-2
+  - information-theoretic-observation-v0-2
+  - tensorial-observation-geometry-gr-v0-3
+  - mandelbrot-rulers-v1-1
+  - bobsleigh-contact-v1-1
+  - celestial-foucault-networks-v1-1
+  - frames-forces-dissipation-interface-v0-1
+  - roller-coaster-v1-1
+  - gear-contact-v1-1
+  - quantum-chemistry-observation-v1-1
+  - regular-polyhedra-observation-v1-1
+  - satellite-networks-observation-v1-2
+  - lhc-beam-observation-v1-3
+  - metric-entropy-defect-v0-2
+  - distance-scale-interface-v0-2
+  - planck-cosmos-rulers-v1-1
+  contextual_relations_excluded: 3
+master_artifact:
+  id: geometry-of-observation-corpus-master-v1-3
+  path: work/p12_corpus_master_v1_3/build/master/Geometry_of_Observation_Corpus_Master_v1_3.pdf
+  pages: 166
+  bytes: 2540669
+  sha256: 3942277bc24ce6c134876bf27d322e03869a40e7d52eb084bcab6b3c885bf2d2
+  page_map: work/p12_corpus_master_v1_3/ledgers/MASTER_PAGE_MAP_v1_3.json
+  component_embedding_policy: unchanged_page_content_streams
+auxiliary_documents:
+- id: si-hep-quantity-passport-v0-5
+  pdf: output/pdf/SI_HEP_Quantity_Passport_v0_5.pdf
+  contract: work/p4_lhc_si_hep_v0_5/core/si_hep_quantity_passport_v0_5.yaml
+  module_counted: false
+modules:
+- release_index: 1
+  ledger_index: 1
+  id: functional-interface-go-qs-v0-2
+  title: Functional Interface GO-QS
+  version: 0.2.0
+  layer: Foundation
+  ledger_level: reference
+  migration_status: p0_reference
+  source:
+    pdf: output/pdf/Functional_Interface_GO_QS_v0_2_ru.pdf
+    tex: work/p0/src/functional_interface_go_qs_v0_2_ru.tex
+    public_filename: Functional_Interface_GO_QS_v0_2_ru.pdf
+    archive_pdf: modules/01_Functional_Interface_GO_QS_v0_2_ru.pdf
+    archive_tex: sources/01_functional_interface_go_qs_v0_2_ru.tex
+    pages: 12
+    pdf_bytes: 157083
+    pdf_sha256: 57bf764c905cc1405b971fd6c59f9086c2b3b50842582141dc1099747f26de73
+    tex_bytes: 40370
+    tex_sha256: d0c0436287c403ee71a6aacbe1e5e59db132c645f9d1cdcb2600720e7c67dc10
+    page_content_sha256: 0b08e49096fed0b38e3b02a897fb603425b616005f38239aa876770bbc4ef9ec
+    page_text_sha256: f18a2aeea2f16d89ad91030ac1c9bf4846672d60a3e4cee5d00be4b3a3a10685
+    pdf_title: 'Functional Interface for Geometry of Observation: GO-QS Typed Variational Protocol'
+    pdf_author: Stassis Research Program
+  counts:
+    maps: 5
+    symbols: 3
+    quantities: 5
+    expressions: 3
+    invariants: 0
+    claims: 2
+  unit_contexts:
+  - SI
+  - GR_geometrized
+  groups:
+  - declared_application_group
+- release_index: 2
+  ledger_index: 2
+  id: tensorial-observation-geometry-gr-v0-3
+  title: Tensorial Observation Geometry in GR
+  version: 0.3.0
+  layer: Foundation
+  ledger_level: reference
+  migration_status: p0_reference
+  source:
+    pdf: output/pdf/Tensorial_Observation_Geometry_GR_v0_3.pdf
+    tex: work/p0/src/tensorial_observation_geometry_gr_v0_3.tex
+    public_filename: Tensorial_Observation_Geometry_GR_v0_3.pdf
+    archive_pdf: modules/02_Tensorial_Observation_Geometry_GR_v0_3.pdf
+    archive_tex: sources/02_tensorial_observation_geometry_gr_v0_3.tex
+    pages: 11
+    pdf_bytes: 118845
+    pdf_sha256: d7d88a2ddc40531f8e60fe3d33fe7c56c6262e5ef286b2c60227229cc7d2cd6f
+    tex_bytes: 26349
+    tex_sha256: 77cdf9b04b3ed572a478f678765144e4cd893e3d893e695d15161fa3aa4809af
+    page_content_sha256: 6eb3d1443750916a543b91bb41093d4add0efbceff2952cb707d028ac7091ada
+    page_text_sha256: 19bc0a5b5f0ea0e045d54663c47e3c72c2d97f4a8fa16b0559301ccf588e775e
+    pdf_title: Tensorial Observation Geometry in General Relativity
+    pdf_author: Stassis Research Program
+  counts:
+    maps: 3
+    symbols: 3
+    quantities: 4
+    expressions: 2
+    invariants: 0
+    claims: 3
+  unit_contexts:
+  - GR_geometrized
+  - SI
+  groups:
+  - Diff_M
+  - SO_1_3_local
+- release_index: 3
+  ledger_index: 3
+  id: information-theoretic-observation-v0-2
+  title: Information-Theoretic Observation Geometry
+  version: 0.2.0
+  layer: Information
+  ledger_level: reference
+  migration_status: p1_reference_pass
+  source:
+    pdf: work/p1_info_metric_v0_2/build/information/information_theoretic_observation_geometry_v0_2.pdf
+    tex: work/p1_info_metric_v0_2/src/information_theoretic_observation_geometry_v0_2.tex
+    public_filename: Information_Theoretic_Observation_Geometry_v0_2.pdf
+    archive_pdf: modules/03_Information_Theoretic_Observation_Geometry_v0_2.pdf
+    archive_tex: sources/03_information_theoretic_observation_geometry_v0_2.tex
+    pages: 9
+    pdf_bytes: 112225
+    pdf_sha256: 5a64daee29f75c8951f9fb1e2ff263fea27f3ab2128144abf8c64284eabf8a92
+    tex_bytes: 24619
+    tex_sha256: 8597bdfa08ab5f840850a4127037353f81ff397b03efa70ac934d23998ee55a4
+    page_content_sha256: 7bfa294bd4bd537e7735ff24919b14e59a0b11f69836b5770c1fa4ac4645b186
+    page_text_sha256: 64483fbb117eeb1c5d6e15b863e400f4231d4a29ba9a466e65902f9cd99294b0
+    pdf_title: Information-Theoretic Observation Geometry
+    pdf_author: Stassis Research Program
+  counts:
+    maps: 5
+    symbols: 6
+    quantities: 16
+    expressions: 9
+    invariants: 0
+    claims: 9
+  unit_contexts:
+  - neutral
+  - SI
+  groups: []
+- release_index: 4
+  ledger_index: 4
+  id: metric-entropy-defect-v0-2
+  title: Metric Entropy and Observational Entropy Defect
+  version: 0.2.0
+  layer: Metric
+  ledger_level: reference
+  migration_status: p1_reference_pass
+  source:
+    pdf: work/p1_info_metric_v0_2/build/metric/metric_entropy_observational_defect_v0_2.pdf
+    tex: work/p1_info_metric_v0_2/src/metric_entropy_observational_defect_v0_2.tex
+    public_filename: Metric_Entropy_and_Observational_Entropy_Defect_v0_2.pdf
+    archive_pdf: modules/04_Metric_Entropy_and_Observational_Entropy_Defect_v0_2.pdf
+    archive_tex: sources/04_metric_entropy_observational_defect_v0_2.tex
+    pages: 10
+    pdf_bytes: 119633
+    pdf_sha256: 615670a93610ce5a4911fa2d2e30c1e06f1faec900d614d21492e36a664b1257
+    tex_bytes: 26584
+    tex_sha256: 95b4651bd5c0bc38c1aca07c1432bac9ee3c0f79bec1db7a2c74034ecd705207
+    page_content_sha256: 5201d8da1161eeba39989d3edaabf174808a11e27225b8bf7b37739882ecb061
+    page_text_sha256: 52713f9ee61b0322f9bbb7801dafc05dea29754ef52169518170f1269828d54b
+    pdf_title: Metric Entropy and Observational Entropy Defect
+    pdf_author: Stassis Research Program
+  counts:
+    maps: 5
+    symbols: 8
+    quantities: 23
+    expressions: 13
+    invariants: 0
+    claims: 12
+  unit_contexts:
+  - neutral
+  - SI
+  groups: []
+- release_index: 5
+  ledger_index: 5
+  id: distance-scale-interface-v0-2
+  title: Distance and Scale Interface under Observation Maps
+  version: 0.2.0
+  layer: Metric
+  ledger_level: reference
+  migration_status: p2_reference_pass
+  source:
+    pdf: work/p2_distance_scale_v0_3/build/distance/distance_scale_interface_observation_maps_v0_2.pdf
+    tex: work/p2_distance_scale_v0_3/src/distance_scale_interface_observation_maps_v0_2.tex
+    public_filename: Distance_and_Scale_Interface_under_Observation_Maps_v0_2.pdf
+    archive_pdf: modules/05_Distance_and_Scale_Interface_under_Observation_Maps_v0_2.pdf
+    archive_tex: sources/05_distance_scale_interface_observation_maps_v0_2.tex
+    pages: 9
+    pdf_bytes: 116534
+    pdf_sha256: 11b99c7e9e0eddb038796e2982f42d9a48111eb883e7ea228ecd41a35268f71f
+    tex_bytes: 22820
+    tex_sha256: 94c3bc6932003d900237e692a495e626f7160a0f886db41a0d9da90b3203f4e4
+    page_content_sha256: fbb171188d5acce3cf10973c221d8e80e3624c84069003a4540d797fe3bb0368
+    page_text_sha256: fc838e37c22a127fb8247431237c5ade16a810c150d33e06b76f48f3d992451c
+    pdf_title: Distance and Scale Interface under Observation Maps
+    pdf_author: Stassis Research Program
+  counts:
+    maps: 6
+    symbols: 10
+    quantities: 20
+    expressions: 12
+    invariants: 2
+    claims: 8
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - positive_coherent_metric_rescalings
+  - observed_space_isometries
+- release_index: 6
+  ledger_index: 6
+  id: planck-cosmos-rulers-v1-1
+  title: Planck-to-Cosmos Observation Rulers
+  version: 1.1.0
+  layer: Scale
+  ledger_level: reference
+  migration_status: p3_reference_pass
+  source:
+    pdf: work/p3_planck_cosmos_v0_4/build/planck/planck_cosmos_observation_rulers_v1_1.pdf
+    tex: work/p3_planck_cosmos_v0_4/src/planck_cosmos_observation_rulers_v1_1.tex
+    public_filename: Planck_to_Cosmos_Observation_Rulers_v1_1.pdf
+    archive_pdf: modules/06_Planck_to_Cosmos_Observation_Rulers_v1_1.pdf
+    archive_tex: sources/06_planck_cosmos_observation_rulers_v1_1.tex
+    pages: 12
+    pdf_bytes: 136829
+    pdf_sha256: ded3c6b041e8dbadef53edf67e2f4ae3475f0d1914a045f0cec39cd2c44ff9a5
+    tex_bytes: 28068
+    tex_sha256: 1872389b44841662e3ae6e75d68265341d729112560005a6591b84b23de9229c
+    page_content_sha256: 4dd869cf43e1d7f8efbb9fcdb1eb120e5781f3f2767b96612070ff30bf43cbee
+    page_text_sha256: 8a6bdd8305e0adfc41bc490a3821bf6c628a62daf2f002f58b0c27ba9856aed0
+    pdf_title: Planck-to-Cosmos Observation Rulers
+    pdf_author: Stassis Research Program
+  counts:
+    maps: 8
+    symbols: 12
+    quantities: 24
+    expressions: 19
+    invariants: 3
+    claims: 10
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - positive_coherent_axis_rescalings
+  - logarithmic_anchor_translations
+  - positive_base_changes_with_weight_covariance
+  - declared_reference_frame_group
+- release_index: 7
+  ledger_index: 7
+  id: mandelbrot-rulers-v1-1
+  title: Mandelbrot Rulers as Observation-Scale Geometry
+  version: 1.1.0
+  layer: Scale
+  ledger_level: reference
+  migration_status: p2_reference_pass
+  source:
+    pdf: work/p2_distance_scale_v0_3/build/mandelbrot/mandelbrot_rulers_observation_scale_v1_1.pdf
+    tex: work/p2_distance_scale_v0_3/src/mandelbrot_rulers_observation_scale_v1_1.tex
+    public_filename: Mandelbrot_Rulers_Observation_Scale_Geometry_v1_1.pdf
+    archive_pdf: modules/07_Mandelbrot_Rulers_Observation_Scale_Geometry_v1_1.pdf
+    archive_tex: sources/07_mandelbrot_rulers_observation_scale_v1_1.tex
+    pages: 11
+    pdf_bytes: 124812
+    pdf_sha256: 0a3b02c620c681b07bc279944e4fd2082b6ab8a088ee8f9dd377d2994cb6868f
+    tex_bytes: 26299
+    tex_sha256: 5fb1af518d5f847759d1cade43bb604f16f57d15505e9e11420d290b76d478df
+    page_content_sha256: ae407a501cca5a34adc0c2c13146c351ad01b356b90aad368156c198a53f46b2
+    page_text_sha256: e2b94d4215e0c8dff5aa02ee67eddc61e286af7061e137dcc9b254b5ddab2f6f
+    pdf_title: Mandelbrot Rulers as Observation-Scale Geometry
+    pdf_author: Stassis Research Program
+  counts:
+    maps: 5
+    symbols: 7
+    quantities: 22
+    expressions: 12
+    invariants: 4
+    claims: 9
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - positive_coherent_metric_rescalings
+  - logarithm_base_changes
+  - bi_lipschitz_observations
+  - exponent_equivalent_protocols
+- release_index: 8
+  ledger_index: 8
+  id: regular-polyhedra-observation-v1-1
+  title: Regular Polyhedra under Typed Observation Filters
+  version: 1.1.0
+  layer: Discrete geometry
+  ledger_level: reference
+  migration_status: strict_reference_migrated
+  source:
+    pdf: work/p10_regular_polyhedra_v1_1/build/polyhedra/regular_polyhedra_observation_filters_v1_1.pdf
+    tex: work/p10_regular_polyhedra_v1_1/src/regular_polyhedra_observation_filters_v1_1.tex
+    public_filename: Regular_Polyhedra_Typed_Observation_Filters_v1_1.pdf
+    archive_pdf: modules/08_Regular_Polyhedra_Typed_Observation_Filters_v1_1.pdf
+    archive_tex: sources/08_regular_polyhedra_observation_filters_v1_1.tex
+    pages: 7
+    pdf_bytes: 103532
+    pdf_sha256: 9193ad45b5dbbb2fac52392d383eb8878e937eacf817fd686b5f895ae0af1b0d
+    tex_bytes: 22785
+    tex_sha256: 1848127a64b22310f399a968b7d7fc47c19eb2acd1482a84c8b05088ba90cdd0
+    page_content_sha256: c23efa7bdd2ab263dcaf489629da6a30f28a0a743b7cba5c580046f0245a41cb
+    page_text_sha256: 7a5c86c06e179789a43e1fb4bd64ca28f0ca2a360f749904ce2e0714a2ddb7b6
+    pdf_title: Regular Polyhedra under Typed Observation Filters
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 10
+    symbols: 10
+    quantities: 46
+    expressions: 42
+    invariants: 4
+    claims: 10
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - abstract_automorphism_group
+  - geometric_isometry_group
+  - ambient_Euclidean_isometries
+  - incidence_relabelings
+  - cube_full_symmetry_group
+  - generic_cuboid_metric_symmetry_group
+- release_index: 9
+  ledger_index: 10
+  id: frames-forces-dissipation-interface-v0-1
+  title: Frames, Forces, Constraints, and Dissipation under Observation Maps
+  version: 0.1.0
+  layer: Mechanics
+  ledger_level: reference
+  migration_status: p5_reference_pass
+  source:
+    pdf: work/p5_mechanics_frames_v0_6/build/interface/frame_force_dissipation_interface_v0_1.pdf
+    tex: work/p5_mechanics_frames_v0_6/src/frame_force_dissipation_interface_v0_1.tex
+    public_filename: Frames_Forces_Constraints_Dissipation_Interface_v0_1.pdf
+    archive_pdf: modules/09_Frames_Forces_Constraints_Dissipation_Interface_v0_1.pdf
+    archive_tex: sources/09_frame_force_dissipation_interface_v0_1.tex
+    pages: 7
+    pdf_bytes: 98715
+    pdf_sha256: 0af4c0b49aba775e28cac7644c9d5e17dd17982801cb0843e7ed56cfbb5e093f
+    tex_bytes: 17176
+    tex_sha256: 82b8378b49b5b5311dd21efb28b48dfa275d3aab7818dbb4be4cb113d71e3fd2
+    page_content_sha256: ba8461025e22c27b6c0261fefa9804abc91a786c921cdc8b37525521e3fd6808
+    page_text_sha256: ce68f74e0b76bd0b6a627a4c776afa80901762e4276694a13d7410e07fbf2cfa
+    pdf_title: Frames, Forces, Constraints, and Dissipation under Observation Maps
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 7
+    symbols: 6
+    quantities: 25
+    expressions: 10
+    invariants: 2
+    claims: 4
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - SO3_coframed_vector_changes
+  - SE3_static_point_changes
+  - configuration_coordinate_changes
+- release_index: 10
+  ledger_index: 11
+  id: celestial-foucault-networks-v1-1
+  title: Foucault Networks on Celestial Bodies
+  version: 1.1.0
+  layer: Mechanics
+  ledger_level: reference
+  migration_status: p5_reference_pass
+  source:
+    pdf: work/p5_mechanics_frames_v0_6/build/foucault/celestial_foucault_networks_v1_1.pdf
+    tex: work/p5_mechanics_frames_v0_6/src/celestial_foucault_networks_v1_1.tex
+    public_filename: Celestial_Foucault_Networks_Observation_Geometry_v1_1.pdf
+    archive_pdf: modules/10_Celestial_Foucault_Networks_Observation_Geometry_v1_1.pdf
+    archive_tex: sources/10_celestial_foucault_networks_v1_1.tex
+    pages: 6
+    pdf_bytes: 102537
+    pdf_sha256: f33ce208083ae1e465d8663848832350d586d8f432052ad888213306095d5533
+    tex_bytes: 15035
+    tex_sha256: 77defad4ed2ca5e43f537e87caddedef62ef0a54e031755c8f1f9c2b5cd45a78
+    page_content_sha256: 1f9ddfbd7bcef8156a9a2a23ae421fd565dde765a6b4f511925cf95c827d4414
+    page_text_sha256: 666a55b9e015188c2d54a5b425628ccecd881b4518a3ec0c237c660d3deeab5f
+    pdf_title: Foucault Networks on Celestial Bodies as Typed Observation Geometry
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 6
+    symbols: 4
+    quantities: 18
+    expressions: 7
+    invariants: 3
+    claims: 4
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - SO3_common_body_vector_changes
+  - SE3_static_observer_isometries
+  - time_origin_translations
+  - tangent_orientation_reversal
+- release_index: 11
+  ledger_index: 12
+  id: billiards-observation-v1-1
+  title: Billiards as a Typed Geometry of Observation Laboratory
+  version: 1.1.0
+  layer: Dynamics
+  ledger_level: reference
+  migration_status: strict_reference_migrated
+  source:
+    pdf: work/p7_billiards_v0_8/build/billiards/billiards_observation_laboratory_v1_1.pdf
+    tex: work/p7_billiards_v0_8/src/billiards_observation_laboratory_v1_1.tex
+    public_filename: Billiards_Geometry_of_Observation_Laboratory_v1_1.pdf
+    archive_pdf: modules/11_Billiards_Geometry_of_Observation_Laboratory_v1_1.pdf
+    archive_tex: sources/11_billiards_observation_laboratory_v1_1.tex
+    pages: 9
+    pdf_bytes: 115244
+    pdf_sha256: 162775907ff1be26f95cacda82277e6a16ab340bd1a38198d38d451c1d0852e8
+    tex_bytes: 26013
+    tex_sha256: 6fdfca97a797ee2cec5c0c1c49fa56ffe524c20b16a7682d3bc90524a36acd12
+    page_content_sha256: 5c6f0b6389aa1cf66ba800c084f61b639516b7d1022434b00c1292ed7fefb8b6
+    page_text_sha256: 6141b8d87c4773b518ca51993a55faeadd82afb47d5ec9efb6269e3e3e1dfb12
+    pdf_title: Billiards as a Typed Geometry of Observation Laboratory
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 10
+    symbols: 9
+    quantities: 44
+    expressions: 24
+    invariants: 5
+    claims: 13
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - euclidean_table_isometries
+  - positive_table_similarities
+  - boundary_reparameterizations
+  - finite_symbol_relabelings
+  - elastic_time_reversal
+  - integer_collision_iteration_action
+  - disk_collision_iteration_action
+- release_index: 12
+  ledger_index: 13
+  id: bobsleigh-contact-v1-1
+  title: Bobsleigh Contact Geometry as a Typed Observation System
+  version: 1.1.0
+  layer: Contact mechanics
+  ledger_level: reference
+  migration_status: p5_reference_pass
+  source:
+    pdf: work/p5_mechanics_frames_v0_6/build/bobsleigh/bobsleigh_contact_geometry_v1_1.pdf
+    tex: work/p5_mechanics_frames_v0_6/src/bobsleigh_contact_geometry_v1_1.tex
+    public_filename: Bobsleigh_Contact_Geometry_Observation_v1_1.pdf
+    archive_pdf: modules/12_Bobsleigh_Contact_Geometry_Observation_v1_1.pdf
+    archive_tex: sources/12_bobsleigh_contact_geometry_v1_1.tex
+    pages: 6
+    pdf_bytes: 98088
+    pdf_sha256: 0bdd9cee21df204844d53c36d6936737a4037345576f71dfea77819260cd62b6
+    tex_bytes: 14019
+    tex_sha256: f55b53cc4bdb3ee6e1a62428cacc1c145e620820ae942dd6130c764bc57a317d
+    page_content_sha256: 3a320a690fa55e1ecca13c9ec75572f1f32555f81bdbc2d78183c8db5a071249
+    page_text_sha256: c004557f041ec45029a8f8b8b67107522cf5bf3c2ae07c78fe2b54ac872d6480
+    pdf_title: Bobsleigh Contact Geometry as a Typed Observation System
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 7
+    symbols: 4
+    quantities: 26
+    expressions: 11
+    invariants: 2
+    claims: 4
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - SE3_world_isometries
+  - SO3_contact_basis_changes
+  - positive_log_base_changes
+- release_index: 13
+  ledger_index: 14
+  id: roller-coaster-v1-1
+  title: Roller-Coaster Geometry as a Typed Observation Laboratory
+  version: 1.1.0
+  layer: Mechanics
+  ledger_level: reference
+  migration_status: p5_reference_pass
+  source:
+    pdf: work/p5_mechanics_frames_v0_6/build/roller/roller_coaster_geometry_v1_1.pdf
+    tex: work/p5_mechanics_frames_v0_6/src/roller_coaster_geometry_v1_1.tex
+    public_filename: Roller_Coaster_Geometry_Observation_v1_1.pdf
+    archive_pdf: modules/13_Roller_Coaster_Geometry_Observation_v1_1.pdf
+    archive_tex: sources/13_roller_coaster_geometry_v1_1.tex
+    pages: 6
+    pdf_bytes: 93108
+    pdf_sha256: f8dbd226870dbbf020d2bd35fce2fb1f1185d273037951d869e4cafe0612edc2
+    tex_bytes: 13322
+    tex_sha256: cf2531d2092655b9fe442e0f8e28a6f7b56f4ffda6ab989506790732ed44934c
+    page_content_sha256: acc1f94a48a85e1bd4b1b01aa49e0ccc174b4ae15fe4c7ac0e79a94325018043
+    page_text_sha256: 17192835a79300e2c0123a90946dc9caa2a2721aa370cb1fcd73a4d975a96225
+    pdf_title: Roller-Coaster Geometry as a Typed Observation Laboratory
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 6
+    symbols: 5
+    quantities: 25
+    expressions: 11
+    invariants: 3
+    claims: 4
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - SE3_static_world_isometries
+  - SO3_apparatus_axis_changes
+  - rail_label_exchange_Z2
+  - orientation_preserving_curve_reparameterizations
+- release_index: 14
+  ledger_index: 15
+  id: gear-contact-v1-1
+  title: Gear Contact Geometry as a Typed Finite Observation System
+  version: 1.1.0
+  layer: Contact mechanics
+  ledger_level: reference
+  migration_status: strict_reference_migrated
+  source:
+    pdf: work/p6_gear_contact_v0_7/build/gear/gear_contact_geometry_v1_1.pdf
+    tex: work/p6_gear_contact_v0_7/src/gear_contact_geometry_v1_1.tex
+    public_filename: Gear_Contact_Geometry_Observation_v1_1.pdf
+    archive_pdf: modules/14_Gear_Contact_Geometry_Observation_v1_1.pdf
+    archive_tex: sources/14_gear_contact_geometry_v1_1.tex
+    pages: 9
+    pdf_bytes: 120441
+    pdf_sha256: 6455a0f05ffaa36ba866f1db86dbc8fcccc6388eeb56ff2493a36c3d0d7497f7
+    tex_bytes: 23629
+    tex_sha256: d31616e4cd8465c1c6bf13fd4824b9ffd17ab739d794176a60777d0335ecf6e5
+    page_content_sha256: d817bafb65e3e57b2f2d44a9da6716d172ec6b0e0bda6ef042e2649d57ac4998
+    page_text_sha256: 31562554f9c8e5d18f739e5dd3cfc309e3e7d507539ce53cbd187e69fc509a08
+    pdf_title: Gear Contact Geometry as a Typed Finite Observation System
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 10
+    symbols: 8
+    quantities: 41
+    expressions: 20
+    invariants: 5
+    claims: 9
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - tooth_label_translation
+  - orientation_reversal_conjugacy
+  - planetary_uniform_rotation_frame_action
+  - circle_lift_integer_shift
+  - orthogonal_contact_frame_changes
+- release_index: 15
+  ledger_index: 16
+  id: conical-intersections-observation-v1-1
+  title: Conical Intersections as Typed Spectral Singularities under Observation Maps
+  version: 1.1.0
+  layer: Spectral
+  ledger_level: reference
+  migration_status: strict_reference_migrated
+  source:
+    pdf: work/p8_conical_intersections_v0_9/build/ci/conical_intersections_spectral_observation_v1_1.pdf
+    tex: work/p8_conical_intersections_v0_9/src/conical_intersections_spectral_observation_v1_1.tex
+    public_filename: Conical_Intersections_Spectral_Observation_Geometry_v1_1.pdf
+    archive_pdf: modules/15_Conical_Intersections_Spectral_Observation_Geometry_v1_1.pdf
+    archive_tex: sources/15_conical_intersections_spectral_observation_v1_1.tex
+    pages: 8
+    pdf_bytes: 119368
+    pdf_sha256: 48507a398983388159a1a4b1bd5cf25abdba231b836a7702d960eeb5778af4dd
+    tex_bytes: 25085
+    tex_sha256: c0f7e0459033db66a3a89c2a945838a497e3287b654792a48bdc42f7257773c7
+    page_content_sha256: b084b45c728e23a6be758cfba5f3197cf1225ed4367c97ee3421581fa9a0d6e9
+    page_text_sha256: ee0eb7c7d35a7afce8ac0d5d7ce9d28be13e0996120b8d90956c8880a05d5905
+    pdf_title: Conical Intersections as Typed Spectral Singularities under Observation Maps
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 10
+    symbols: 10
+    quantities: 60
+    expressions: 36
+    invariants: 0
+    claims: 11
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - nuclear_chart_reparameterizations_with_typed_Jacobian
+  - local_U1_eigenvector_gauge
+  - real_Z2_eigenline_holonomy
+  - internal_U2_cluster_basis_changes
+  - loop_orientation_reversal
+  - positive_energy_unit_changes
+- release_index: 16
+  ledger_index: 17
+  id: quantum-chemistry-observation-v1-1
+  title: Quantum Chemistry as a Typed Inference Stack under Observation Maps
+  version: 1.1.0
+  layer: Molecular inference
+  ledger_level: reference
+  migration_status: strict_reference_migrated
+  source:
+    pdf: work/p9_quantum_chemistry_v1_0/build/qchem/quantum_chemistry_observation_geometry_v1_1.pdf
+    tex: work/p9_quantum_chemistry_v1_0/src/quantum_chemistry_observation_geometry_v1_1.tex
+    public_filename: Quantum_Chemistry_Typed_Observation_Geometry_v1_1.pdf
+    archive_pdf: modules/16_Quantum_Chemistry_Typed_Observation_Geometry_v1_1.pdf
+    archive_tex: sources/16_quantum_chemistry_observation_geometry_v1_1.tex
+    pages: 9
+    pdf_bytes: 127239
+    pdf_sha256: f3b1056f215cebeca914b3c1d3589e18b3764f518a5daac580a487541a9dae8a
+    tex_bytes: 29309
+    tex_sha256: b992467d7f272e4d1b7c62a615a87857bbcc8976bb4fa6ce9dcf4b323af1847b
+    page_content_sha256: ed49489465c367ce40537c50994436f6bfe8fe5efbbd94204bd2ab6e7c77634d
+    page_text_sha256: 5bd62bf7fa87f94057ae7440b2b4418c146935ce791aa636e80825e13e2402d6
+    pdf_title: Quantum Chemistry as a Typed Inference Stack under Observation Maps
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 12
+    symbols: 11
+    quantities: 67
+    expressions: 47
+    invariants: 0
+    claims: 11
+  unit_contexts:
+  - SI
+  - atomic
+  - neutral
+  groups:
+  - electron_permutation_sign_representation
+  - global_state_phase
+  - occupied_orbital_U_N_gauge
+  - Euclidean_nuclear_rigid_motions
+  - identical_nucleus_permutations
+  - basis_changes_with_overlap_metric
+  - instrument_calibration_transformations
+- release_index: 17
+  ledger_index: 18
+  id: lhc-beam-observation-v1-3
+  title: Relativistic Beam Paths as Observation Geometry
+  version: 1.3.0
+  layer: Relativistic
+  ledger_level: reference
+  migration_status: p4_reference_pass
+  source:
+    pdf: work/p4_lhc_si_hep_v0_5/build/lhc/lhc_beam_observation_geometry_v1_3.pdf
+    tex: work/p4_lhc_si_hep_v0_5/src/lhc_beam_observation_geometry_v1_3.tex
+    public_filename: Relativistic_Beam_Paths_Observation_Geometry_v1_3.pdf
+    archive_pdf: modules/17_Relativistic_Beam_Paths_Observation_Geometry_v1_3.pdf
+    archive_tex: sources/17_lhc_beam_observation_geometry_v1_3.tex
+    pages: 9
+    pdf_bytes: 123254
+    pdf_sha256: 5abbae43db274df13dddf2529a174b692dd6bb73717287b559d4d901cd911494
+    tex_bytes: 21301
+    tex_sha256: 7e3040b646ca5096c580b1813d3b59c361f625b5fc7f5d0a2670d06e92ec45db
+    page_content_sha256: 4503d04adca986d567c06b107869f8b706b1461e1361dd402708c730a9dd4ce6
+    page_text_sha256: dcd7689ac6653be9fcbc054b7d5b5bfdfaa63c42fa66500da5ff2093b67e6c8d
+    pdf_title: Relativistic Beam Paths as Observation Geometry
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 8
+    symbols: 8
+    quantities: 28
+    expressions: 16
+    invariants: 5
+    claims: 4
+  unit_contexts:
+  - SI
+  - HEP_natural
+  - neutral
+  groups:
+  - proper_orthochronous_lorentz_group
+  - longitudinal_lorentz_boosts
+  - linear_symplectic_transport
+  - ideal_adiabatic_acceleration
+  - invertible_si_hep_representation_changes
+- release_index: 18
+  ledger_index: 9
+  id: satellite-networks-observation-v1-2
+  title: Satellite Networks under Typed Frames and Temporal Observation Channels
+  version: 1.2.0
+  layer: Temporal networks
+  ledger_level: reference
+  migration_status: strict_reference_migrated
+  source:
+    pdf: work/p11_satellite_networks_v1_2/build/satellite/satellite_networks_typed_frames_v1_2.pdf
+    tex: work/p11_satellite_networks_v1_2/src/satellite_networks_typed_frames_v1_2.tex
+    public_filename: Satellite_Networks_Typed_Frames_Temporal_Observation_v1_2.pdf
+    archive_pdf: modules/18_Satellite_Networks_Typed_Frames_Temporal_Observation_v1_2.pdf
+    archive_tex: sources/18_satellite_networks_typed_frames_v1_2.tex
+    pages: 8
+    pdf_bytes: 125375
+    pdf_sha256: 0d4cc766732a2c81c09de053a548a305344c7409797ef6832effa41799a49c2c
+    tex_bytes: 23837
+    tex_sha256: 10bb56a4525240ac334d598486a2d5560eb92438bedaea06b614a16012e46b19
+    page_content_sha256: f51398fc6f07d79d4c73c59c2111482a27bf144dc3ec37a91a15593019888a3c
+    page_text_sha256: f44e21ffd199ac77c073ba57f08030f454fe07ea9eaa91c14a89141b62f47b4d
+    pdf_title: Satellite Networks under Typed Frames and Temporal Observation Channels
+    pdf_author: Stas, Independent Research Program
+  counts:
+    maps: 8
+    symbols: 8
+    quantities: 65
+    expressions: 53
+    invariants: 7
+    claims: 9
+  unit_contexts:
+  - SI
+  - GR_geometrized
+  - neutral
+  groups:
+  - time_dependent_common_SE3_frames
+  - constant_spatial_SE3_postcomposition
+  - Euclidean_E3_configuration_congruence
+  - vertex_relabelings
+  - Poincare_event_transformations
+  - spacetime_coordinate_diffeomorphisms
+  - transported_partition_rigid_isometries

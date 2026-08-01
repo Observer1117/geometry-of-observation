@@ -1,0 +1,818 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=21mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.04}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{tocloft}
+\setlength{\cftsecnumwidth}{2.5em}
+\setlength{\cftsubsecnumwidth}{3.4em}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Tensorial Observation Geometry in General Relativity},
+  pdfauthor={Stassis Research Program},
+  pdfsubject={GO-QS reference document for coordinate covariance, frames, pullbacks, and tensor descent},
+  pdfkeywords={general relativity, tetrad, coframe, observation map, pullback, basic tensor, GO-QS}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\Qreg}{\mathcal{Q}}
+\newcommand{\Dprof}{\mathscr{D}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\given}{\,\middle|\,}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\SO}{\operatorname{SO}}
+\newcommand{\Lie}{\mathcal{L}}
+\newcommand{\status}[1]{\textsf{\footnotesize #1}}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Tensorial Observation Geometry in General Relativity\\
+\large Coordinate covariance, frame/coframe duality, observation maps, and tensor descent}
+\author{Stassis Research Program}
+\date{Strict reference revision v0.3 (P0) --- 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.91\linewidth}{\small
+\textbf{Status.} First tensor/GR reference document migrated to GO-QS v0.1.
+It corrects the tetrad reconstruction formula, declares the unit convention,
+states exact hypotheses for tensor descent, and separates coordinate,
+gauge, apparatus, and observation transformations. It does not modify
+Einstein's equations or claim a new theory of gravity.}}
+\end{center}
+
+\begin{abstract}
+This note supplies a type-safe tensorial layer for Geometry of Observation.
+Four operations are separated: passive coordinate re-description, active
+diffeomorphism, local Lorentz frame gauge, and a possibly non-injective
+observation channel. Frame coefficients $e_a{}^\mu$ and coframe coefficients
+$e^a{}_\mu$ are distinguished; the covariant metric is reconstructed from
+the coframe, while the inverse metric is reconstructed from the frame.
+The default convention is signature $(-,+,+,+)$ and geometrized units
+$c=G=1$, with the SI conversion stated explicitly. For a smooth observation
+map, the radical of a pulled-back pseudo-Riemannian form is computed exactly,
+showing why nontrivial kernel is sufficient but not necessary for degeneracy
+in Lorentzian signature. Smooth scalar descent and descent of covariant
+tensors along a surjective submersion are stated with their required
+fiber hypotheses. A local Lorentz gauge change is distinguished from a
+physical reorientation of an apparatus. A GO-QS quantity and protocol ledger
+closes the document.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope, status, and conventions}
+
+Unless stated otherwise, manifolds are smooth, Hausdorff, and second
+countable. A spacetime $(M,g)$ is a four-dimensional, time-oriented
+Lorentzian manifold with signature
+\[
+\eta_{ab}=\operatorname{diag}(-1,1,1,1).
+\]
+The curvature convention is
+\[
+R(X,Y)Z
+=\nabla_X\nabla_YZ-\nabla_Y\nabla_XZ-\nabla_{[X,Y]}Z.
+\]
+All relativistic formulae use the GO-QS unit context
+\texttt{GR\_geometrized}: $c=G=1$. Hence a proper-time parametrized
+four-velocity satisfies $g(u,u)=-1$. If proper time is measured in SI
+seconds and $u_{\rm SI}=\dd\gamma/\dd\tau$, then
+\[
+g(u_{\rm SI},u_{\rm SI})=-c^2.
+\]
+
+\begin{warning}[Claim boundary]
+The tensor calculus, frame bundle, Fermi--Walker transport, and submersion
+results used below are standard. The contribution here is a corrected,
+typed interface to observation geometry. No new field equation, force,
+or gravitational degree of freedom is introduced.
+\end{warning}
+
+\section{Four transformations that must not be conflated}
+
+\subsection{Passive coordinate change}
+
+Let $x:U\to\R^4$ and $x':U'\to\R^4$ be charts. On the overlap,
+\[
+x'\circ x^{-1}:x(U\cap U')\to x'(U\cap U')
+\]
+is a diffeomorphism between coordinate images. It changes components, not
+the geometric point or tensor. With
+\[
+J^\alpha{}_\mu=\frac{\partial x'^\alpha}{\partial x^\mu},
+\qquad
+(J^{-1})^\mu{}_\alpha
+=\frac{\partial x^\mu}{\partial x'^\alpha},
+\]
+the basis and components transform contragrediently.
+
+\subsection{Active diffeomorphism}
+
+An active diffeomorphism $\varphi:M\to M$ maps fields by pullback or
+pushforward. Whether it represents a gauge redundancy, a physical symmetry,
+or a change of boundary data depends on the theory and boundary conditions.
+It is not identified with a passive chart change merely because both use
+Jacobians.
+
+\subsection{Local Lorentz frame gauge}
+
+For an orthonormal frame $e_a$, a local Lorentz transformation is
+\[
+e'_a=\Lambda_a{}^b e_b,
+\qquad
+\Lambda(x)\in\SO^+(1,3).
+\]
+It changes the frame representation. If all frame components of physical
+fields are transformed consistently, gauge-invariant readouts do not change.
+
+\subsection{Observation and reduction}
+
+GO-QS assigns distinct signatures:
+\[
+T_g:E\to E,\qquad
+R_\lambda:E\to E_\lambda,\qquad
+O_\lambda:E_\lambda\to Y_\lambda^0,\qquad
+K_\lambda(\dd y\mid y^0).
+\]
+$T_g$ is invertible; $R_\lambda$ and $O_\lambda$ need not be. Information
+loss is therefore a property of a declared channel, not of covariance
+itself.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  node distance=8mm and 12mm,
+  box/.style={draw,rounded corners,minimum height=9mm,align=center,fill=lightblue},
+  arr/.style={-{Latex[length=2.2mm]},thick}
+]
+\node[box] (geom) {geometric fields\\on $M$};
+\node[box,right=of geom] (repr) {chart/frame\\components};
+\node[box,below=of geom] (red) {reduced state\\$E_\lambda$};
+\node[box,right=of red] (data) {sensor data\\$Y_\lambda$};
+\draw[arr,<->] (geom) -- node[above] {representation} (repr);
+\draw[arr] (geom) -- node[left] {$R_\lambda$} (red);
+\draw[arr] (red) -- node[above] {$O_\lambda,K_\lambda$} (data);
+\draw[arr,obsred,bend left=35] (geom) to node[left] {$\varphi$} (geom);
+\end{tikzpicture}
+\caption{Representation changes preserve the geometric object; an observation
+pipeline can quotient or randomize it.}
+\end{figure}
+
+\section{Tensors and coordinate covariance}
+
+\begin{definition}[Tensor]
+At $p\in M$, a tensor of type $(r,s)$ is a multilinear map
+\[
+T:(T_p^*M)^r\times(T_pM)^s\to\R.
+\]
+\end{definition}
+
+For $V=V^\mu\partial_\mu$ and
+$\omega=\omega_\mu\dd x^\mu$,
+\[
+V'^\alpha
+=\frac{\partial x'^\alpha}{\partial x^\mu}V^\mu,
+\qquad
+\omega'_\alpha
+=\frac{\partial x^\mu}{\partial x'^\alpha}\omega_\mu.
+\]
+Consequently, the contraction $\omega_\mu V^\mu$ is coordinate
+independent. General tensor components receive one Jacobian per upper
+index and one inverse Jacobian per lower index.
+
+\begin{remark}[Coordinate passport]
+A component array is not a complete GO-QS quantity. It must carry the
+chart, basis, coordinate dimensions, index variance, and frame/gauge law.
+If coordinates have different physical dimensions, component dimensions
+are index dependent.
+\end{remark}
+
+\section{Metric, connection, curvature, and basepoint}
+
+The metric is
+\[
+g=g_{\mu\nu}\,\dd x^\mu\otimes\dd x^\nu,
+\qquad
+\dd s^2=g_{\mu\nu}\dd x^\mu\dd x^\nu.
+\]
+Under a coordinate change,
+\[
+g'_{\alpha\beta}
+=\frac{\partial x^\mu}{\partial x'^\alpha}
+\frac{\partial x^\nu}{\partial x'^\beta}g_{\mu\nu},
+\]
+and the quadratic form $\dd s^2$ is unchanged. In Lorentzian signature,
+this quadratic form is not a metric distance function.
+
+For $p\ne q$, the vector spaces $T_pM$ and $T_qM$ have no canonical
+identification. A connection supplies a transport rule. The Levi--Civita
+connection is characterized by
+\[
+\nabla g=0,\qquad
+\operatorname{Tor}_\nabla=0,
+\]
+and in coordinates
+\[
+\Gamma^\rho{}_{\mu\nu}
+=\frac12 g^{\rho\sigma}
+\left(
+\partial_\mu g_{\sigma\nu}
++\partial_\nu g_{\sigma\mu}
+-\partial_\sigma g_{\mu\nu}
+\right).
+\]
+The Christoffel symbols are not tensor components. The curvature tensor is
+\[
+R^\rho{}_{\sigma\mu\nu}
+=\partial_\mu\Gamma^\rho{}_{\nu\sigma}
+-\partial_\nu\Gamma^\rho{}_{\mu\sigma}
++\Gamma^\rho{}_{\mu\lambda}\Gamma^\lambda{}_{\nu\sigma}
+-\Gamma^\rho{}_{\nu\lambda}\Gamma^\lambda{}_{\mu\sigma}.
+\]
+The Ricci, scalar-curvature, and Einstein tensors are written
+\[
+\operatorname{Ric}_{\sigma\nu}
+=R^\rho{}_{\sigma\rho\nu},
+\qquad
+\operatorname{Scal}_g
+=g^{\sigma\nu}\operatorname{Ric}_{\sigma\nu},
+\]
+\[
+\operatorname{Ein}(g)_{\mu\nu}
+=\operatorname{Ric}_{\mu\nu}
+-\frac12\operatorname{Scal}_g\,g_{\mu\nu}.
+\]
+The notation $\operatorname{Ein}(g)$ avoids a collision between the
+standard symbol $G_{\mu\nu}$ and the GO-QS symmetry-group symbol $G$.
+With geometrized stress-energy, Einstein's equation is
+\[
+\operatorname{Ein}(g)_{\mu\nu}=8\pi T_{\mu\nu}.
+\]
+At the SI boundary it is
+$\operatorname{Ein}(g)_{\mu\nu}
+=(8\pi G_{\rm N}/c^4)T^{\rm SI}_{\mu\nu}$.
+
+An affinely parametrized geodesic satisfies
+\[
+\nabla_{\dot\gamma}\dot\gamma=0.
+\]
+Coordinate acceleration is not invariant; the covariant equation is.
+
+\section{Frame/coframe duality and the corrected tetrad formula}
+
+\begin{definition}[Frame and coframe]
+A local frame and its dual coframe are
+\[
+e_a=e_a{}^\mu\partial_\mu,
+\qquad
+\vartheta^a=e^a{}_\mu\dd x^\mu,
+\]
+with
+\[
+e^a{}_\mu e_b{}^\mu=\delta^a{}_b,
+\qquad
+e^a{}_\mu e_a{}^\nu=\delta_\mu{}^\nu.
+\]
+The frame is orthonormal when
+\[
+g_{\mu\nu}e_a{}^\mu e_b{}^\nu=\eta_{ab}.
+\]
+\end{definition}
+
+\begin{proposition}[Metric reconstruction]
+For a Lorentz-orthonormal frame/coframe pair,
+\[
+\boxed{
+g_{\mu\nu}
+=\eta_{ab}e^a{}_\mu e^b{}_\nu,
+\qquad
+g^{\mu\nu}
+=\eta^{ab}e_a{}^\mu e_b{}^\nu.
+}
+\]
+\end{proposition}
+\begin{proof}
+The abstract identity
+$g=\eta_{ab}\vartheta^a\otimes\vartheta^b$ gives the first component
+formula. Inverting the coframe matrix and the metric gives the second.
+Direct contraction with $e_c{}^\mu e_d{}^\nu$ returns $\eta_{cd}$.
+\end{proof}
+
+\begin{warning}[Correction to v0.2]
+The expression $\eta_{ab}e_a{}^\mu e_b{}^\nu$ reconstructs
+$g^{\mu\nu}$, not $g_{\mu\nu}$. The covariant metric requires the dual
+coframe coefficients $e^a{}_\mu$.
+\end{warning}
+
+\subsection{Example: spherical Minkowski coframe}
+
+On a chart with $r>0$ and $0<\theta<\pi$,
+\[
+g=-\dd t^2+\dd r^2+r^2\dd\theta^2
++r^2\sin^2\theta\,\dd\phi^2
+\]
+in $c=1$ units. An orthonormal coframe is
+\[
+\vartheta^0=\dd t,\quad
+\vartheta^1=\dd r,\quad
+\vartheta^2=r\,\dd\theta,\quad
+\vartheta^3=r\sin\theta\,\dd\phi.
+\]
+Then $g=\eta_{ab}\vartheta^a\otimes\vartheta^b$. Coordinate singularities
+at the polar axis are not curvature singularities.
+
+\section{Observers and transport}
+
+A future-directed observer is a timelike worldline
+\[
+\gamma:I\to M,\qquad
+u=\dot\gamma,\qquad
+g(u,u)=-1.
+\]
+Its acceleration is $a=\nabla_u u$, with $g(a,u)=0$.
+
+\begin{definition}[Observer tetrad]
+An observer tetrad along $\gamma$ is an orthonormal frame
+$(e_0,e_1,e_2,e_3)$ with $e_0=u$. The spatial axes span
+\[
+u^\perp=\set{X\in T_{\gamma(\tau)}M:g(X,u)=0}.
+\]
+\end{definition}
+
+\begin{definition}[Fermi--Walker transport]
+In the declared $c=1$ convention, a vector field $X$ along $\gamma$ is
+Fermi--Walker transported when
+\[
+\nabla_uX
+=\left(u\otimes a^\flat-a\otimes u^\flat\right)X.
+\]
+For $a=0$ this reduces to parallel transport.
+\end{definition}
+
+In SI variables with $g(u_{\rm SI},u_{\rm SI})=-c^2$, the right-hand side
+is divided by $c^2$. This conversion boundary is mandatory.
+
+\begin{proposition}[No canonical spatial triad]
+At a point $p$, after fixing a unit future timelike vector $u$, the set of
+oriented orthonormal bases of $u^\perp$ is a torsor for $\SO(3)$. Hence
+$g$ and $u$ do not select a preferred spatial triad.
+\end{proposition}
+\begin{proof}
+$u^\perp$ is a three-dimensional Euclidean vector space. $\SO(3)$ acts
+freely and transitively on its oriented orthonormal bases.
+\end{proof}
+
+\subsection{Vacuum is not flatness}
+
+Einstein vacuum, $R_{\mu\nu}=0$, does not imply
+$R^\rho{}_{\sigma\mu\nu}=0$. For a Jacobi field $\xi$ along a geodesic,
+the declared curvature convention gives
+\[
+\nabla_u\nabla_u\xi=R(u,\xi)u.
+\]
+Tidal relative acceleration can therefore provide a local relational
+signal even in vacuum.
+
+\section{Frame gauge versus physical apparatus orientation}
+
+The oriented, time-oriented orthonormal frame bundle is
+\[
+\pi_{\F}:\F^+(M,g)\to M,
+\]
+with structure group $\SO^+(1,3)$. A local Lorentz gauge transformation
+changes a representative frame. A physical apparatus, however, has
+material axes, couplings, and a response model. Rotating the apparatus
+relative to an external field changes its physical configuration; it is
+not erased by relabelling components.
+
+\begin{model}[Gauge-covariant sensor response]
+Let $s$ denote physical fields and $F$ a frame representative. A
+well-defined scalar readout $\mathcal R$ satisfies
+\[
+\mathcal R(F\Lambda,\rho(\Lambda)^{-1}s)
+=\mathcal R(F,s)
+\]
+for simultaneous passive frame change. An active apparatus rotation
+$A$ acts on the apparatus state alone and may produce
+$\mathcal R(A\!\cdot\!F,s)\ne\mathcal R(F,s)$.
+\end{model}
+
+\begin{warning}
+The phrase ``frame-dependent readout'' is ambiguous unless it states
+whether the frame is a gauge representative or a material apparatus
+orientation. GO-QS stores these in different protocol fields.
+\end{warning}
+
+\section{The GO-QS tensor/GR observation package}
+
+For a relativistic application, use
+\[
+\mathfrak O_{\rm GR}=
+\left(
+E,\Phi,\xi,\Lambda,
+\set{E_\lambda,Y_\lambda^0,Y_\lambda,
+R_\lambda,O_\lambda,K_\lambda,\widehat q_\lambda}_{\lambda\in\Lambda},
+G_{\rm diff},G_{\rm LL},\Qreg,\Dprof
+\right).
+\]
+Here $E$ is a state or field configuration space, not spacetime alone.
+$G_{\rm diff}$ and $G_{\rm LL}$ record their actions separately. A local
+protocol minimally contains
+\[
+\lambda=
+\left(
+\gamma,u,\mathcal E_{\rm app},
+\varepsilon_x,\delta\tau,B_\nu,
+\Sigma_\eta,Q_{\rm quant},
+\mathcal C_{\rm coord},\mathcal C_{\rm LL},
+T_{\rm hor}
+\right).
+\]
+$\mathcal E_{\rm app}$ is the material apparatus orientation;
+$\mathcal C_{\rm LL}$ is a gauge convention.
+
+\section{Pullback geometry and its radical}
+
+Let $O:E\to B$ be smooth and let $h$ be a nondegenerate
+pseudo-Riemannian metric on $B$. Define
+\[
+(O^*h)_e(v,w)
+=h_{O(e)}(\dd O_e v,\dd O_e w).
+\]
+The vertical space is $\mathcal V_e=\ker\dd O_e$.
+
+\begin{theorem}[Exact radical of a pullback form]
+\[
+\boxed{
+\rad((O^*h)_e)
+=(\dd O_e)^{-1}
+\left(
+(\im\dd O_e)^{\perp_h}
+\right).
+}
+\]
+In particular, $\ker\dd O_e\subseteq\rad((O^*h)_e)$.
+\end{theorem}
+\begin{proof}
+A vector $v$ belongs to the radical precisely when
+$h(\dd O_ev,\dd O_ew)=0$ for every $w\in T_eE$. This is equivalent to
+$\dd O_ev$ being orthogonal to $\im\dd O_e$, which gives the stated
+preimage.
+\end{proof}
+
+\begin{corollary}
+If $h$ is Riemannian, then
+\[
+\rad((O^*h)_e)=\ker\dd O_e.
+\]
+The same equality holds for pseudo-Riemannian $h$ whenever $O$ is a
+submersion at $e$.
+\end{corollary}
+\begin{proof}
+For a positive-definite form,
+$\im\dd O_e\cap(\im\dd O_e)^{\perp_h}=\{0\}$. For a submersion,
+$\im\dd O_e=T_{O(e)}B$, whose orthogonal complement is zero by
+nondegeneracy of $h$.
+\end{proof}
+
+\begin{remark}
+In Lorentzian signature, injectivity of $\dd O_e$ does not guarantee
+nondegeneracy of $O^*h$: the image can be a degenerate null subspace.
+Thus ``non-immersion implies degeneracy'' is correct, but its converse
+fails.
+\end{remark}
+
+\subsection{No automatic Lorentzian distance}
+
+A Lorentzian metric supplies causal cones, proper time on timelike curves,
+and a time-separation function under suitable hypotheses. It does not
+supply a positive metric distance analogous to a Riemannian distance.
+Statistical residuals must use a positive-definite sensor covariance or a
+declared loss, not the indefinite form $h$ as a norm.
+
+\section{Descent and recoverability}
+
+\begin{theorem}[Smooth scalar descent]
+Let $O:E\to B$ be a surjective submersion and $q:E\to\R$ smooth. There is
+a unique smooth $\overline q:B\to\R$ satisfying
+\[
+q=\overline q\circ O
+\]
+if and only if $q$ is constant on every fiber $O^{-1}(b)$.
+\end{theorem}
+\begin{proof}
+Necessity is immediate. For sufficiency, define
+$\overline q(b)=q(e)$ for $e\in O^{-1}(b)$. A submersion admits smooth
+local sections $\sigma:U\to E$, and on $U$,
+$\overline q=q\circ\sigma$, proving smoothness. Surjectivity gives
+uniqueness.
+\end{proof}
+
+\begin{definition}[Horizontal covariant tensor]
+A covariant $k$-tensor $T$ on $E$ is horizontal for $O$ if
+$T(v_1,\ldots,v_k)=0$ whenever at least one $v_i$ is vertical.
+\end{definition}
+
+\begin{theorem}[Descent of covariant tensors]
+Let $O:E\to B$ be a surjective submersion with connected fibers, and let
+$T$ be a smooth covariant $k$-tensor on $E$. Then there is a unique
+covariant tensor $\overline T$ on $B$ with
+\[
+T=O^*\overline T
+\]
+if and only if:
+\begin{enumerate}[leftmargin=*]
+\item $T$ is horizontal; and
+\item $\Lie_VT=0$ for every smooth vertical vector field $V$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}[Proof sketch]
+Pullbacks are horizontal and invariant under vertical flows. Conversely,
+horizontality makes the value of $T$ depend only on projected tangent
+vectors. Vertical-flow invariance makes that value constant along each
+connected fiber. Local sections of the submersion define compatible local
+tensors on $B$, which glue uniquely.
+\end{proof}
+
+\begin{warning}[Disconnected fibers and contravariant indices]
+If fibers are disconnected, vertical Lie invariance does not compare
+different components; explicit cross-component consistency is also
+required. The stated criterion is for covariant tensors. Descent of
+contravariant or mixed tensors requires a separate projectability
+condition and is not obtained by replacing indices formally.
+\end{warning}
+
+\section{Readouts on the frame bundle}
+
+\begin{theorem}[Failure to descend to spacetime]
+Let $\mathcal R:\F^+(M,g)\to Y$. If two frames $F_1,F_2$ over the same
+event satisfy
+\[
+\pi_{\F}(F_1)=\pi_{\F}(F_2),\qquad
+\mathcal R(F_1)\ne\mathcal R(F_2),
+\]
+then no map $\overline{\mathcal R}:M\to Y$ satisfies
+$\mathcal R=\overline{\mathcal R}\circ\pi_{\F}$.
+\end{theorem}
+\begin{proof}
+Such a factorization would assign the same value
+$\overline{\mathcal R}(p)$ to both frames, contradicting the hypothesis.
+\end{proof}
+
+This set-theoretic theorem does not decide whether the variation is a gauge
+artifact or a physical apparatus response. That decision requires the
+simultaneous transformation law in the protocol.
+
+\section{Worked examples}
+
+\subsection{Riemannian orthographic projection}
+
+For
+\[
+\pi:\R^3\to\R^2,\qquad
+\pi(x,y,z)=(x,y),
+\]
+and $h=\dd x^2+\dd y^2$,
+\[
+\pi^*h=\dd x^2+\dd y^2,\qquad
+[\pi^*h]=
+\begin{pmatrix}
+1&0&0\\
+0&1&0\\
+0&0&0
+\end{pmatrix}.
+\]
+Its radical equals $\ker\dd\pi=\operatorname{span}\{\partial_z\}$.
+
+\subsection{Lorentzian null immersion}
+
+Let
+\[
+i:\R\to\R^{1,1},\qquad i(s)=(s,s),
+\qquad
+h=-\dd t^2+\dd x^2.
+\]
+$\dd i_s$ is injective, but
+\[
+i^*h=-\dd s^2+\dd s^2=0.
+\]
+Thus an immersion can induce a degenerate pullback in indefinite
+signature. This is the counterexample excluded by an unjustified
+Riemannian intuition.
+
+\section{Quantity and Protocol Ledger}
+
+\subsection{Coordinate-dimension rule}
+
+Store a coordinate passport $[x^\mu]$ for every chart. Since
+$[\dd s^2]=L^2$,
+\[
+[g_{\mu\nu}]
+=\frac{L^2}{[x^\mu][x^\nu]}.
+\]
+If all $x^\mu$ have length dimension, $g_{\mu\nu}$ is dimensionless. If
+$x^0=t$ is measured in seconds while spatial coordinates are lengths,
+metric components have different dimensions and cannot be treated as an
+unannotated numerical matrix.
+
+\begin{longtable}{L{0.20\linewidth}L{0.19\linewidth}L{0.23\linewidth}L{0.279\linewidth}}
+\toprule
+Object & Abstract dimension & GO-QS kind & Required metadata\\
+\midrule
+\endhead
+$x^\mu$ & coordinate-specific & scalar/angle & chart and unit\\
+$g$ & $\dd s^2:L^2$ & covariant tensor & signature and coordinate passport\\
+$u$ & unitless in $c=1$ normalization & vector & worldline and parameter\\
+$a=\nabla_u u$ & inverse length in geometrized parametrization &
+vector & unit context\\
+$\Gamma^\rho{}_{\mu\nu}$ & component-specific & connection coefficients &
+chart; not a tensor\\
+$R^\rho{}_{\sigma\mu\nu}$ & component-specific & tensor &
+curvature convention\\
+$\mathrm{Scal}_g$ & $L^{-2}$ & scalar & metric and sign convention\\
+$e_a{}^\mu$ & coordinate-specific & frame coefficients &
+frame, chart, Lorentz gauge\\
+$e^a{}_\mu$ & dual coordinate-specific & coframe coefficients &
+inverse-pair check\\
+$\dd O_e$ & output/input units & linear map & domain, codomain, rank threshold\\
+$O^*h$ & inherited from $h$ & covariant tensor & signature and radical\\
+\bottomrule
+\end{longtable}
+
+\subsection{Minimal relativistic protocol}
+
+\begin{longtable}{L{0.27\linewidth}L{0.64\linewidth}}
+\toprule
+Field & Required content\\
+\midrule
+\endhead
+\texttt{unit\_context} & SI or GR geometrized; explicit conversion boundary\\
+\texttt{signature} & here $(-,+,+,+)$\\
+\texttt{curvature\_convention} & definition of $R(X,Y)Z$\\
+\texttt{coordinates} & chart, ranges, units, singular sets\\
+\texttt{frame} & frame and coframe matrices plus inverse-pair validation\\
+\texttt{lorentz\_gauge} & representative and transformation law\\
+\texttt{apparatus\_orientation} & material axes, distinct from gauge\\
+\texttt{observer} & $\gamma,u,a$ and transport law\\
+\texttt{observation} & $R_\lambda,O_\lambda,K_\lambda$ with signatures\\
+\texttt{resolution} & spatial, proper-time, spectral, and angular\\
+\texttt{uncertainty} & covariance/posterior/risk and calibration\\
+\texttt{causal\_domain} & time orientation and admissible $J^-$ region\\
+\bottomrule
+\end{longtable}
+
+\section{Correction log: v0.2 to v0.3}
+
+\begin{enumerate}[leftmargin=*]
+\item Replaced the erroneous covariant metric reconstruction by the
+coframe formula and added the inverse-metric frame formula.
+\item Declared signature, curvature convention, and
+\texttt{GR\_geometrized} unit context.
+\item Added the SI normalization $g(u_{\rm SI},u_{\rm SI})=-c^2$ and the
+$1/c^2$ Fermi--Walker conversion.
+\item Separated passive coordinates, active diffeomorphisms, local Lorentz
+gauge, physical apparatus rotation, reduction, and observation.
+\item Replaced the informal basic-tensor equivalence by a theorem for a
+surjective submersion with connected fibers.
+\item Added the disconnected-fiber and mixed-tensor limitations.
+\item Computed the exact radical of a pseudo-Riemannian pullback.
+\item Added a null-immersion counterexample.
+\item Explicitly denied a positive metric-distance interpretation for a
+Lorentzian form.
+\item Added a coordinate-dimension passport and a complete GO-QS protocol
+ledger.
+\end{enumerate}
+
+\section{Claim audit}
+
+\textbf{Established statements used:}
+\begin{enumerate}[leftmargin=*]
+\item tensor contractions are coordinate independent;
+\item different tangent spaces require a transport rule;
+\item frame and coframe reconstruct inverse and covariant metrics,
+respectively;
+\item proper acceleration, Fermi--Walker rotation, and curvature are
+geometrically meaningful after conventions are fixed;
+\item the radical formula characterizes local pullback degeneracy;
+\item scalar and covariant-tensor descent require fiber compatibility.
+\end{enumerate}
+
+\textbf{Not claimed:}
+\begin{enumerate}[leftmargin=*]
+\item coordinate transformations are lossy observation channels;
+\item every diffeomorphism is gauge under arbitrary boundary conditions;
+\item an apparatus orientation is identical to a Lorentz gauge choice;
+\item a Lorentzian metric is a positive distance;
+\item every hidden tensor is recoverable;
+\item this interface modifies general relativity.
+\end{enumerate}
+
+\section{Conclusion}
+
+The corrected tensorial interface is summarized by
+\[
+\boxed{
+\begin{gathered}
+\text{covariance preserves representation-independent content;}
+\\
+\text{a declared observation channel may quotient it.}
+\end{gathered}
+}
+\]
+The statement is now type safe. Coordinate and gauge changes act
+invertibly on representations; apparatus orientation belongs to the
+physical protocol; observation maps have explicit domains, codomains, and
+kernels; Lorentzian pullbacks are treated as indefinite bilinear forms;
+and tensor recovery is a descent problem with stated global hypotheses.
+
+\begin{thebibliography}{99}
+\bibitem{KN}
+S.~Kobayashi and K.~Nomizu,
+\emph{Foundations of Differential Geometry}, Vol. I,
+Wiley, 1963.
+
+\bibitem{LeeSmooth}
+J.~M. Lee,
+\emph{Introduction to Smooth Manifolds}, 2nd ed.,
+Springer, 2013.
+
+\bibitem{LeeRiemannian}
+J.~M. Lee,
+\emph{Introduction to Riemannian Manifolds}, 2nd ed.,
+Springer, 2018.
+
+\bibitem{ONeill}
+B.~O'Neill,
+\emph{Semi-Riemannian Geometry with Applications to Relativity},
+Academic Press, 1983.
+
+\bibitem{Wald}
+R.~M. Wald,
+\emph{General Relativity},
+University of Chicago Press, 1984.
+
+\bibitem{Nakahara}
+M.~Nakahara,
+\emph{Geometry, Topology and Physics}, 2nd ed.,
+CRC Press, 2003.
+
+\bibitem{Palais}
+R.~S. Palais,
+Foundations of global non-linear analysis,
+W. A. Benjamin, 1968.
+\end{thebibliography}
+
+\end{document}

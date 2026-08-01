@@ -1,0 +1,119 @@
+schema:
+  id: go-lhc-si-hep-inputs
+  version: 0.5.0
+  date: 2026-07-28
+
+defining_constants:
+  speed_of_light:
+    symbol: c
+    value_si: "299792458"
+    unit: m/s
+    exactness: exact_si_definition
+    source: BIPM_SI_Brochure_9_v4_01
+  planck_constant:
+    symbol: h
+    value_si: "6.62607015e-34"
+    unit: J*s
+    exactness: exact_si_definition
+    source: BIPM_SI_Brochure_9_v4_01
+  elementary_charge:
+    symbol: e
+    value_si: "1.602176634e-19"
+    unit: C
+    exactness: exact_si_definition
+    source: BIPM_SI_Brochure_9_v4_01
+  electronvolt:
+    symbol: eV
+    value_si: "1.602176634e-19"
+    unit: J
+    exactness: exact_from_elementary_charge
+    source: BIPM_SI_Brochure_9_v4_01
+  gigaelectronvolt:
+    symbol: GeV
+    value_si: "1.602176634e-10"
+    unit: J
+    exactness: exact_from_elementary_charge
+    source: BIPM_SI_Brochure_9_v4_01
+
+measured_constants:
+  proton_mass_energy:
+    symbol: mu_p
+    value: "0.93827208943"
+    standard_uncertainty: "0.00000000029"
+    unit: GeV
+    exactness: measured_codata_2022
+    source: NIST_CODATA_2022
+
+hep_chart:
+  energy_anchor:
+    value: "1"
+    unit: GeV
+  fixed_constants:
+    c: 1
+    hbar: 1
+  scope:
+    allowed_si_dimensions: [L, M, T]
+    residual_dimensions_must_vanish: [I, Theta, N, J]
+  metric_signature: [1, -1, -1, -1]
+  four_momentum_conventions:
+    si_momentum_chart: "p^mu=(E/c,p_vector)"
+    si_energy_chart: "Pi^mu=c*p^mu=(E,c*p_vector)"
+    hep_energy_chart: "Pi_N^mu=(E_N,p_N_vector), with p_N=c*p/E0"
+
+lhc_reference:
+  epoch: Run_3_standard_pp_operation_2022_2026
+  current_status_at_document_date: Long_Shutdown_3
+  proton_total_energy:
+    value: "6800"
+    unit: GeV
+    status: operational_reference_not_exact_constant
+    source: CERN_LHC_current_page
+  symmetric_pp_collision_energy:
+    value: "13600"
+    unit: GeV
+    status: derived_for_equal_head_on_beams
+  circumference:
+    value: "26659"
+    unit: m
+    status: rounded_public_reference
+    source: CERN_LHC_current_page
+  bunches_per_beam:
+    value: "2500"
+    unit: one
+    status: approximate_public_reference
+    source: CERN_LHC_current_page
+  protons_per_bunch:
+    value: "1.6e11"
+    unit: one
+    status: approximate_public_reference
+    source: CERN_LHC_current_page
+  charge_state:
+    value: "1"
+    unit: elementary_charge
+    status: exact_for_proton
+
+source_register:
+  - id: BIPM_SI_Brochure_9_v4_01
+    title: The International System of Units (SI), 9th edition, version 4.01
+    institution: BIPM
+    url: https://www.bipm.org/documents/20126/41483022/SI-Brochure-9-EN.pdf
+  - id: NIST_CODATA_2022
+    title: CODATA recommended values of the fundamental physical constants, 2022
+    institution: NIST/CODATA
+    url: https://physics.nist.gov/cuu/pdf/JPCRD2022CODATA.pdf
+  - id: PDG_2024_constants
+    title: Review of Particle Physics 2024 - Physical Constants
+    institution: Particle Data Group
+    url: https://pdg.lbl.gov/2024/reviews/rpp2024-rev-phys-constants.pdf
+  - id: CERN_LHC_current_page
+    title: Large Hadron Collider - facts and figures
+    institution: CERN
+    url: https://home.cern/science/accelerators/large-hadron-collider/
+  - id: CERN_LS3_2026
+    title: CERN bids farewell to the LHC and enters Long Shutdown 3
+    institution: CERN
+    url: https://home.cern/cern-bids-farewell-to-the-lhc-and-enters-long-shutdown-3/
+  - id: CERN_LHC_design_report
+    title: LHC Design Report, Volume I
+    institution: CERN
+    url: https://cds.cern.ch/record/782076/files/CERN-2004-003-V1-ft.pdf

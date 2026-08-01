@@ -1,0 +1,778 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=21mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Information-Theoretic Observation Geometry},
+  pdfauthor={Stassis Research Program},
+  pdfsubject={GO Core v0.2 reference module for channels, information defects, data processing, and recoverability},
+  pdfkeywords={information theory, observation channel, conditional entropy, data processing, recoverability, GO Core}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\Z}{\mathcal{Z}}
+\newcommand{\Q}{\mathcal{Q}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\KLb}{D_{\mathrm{KL},b}}
+\newcommand{\Hb}{H_b}
+\newcommand{\Ib}{I_b}
+\newcommand{\hb}{h_b}
+\newcommand{\Dinfo}{\mathscr{D}^{\mathrm{info}}}
+\newcommand{\dinfo}{\delta^{\mathrm{info}}}
+\newcommand{\given}{\,\middle|\,}
+\newcommand{\status}[1]{\textsf{\footnotesize #1}}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Information-Theoretic Observation Geometry\\
+\large Typed information loss, data processing, and recoverable invariants}
+\author{Stassis Research Program}
+\date{Strict GO Core reference revision v0.2 --- 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.91\linewidth}{\small
+\textbf{Status.} This revision is the information-theoretic P1 reference
+module for GO Core v0.2. It fixes the logarithm base, separates raw and
+normalized defects, records the degenerate-source zero policy, types the
+full observation protocol, and distinguishes probabilistic information
+loss from metric covering loss. All theorem statements below are standard
+finite-alphabet information theory unless explicitly marked as a model or
+interface proposition.}}
+\end{center}
+
+\begin{abstract}
+An observation is represented by a reduction, a deterministic readout, and
+a stochastic channel, rather than by an unspecified map. For finite hidden
+and observed alphabets and a declared logarithm base $b>1$, the raw
+information defect is the conditional entropy
+$\Dinfo_{\lambda,b}(P_X)=\Hb(X\mid Y_\lambda)$. It depends on both the
+channel and the source law. Its normalized form divides by $\Hb(X)$ with
+an explicit zero-source policy and is invariant under a change of
+information unit. Deterministic channels admit an exact fiber formula;
+post-processing monotonically decreases retained mutual information and
+increases the defect; Kullback--Leibler distinguishability contracts.
+Exact recovery of a finite target $Q=f(X)$ is equivalent to
+$\Hb(Q\mid Y)=0$, while Fano's inequality supplies a one-sided obstruction
+to approximate recovery. Continuous variables are handled through relative
+entropy, mutual information, and declared quantizers, not through
+coordinate-dependent differential entropy. The document supplies a typed
+interface and claim audit; it does not claim new information-theoretic
+inequalities or a derivation of physical dynamics.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope, conventions, and claim boundary}
+
+Fix a logarithm base $b>1$. Unless a standard-Borel extension is stated
+explicitly, every alphabet is finite and every random variable is defined
+on a common probability space. Probability laws are denoted by $P_X$,
+$P_{XY}$, and so forth. We use
+\[
+0\log_b 0:=0,
+\qquad
+\log_b\frac{p}{0}:=+\infty\quad (p>0).
+\]
+Information quantities are physically dimensionless but have the semantic
+type \texttt{information}; their numerical unit is fixed by $b$ (bits for
+$b=2$, nats for $b=e$).
+
+\begin{warning}[Claim boundary]
+Shannon entropy is not identified with thermodynamic entropy without a
+separate physical model. An information channel does not create a hidden
+state, and information theory alone does not derive spacetime, gravity,
+mass, charge, or consciousness. The contribution of this note is a
+type-safe interface between standard information theory and the Geometry
+of Observation protocol.
+\end{warning}
+
+\subsection{The GO observation protocol}
+
+For protocol $\lambda\in\Lambda$, write
+\[
+X
+\xrightarrow{R_\lambda}
+X_\lambda
+\xrightarrow{O_\lambda}
+U_\lambda
+\xrightarrow{K_\lambda}
+Y_\lambda
+\xrightarrow{\widehat q_\lambda}
+\widehat Q_\lambda .
+\]
+Here $R_\lambda$ is a model reduction, $O_\lambda$ is an ideal
+deterministic readout, and $K_\lambda(y\mid u)$ is a Markov kernel. The
+induced hidden-to-data channel is
+\begin{equation}
+W_\lambda(y\mid x)
+=
+K_\lambda\!\left(y\mid O_\lambda(R_\lambda x)\right).
+\label{eq:induced-channel}
+\end{equation}
+If the reduction itself is stochastic, it is absorbed into $W_\lambda$ by
+kernel composition. A frame or coordinate transformation is instead an
+invertible representation map and is not counted as information loss.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  node distance=8mm and 9mm,
+  box/.style={draw,rounded corners,minimum height=9mm,minimum width=23mm,
+              align=center,fill=lightblue},
+  arr/.style={-{Latex[length=2.1mm]},thick}
+]
+\node[box] (x) {hidden\\$X$};
+\node[box,right=of x] (u) {ideal data\\$U_\lambda$};
+\node[box,right=of u] (y) {registered\\$Y_\lambda$};
+\node[box,right=of y] (q) {estimate\\$\widehat Q_\lambda$};
+\draw[arr] (x) -- node[above] {$O_\lambda R_\lambda$} (u);
+\draw[arr] (u) -- node[above] {$K_\lambda$} (y);
+\draw[arr] (y) -- node[above] {$\widehat q_\lambda$} (q);
+\node[below=11mm of y,align=center,text width=57mm] (note)
+  {Only the declared reduction/readout/channel\\may merge or randomize hidden states.};
+\draw[-{Latex[length=2mm]},obsred] (note.west) to[bend right=18] (x.south);
+\draw[-{Latex[length=2mm]},obsred] (note.north) -- (y.south);
+\end{tikzpicture}
+\caption{Typed observation chain. A channel is distinct from a change of
+coordinates or frame.}
+\label{fig:pipeline}
+\end{figure}
+
+\section{Information quantities and change of unit}
+
+\begin{definition}[Entropy, conditional entropy, and mutual information]
+For a finite random variable $X$,
+\[
+\Hb(X)=-\sum_{x\in\X}P_X(x)\log_b P_X(x).
+\]
+For a pair $(X,Y)$,
+\[
+\Hb(X\mid Y)
+=
+\sum_{y\in\Y}P_Y(y)\Hb(X\mid Y=y),
+\]
+and
+\[
+\Ib(X;Y)
+=
+\Hb(X)-\Hb(X\mid Y)
+=
+\Hb(Y)-\Hb(Y\mid X).
+\]
+\end{definition}
+
+\begin{definition}[Relative entropy]
+For laws $P,Q$ on a finite set,
+\[
+\KLb(P\Vert Q)
+=
+\sum_xP(x)\log_b\frac{P(x)}{Q(x)}
+\in[0,+\infty].
+\]
+It is finite precisely when $P\ll Q$ in the finite setting.
+\end{definition}
+
+\begin{theorem}[Information-unit change]
+\label{thm:base-change}
+Let $b,c>1$. Every entropy, conditional entropy, mutual information, and
+finite relative entropy in base $b$ is related to its base-$c$ value by
+\[
+\Hb=\log_b(c)\,H_c,\qquad
+\Ib=\log_b(c)\,I_c,\qquad
+D_{\mathrm{KL},b}=\log_b(c)\,D_{\mathrm{KL},c}.
+\]
+Consequently, any ratio of two finite positive information quantities
+computed with the same base is independent of the base.
+\end{theorem}
+
+\begin{proof}
+The identity $\log_b t=\log_b(c)\log_c t$ holds for $t>0$.
+Substitution in each finite sum gives the first three relations. The common
+positive factor cancels in a ratio.
+\end{proof}
+
+\begin{remark}[Semantic units]
+The theorem is the information analogue of a coherent physical unit
+change. Subtracting a bit-valued entropy from a nat-valued entropy without
+conversion is forbidden, even though both are physically dimensionless.
+\end{remark}
+
+\section{Observation defect and deterministic fibers}
+
+\begin{definition}[Raw information defect]
+For source law $P_X$ and channel $W_\lambda$ producing $Y_\lambda$, define
+\[
+\Dinfo_{\lambda,b}(P_X)
+:=
+\Hb(X\mid Y_\lambda).
+\]
+This is a function of the pair $(P_X,W_\lambda)$; it is not an intrinsic
+scalar of the channel alone.
+\end{definition}
+
+\begin{definition}[Normalized information defect]
+\label{def:normalized-defect}
+The normalized defect is
+\[
+\dinfo_{\lambda}(P_X)
+=
+\begin{cases}
+\dfrac{\Hb(X\mid Y_\lambda)}{\Hb(X)},&\Hb(X)>0,\\[1.1ex]
+0,&\Hb(X)=0.
+\end{cases}
+\]
+The second line is the declared \emph{degenerate-source zero policy}: a
+source supported at one state contains no source distinguishability to
+lose.
+\end{definition}
+
+\begin{proposition}[Decomposition, bounds, and unit invariance]
+\label{prop:defect-bounds}
+For every finite source and channel,
+\[
+\Hb(X)
+=
+\Ib(X;Y_\lambda)+\Dinfo_{\lambda,b}(P_X),
+\qquad
+0\leq \Dinfo_{\lambda,b}(P_X)\leq \Hb(X).
+\]
+Moreover $0\leq\dinfo_\lambda(P_X)\leq1$, and
+$\dinfo_\lambda(P_X)$ is independent of $b$.
+\end{proposition}
+
+\begin{proof}
+The identity is the definition of mutual information. Nonnegativity of
+conditional entropy and mutual information gives the bounds. The normalized
+claims follow from \cref{thm:base-change} and the zero policy in
+\cref{def:normalized-defect}.
+\end{proof}
+
+\begin{theorem}[Deterministic decomposition and fiber formula]
+\label{thm:fiber}
+Let $Y=O(X)$ for a deterministic map $O:\X\to\Y$. Then
+\[
+\Hb(X)=\Hb(Y)+\Hb(X\mid Y),
+\qquad
+\Ib(X;Y)=\Hb(Y),
+\]
+and
+\begin{equation}
+\Hb(X\mid Y)
+=
+\sum_{y:P_Y(y)>0}P_Y(y)
+\left[
+-\sum_{x\in O^{-1}(y)}
+P_{X\mid Y}(x\mid y)\log_bP_{X\mid Y}(x\mid y)
+\right].
+\label{eq:fiber-formula}
+\end{equation}
+The defect vanishes if and only if $X$ is a function of $Y$ almost surely.
+Equivalently, every fiber meeting $\supp P_X$ contains exactly one point
+of positive conditional probability.
+\end{theorem}
+
+\begin{proof}
+Since $Y$ is a function of $X$, $\Hb(Y\mid X)=0$. Apply the chain rule to
+$\Hb(X,Y)$ in both orders. Expanding the definition of conditional entropy
+gives \eqref{eq:fiber-formula}. A finite conditional entropy is zero exactly
+when every positive-probability conditional law is a point mass.
+\end{proof}
+
+\section{Post-processing, preorder, and divergence contraction}
+
+\begin{definition}[GO post-processing preorder]
+For two channels with common input alphabet, write
+\[
+W_1\preceq_{\mathrm{GO}}W_2
+\quad\Longleftrightarrow\quad
+W_2=T\circ W_1
+\]
+for some Markov kernel $T$. Thus $W_2$ is a garbling of $W_1$; the left
+channel is at least as informative. This convention agrees with the
+deterministic relation-refinement order used in the GO core.
+\end{definition}
+
+\begin{theorem}[Data processing and defect monotonicity]
+\label{thm:dpi}
+If $X\to Y\to Z$ is a Markov chain, then
+\[
+\Ib(X;Z)\leq\Ib(X;Y),
+\qquad
+\Hb(X\mid Z)\geq\Hb(X\mid Y).
+\]
+More exactly,
+\[
+\Hb(X\mid Z)-\Hb(X\mid Y)=\Ib(X;Y\mid Z)\geq0.
+\]
+\end{theorem}
+
+\begin{proof}
+The chain rule gives
+\[
+\Ib(X;Y,Z)=\Ib(X;Z)+\Ib(X;Y\mid Z)
+\]
+and
+\[
+\Ib(X;Y,Z)=\Ib(X;Y)+\Ib(X;Z\mid Y).
+\]
+The Markov property makes the last conditional mutual information zero.
+The stated identities follow.
+\end{proof}
+
+\begin{theorem}[Relative-entropy contraction]
+\label{thm:kl-contraction}
+For a Markov kernel $W:\X\rightsquigarrow\Y$ and laws $P,Q$ on $\X$,
+\[
+\KLb(WP\Vert WQ)\leq\KLb(P\Vert Q).
+\]
+\end{theorem}
+
+\begin{proof}
+Apply the log-sum inequality to
+$a_x=P(x)W(y\mid x)$ and $b_x=Q(x)W(y\mid x)$ for each $y$, then sum over
+$y$. Extended values are understood when absolute continuity fails.
+\end{proof}
+
+\begin{definition}[Channel-level KL contraction profile]
+For a fixed finite channel $W$, define
+\[
+\eta_{\mathrm{KL},b}(W)
+=
+\sup_{\substack{P,Q:\\0<\KLb(P\Vert Q)<\infty}}
+\frac{\KLb(WP\Vert WQ)}{\KLb(P\Vert Q)},
+\]
+with value $0$ if the admissible set is empty.
+\end{definition}
+
+\begin{proposition}
+$0\leq\eta_{\mathrm{KL},b}(W)\leq1$, and the value is independent of $b$.
+\end{proposition}
+
+\begin{proof}
+The bounds follow from \cref{thm:kl-contraction}; base independence follows
+from the common factor in \cref{thm:base-change}.
+\end{proof}
+
+\section{Recoverable targets}
+
+\begin{definition}[Exact recoverability]
+Let $Q=f(X)$ take values in a finite alphabet $\Q$. It is recoverable from
+$Y$ if there is a decoder $g:\Y\to\Q$ such that $Q=g(Y)$ almost surely.
+\end{definition}
+
+\begin{theorem}[Entropy criterion for exact recoverability]
+\label{thm:recovery}
+For finite $Q$ and $Y$,
+\[
+Q\text{ is recoverable from }Y
+\quad\Longleftrightarrow\quad
+\Hb(Q\mid Y)=0.
+\]
+If $Y=O(X)$ is deterministic, this is equivalent to $f$ being constant on
+each fiber $O^{-1}(y)\cap\supp P_X$, up to null states.
+\end{theorem}
+
+\begin{proof}
+The conditional entropy vanishes precisely when each conditional law
+$P_{Q\mid Y=y}$ with $P_Y(y)>0$ is a point mass. Selecting its unique atom
+defines $g(y)$. The deterministic fiber statement is the same condition
+written in terms of $O$.
+\end{proof}
+
+\begin{corollary}[Target recovery is weaker than state recovery]
+It is possible that
+\[
+\Hb(X\mid Y)>0
+\quad\text{but}\quad
+\Hb(f(X)\mid Y)=0.
+\]
+Thus recovery claims must name the target; recovery of one invariant does
+not imply recovery of the hidden state.
+\end{corollary}
+
+\begin{theorem}[Fano inequality]
+\label{thm:fano}
+Let $\abs{\Q}=M\geq2$, let $\widehat Q=g(Y)$ be any decoder, and put
+$P_e=P(\widehat Q\neq Q)$. Then
+\[
+\Hb(Q\mid Y)
+\leq
+\hb(P_e)+P_e\log_b(M-1),
+\]
+where
+\[
+\hb(p)=-p\log_b p-(1-p)\log_b(1-p).
+\]
+\end{theorem}
+
+\begin{remark}[One-sided use]
+Fano's inequality obstructs very small error when the unresolved
+conditional entropy is large. Its converse use requires additional
+hypotheses or sharper reverse bounds. No claim that ``small conditional
+entropy automatically supplies a stable physical inverse'' is made here.
+\end{remark}
+
+\subsection{Target-normalized defect}
+
+For nonconstant $Q=f(X)$, define
+\[
+\delta^{\mathrm{info}}_{Q,\lambda}(P_X)
+=
+\frac{\Hb(Q\mid Y_\lambda)}{\Hb(Q)}.
+\]
+If $\Hb(Q)=0$, the same degenerate-target zero policy assigns value $0$.
+This target-specific defect is base invariant and lies in $[0,1]$.
+
+\section{Calibrating examples}
+
+\subsection{Finite parity aliasing}
+
+Let $X$ be uniform on $\set{0,1,\ldots,2m-1}$ and let
+$Y=X\bmod2$. Then
+\[
+\Hb(X)=\log_b(2m),\qquad
+\Hb(Y)=\log_b2,\qquad
+\Hb(X\mid Y)=\log_bm.
+\]
+The channel retains parity and loses the index within each parity fiber.
+For $b=2$, the retained information is exactly one bit.
+
+\subsection{Binary symmetric readout}
+
+Let $X\sim\operatorname{Bernoulli}(1/2)$ and
+$Y=X\oplus N$, where $N\sim\operatorname{Bernoulli}(\alpha)$ is independent
+and $0\leq\alpha\leq1/2$. Then
+\[
+H_2(X\mid Y)=h_2(\alpha),
+\qquad
+I_2(X;Y)=1-h_2(\alpha),
+\qquad
+\dinfo=h_2(\alpha).
+\]
+This example separates deterministic fiber merging from stochastic sensor
+noise.
+
+\subsection{Quantized hidden circle}
+
+Let a hidden variable be uniform on a circle of circumference $2\pi r$.
+Choose a declared arc-length quantizer whose cells have diameter at most
+$\varepsilon_\ell>0$. With
+\[
+m_\varepsilon
+=
+\left\lceil\frac{2\pi r}{\varepsilon_\ell}\right\rceil
+\]
+equal-probability arc cells, the unresolved discrete
+fiber entropy grows as
+\[
+\log_b m_\varepsilon
+=
+\log_b\frac{r}{\varepsilon_\ell}+O(1).
+\]
+The logarithm contains the dimensionless ratio $r/\varepsilon_\ell$.
+This is a quantized probabilistic statement, not an entropy assigned
+directly to an unquantized continuum.
+
+\subsection{Conditional chromatic multiplicity}
+
+Let $P$ be an observed cell and $C$ a hidden color, phase, or label.
+Observation of $P$ alone leaves defect
+\[
+\Hb(P,C\mid P)=\Hb(C\mid P).
+\]
+If $C=c(P)$ is a deterministic field, this quantity is exactly zero.
+Nonzero chromatic information loss requires several conditionally possible
+labels at at least one observed cell; a deterministic graph lift by itself
+does not create hidden entropy.
+
+\section{Continuous variables and declared quantizers}
+
+For random elements in standard Borel spaces, define mutual information by
+\[
+\Ib(X;Y)
+=
+\KLb\!\left(P_{XY}\,\middle\Vert\,P_X\otimes P_Y\right),
+\]
+possibly $+\infty$. This definition is invariant under measurable
+bijections of the alphabets. By contrast, if $p_X$ is a density relative
+to a dimensional coordinate measure $\dd x$, a dimensionally admissible
+coordinate differential entropy requires a positive reference volume
+$v_*$ with the same units as $\dd x$:
+\[
+h_{b,v_*}(X)
+=
+-\int p_X(x)\log_b\!\bigl(p_X(x)v_*\bigr)\,\dd x.
+\]
+It depends on $v_*$ and changes under coordinates; it can also be negative.
+The unreferenced shorthand $-\int p\log p\,\dd x$ is prohibited by the
+GO logarithm rule. Differential entropy is therefore not used as a
+coordinate-free GO defect.
+
+Let $q_\varepsilon:\X\to\set{1,\ldots,N_\varepsilon}$ be an explicitly
+declared finite quantizer or measurable partition. The finite observable
+\[
+X_\varepsilon=q_\varepsilon(X)
+\]
+has the well-typed defect
+\[
+\Hb(X_\varepsilon\mid Y).
+\]
+Every limit $\varepsilon\downarrow0$ must state the family of quantizers,
+the metric and reference scale, and whether the limit is finite, divergent,
+or renormalized. Covering entropy constrains how many geometric cells are
+available, but it is not generally equal to a distribution-dependent
+conditional entropy. That distinction is developed in the companion
+Metric Entropy v0.2 module.
+
+\section{Observation design}
+
+\begin{model}[Information bottleneck interface]
+Let $Q=f(X)$ be the target and require the Markov condition
+$Q-X-Y$. For a declared channel class $\mathcal{W}$ and information budget
+$R_b$ in base-$b$ units, one may study
+\[
+\sup_{W\in\mathcal{W}}\Ib(Q;Y)
+\quad\text{subject to}\quad
+\Ib(X;Y)\leq R_b.
+\]
+The channel class, source law, alphabet restrictions, and existence of an
+optimizer are part of the model, not automatic consequences of the
+notation.
+\end{model}
+
+\begin{model}[Typed rate-distortion interface]
+Let $d_Q$ have physical dimension $\mathbf d$ and choose a strictly
+positive reference distortion $d_{\mathrm{ref}}$ of the same dimension.
+The normalized loss
+\[
+\overline d_Q(q,\widehat q)
+=
+\frac{d_Q(q,\widehat q)}{d_{\mathrm{ref}}}
+\]
+is dimensionless. A rate-distortion problem may then constrain
+$\E[\overline d_Q]\leq D$ with dimensionless $D$. The source, admissible
+reproduction alphabet, and channel class must be declared.
+\end{model}
+
+\section{GO Core quantity and protocol ledger}
+
+\subsection{Map register}
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}L{30mm}L{31mm}L{31mm}Y@{}}
+\toprule
+Map & Domain & Codomain & GO kind and loss status\\
+\midrule
+$R_\lambda$ & hidden state $X$ & reduced state $X_\lambda$
+& reduction; loss possible\\
+$O_\lambda$ & $X_\lambda$ & ideal datum $U_\lambda$
+& deterministic observation; loss possible\\
+$K_\lambda$ & $U_\lambda$ & law on $Y_\lambda$
+& stochastic channel; loss possible\\
+$T$ & $Y$ & law on $Z$
+& post-processing channel; loss possible\\
+$\widehat q_\lambda$ & $Y_\lambda$ & target estimate
+& estimator; loss is not a map attribute\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Quantity register}
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}L{29mm}L{22mm}L{27mm}Y@{}}
+\toprule
+Quantity & Physical dimension & Semantic type & Required protocol fields\\
+\midrule
+$P_X(x),W(y\mid x)$ & $\mathbf0$ & probability
+& alphabet, normalization, source/channel law\\
+$\Hb,\Ib,D_{\mathrm{KL},b}$ & $\mathbf0$ & information in base $b$
+& logarithm base and finiteness policy\\
+$\Dinfo_{\lambda,b}$ & $\mathbf0$ & raw information defect
+& source law, channel, target (if any)\\
+$\dinfo_\lambda$ & $\mathbf0$ & normalized loss
+& positive denominator or declared zero policy\\
+$d_Q$ & declared $\mathbf d$ & distortion
+& target space, metric/loss, reference distortion\\
+$\overline d_Q$ & $\mathbf0$ & normalized loss
+& $d_{\mathrm{ref}}>0$ with the same dimension\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The complete protocol ledger declares:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item hidden alphabet and source law;
+\item system descriptor and protocol index $\lambda$;
+\item reduction, ideal observation, noise channel, and observed alphabet;
+\item reference frame (or the explicit statement \texttt{not applicable});
+\item quantizer/partition and spatial/temporal resolution, including
+      \texttt{not used} where appropriate;
+\item observation horizon;
+\item estimator or direct-readout declaration;
+\item exactness, uncertainty, and missing-data policy;
+\item neutral/SI unit context and information base;
+\item raw defect, normalizer, and zero policy.
+\end{enumerate}
+
+\section{Claim audit and conclusion}
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}YY@{}}
+\toprule
+Established under stated hypotheses & Not established by this module\\
+\midrule
+Conditional entropy measures unresolved finite-source uncertainty for a
+declared law and channel.
+&
+An intrinsic, prior-free scalar loss for every observation device.\\
+Post-processing decreases mutual information and contracts KL divergence.
+&
+Post-processing can reconstruct information absent from its input.\\
+$\Hb(Q\mid Y)=0$ characterizes exact finite-target recovery almost surely.
+&
+Recovery of one invariant implies recovery of the full hidden state.\\
+Quantized continuous variables admit finite information defects.
+&
+Differential entropy is a coordinate-invariant hidden-state defect.\\
+The normalized defect is invariant under information-unit changes.
+&
+Information defect is automatically thermodynamic entropy or physical
+energy.\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The module closes a probabilistic interface:
+\[
+\boxed{
+\text{declared source}
+\;+\;
+\text{declared channel}
+\;\longmapsto\;
+\bigl(\Ib(X;Y),\,\Hb(X\mid Y),\,\eta_{\mathrm{KL}}(W)\bigr).
+}
+\]
+These are typed, noninterchangeable objects. The results are mathematically
+standard; the framework contribution is their integration into a
+reproducible observation protocol with explicit units, targets,
+normalizations, and claim status.
+
+\begin{thebibliography}{99}
+
+\bibitem{Shannon1948}
+C.~E. Shannon,
+\newblock A mathematical theory of communication,
+\newblock \emph{Bell System Technical Journal} \textbf{27} (1948),
+379--423 and 623--656.
+
+\bibitem{Blackwell1953}
+D. Blackwell,
+\newblock Equivalent comparisons of experiments,
+\newblock \emph{Annals of Mathematical Statistics} \textbf{24} (1953),
+265--272,
+\newblock \href{https://doi.org/10.1214/aoms/1177729032}
+{doi:10.1214/aoms/1177729032}.
+
+\bibitem{Csiszar1967}
+I. Csiszar,
+\newblock Information-type measures of difference of probability
+distributions and indirect observations,
+\newblock \emph{Studia Scientiarum Mathematicarum Hungarica} \textbf{2}
+(1967), 299--318.
+
+\bibitem{Fano1961}
+R.~M. Fano,
+\newblock \emph{Transmission of Information: A Statistical Theory of
+Communications},
+\newblock MIT Press, Cambridge, MA, 1961.
+
+\bibitem{CoverThomas}
+T.~M. Cover and J.~A. Thomas,
+\newblock \emph{Elements of Information Theory}, second edition,
+\newblock Wiley, Hoboken, 2006.
+
+\bibitem{CsiszarKorner}
+I. Csiszar and J. Korner,
+\newblock \emph{Information Theory: Coding Theorems for Discrete
+Memoryless Systems}, second edition,
+\newblock Cambridge University Press, Cambridge, 2011.
+
+\bibitem{GrayEntropy}
+R.~M. Gray,
+\newblock \emph{Entropy and Information Theory}, second edition,
+\newblock Springer, New York, 2011.
+
+\bibitem{Tishby1999}
+N. Tishby, F.~C. Pereira, and W. Bialek,
+\newblock The information bottleneck method,
+\newblock in \emph{Proceedings of the 37th Annual Allerton Conference on
+Communication, Control, and Computing}, 1999, 368--377.
+
+\bibitem{Amari2016}
+S. Amari,
+\newblock \emph{Information Geometry and Its Applications},
+\newblock Springer, Tokyo, 2016.
+
+\end{thebibliography}
+
+\end{document}

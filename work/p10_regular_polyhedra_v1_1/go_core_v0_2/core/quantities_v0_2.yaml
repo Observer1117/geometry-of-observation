@@ -1,0 +1,291 @@
+schema:
+  id: go-quantity-registry
+  version: 0.2.0
+  dimension_basis: [L, M, T, I, Theta, N, J]
+
+quantities:
+  - id: dimensionless.scalar
+    symbol: "1"
+    semantic_kind: scalar
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: "1"
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: geometry.angle
+    symbol: theta
+    semantic_kind: angle
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: rad
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: information.probability
+    symbol: p
+    semantic_kind: probability
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: "1"
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: information.entropy_nat
+    symbol: H_e
+    semantic_kind: information
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: nat
+    unit_context: neutral
+    frame: none
+    log_base: e
+    claim_status: definition
+  - id: information.entropy_bit
+    symbol: H_2
+    semantic_kind: information
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: bit
+    unit_context: neutral
+    frame: none
+    log_base: 2
+    claim_status: definition
+  - id: discrete.count
+    symbol: N
+    semantic_kind: count
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: count
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: observation.normalized_loss
+    symbol: delta
+    semantic_kind: loss
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: "1"
+    unit_context: neutral
+    frame: none
+    normalized: true
+    claim_status: definition
+  - id: geometry.position
+    symbol: r
+    semantic_kind: vector
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    canonical_unit: m
+    unit_context: SI
+    frame: declared_per_document
+    claim_status: definition
+  - id: geometry.displacement
+    symbol: delta_r
+    semantic_kind: vector
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    canonical_unit: m
+    unit_context: SI
+    frame: declared_per_document
+    claim_status: definition
+  - id: geometry.length
+    symbol: L
+    semantic_kind: scalar
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: geometry.reference_length
+    symbol: ell_ref
+    semantic_kind: scalar
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: observation.spatial_resolution
+    symbol: epsilon_x
+    semantic_kind: scalar
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    canonical_unit: m
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: time.duration
+    symbol: t
+    semantic_kind: scalar
+    dimension: [0, 0, 1, 0, 0, 0, 0]
+    canonical_unit: s
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: time.reference_duration
+    symbol: T_ref
+    semantic_kind: scalar
+    dimension: [0, 0, 1, 0, 0, 0, 0]
+    canonical_unit: s
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: time.frequency
+    symbol: nu
+    semantic_kind: scalar
+    dimension: [0, 0, -1, 0, 0, 0, 0]
+    canonical_unit: Hz
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: time.angular_frequency
+    symbol: omega
+    semantic_kind: scalar
+    dimension: [0, 0, -1, 0, 0, 0, 0]
+    canonical_unit: rad/s
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: time.angular_frequency_squared
+    symbol: omega2
+    semantic_kind: scalar
+    dimension: [0, 0, -2, 0, 0, 0, 0]
+    canonical_unit: rad^2/s^2
+    unit_context: SI
+    frame: observer
+    claim_status: definition
+  - id: geometry.curvature
+    symbol: kappa
+    semantic_kind: scalar
+    dimension: [-1, 0, 0, 0, 0, 0, 0]
+    canonical_unit: 1/m
+    unit_context: SI
+    frame: invariant
+    protocol_requirements: [spatial_resolution, smoothing_kernel]
+    claim_status: definition
+  - id: geometry.scalar_curvature
+    symbol: Scal_g
+    semantic_kind: scalar
+    dimension: [-2, 0, 0, 0, 0, 0, 0]
+    canonical_unit: 1/m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: mechanics.mass
+    symbol: m
+    semantic_kind: scalar
+    dimension: [0, 1, 0, 0, 0, 0, 0]
+    canonical_unit: kg
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: mechanics.velocity
+    symbol: v
+    semantic_kind: vector
+    dimension: [1, 0, -1, 0, 0, 0, 0]
+    canonical_unit: m/s
+    unit_context: SI
+    frame: declared_per_document
+    claim_status: definition
+  - id: mechanics.acceleration
+    symbol: a
+    semantic_kind: vector
+    dimension: [1, 0, -2, 0, 0, 0, 0]
+    canonical_unit: m/s^2
+    unit_context: SI
+    frame: declared_per_document
+    claim_status: definition
+  - id: mechanics.force
+    symbol: F
+    semantic_kind: vector
+    dimension: [1, 1, -2, 0, 0, 0, 0]
+    canonical_unit: N
+    unit_context: SI
+    frame: declared_per_document
+    claim_status: definition
+  - id: mechanics.energy
+    symbol: E
+    semantic_kind: scalar
+    dimension: [2, 1, -2, 0, 0, 0, 0]
+    canonical_unit: J
+    unit_context: SI
+    frame: model_dependent
+    claim_status: definition
+  - id: mechanics.power
+    symbol: P
+    semantic_kind: scalar
+    dimension: [2, 1, -3, 0, 0, 0, 0]
+    canonical_unit: W
+    unit_context: SI
+    frame: model_dependent
+    claim_status: definition
+  - id: mechanics.momentum
+    symbol: p
+    semantic_kind: vector
+    dimension: [1, 1, -1, 0, 0, 0, 0]
+    canonical_unit: kg*m/s
+    unit_context: SI
+    frame: declared_per_document
+    claim_status: definition
+  - id: mechanics.friction_coefficient
+    symbol: mu_f
+    semantic_kind: scalar
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: "1"
+    unit_context: neutral
+    frame: none
+    claim_status: model
+  - id: accelerometer.load_vector
+    symbol: G_vec
+    semantic_kind: load_vector
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: g0
+    unit_context: neutral
+    frame: apparatus
+    claim_status: definition
+  - id: accelerometer.load_norm
+    symbol: G
+    semantic_kind: load_norm
+    dimension: [0, 0, 0, 0, 0, 0, 0]
+    canonical_unit: g0
+    unit_context: neutral
+    frame: scalar
+    claim_status: definition
+  - id: spectral.laplacian_eigenvalue
+    symbol: lambda_Delta
+    semantic_kind: scalar
+    dimension: [-2, 0, 0, 0, 0, 0, 0]
+    canonical_unit: 1/m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: quantum.hbar
+    symbol: hbar
+    semantic_kind: scalar
+    dimension: [2, 1, -1, 0, 0, 0, 0]
+    canonical_unit: J*s
+    unit_context: SI
+    frame: invariant
+    claim_status: empirical
+  - id: relativity.speed_of_light
+    symbol: c
+    semantic_kind: scalar
+    dimension: [1, 0, -1, 0, 0, 0, 0]
+    canonical_unit: m/s
+    unit_context: SI
+    frame: invariant
+    claim_status: empirical
+  - id: relativity.proper_time
+    symbol: tau_prop
+    semantic_kind: scalar
+    dimension: [0, 0, 1, 0, 0, 0, 0]
+    canonical_unit: s
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: relativity.invariant_mass
+    symbol: M_inv
+    semantic_kind: scalar
+    dimension: [0, 1, 0, 0, 0, 0, 0]
+    canonical_unit: kg
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: chemistry.mass_weighted_hessian_eigenvalue
+    symbol: lambda_MW
+    semantic_kind: scalar
+    dimension: [0, 0, -2, 0, 0, 0, 0]
+    canonical_unit: 1/s^2
+    unit_context: SI
+    frame: mode_basis
+    claim_status: definition
+

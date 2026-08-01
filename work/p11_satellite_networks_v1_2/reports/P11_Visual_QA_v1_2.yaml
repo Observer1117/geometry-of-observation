@@ -1,0 +1,55 @@
+schema:
+  id: go-p11-visual-qa
+  version: 1.2.0
+date: 2026-07-28
+status: PASS
+method:
+  renderer: pdftoppm
+  resolution_dpi: 150
+  inspection: contact_sheet_and_full_resolution_page_review
+document:
+  id: satellite-networks-observation-v1-2
+  path: work/p11_satellite_networks_v1_2/build/satellite/satellite_networks_typed_frames_v1_2.pdf
+  sha256: 0d4cc766732a2c81c09de053a548a305344c7409797ef6832effa41799a49c2c
+  pages: 8
+  page_size: A4
+  render_dimensions_pixels: [1241, 1754]
+inspection:
+  pages:
+    - page: 1
+      status: PASS
+      checks: [title_block, status_box, abstract, contents, margins]
+    - page: 2
+      status: PASS
+      checks: [observation_chain, equations_1_to_5, diagram_labels, margins]
+    - page: 3
+      status: PASS
+      checks: [frame_theorems, EDM_reconstruction, phase_closure, margins]
+    - page: 4
+      status: PASS
+      checks: [closure_counterexample, sampling_alias, retarded_time, margins]
+    - page: 5
+      status: PASS
+      checks: [line_of_sight, temporal_graph, entropy, equation_alignment]
+    - page: 6
+      status: PASS
+      checks: [proper_time, weak_field_clock_audit, claim_firewall]
+    - page: 7
+      status: PASS
+      checks: [typed_status_table, protocol_minimum, bibliography_start]
+    - page: 8
+      status: PASS
+      checks: [bibliography_continuation, citation_completeness, margins]
+global_checks:
+  no_clipped_text: PASS
+  no_overlapping_elements: PASS
+  no_broken_glyphs: PASS
+  equations_inside_margins: PASS
+  tables_inside_margins: PASS
+  diagram_legible: PASS
+  bibliography_unique: PASS
+  fonts_embedded: PASS
+  latex_log_clean: PASS
+notes:
+  - Page 8 is a deliberate bibliography continuation and contains no missing body text.
+  - The final LaTeX log has no overfull boxes, underfull boxes, undefined references, or warnings.

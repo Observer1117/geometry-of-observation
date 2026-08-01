@@ -1,0 +1,361 @@
+{
+  "schema": {
+    "id": "go-p5-validation-summary",
+    "version": "0.6.0"
+  },
+  "date": "2026-08-01",
+  "release": "GO P5 Frames, Forces, Constraints, and Dissipation v0.6",
+  "status": "PASS",
+  "summary": {
+    "checks_total": 16,
+    "checks_passed": 16,
+    "checks_failed": 0,
+    "pdf_documents": 4,
+    "pdf_pages": 25,
+    "typed_expressions": 39,
+    "reference_findings": 0,
+    "regression_tests": 50,
+    "corpus_status_counts": {
+      "FAIL": 6,
+      "PASS": 12
+    }
+  },
+  "artifacts": {
+    "frames-forces-dissipation-interface-v0-1": {
+      "pdf": "work/p5_mechanics_frames_v0_6/build/interface/frame_force_dissipation_interface_v0_1.pdf",
+      "sha256": "0af4c0b49aba775e28cac7644c9d5e17dd17982801cb0843e7ed56cfbb5e093f"
+    },
+    "celestial-foucault-networks-v1-1": {
+      "pdf": "work/p5_mechanics_frames_v0_6/build/foucault/celestial_foucault_networks_v1_1.pdf",
+      "sha256": "f33ce208083ae1e465d8663848832350d586d8f432052ad888213306095d5533"
+    },
+    "bobsleigh-contact-v1-1": {
+      "pdf": "work/p5_mechanics_frames_v0_6/build/bobsleigh/bobsleigh_contact_geometry_v1_1.pdf",
+      "sha256": "0bdd9cee21df204844d53c36d6936737a4037345576f71dfea77819260cd62b6"
+    },
+    "roller-coaster-v1-1": {
+      "pdf": "work/p5_mechanics_frames_v0_6/build/roller/roller_coaster_geometry_v1_1.pdf",
+      "sha256": "f8dbd226870dbbf020d2bd35fce2fb1f1185d273037951d869e4cafe0612edc2"
+    },
+    "contract": "work/p5_mechanics_frames_v0_6/core/frame_force_dissipation_contract_v0_6.yaml",
+    "reference_ledger": "work/p5_mechanics_frames_v0_6/ledgers/mechanics_reference_ledgers_v0_6.yaml",
+    "corpus_ledger": "work/p5_mechanics_frames_v0_6/ledgers/corpus_ledgers_v0_6.yaml"
+  },
+  "failed_checks": [],
+  "checks": [
+    {
+      "id": "required_files",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "pdf_sha256",
+      "status": "PASS",
+      "detail": {
+        "expected": {
+          "frames-forces-dissipation-interface-v0-1": "0af4c0b49aba775e28cac7644c9d5e17dd17982801cb0843e7ed56cfbb5e093f",
+          "celestial-foucault-networks-v1-1": "f33ce208083ae1e465d8663848832350d586d8f432052ad888213306095d5533",
+          "bobsleigh-contact-v1-1": "0bdd9cee21df204844d53c36d6936737a4037345576f71dfea77819260cd62b6",
+          "roller-coaster-v1-1": "f8dbd226870dbbf020d2bd35fce2fb1f1185d273037951d869e4cafe0612edc2"
+        },
+        "actual": {
+          "frames-forces-dissipation-interface-v0-1": "0af4c0b49aba775e28cac7644c9d5e17dd17982801cb0843e7ed56cfbb5e093f",
+          "celestial-foucault-networks-v1-1": "f33ce208083ae1e465d8663848832350d586d8f432052ad888213306095d5533",
+          "bobsleigh-contact-v1-1": "0bdd9cee21df204844d53c36d6936737a4037345576f71dfea77819260cd62b6",
+          "roller-coaster-v1-1": "f8dbd226870dbbf020d2bd35fce2fb1f1185d273037951d869e4cafe0612edc2"
+        }
+      }
+    },
+    {
+      "id": "pdf_metadata",
+      "status": "PASS",
+      "detail": [
+        {
+          "id": "frames-forces-dissipation-interface-v0-1",
+          "pages": 7,
+          "title": "Frames, Forces, Constraints, and Dissipation under Observation Maps"
+        },
+        {
+          "id": "celestial-foucault-networks-v1-1",
+          "pages": 6,
+          "title": "Foucault Networks on Celestial Bodies as Typed Observation Geometry"
+        },
+        {
+          "id": "bobsleigh-contact-v1-1",
+          "pages": 6,
+          "title": "Bobsleigh Contact Geometry as a Typed Observation System"
+        },
+        {
+          "id": "roller-coaster-v1-1",
+          "pages": 6,
+          "title": "Roller-Coaster Geometry as a Typed Observation Laboratory"
+        }
+      ]
+    },
+    {
+      "id": "no_prohibited_tokens",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "bibliography_heading_unique",
+      "status": "PASS",
+      "detail": {
+        "extracted_counts": {
+          "frames-forces-dissipation-interface-v0-1": 1,
+          "celestial-foucault-networks-v1-1": 1,
+          "bobsleigh-contact-v1-1": 1,
+          "roller-coaster-v1-1": 1
+        },
+        "explicit_heading_hits": []
+      }
+    },
+    {
+      "id": "required_source_fragments",
+      "status": "PASS",
+      "detail": {
+        "absent": []
+      }
+    },
+    {
+      "id": "latex_logs",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "embedded_fonts",
+      "status": "PASS",
+      "detail": [
+        {
+          "id": "frames-forces-dissipation-interface-v0-1",
+          "font_count": 16,
+          "nonembedded": [],
+          "returncode": 0
+        },
+        {
+          "id": "celestial-foucault-networks-v1-1",
+          "font_count": 20,
+          "nonembedded": [],
+          "returncode": 0
+        },
+        {
+          "id": "bobsleigh-contact-v1-1",
+          "font_count": 15,
+          "nonembedded": [],
+          "returncode": 0
+        },
+        {
+          "id": "roller-coaster-v1-1",
+          "font_count": 18,
+          "nonembedded": [],
+          "returncode": 0
+        }
+      ]
+    },
+    {
+      "id": "contract_schema_and_signs",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-frame-force-dissipation-contract",
+          "version": "0.6.0",
+          "date": "2026-07-28",
+          "base_contract": "go-core-spec@0.2.0",
+          "normative_document": "frames-forces-dissipation-interface-v0-1"
+        },
+        "dissipation": {
+          "dissipative_inequality": "pairing(Q_d,qdot) <= 0",
+          "nonnegative_loss": "P_diss = -pairing(Q_d,qdot) >= 0"
+        },
+        "energy": "dE_L_dt = P_act - P_diss + P_con - partial_t_L"
+      }
+    },
+    {
+      "id": "reference_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 4,
+        "reference_documents": 4,
+        "critical_adapters": 0,
+        "expressions_checked": 39,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 4
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "corpus_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 18,
+        "reference_documents": 12,
+        "critical_adapters": 6,
+        "expressions_checked": 132,
+        "findings_total": 18,
+        "core_findings": 0,
+        "status_counts": {
+          "FAIL": 6,
+          "PASS": 12
+        },
+        "rule_counts": {
+          "CAUSTIC-RANK": 1,
+          "COVERAGE-INCOMPLETE": 6,
+          "DUPLICATE-SOURCE": 1,
+          "EIGENBUNDLE-GAUGE": 1,
+          "FILTER-ORDER": 1,
+          "FRAME-COVERAGE": 1,
+          "FRAME-LAW": 1,
+          "GEAR-GAUGE": 1,
+          "LOG-BASE": 1,
+          "RESULT-DIM": 2,
+          "ROTATION-NUMBER-SCOPE": 1,
+          "ZERO-MODES": 1
+        }
+      }
+    },
+    {
+      "id": "mechanics_supersession",
+      "status": "PASS",
+      "detail": {
+        "old_present": [],
+        "new_present": [
+          "bobsleigh-contact-v1-1",
+          "celestial-foucault-networks-v1-1",
+          "frames-forces-dissipation-interface-v0-1",
+          "roller-coaster-v1-1"
+        ],
+        "superseded_targets": [
+          "bobsleigh-contact-v1-1",
+          "celestial-foucault-networks-v1-1",
+          "distance-scale-interface-v0-2",
+          "functional-interface-go-qs-v0-2",
+          "information-theoretic-observation-v0-2",
+          "lhc-beam-observation-v1-3",
+          "mandelbrot-rulers-v1-1",
+          "metric-entropy-defect-v0-2",
+          "planck-cosmos-rulers-v1-1",
+          "roller-coaster-v1-1",
+          "tensorial-observation-geometry-gr-v0-3"
+        ]
+      }
+    },
+    {
+      "id": "reference_strict_run",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stdout": "GO-LINT documents=4 expressions=39 findings=0 statuses={'PASS': 4}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "corpus_strict_expected_failure",
+      "status": "PASS",
+      "detail": {
+        "returncode": 1,
+        "stdout": "GO-LINT documents=18 expressions=132 findings=18 statuses={'FAIL': 6, 'PASS': 12}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "regression_tests",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "ran": 50,
+        "result": "OK"
+      }
+    },
+    {
+      "id": "visual_qa_record",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-p5-visual-qa",
+          "version": "0.6.0"
+        },
+        "date": "2026-07-28",
+        "status": "PASS",
+        "method": {
+          "renderer": "system Poppler pdftoppm",
+          "format": "PNG",
+          "inspection": "page_by_page_and_contact_sheet"
+        },
+        "documents": [
+          {
+            "id": "frames-forces-dissipation-interface-v0-1",
+            "pages": 7,
+            "inspected_pages": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "status": "PASS"
+          },
+          {
+            "id": "celestial-foucault-networks-v1-1",
+            "pages": 6,
+            "inspected_pages": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "status": "PASS"
+          },
+          {
+            "id": "bobsleigh-contact-v1-1",
+            "pages": 6,
+            "inspected_pages": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "status": "PASS"
+          },
+          {
+            "id": "roller-coaster-v1-1",
+            "pages": 6,
+            "inspected_pages": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "status": "PASS"
+          }
+        ],
+        "checks": {
+          "clipped_content": false,
+          "overlapping_content": false,
+          "broken_tables": false,
+          "unreadable_glyphs": false,
+          "duplicate_reference_headings": false,
+          "inconsistent_page_numbering": false
+        },
+        "resolved_during_final_audit": [
+          "duplicate References heading in the interface",
+          "duplicate References heading in the three application modules",
+          "sparse trailing bibliography page in the bobsleigh draft"
+        ],
+        "total_pages": 25
+      }
+    }
+  ]
+}

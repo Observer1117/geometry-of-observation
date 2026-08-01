@@ -1,0 +1,15 @@
+schema: go-publication-supplement-manifest-v1
+date: 2026-08-01
+canonical_release: 1.3.0
+supplement: publication-supplement-1
+canonical_assets_unchanged: true
+canonical_hashes:
+  master_pdf_sha256: 3942277bc24ce6c134876bf27d322e03869a40e7d52eb084bcab6b3c885bf2d2
+  release_bundle_sha256: 497c16c5e86279025066fbf48954e067bd53bd2cad970545d32000d7e0327ee6
+contents:
+  - PUBLICATION_SUPPLEMENT.md
+  - scripts/restore_publication_qa.py
+  - work/p11_satellite_networks_v1_2/tests/validate_p11_release.py
+  - validation/PUBLICATION_AUDIT_v1_3_0_post1.json
+  - work/p12_corpus_master_v1_3/reports/P12_Validation_Summary_v1_3.json
+status: PASS_WITH_DISCLOSED_PACKAGING_CORRECTIONS

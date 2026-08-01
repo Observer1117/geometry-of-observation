@@ -1,0 +1,79 @@
+schema:
+  id: go-p8-conical-intersections-visual-qa
+  version: 0.9.0
+date: 2026-07-28
+document:
+  id: conical-intersections-observation-v1-1
+  pdf: work/p8_conical_intersections_v0_9/build/ci/conical_intersections_spectral_observation_v1_1.pdf
+  sha256: 48507a398983388159a1a4b1bd5cf25abdba231b836a7702d960eeb5778af4dd
+  pages: 8
+  render:
+    engine: pdftoppm
+    dpi: 144
+    directory: work/p8_conical_intersections_v0_9/render/ci
+inspection:
+  method:
+    - complete_contact_sheet_review
+    - original_resolution_page_review
+  pages:
+    - page: 1
+      status: PASS
+      checks:
+        - title_and_author_metadata_visible
+        - status_box_inside_margins
+        - abstract_equations_legible
+        - contents_not_clipped
+    - page: 2
+      status: PASS
+      checks:
+        - contents_transition_clean
+        - Riesz_projector_equation_legible
+        - coordinate_firewall_box_inside_margins
+    - page: 3
+      status: PASS
+      checks:
+        - proposition_and_proof_spacing_clean
+        - equations_3_through_6_legible
+        - no_footer_collision
+    - page: 4
+      status: PASS
+      checks:
+        - projector_gauge_diagram_has_no_overlap
+        - Berry_product_equation_legible
+        - quantum_metric_matrix_inside_margins
+    - page: 5
+      status: PASS
+      checks:
+        - pullback_equations_legible
+        - nuclear_kinetic_operator_not_clipped
+        - Landau_Zener_box_and_formula_clean
+    - page: 6
+      status: PASS
+      checks:
+        - observation_chain_inside_text_width
+        - gap_uncertainty_formula_legible
+        - section_transition_clean
+    - page: 7
+      status: PASS
+      checks:
+        - benchmark_table_columns_aligned
+        - protocol_list_numbers_visible
+        - conclusion_box_inside_margins
+    - page: 8
+      status: PASS
+      checks:
+        - claim_register_columns_aligned
+        - references_heading_unique
+        - bibliography_not_clipped
+        - footer_visible
+global_checks:
+  page_count: PASS
+  embedded_fonts: PASS
+  missing_glyphs: PASS
+  clipped_content: PASS
+  overlapping_content: PASS
+  broken_tables: PASS
+  broken_equations: PASS
+  duplicate_headings: PASS
+  page_numbering: PASS
+status: PASS

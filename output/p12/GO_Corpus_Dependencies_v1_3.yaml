@@ -1,0 +1,138 @@
+schema:
+  id: go-corpus-dependencies
+  version: 1.3.0
+  date: 2026-07-28
+  baseline_corpus: go-corpus-ledgers@1.2.0
+  semantics: release_and_declared_interface_dependencies_not_theorem_implication
+
+nodes:
+  - id: go-core-spec@0.2.0
+    kind: core_contract
+    source: work/go_core_v0_2/core/go_core_spec_v0_2.yaml
+  - id: go-distance-scale-contract@0.3.0
+    kind: extension_contract
+    source: work/p2_distance_scale_v0_3/core/distance_scale_contract_v0_3.yaml
+  - id: go-planck-cosmos-scale-contract@0.4.0
+    kind: extension_contract
+    source: work/p3_planck_cosmos_v0_4/core/planck_cosmos_scale_contract_v0_4.yaml
+  - id: go-si-hep-quantity-passport@0.5.0
+    kind: extension_contract
+    source: work/p4_lhc_si_hep_v0_5/core/si_hep_quantity_passport_v0_5.yaml
+  - id: go-frame-force-dissipation-contract@0.6.0
+    kind: extension_contract
+    source: work/p5_mechanics_frames_v0_6/core/frame_force_dissipation_contract_v0_6.yaml
+  - id: go-gear-contact-contract@0.7.0
+    kind: extension_contract
+    source: work/p6_gear_contact_v0_7/core/gear_contact_contract_v0_7.yaml
+  - id: go-billiards-observation-contract@0.8.0
+    kind: extension_contract
+    source: work/p7_billiards_v0_8/core/billiards_observation_contract_v0_8.yaml
+  - id: go-conical-intersections-observation-contract@0.9.0
+    kind: extension_contract
+    source: work/p8_conical_intersections_v0_9/core/conical_intersections_observation_contract_v0_9.yaml
+  - id: go-quantum-chemistry-observation-contract@1.0.0
+    kind: extension_contract
+    source: work/p9_quantum_chemistry_v1_0/core/quantum_chemistry_observation_contract_v1_0.yaml
+  - id: go-regular-polyhedra-observation-contract@1.1.0
+    kind: extension_contract
+    source: work/p10_regular_polyhedra_v1_1/core/regular_polyhedra_observation_contract_v1_1.yaml
+  - id: go-satellite-networks-observation-contract@1.2.0
+    kind: extension_contract
+    source: work/p11_satellite_networks_v1_2/core/satellite_networks_observation_contract_v1_2.yaml
+
+edges:
+  - from: go-distance-scale-contract@0.3.0
+    to: distance-scale-interface-v0-2
+    kind: extension_contract
+  - from: go-distance-scale-contract@0.3.0
+    to: mandelbrot-rulers-v1-1
+    kind: extension_contract
+  - from: go-planck-cosmos-scale-contract@0.4.0
+    to: planck-cosmos-rulers-v1-1
+    kind: extension_contract
+  - from: go-si-hep-quantity-passport@0.5.0
+    to: lhc-beam-observation-v1-3
+    kind: extension_contract
+    evidence:
+      source: work/p4_lhc_si_hep_v0_5/src/lhc_beam_observation_geometry_v1_3.tex
+      fragment: "It is migrated to GO Core v0.2 and the SI--HEP Quantity Passport"
+  - from: go-frame-force-dissipation-contract@0.6.0
+    to: frames-forces-dissipation-interface-v0-1
+    kind: extension_contract
+  - from: go-frame-force-dissipation-contract@0.6.0
+    to: celestial-foucault-networks-v1-1
+    kind: extension_contract
+    evidence:
+      source: work/p5_mechanics_frames_v0_6/src/celestial_foucault_networks_v1_1.tex
+      fragment: "It is migrated to GO Core v0.2 and the Frames--Forces--Dissipation"
+  - from: go-frame-force-dissipation-contract@0.6.0
+    to: bobsleigh-contact-v1-1
+    kind: extension_contract
+    evidence:
+      source: work/p5_mechanics_frames_v0_6/src/bobsleigh_contact_geometry_v1_1.tex
+      fragment: "It is migrated to GO Core v0.2 and the Frames--Forces--Dissipation"
+  - from: go-frame-force-dissipation-contract@0.6.0
+    to: roller-coaster-v1-1
+    kind: extension_contract
+    evidence:
+      source: work/p5_mechanics_frames_v0_6/src/roller_coaster_geometry_v1_1.tex
+      fragment: "It is migrated to GO Core v0.2 and the Frames--Forces--Dissipation"
+  - from: go-frame-force-dissipation-contract@0.6.0
+    to: gear-contact-v1-1
+    kind: extension_contract
+    evidence:
+      source: work/p6_gear_contact_v0_7/src/gear_contact_geometry_v1_1.tex
+      fragment: "It is migrated to GO Core v0.2 and the Frames--Forces--"
+  - from: go-gear-contact-contract@0.7.0
+    to: gear-contact-v1-1
+    kind: extension_contract
+  - from: go-billiards-observation-contract@0.8.0
+    to: billiards-observation-v1-1
+    kind: extension_contract
+  - from: go-conical-intersections-observation-contract@0.9.0
+    to: conical-intersections-observation-v1-1
+    kind: extension_contract
+  - from: go-quantum-chemistry-observation-contract@1.0.0
+    to: quantum-chemistry-observation-v1-1
+    kind: extension_contract
+  - from: go-regular-polyhedra-observation-contract@1.1.0
+    to: regular-polyhedra-observation-v1-1
+    kind: extension_contract
+  - from: go-satellite-networks-observation-contract@1.2.0
+    to: satellite-networks-observation-v1-2
+    kind: extension_contract
+  - from: information-theoretic-observation-v0-2
+    to: metric-entropy-defect-v0-2
+    kind: documented_interface
+    evidence:
+      source: work/p1_info_metric_v0_2/src/information_theoretic_observation_geometry_v0_2.tex
+      fragment: "Metric Entropy v0.2 module"
+  - from: metric-entropy-defect-v0-2
+    to: distance-scale-interface-v0-2
+    kind: documented_interface
+    evidence:
+      source: work/p2_distance_scale_v0_3/src/distance_scale_interface_observation_maps_v0_2.tex
+      fragment: "Metric Entropy v0.2 module"
+  - from: distance-scale-interface-v0-2
+    to: planck-cosmos-rulers-v1-1
+    kind: documented_interface
+    evidence:
+      source: work/p3_planck_cosmos_v0_4/src/planck_cosmos_observation_rulers_v1_1.tex
+      fragment: "compatible with the GO Core distance-scale"
+
+global_core_edge:
+  from: go-core-spec@0.2.0
+  to: every_normative_module
+  kind: core_contract
+  expanded_by_builder: true
+
+contextual_relations_not_in_normative_graph:
+  - from: conical-intersections-observation-v1-1
+    to: quantum-chemistry-observation-v1-1
+    reason: shared Born-Oppenheimer and nonadiabatic context without a formal module import
+  - from: tensorial-observation-geometry-gr-v0-3
+    to: satellite-networks-observation-v1-2
+    reason: shared covariance and proper-time context without a formal document dependency
+  - from: distance-scale-interface-v0-2
+    to: regular-polyhedra-observation-v1-1
+    reason: shared metric observation vocabulary without a formal document dependency

@@ -1,0 +1,858 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Planck-to-Cosmos Observation Rulers},
+  pdfauthor={Stassis Research Program},
+  pdfsubject={Typed logarithmic scale coordinates, protocol separation, Planck normalizations, and cosmological landmarks for Geometry of Observation},
+  pdfkeywords={Planck units, logarithmic coordinates, dimensional analysis, observation protocol, cosmological distance, scale geometry}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rpos}{\mathbb{R}_{>0}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\Ocal}{\mathcal{O}}
+\newcommand{\Lcal}{\mathcal{L}}
+\newcommand{\Scal}{\mathcal{S}}
+\newcommand{\Tcal}{\mathcal{T}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Law}{\operatorname{Law}}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\status}[1]{\textsf{\footnotesize #1}}
+\newcommand{\chiL}{\chi_L}
+\newcommand{\chiM}{\chi_M}
+\newcommand{\chiT}{\chi_T}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Planck-to-Cosmos Observation Rulers\\
+\large Typed logarithmic charts, scale passports, and cosmological landmarks}
+\author{Stassis Research Program\\
+\small Independent research program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.1 --- 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes \emph{Planck-to-Cosmos
+Observation Rulers v1.0}. It is a reference module for GO Core v0.2 and
+the Distance-Scale Interface v0.2. The revision separates intrinsic
+system scales from instrument resolutions, treats Planck units as
+normalizations rather than cutoffs, and treats cosmic entries as
+model-, epoch-, and convention-dependent landmarks. The logarithmic
+chart is standard mathematics; no new fundamental law is claimed.}}
+\end{center}
+
+\begin{abstract}
+For a positive length, invariant mass, and duration, a declared reference
+triple $\bm a=(a_L,a_M,a_T)$ and base $b>1$ define the logarithmic chart
+\[
+ \bm\chi_{b,\bm a}(L,M,T)
+ =
+ \left(
+ \log_b\frac{L}{a_L},
+ \log_b\frac{M}{a_M},
+ \log_b\frac{T}{a_T}
+ \right).
+\]
+This map is a global smooth chart from the positive scale cone
+$(\Rpos)^3$ to $\R^3$. Coherent unit changes leave it invariant, anchor
+changes translate it, and base changes act by a scalar linear map.
+Coordinate differences support a family of weighted log-scale metrics;
+there is no canonical physical reason to assign equal weight to one
+decade of length, mass, and time. Intrinsic scale catalogues belong to
+the system descriptor $\xi$, whereas spatial, mass-equivalent, and
+temporal resolutions belong to an observation protocol $\lambda$.
+Their anchor-independent comparison is the resolution margin
+$g_i=\log_b(q_i/\varepsilon_i)$. Monomial physical relations become
+linear constraint surfaces in log coordinates. In Planck normalization,
+the causal condition $L\leq cT$ gives $\chi_L\leq\chi_T$, the reduced
+Compton relation gives $\chi_L=-\chi_M$, and the Schwarzschild relation
+gives $\chi_L=\chi_M+\log_b2$. A reproducible cosmological ledger then
+shows why a bare ``mass of the observable Universe'' is not a typed
+quantity: baryonic, total-matter, and total-energy mass equivalents
+differ by more than a decade under the same rounded horizon convention.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and claim boundary}
+
+The original ruler note correctly normalized physical quantities before
+taking logarithms. Its unresolved issue was semantic rather than
+algebraic: object sizes, instrument resolutions, and cosmological
+landmarks were placed in the same coordinates without distinct
+passports. The notation
+\[
+  Y_X(s,\mu,\tau)=O_{s,\mu,\tau}(X)
+\]
+also treated every point of $\R^3$ as if it automatically specified an
+observation channel. It does not. A channel requires a declared
+measurement model, frame, calibration, noise law, estimator, and
+applicable axes.
+
+\begin{warning}[Claim firewall]
+The Planck length and Planck time are not asserted to be experimentally
+proved minimum scales. The present comoving particle horizon is not the
+diameter of the entire Universe. Similar numerical spans of roughly
+sixty decades do not imply a new physical law. A camera, clock, or
+spectrometer need not measure all of length, invariant mass, and time.
+\end{warning}
+
+The strict claim is limited to the following:
+\begin{quote}
+Positive physical scales admit useful typed logarithmic coordinates.
+Systems generally determine labelled sets or regions of such
+coordinates, while observation protocols determine separate resolution
+coordinates and response traces.
+\end{quote}
+
+\section{Typed scale data and the two-passport rule}
+
+\begin{definition}[Scale item]
+A scale item is a record
+\[
+ \sigma=(\mathsf{id},\mathsf{axis},q,\mathsf{role},
+         \mathsf{frame},\mathsf{convention},\mathsf U),
+\]
+where $\mathsf{axis}\in\{L,M,T\}$, $q>0$ has the corresponding physical
+dimension, $\mathsf{role}$ identifies the measurand, and $\mathsf U$
+contains exactness or uncertainty information.
+\end{definition}
+
+The role is indispensable. A particle radius, a wavelength, a correlation
+length, and a detector pixel pitch all have dimension $L$, but they are
+not interchangeable. Likewise, invariant rest mass is not relativistic
+energy divided by an undeclared constant, and proper time is not a
+coordinate duration without a clock congruence.
+
+\begin{definition}[Intrinsic scale catalogue]
+For a system $X$, let
+\[
+ \Xi_X=\{\sigma_\alpha:\alpha\in A_X\}
+\]
+be a labelled, possibly partial and multivalued catalogue of intrinsic
+or model-derived scales. It is a component of the system descriptor
+$\xi_X$. A missing axis is recorded as \texttt{not-applicable}; it is
+not encoded by $0$ or $+\infty$.
+\end{definition}
+
+\begin{definition}[Observation protocol passport]
+An observation protocol is a tuple
+\[
+\lambda=
+\bigl(
+R_\lambda,O_\lambda,K_\lambda,Q_\lambda,
+\bm\varepsilon_\lambda,\bm r_\lambda^*,
+\mathsf F_\lambda,\widehat\theta_\lambda,
+\mathsf U_\lambda
+\bigr).
+\]
+Here $R_\lambda$ is a reduction, $O_\lambda$ is an ideal deterministic
+observation, $K_\lambda$ is a stochastic kernel or an explicit noiseless
+flag, $Q_\lambda$ is a quantizer or partition,
+$\bm\varepsilon_\lambda$ contains only applicable resolutions,
+$\bm r_\lambda^*$ contains their reference scales,
+$\mathsf F_\lambda$ records frames and conventions,
+$\widehat\theta_\lambda$ is an estimator or declared direct readout, and
+$\mathsf U_\lambda$ records uncertainty.
+\end{definition}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=11mm and 16mm,
+  box/.style={draw,rounded corners,minimum width=34mm,minimum height=11mm,align=center},
+  arr/.style={-{Latex[length=2.1mm]},thick}
+]
+\node[box,fill=lightblue] (xi) {$\xi_X,\ \Xi_X$\\system scales};
+\node[box,fill=lightred,right=of xi] (lambda) {$\lambda$\\resolutions and channel};
+\node[box,fill=lightgreen,below=of $(xi)!0.5!(lambda)$] (trace)
+  {$\Tcal_X$\\protocol-indexed data law};
+\draw[arr] (xi) -- (trace);
+\draw[arr] (lambda) -- (trace);
+\end{tikzpicture}
+\end{center}
+
+\begin{remark}
+A mass axis in $\lambda$ exists only if the channel measures mass,
+invariant mass, or a declared mass-equivalent. If the actual threshold is
+an energy $\varepsilon_E$ and the model uses $E=Mc^2$, then
+\[
+ \varepsilon_M=\frac{\varepsilon_E}{c^2}
+\]
+is a typed converter. Without such a converter, ``mass resolution'' is
+not available.
+\end{remark}
+
+\section{The logarithmic scale chart}
+
+\begin{definition}[Positive scale cone and chart]
+Let
+\[
+\Scal_{LMT}:=
+\R_{>0}^{(L)}\times\R_{>0}^{(M)}\times\R_{>0}^{(T)}.
+\]
+For a positive reference triple
+$\bm a=(a_L,a_M,a_T)$ and $b>1$, define
+\[
+\bm\chi_{b,\bm a}(L,M,T)
+=
+\begin{pmatrix}
+\chiL\\ \chiM\\ \chiT
+\end{pmatrix}
+:=
+\begin{pmatrix}
+\log_b(L/a_L)\\
+\log_b(M/a_M)\\
+\log_b(T/a_T)
+\end{pmatrix}.
+\]
+\end{definition}
+
+\begin{theorem}[Global chart]
+\label{thm:global-chart}
+The map $\bm\chi_{b,\bm a}:\Scal_{LMT}\to\R^3$ is a smooth
+diffeomorphism with inverse
+\[
+ \bm\chi_{b,\bm a}^{-1}(x_L,x_M,x_T)
+ =
+ \bigl(a_Lb^{x_L},a_Mb^{x_M},a_Tb^{x_T}\bigr).
+\]
+\end{theorem}
+
+\begin{proof}
+Each one-dimensional map $q\mapsto\log_b(q/a)$ is smooth, strictly
+increasing, and bijective from $\Rpos$ to $\R$, with the displayed smooth
+inverse. The product map has the same properties.
+\end{proof}
+
+The chart is an exact reparameterization, not a reduction. Information
+loss enters when a scale item is selected from a system, rounded,
+thresholded, or passed through an observation channel.
+
+\begin{definition}[Scale region]
+For a catalogue $\Xi_X$, a declared extraction rule
+$E_{\mathsf r}$ selects compatible triples or partial tuples. Its
+logarithmic image is
+\[
+ \mathscr R_{X,\mathsf r}
+ =
+ \bm\chi_{b,\bm a}\bigl(E_{\mathsf r}(\Xi_X)\bigr).
+\]
+An extended or multiscale object is represented by this labelled set or
+region, not by a forced single point.
+\end{definition}
+
+\begin{warning}[No canonical triple]
+An atom has several length scales and several characteristic times. A
+galaxy has luminous, half-mass, virial, and halo radii. Selecting one
+value on each axis is a protocol or modelling decision. The phrase
+``the object occupies the point $(\chi_L,\chi_M,\chi_T)$'' is valid only
+after the extraction rule has been declared.
+\end{warning}
+
+\section{Unit, anchor, and base transformation laws}
+
+\begin{theorem}[Coordinate covariance]
+\label{thm:coordinate-covariance}
+Let $q,a>0$ have the same physical dimension.
+\begin{enumerate}[label=(\roman*)]
+\item Under a coherent unit conversion
+      $(q,a)\mapsto(\alpha q,\alpha a)$ with $\alpha>0$,
+      $\log_b(q/a)$ is unchanged.
+\item If the reference changes from $a$ to $a'>0$, then
+      \[
+      \chi_{b,a'}(q)
+      =
+      \chi_{b,a}(q)-\log_b\frac{a'}a.
+      \]
+\item If the base changes from $b$ to $b'>1$, then
+      \[
+      \chi_{b',a}(q)
+      =
+      \frac{\ln b}{\ln b'}\,\chi_{b,a}(q).
+      \]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The first statement follows from cancellation of $\alpha$. The second is
+the logarithm of $(q/a)/(a'/a)$. The third follows from the
+change-of-base formula.
+\end{proof}
+
+Thus an anchor change translates log-space. Coordinate differences,
+axis orderings, and any construction depending only on differences are
+anchor independent. A change from decades to octaves or nats rescales
+the chart.
+
+\begin{definition}[Weighted log-scale distance]
+For a symmetric positive-definite dimensionless matrix
+$W\in\R^{3\times3}$, define
+\[
+d_{W,b}(\bm q,\bm q')
+:=
+\sqrt{
+\bigl(\bm\chi_{b,\bm a}(\bm q)
+      -\bm\chi_{b,\bm a}(\bm q')\bigr)^\mathsf T
+W
+\bigl(\bm\chi_{b,\bm a}(\bm q)
+      -\bm\chi_{b,\bm a}(\bm q')\bigr)
+}.
+\]
+\end{definition}
+
+\begin{theorem}[Metric and transformation law]
+\label{thm:log-metric}
+The function $d_{W,b}$ is a metric on $\Scal_{LMT}$, independent of the
+anchor $\bm a$ and invariant under coherent unit changes. Under a base
+change $b\mapsto b'$, it remains numerically invariant if
+\[
+ W_{b'}
+ =
+ \left(\frac{\ln b'}{\ln b}\right)^2W_b.
+\]
+\end{theorem}
+
+\begin{proof}
+The chart in \cref{thm:global-chart} is injective, and the
+positive-definite quadratic form defines a norm on coordinate
+differences. Anchor translations cancel in those differences. Unit
+invariance follows from \cref{thm:coordinate-covariance}. If
+$c_{bb'}=\ln b/\ln b'$, then $\Delta\bm\chi_{b'}=c_{bb'}\Delta\bm\chi_b$;
+the displayed transformation of $W$ cancels $c_{bb'}^2$.
+\end{proof}
+
+\begin{warning}[Metric convention]
+$W=I$ declares that one decade of length, mass, and time contributes
+equally. This may be useful for visualization, but it is not a physical
+law. A scientifically interpretable $W$ must come from a decision
+problem, tolerances, or a covariance model.
+\end{warning}
+
+\section{Descriptor coordinates versus resolution coordinates}
+
+The Distance-Scale Interface uses a resolution coordinate whose
+orientation is opposite to the descriptor coordinate.
+
+\begin{definition}[Protocol resolution depth]
+For an applicable protocol axis $i$ with resolution
+$\varepsilon_i>0$ and reference $r_i^*>0$, define
+\[
+ \eta_i(\lambda)
+ :=
+ \log_b\frac{r_i^*}{\varepsilon_i}.
+\]
+Finer resolution increases $\eta_i$. If $r_i^*=a_i$, then
+\[
+ \eta_i=-\chi_{b,a_i}(\varepsilon_i).
+\]
+\end{definition}
+
+\begin{definition}[Resolution margin]
+For a system scale $q_i>0$ and protocol resolution
+$\varepsilon_i>0$ on the same typed axis, define
+\[
+ g_i(q_i,\lambda)
+ :=
+ \log_b\frac{q_i}{\varepsilon_i}.
+\]
+\end{definition}
+
+\begin{proposition}[Anchor-independent comparison]
+\label{prop:margin}
+For any common positive anchor $a_i$,
+\[
+g_i
+=
+\chi_{b,a_i}(q_i)-\chi_{b,a_i}(\varepsilon_i).
+\]
+Hence $g_i$ is invariant under coherent unit changes and common anchor
+changes.
+\end{proposition}
+
+\begin{proof}
+Subtract the two logarithms and combine their arguments.
+\end{proof}
+
+In a simple scale-separation model, $g_i>0$ means that the intrinsic
+scale exceeds the nominal resolution. It does not by itself specify
+contrast, signal-to-noise ratio, inverse-problem conditioning, or a
+detection probability.
+
+\begin{definition}[Protocol-indexed observation trace]
+For a declared family $\Lambda$ of protocols, a deterministic trace is
+\[
+\Tcal_X^{\mathrm{det}}
+=
+\set{
+\bigl(\bm\eta(\lambda),O_\lambda(X)\bigr):
+\lambda\in\Lambda
+}.
+\]
+For a stochastic channel it is
+\[
+\Tcal_X^{\mathrm{stoch}}
+=
+\set{
+\bigl(\bm\eta(\lambda),
+\Law(Y_\lambda\mid X,\lambda)\bigr):
+\lambda\in\Lambda
+}.
+\]
+\end{definition}
+
+The shorthand $O_{\bm\eta}$ is admissible only after the map
+$\bm\eta\mapsto\lambda(\bm\eta)$ and all nuisance parameters have been
+defined.
+
+\section{Monomial algebra and constraint surfaces}
+
+\begin{theorem}[Log-linearization of positive monomial laws]
+\label{thm:monomial}
+Let positive inputs $\bm q=(q_1,\ldots,q_n)$ and positive outputs
+$r_i$ satisfy
+\[
+r_i=C_i\prod_{j=1}^n q_j^{A_{ij}},
+\qquad
+r_i^*=C_i\prod_{j=1}^n(q_j^*)^{A_{ij}},
+\]
+where the references are dimensionally matched. Then
+\[
+\log_b\frac{r_i}{r_i^*}
+=
+\sum_{j=1}^n A_{ij}
+\log_b\frac{q_j}{q_j^*}.
+\]
+In vector form, $\bm\chi_r=A\bm\chi_q$.
+\end{theorem}
+
+\begin{proof}
+Divide the two monomials, cancel $C_i$, and apply the logarithm product
+and power laws.
+\end{proof}
+
+This theorem is the precise structural reason that dimensional
+monomials become hyperplanes in logarithmic coordinates. It is a
+coordinate simplification, not a claim that arbitrary nonlinear physics
+becomes linear.
+
+\subsection{Planck identities}
+
+Use the standard definitions
+\[
+\ell_P=\sqrt{\frac{\hbar G}{c^3}},
+\qquad
+m_P=\sqrt{\frac{\hbar c}{G}},
+\qquad
+t_P=\sqrt{\frac{\hbar G}{c^5}}.
+\]
+Direct substitution gives
+\[
+t_P=\frac{\ell_P}{c},
+\qquad
+\ell_Pm_P=\frac{\hbar}{c},
+\qquad
+m_Pc^2=\frac{\hbar}{t_P}.
+\]
+The three Planck anchors are therefore built from common constants and
+are not statistically or conceptually independent axes.
+
+\subsection{Causal, quantum, and gravitational examples}
+
+\begin{corollary}[Causal half-space]
+\label{cor:causal}
+If $L$ and $T$ refer to the same causal process and $L\leq cT$, then in
+Planck normalization
+\[
+\chiL\leq\chiT.
+\]
+\end{corollary}
+
+\begin{proof}
+Because $\ell_P=ct_P$,
+\[
+\frac{L/\ell_P}{T/t_P}=\frac{L}{cT}\leq1.
+\]
+Apply the increasing logarithm.
+\end{proof}
+
+If $L$ and $T$ belong to unrelated catalogue entries, the hypothesis of
+\cref{cor:causal} fails and no such inequality follows.
+
+\begin{corollary}[Mass-energy, density, Compton, and Schwarzschild planes]
+\label{cor:planes}
+In Planck normalization:
+\begin{align*}
+E=Mc^2,\quad E_P=m_Pc^2
+&\Longrightarrow
+\chi_E=\chiM,\\
+\rho=M/L^3,\quad \rho_P=m_P/\ell_P^3
+&\Longrightarrow
+\chi_\rho=\chiM-3\chiL,\\
+\bar\lambda_C=\hbar/(Mc)
+&\Longrightarrow
+\chi_{\bar\lambda_C}=-\chiM,\\
+r_s=2GM/c^2
+&\Longrightarrow
+\chi_{r_s}=\chiM+\log_b2.
+\end{align*}
+\end{corollary}
+
+\begin{proof}
+The first two identities follow from \cref{thm:monomial}. For the
+reduced Compton length, use $\ell_Pm_P=\hbar/c$:
+\[
+\frac{\bar\lambda_C}{\ell_P}=\frac{m_P}{M}.
+\]
+For the Schwarzschild radius, $Gm_P/c^2=\ell_P$, hence
+\[
+\frac{r_s}{\ell_P}=2\frac{M}{m_P}.
+\]
+Taking logarithms proves the result.
+\end{proof}
+
+\begin{warning}[Physical-domain boundary]
+The lines in \cref{cor:planes} are relations among specifically coupled
+measurands. They do not turn the whole scale catalogue into one
+three-dimensional state space, and they do not by themselves establish
+a quantum-gravity model.
+\end{warning}
+
+\section{Planck anchors and coordinate uncertainty}
+
+\input{generated/planck_anchor_table.tex}
+
+The 2022 CODATA values inherit uncertainty primarily through $G$; $c$
+and $h$ are exact defining constants in the revised SI. Consequently,
+the Planck anchors are correlated. Treating their listed standard
+uncertainties as independent can give an incorrect covariance for
+derived scale coordinates.
+
+\begin{proposition}[First-order uncertainty of a log ratio]
+\label{prop:uncertainty}
+Let
+\[
+\chi=\log_b(q/a)
+\]
+with $q,a>0$. To first order,
+\[
+u^2(\chi)
+=
+\frac{1}{(\ln b)^2}
+\left[
+\frac{u^2(q)}{q^2}
++\frac{u^2(a)}{a^2}
+-2\frac{\Cov(q,a)}{qa}
+\right].
+\]
+For several correlated inputs,
+\[
+\Sigma_\chi=J\Sigma_{q,a}J^\mathsf T,
+\]
+where $J$ is the Jacobian of the logarithmic map.
+\end{proposition}
+
+\begin{proof}
+Differentiate
+$\chi=(\ln q-\ln a)/\ln b$ and apply the first-order covariance
+propagation formula.
+\end{proof}
+
+The formula is a local approximation. Large, asymmetric, or
+model-posterior uncertainties should be propagated by the full
+distribution rather than by a symmetric linearized error bar.
+
+\section{Cosmological landmarks are typed model outputs}
+
+The phrase ``observable-universe diameter'' must name a cosmological
+distance. The legacy $93$ Gly entry is retained only as a rounded
+\emph{present comoving particle-horizon diameter} in a declared
+$a_0=1$ convention. It is not a light-travel distance and not the size
+of the entire Universe. Cosmological distance definitions are distinct
+even when they share the SI dimension of length.
+
+The mass axis has a larger ambiguity. For a flat-volume illustrative
+ledger, let
+\[
+\rho_{c0}=\frac{3H_0^2}{8\pi G},
+\qquad
+V_{\mathrm{flat}}=\frac{4\pi}{3}R_{\mathrm{ph},0}^3.
+\]
+Then three different mass-equivalent landmarks are
+\[
+M_b=\Omega_b\rho_{c0}V_{\mathrm{flat}},
+\qquad
+M_m=\Omega_m\rho_{c0}V_{\mathrm{flat}},
+\qquad
+M_E=\rho_{c0}V_{\mathrm{flat}}.
+\]
+$M_b$ counts the baryonic component, $M_m$ all pressureless matter in
+the adopted parameterization, and $M_E$ the total critical
+mass-equivalent. Dark energy is not a collection of rest-mass particles;
+the last quantity is explicitly an energy-equivalent bookkeeping scale.
+
+\input{generated/cosmic_landmark_table.tex}
+
+The table uses a rounded $93$ Gly diameter and a Planck 2018 flat
+base-$\Lambda$CDM parameter ledger:
+$H_0=67.4\,\mathrm{km\,s^{-1}\,Mpc^{-1}}$,
+$\Omega_m=0.315$, and $\Omega_b=0.0493$. Because the rounded horizon
+entry and the full parameter covariance are not supplied, no combined
+confidence interval is fabricated. The values are reproducible
+landmarks, not a precision cosmological analysis.
+
+\begin{proposition}[The legacy mass anchor is ambiguous]
+Under this single illustrative ledger,
+\[
+M_b\approx1.50\times10^{53}\,\mathrm{kg},\qquad
+M_m\approx9.59\times10^{53}\,\mathrm{kg},\qquad
+M_E\approx3.04\times10^{54}\,\mathrm{kg}.
+\]
+Their Planck-mass coordinates are approximately
+$60.84$, $61.64$, and $62.15$, respectively. Therefore an unqualified
+$10^{53}\,\mathrm{kg}$ entry cannot serve as a unique cosmic mass
+anchor.
+\end{proposition}
+
+\begin{proof}
+Substitute the declared $H_0$, density fractions, and flat-volume
+convention into the preceding definitions, then divide by $m_P$ and take
+$\log_{10}$.
+\end{proof}
+
+\begin{warning}[Epoch and model dependence]
+Changing the cosmological model, horizon definition, spatial curvature,
+epoch, or matter component changes these landmarks. They are catalogue
+records, not constants defining the logarithmic coordinate system.
+\end{warning}
+
+\section{Selected reproducible catalogue}
+
+The following table is generated from the machine-readable input ledger.
+Entries marked ``order of magnitude'' or ``declared reference'' are
+visual landmarks rather than measurements. Every coordinate uses the
+corresponding 2022 CODATA Planck anchor and base $10$.
+
+\input{generated/selected_scale_catalogue_table.tex}
+
+The equality of the light-year length coordinate and the Julian-year
+time coordinate to the displayed precision is not mysterious:
+$1\,\mathrm{ly}=c\times1\,\mathrm{Julian\ year}$ and
+$\ell_P=ct_P$. It is an exact consequence of matched definitions.
+
+\section{Normative reporting contract}
+
+For a static catalogue, stochastic-channel, quantizer, temporal
+resolution, and observation-horizon fields may be
+\texttt{not-applicable}; the field must still be present. For an actual
+measurement trace, applicable fields require values rather than prose
+placeholders.
+
+\begin{longtable}{L{0.23\textwidth}L{0.20\textwidth}L{0.47\textwidth}}
+\toprule
+Field & Type & Required declaration\\
+\midrule
+\endhead
+Hidden system $X$ & state space or object & domain and admissible states\\
+System descriptor $\xi_X$ & typed record & intrinsic model data and
+scale catalogue $\Xi_X$\\
+Scale item & typed positive quantity & axis, role, frame, convention,
+value or interval, uncertainty\\
+Extraction rule & reduction & which labelled items form a tuple or
+region\\
+Reference triple $\bm a$ & positive typed tuple & Planck or alternative
+anchors, with source\\
+Logarithm base $b$ & dimensionless, $b>1$ & decades, octaves, or other
+declared base\\
+Observation protocol $\lambda$ & channel passport & reduction,
+observation, noise/exactness, quantizer, estimator\\
+Applicable axes & subset of $\{L,M,T\}$ & missing axes recorded as
+not applicable\\
+Spatial resolution & positive length or not applicable & frame and
+calibration\\
+Mass resolution & positive mass or not applicable & direct channel or
+explicit energy/mass converter\\
+Temporal resolution & positive duration or not applicable & clock and
+frame convention\\
+Observation horizon & duration or not applicable & acquisition interval\\
+Reference scales $\bm r^*$ & positive typed tuple & normalization of
+resolution depth\\
+Resolution margin & dimensionless & matched measurand and resolution\\
+Frame passport & metadata & proper, coordinate, rest, comoving, or other
+declared convention\\
+Cosmology passport & model metadata or not applicable & model, epoch,
+distance, volume, and component definitions\\
+Uncertainty & covariance, law, or exact flag & dependence and propagation
+semantics\\
+Weight matrix $W$ & positive definite or not applicable & rationale and
+base-transformation policy\\
+Defect normalization & typed ratio or not applicable & required before
+scalar loss aggregation\\
+\bottomrule
+\end{longtable}
+
+\section{Claim audit}
+
+\begin{longtable}{L{0.43\textwidth}L{0.19\textwidth}L{0.28\textwidth}}
+\toprule
+Statement & Status & Necessary hypotheses\\
+\midrule
+\endhead
+$\bm\chi_{b,\bm a}$ is a global chart on $(\Rpos)^3$ & theorem &
+positive scales, positive anchors, $b>1$\\
+Log coordinates are invariant under a unit change & theorem & quantity
+and anchor converted coherently\\
+Anchor changes preserve coordinate differences & theorem & common typed
+anchor change\\
+$d_{W,b}$ is a scale-space metric & theorem & $W$ symmetric positive
+definite\\
+$W=I$ is the unique physical metric & false & no such canonical choice
+is proved\\
+Every system has one canonical $(L,M,T)$ point & false & requires a
+declared extraction rule\\
+Every protocol measures all three axes & false & missing axes are
+allowed\\
+$g_i>0$ guarantees detection & false & only a simple scale-separation
+diagnostic\\
+Planck units are minimum physical scales & not claimed & they are used as
+normalizations\\
+The causal inequality gives $\chi_L\leq\chi_T$ & corollary & paired
+length and time of the same causal process\\
+Compton and Schwarzschild relations become affine lines & corollary &
+declared standard formulas and Planck normalization\\
+$93$ Gly is the diameter of the entire Universe & false & rounded present
+comoving particle-horizon convention only\\
+$10^{53}\,\mathrm{kg}$ is the unique mass of the observable Universe &
+false & component, volume, epoch, and model are required\\
+Three spans near sixty decades imply a new law & not claimed & numerical
+similarity depends on selected landmarks\\
+\bottomrule
+\end{longtable}
+
+\section{Conclusion}
+
+The strict Planck-to-cosmos ruler object is not a bare point in $\R^3$.
+It is the pair
+\[
+\bigl(
+\xi_X,\Xi_X;
+\lambda,\bm\varepsilon_\lambda,\bm r_\lambda^*
+\bigr),
+\]
+together with a positive reference tuple, logarithm base, frame and
+cosmology conventions, uncertainty model, and a protocol-indexed
+observation trace. The descriptor chart
+\[
+\bm\chi_{b,\bm a}(\bm q)
+=
+\log_b(\bm q/\bm a)
+\]
+is unit invariant and turns positive monomial relations into linear
+constraints. The resolution margin
+$\log_b(q_i/\varepsilon_i)$ compares a typed system scale with a typed
+protocol resolution without conflating the two. Cosmic quantities are
+optional model outputs. This separation closes the central blocker in
+v1.0 and makes the module compatible with the GO Core distance-scale
+interface.
+
+\begin{thebibliography}{12}
+
+\bibitem{CODATA2022}
+P. J. Mohr, D. B. Newell, B. N. Taylor, and E. Tiesinga,
+``CODATA Recommended Values of the Fundamental Physical Constants:
+2022,''
+\emph{Reviews of Modern Physics} 97 (2025), 025002.
+
+\bibitem{NIST}
+National Institute of Standards and Technology,
+\emph{Reference on Constants, Units, and Uncertainty: 2022 CODATA
+recommended values}, accessed 2026.
+
+\bibitem{BIPM}
+Bureau International des Poids et Mesures,
+\emph{The International System of Units (SI Brochure)},
+9th ed., version 4.01, 2026.
+
+\bibitem{GUM}
+Joint Committee for Guides in Metrology,
+\emph{Evaluation of Measurement Data --- Guide to the Expression of
+Uncertainty in Measurement}, JCGM 100:2008.
+
+\bibitem{PlanckOverview}
+Planck Collaboration,
+``Planck 2018 results. I. Overview and the cosmological legacy of
+Planck,''
+\emph{Astronomy \& Astrophysics} 641 (2020), A1.
+
+\bibitem{PlanckVI}
+Planck Collaboration,
+``Planck 2018 results. VI. Cosmological parameters,''
+\emph{Astronomy \& Astrophysics} 641 (2020), A6.
+
+\bibitem{Hogg}
+D. W. Hogg,
+``Distance measures in cosmology,''
+arXiv:astro-ph/9905116 (1999).
+
+\bibitem{BBI}
+D. Burago, Y. Burago, and S. Ivanov,
+\emph{A Course in Metric Geometry},
+American Mathematical Society, 2001.
+
+\end{thebibliography}
+
+\end{document}

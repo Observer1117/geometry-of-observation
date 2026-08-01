@@ -1,0 +1,38 @@
+{
+  "schema": {
+    "id": "go-lint-corpus-report",
+    "version": "0.2.0",
+    "core_contract": "0.2.0",
+    "corpus_id": "go-conical-intersections-reference-ledger"
+  },
+  "summary": {
+    "canonical_documents": 1,
+    "reference_documents": 1,
+    "critical_adapters": 0,
+    "expressions_checked": 36,
+    "findings_total": 0,
+    "core_findings": 0,
+    "status_counts": {
+      "PASS": 1
+    },
+    "rule_counts": {}
+  },
+  "documents": [
+    {
+      "id": "conical-intersections-observation-v1-1",
+      "title": "Conical Intersections as Typed Spectral Singularities under Observation Maps",
+      "version": "1.1.0",
+      "ledger_level": "reference",
+      "migration_status": "strict_reference_migrated",
+      "expressions": 36,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_spectral_gauge_nonadiabatic_observation_reference"
+    }
+  ],
+  "findings": []
+}

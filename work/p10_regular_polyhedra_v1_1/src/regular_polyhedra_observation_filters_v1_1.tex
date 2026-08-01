@@ -1,0 +1,607 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.012}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Regular Polyhedra under Typed Observation Filters},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Abstract polyhedra, geometric realizations, flag transitivity, observation-filter preorders, Petrials, and finite-resolution identification},
+  pdfkeywords={regular polyhedra, abstract polytopes, flag transitivity, string C-groups, Petrie duality, observation geometry, identifiability}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{obsviolet}{RGB}{94,64,145}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+\definecolor{lightviolet}{RGB}{246,242,252}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\Isom}{\operatorname{Isom}}
+\newcommand{\Flag}{\operatorname{Flag}}
+\newcommand{\Ob}{\operatorname{Ob}}
+\newcommand{\Ker}{\operatorname{Ker}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\Ccal}{\mathcal C}
+\newcommand{\Pcal}{\mathcal P}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Qcal}{\mathcal Q}
+\newcommand{\Fcal}{\mathcal F}
+\newcommand{\Gcal}{\mathcal G}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Regular Polyhedra under Typed Observation Filters\\
+\large Abstract incidence, realization symmetry, Petrials, and identifiability}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.1 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working note
+v1.0 and is an application-layer reference migrated to GO Core v0.2.
+It does not introduce a new polyhedron, classification, realization
+theorem, or symmetry algorithm. Its contribution is a typed separation
+of abstract incidence, geometric realization, admissibility,
+information loss, exact symmetry, and finite-resolution inference.}}
+\end{center}
+
+\begin{abstract}
+The phrase ``regular polyhedron'' changes meaning when convex
+polyhedra, star polyhedra, abstract maps, or discrete skeletal
+realizations are placed in the same discussion.  This reference fixes
+the object class before counting.  An abstract polyhedron is a ranked
+poset satisfying the diamond condition and strong flag connectivity;
+abstract regularity means transitivity of \(\Aut(\Pcal)\) on flags.
+A geometric realization \(\beta\) has a generally smaller Euclidean
+symmetry group \(G_\beta\), so an abstractly regular object need not be
+geometrically regular in a chosen realization.  Observation
+specifications are defined on full subgroupoids of realized objects.
+Admissibility enlargement and informational coarsening are two
+different preorders: \(\Ccal_1\subseteq\Ccal_2\) enlarges the admitted
+domain, whereas \(Q_{\rm coarse}=\kappa\circ Q_{\rm fine}\) loses
+distinctions.  They cannot be compressed into an undefined inclusion
+of tuples.  A cube and its Petrial give an exact non-injectivity
+control: the vertex-edge skeleton is unchanged, while six square faces
+are replaced by four Petrie hexagons and the Euler characteristic
+changes from \(2\) to \(0\).  Under bounded noise, approximate
+symmetry residuals and a half-separation criterion give conditional
+identifiability, not proof of exact symmetry.  Counts such as five
+Platonic solids or \(48=18+30\) discrete regular skeletal polyhedra in
+\(\R^3\) are therefore convention-scoped results, not values of one
+universal observation-independent enumeration.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and the category of objects}
+
+\begin{definition}[Abstract polyhedron]
+A rank-\(3\) abstract polyhedron \(\Pcal\) is a partially ordered set
+with a rank map to \(\{-1,0,1,2,3\}\), unique least and greatest
+faces, and the following properties.
+\begin{enumerate}[label=(\roman*),leftmargin=1.6em]
+  \item Every maximal chain, or \emph{flag}, contains exactly one face
+  of each rank.
+  \item If \(F<G\) have ranks \(i-1\) and \(i+1\), exactly two
+  rank-\(i\) faces lie strictly between them (diamond condition).
+  \item Every section is flag-connected, equivalently the usual
+  strong flag-connectivity condition holds.
+\end{enumerate}
+The proper faces of ranks \(0,1,2\) are vertices, edges, and faces.
+A reduced flag is the incident triple \((v,e,f)\).
+\end{definition}
+
+The tuple \((V,E,F,I)\) from the legacy note is only bookkeeping; by
+itself it does not impose thinness, connectedness, rank, or section
+axioms.  Those axioms are required before standard results about
+polyhedra and flags are used.
+
+\begin{definition}[Realized-polyhedron groupoid]
+Let \(\mathbf{RPol}_3\) be the groupoid whose objects are
+\[
+X=(\Pcal,\beta,\mathsf T),
+\]
+where \(\Pcal\) is an abstract polyhedron, \(\beta\) is a declared
+realization in \(\R^3\), and \(\mathsf T\) records the realization
+convention: straight or other edges, planar, skew, star, zig-zag, or
+helical faces, discreteness, local finiteness, and faithfulness.
+An arrow \(X\to X'\) is a rank-preserving incidence isomorphism
+\(\varphi:\Pcal\to\Pcal'\) together with an ambient isometry \(a\)
+intertwining the realizations and all declared edge and face data.
+\end{definition}
+
+The convention \(\mathsf T\) is part of the type.  A convex
+face-lattice realization, a regular map, and a skeletal apeirohedron
+are not silently treated as objects of one unqualified category.
+
+\section{Flags, abstract regularity, and string C-groups}
+
+By the diamond condition, every flag \(\Phi\) has a unique
+\(i\)-adjacent flag \(\Phi^i\), differing only in its rank-\(i\)
+face, for \(i=0,1,2\).  The resulting edge-coloured flag graph is
+connected.
+
+\begin{definition}[Abstract regularity]
+The automorphism group \(\Gamma(\Pcal)=\Aut(\Pcal)\) consists of all
+rank-preserving order automorphisms.  The abstract polyhedron is
+regular when \(\Gamma(\Pcal)\) acts transitively on
+\(\Flag(\Pcal)\).
+\end{definition}
+
+\begin{proposition}[Simple flag transitivity]
+\label{prop:simple}
+For an abstract polyhedron, an automorphism fixing one flag is the
+identity.  Hence a regular abstract polyhedron has a simply transitive
+flag action.  If it is finite, then
+\begin{equation}\label{eq:flags-group}
+\abs{\Gamma(\Pcal)}=\abs{\Flag(\Pcal)}=4f_1,
+\end{equation}
+where \(f_1=\abs E\).
+\end{proposition}
+
+\begin{proof}
+Rank preservation fixes every member of the chosen flag.  The diamond
+condition then fixes each adjacent flag, and strong flag connectivity
+propagates this to all flags and faces.  Thus a flag stabilizer is
+trivial.  Each edge has two incident vertices and two incident faces,
+so it belongs to four reduced flags.
+\end{proof}
+
+Fix a base flag.  For a regular \(\Pcal\), let \(\rho_i\) be the
+unique automorphism sending it to its \(i\)-adjacent flag.  For type
+\(\{p,q\}\),
+\begin{equation}\label{eq:cgroup}
+\rho_i^2=1,\qquad
+(\rho_0\rho_2)^2=1,\qquad
+\ord(\rho_0\rho_1)=p,\qquad
+\ord(\rho_1\rho_2)=q,
+\end{equation}
+and the intersection property is
+\begin{equation}\label{eq:intersection}
+\langle\rho_i:i\in I\rangle\cap
+\langle\rho_i:i\in J\rangle
+=\langle\rho_i:i\in I\cap J\rangle .
+\end{equation}
+These data form a rank-\(3\) string C-group.  The orders \(p,q\) are
+exact, and additional quotient relations may be present.  Therefore
+\(\{p,q\}\) is local type data, not a complete global identifier.
+
+\section{Abstract symmetry versus realization symmetry}
+
+For a faithful nondegenerate realization \(\beta\), define
+\[
+G_\beta=
+\{a\in\Isom(\R^3):a\text{ preserves the realized vertices, edges,
+and declared faces}\}.
+\]
+Its action induces a subgroup
+\(\iota_\beta(G_\beta)\leq\Aut(\Pcal)\).
+
+\begin{definition}[Geometric regularity]
+The realization \((\Pcal,\beta,\mathsf T)\) is geometrically regular
+when \(G_\beta\) is transitive on its geometric flags.
+\end{definition}
+
+\begin{proposition}[One-way implication]
+\label{prop:geometric-abstract}
+A faithful geometrically regular realization has an abstractly
+regular incidence polyhedron.  The converse fails.
+\end{proposition}
+
+\begin{proof}
+The induced subgroup of \(\Aut(\Pcal)\) is already flag-transitive,
+so the full automorphism group is flag-transitive.  Conversely, give
+the abstract cube three pairwise distinct edge lengths in orthogonal
+directions.  Its incidence automorphism group still has order \(48\)
+and is flag-transitive, but the rectangular cuboid has only the eight
+independent coordinate sign changes.  Edge directions cannot be
+permuted, leaving six geometric flag orbits.
+\end{proof}
+
+Thus the legacy symbol \(G(\Pcal)\), described as ``geometric or
+combinatorial depending on the setting'', is ill-typed.  The two
+groups and the homomorphism between them must be named.
+
+\section{Observation specifications and two preorders}
+
+\begin{definition}[Typed observation specification]
+An observation specification is
+\[
+\Ocal=(\Ccal_{\Ocal},Y_{\Ocal},Q_{\Ocal}),
+\]
+where \(\Ccal_{\Ocal}\) is a full subgroupoid of
+\(\mathbf{RPol}_3\), stable under isomorphism, \(Y_{\Ocal}\) is a
+declared data or label space, and
+\[
+Q_{\Ocal}:\Ob(\Ccal_{\Ocal})\longrightarrow Y_{\Ocal}
+\]
+is constant on the isomorphisms the protocol treats as nuisance
+transformations.
+\end{definition}
+
+There are two independent comparisons.
+
+\begin{align}
+\Ocal_1\preceq_{\rm adm}\Ocal_2
+&\quad\Longleftrightarrow\quad
+\Ccal_{\Ocal_1}\text{ is a full subgroupoid of }\Ccal_{\Ocal_2},
+\label{eq:admission}\\
+\Ocal_{\rm fine}\succeq_{\rm info}\Ocal_{\rm coarse}
+&\quad\Longleftrightarrow\quad
+Q_{\rm coarse}=\kappa\circ Q_{\rm fine}
+\text{ on a common domain}
+\label{eq:information}
+\end{align}
+for some deterministic \(\kappa\).  Then
+\(\Ker Q_{\rm fine}\subseteq\Ker Q_{\rm coarse}\): the coarse channel
+identifies at least as many objects.
+
+\begin{theorem}[Scoped filter monotonicity]
+\label{thm:filter}
+Let \(R\) be one fixed predicate, such as abstract regularity or
+geometric regularity under one declared convention.  If
+\(\Ocal_1\preceq_{\rm adm}\Ocal_2\), then
+\[
+\{X\in\Ob(\Ccal_{\Ocal_1}):R(X)\}
+\subseteq
+\{X\in\Ob(\Ccal_{\Ocal_2}):R(X)\}.
+\]
+No ordering of information kernels follows without
+\cref{eq:information}, and no count comparison follows if different
+quotient equivalences are used.
+\end{theorem}
+
+\begin{proof}
+The set inclusion is immediate from inclusion of the object domains
+while the predicate is held fixed.  The remaining claims concern
+different data and therefore require a factorization map
+\(\kappa\); domain inclusion alone supplies none.
+\end{proof}
+
+\begin{warning}[The historical family is not a chain]
+Removing finiteness while retaining planarity and allowing
+self-intersection while retaining finiteness relax different
+predicates.  The resulting admissible classes may be incomparable.
+The old ``filter ladder'' is therefore replaced by a filter poset.
+\end{warning}
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=7mm and 9mm,
+  box/.style={draw=obsblue,rounded corners,fill=lightblue,
+    align=center,inner sep=4pt,font=\scriptsize},
+  arr/.style={-{Latex[length=2mm]},thick,draw=obsblue},
+  dasharr/.style={-{Latex[length=2mm]},thick,dashed,draw=obsviolet},
+  lab/.style={font=\tiny,fill=white,inner sep=1pt}
+]
+\node[box] (full) {full incidence\\and realization};
+\node[box,right=of full] (skeleton) {vertex-edge\\skeleton};
+\node[box,right=of skeleton] (image) {projected/noisy\\record};
+\draw[arr] (full) -- node[above,lab] {forget faces} (skeleton);
+\draw[arr] (skeleton) -- node[above,lab] {sensor channel} (image);
+\node[box,below=of skeleton] (classes) {admissible object\\subgroupoid};
+\draw[dasharr] (classes) -- node[right,lab] {domain choice} (skeleton);
+\end{tikzpicture}
+\end{center}
+
+The horizontal arrows are lossy channels.  The vertical arrow is a
+choice of domain.  Calling both operations a ``filter'' without types
+caused the legacy order error.
+
+\section{Classical spherical count and its hypotheses}
+
+Let a finite equivelar polyhedral map of type \(\{p,q\}\) have
+\(f\)-vector \((V,E,F)\).  Double counting incidences gives
+\begin{equation}\label{eq:incidence}
+pF=2E,\qquad qV=2E.
+\end{equation}
+If the underlying surface is the sphere,
+\begin{equation}\label{eq:euler}
+V-E+F=2,
+\end{equation}
+and therefore
+\begin{equation}\label{eq:spherical}
+\frac1p+\frac1q-\frac12=\frac1E>0.
+\end{equation}
+For integers \(p,q\ge3\), this leaves precisely
+\[
+(p,q)\in\{(3,3),(4,3),(3,4),(5,3),(3,5)\}.
+\]
+This proves the list of possible local types under the stated
+spherical, finite, thin, equivelar hypotheses.  Existence and
+uniqueness up to similarity of the corresponding convex regular
+realizations are the separate classical realization theorem.
+\Cref{eq:spherical} is not a proof classifying star polyhedra,
+higher-genus maps, infinite tilings, or skeletal apeirohedra.
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Exact finite controls for the five convex regular types.}
+\begin{tabular}{lrrrrrr}
+\toprule
+Object & \(p\) & \(q\) & \(V\) & \(E\) & \(F\) & \(\abs{\Flag}=4E\)\\
+\midrule
+Tetrahedron & 3 & 3 & 4 & 6 & 4 & 24\\
+Cube & 4 & 3 & 8 & 12 & 6 & 48\\
+Octahedron & 3 & 4 & 6 & 12 & 8 & 48\\
+Dodecahedron & 5 & 3 & 20 & 30 & 12 & 120\\
+Icosahedron & 3 & 5 & 12 & 30 & 20 & 120\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Duality reverses the face order:
+\[
+\Pcal\longmapsto\Pcal^\ast,\qquad
+(V,E,F)\longmapsto(F,E,V),\qquad
+\{p,q\}\longmapsto\{q,p\},
+\]
+and preserves the automorphism-group order.  Duality is an exact
+combinatorial operation, not an optical viewpoint change.
+
+\section{Skeleton non-identifiability and the Petrial control}
+
+For a regular map with distinguished generators
+\((\rho_0,\rho_1,\rho_2)\), the Petrie operation replaces the
+generating triple by
+\begin{equation}\label{eq:petrie-generators}
+(\rho_0\rho_2,\rho_1,\rho_2).
+\end{equation}
+Because \(\rho_0\) and \(\rho_2\) commute and are involutions,
+\(\rho_0\rho_2\) is an involution.  On the map, the operation keeps
+vertices and edges and selects Petrie polygons as faces.
+
+\begin{proposition}[Explicit skeleton non-injectivity]
+\label{prop:petrial}
+Let \(Q_{\rm skel}(\Pcal)=(V,E)\).  The cube \(\Pcal_\square\) and its
+Petrial \(\Pcal_\square^\pi\) satisfy
+\[
+Q_{\rm skel}(\Pcal_\square)
+=Q_{\rm skel}(\Pcal_\square^\pi),
+\qquad
+\Pcal_\square\not\cong\Pcal_\square^\pi.
+\]
+The first has six square faces and Euler characteristic \(2\); the
+second has four Petrie hexagons and Euler characteristic \(0\).
+\end{proposition}
+
+\begin{proof}
+Both structures use the eight cube vertices and twelve cube edges.
+The six square cycles give \(4\cdot6=24=2E\) edge-face incidences.
+The four length-six Petrie cycles also give
+\(6\cdot4=24=2E\).  Their \(f\)-vectors are respectively
+\((8,12,6)\) and \((8,12,4)\), so they cannot be isomorphic as ranked
+posets and have Euler characteristics \(2\) and \(0\).
+\end{proof}
+
+Thus ``same skeleton, different face observation'' is now an exact
+counterexample, not a metaphor.  A two-dimensional rendering is even
+coarser: projection can merge vertices, create apparent crossings,
+or hide depth order.  Those effects belong to the sensor channel,
+not to the incidence definition.
+
+\section{Finite-resolution symmetry and identifiability}
+
+Let observed vertices be
+\[
+y_i=x_i+\eta_i,\qquad \norm{\eta_i}\le\epsilon,
+\]
+after a declared registration, labeling, and incidence-matching
+protocol.  For a candidate isometry \(g\) and allowed incidence
+permutations \(\Pi\), define the RMS residual
+\begin{equation}\label{eq:residual}
+r_Y(g)=
+\min_{\pi\in\Pi}
+\left(\frac1n\sum_{i=1}^n
+\norm{g y_i-y_{\pi(i)}}^2\right)^{1/2},
+\qquad
+\delta_Y(g)=\frac{r_Y(g)}{\ell_{\rm ref}},
+\end{equation}
+where \(\ell_{\rm ref}>0\) is declared.
+
+\begin{proposition}[Exact symmetry under bounded noise]
+\label{prop:noise}
+If \(g x_i=x_{\pi(i)}\) for one allowed \(\pi\), then
+\[
+r_Y(g)\le2\epsilon.
+\]
+The converse is false: a small residual certifies only
+threshold-dependent approximate symmetry.
+\end{proposition}
+
+\begin{proof}
+Isometries preserve noise norms, so each residual vector is
+\(g\eta_i-\eta_{\pi(i)}\) and has norm at most \(2\epsilon\).
+The RMS bound follows.  Arbitrarily small asymmetric perturbations
+give nonzero but arbitrarily small residuals.
+\end{proof}
+
+Let \(d_{\Qcal}\) be a declared metric on observations modulo nuisance
+isometries and relabelings, and let
+\(\{M_1,\ldots,M_K\}\) be a finite candidate library.  Define
+\[
+\Delta_i=\min_{j\ne i}d_{\Qcal}(M_i,M_j).
+\]
+
+\begin{theorem}[Half-separation certificate]
+\label{thm:separation}
+If \(\Delta_i>0\) and
+\(d_{\Qcal}(Y,M_i)<\Delta_i/2\), then \(M_i\) is the unique nearest
+candidate.
+\end{theorem}
+
+\begin{proof}
+For \(j\ne i\), the triangle inequality gives
+\[
+d_{\Qcal}(Y,M_j)\ge
+d_{\Qcal}(M_i,M_j)-d_{\Qcal}(Y,M_i)
+>\Delta_i/2>d_{\Qcal}(Y,M_i).
+\]
+\end{proof}
+
+This is conditional identifiability inside a declared finite library.
+It does not show that the true object belongs to that library.
+
+For a finite flag set and a declared group \(G\), let its flag orbits
+have weights \(w_j\).  The diagnostic
+\begin{equation}\label{eq:orbit-entropy}
+H_{\rm orb}^{(2)}(G)
+=-\sum_jw_j\log_2w_j
+\end{equation}
+vanishes exactly when there is one orbit.  It is a combinatorial
+Shannon diagnostic, not thermodynamic entropy, and it is undefined
+for an infinite flag set without a probability measure.
+
+\section{Convention-scoped taxonomy and claim firewall}
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Counts are meaningful only after the object convention is fixed.}
+\begin{tabularx}{\linewidth}{L{30mm}L{43mm}Y}
+\toprule
+Count & Object convention & Permitted interpretation\\
+\midrule
+5 & finite convex regular polyhedra in \(\R^3\), up to similarity &
+Classical Platonic classification.\\
+4 & classical Kepler--Poinsot regular star polyhedra &
+Star-face and self-intersection conventions are part of the type.\\
+\(48=18+30\) & Schulte's discrete geometrically regular skeletal
+polyhedra in \(\R^3\): 18 finite and 30 infinite &
+Published classification in that specific skeletal convention.\\
+Not 48 & all abstract regular rank-\(3\) polytopes or all
+combinatorially regular realizations &
+The abstract and realization universes are much larger.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{warning}[Claim firewall]
+This reference does not claim a new classification, a new regular
+polyhedron, completeness beyond a cited convention, or recovery of
+incidence from a picture.  Its strict internal results are the typed
+filter preorders, the separation of abstract and geometric symmetry,
+the explicit cube--Petrial non-injectivity control, and the
+finite-resolution identification bounds.
+\end{warning}
+
+\section{Protocol minimum and benchmark audit}
+
+A reproducible polyhedral observation claim must declare:
+\begin{enumerate}[leftmargin=1.7em]
+  \item the abstract object axioms and rank;
+  \item the realization convention \(\mathsf T\), ambient space, and
+  faithfulness;
+  \item whether regularity uses \(\Aut(\Pcal)\) or \(G_\beta\);
+  \item the admissible subgroupoid and the equivalence used for
+  counting;
+  \item the observation map, projection, labeling, and face-selection
+  rule;
+  \item spatial resolution, noise bound or law, registration group,
+  estimator, threshold, and uncertainty;
+  \item for infinite structures, discreteness, local finiteness,
+  observation window, and boundary treatment.
+\end{enumerate}
+
+The executable companion checks all five Platonic incidence ledgers,
+the spherical type inequality, dual pairs, all cube square and Petrie
+cycles, the \(48\)-element cube action, the \(8\)-element generic
+cuboid action, flag-orbit counts, bounded-noise residuals, and
+half-separation certificates.  Passing these controls verifies the
+claims encoded here; it is not an independent classification proof.
+
+\section*{References}
+\addcontentsline{toc}{section}{References}
+
+{\raggedright\small
+\begin{enumerate}[label={[\arabic*]},leftmargin=2em,itemsep=2pt,topsep=3pt]
+  \item P. McMullen and E. Schulte,
+  \emph{Abstract Regular Polytopes}, Encyclopedia of Mathematics and
+  its Applications 92, Cambridge University Press, 2002.
+  \href{https://doi.org/10.1017/CBO9780511546686}
+  {doi:10.1017/CBO9780511546686}.
+
+  \item P. McMullen and E. Schulte, ``Regular Polytopes in Ordinary
+  Space'', \emph{Discrete \& Computational Geometry} 17 (1997),
+  449--478.
+  \href{https://doi.org/10.1007/PL00009304}
+  {doi:10.1007/PL00009304}.
+
+  \item E. Schulte, ``Regular Incidence Complexes, Polytopes, and
+  C-Groups'', 2017.
+  \href{https://arxiv.org/abs/1711.02297}{arXiv:1711.02297}.
+
+  \item E. Schulte, ``Polyhedra, Complexes, Nets and Symmetry'',
+  \emph{Acta Crystallographica A} 70 (2014), 203--216.
+  \href{https://doi.org/10.1107/S2053273314000217}
+  {doi:10.1107/S2053273314000217}.
+
+  \item B. Grünbaum, ``Regular Polyhedra---Old and New'',
+  \emph{Aequationes Mathematicae} 16 (1977), 1--20.
+  \href{https://doi.org/10.1007/BF01836414}
+  {doi:10.1007/BF01836414}.
+
+  \item A. W. M. Dress, ``A Combinatorial Theory of Grünbaum's New
+  Regular Polyhedra, Part I'', \emph{Aequationes Mathematicae} 23
+  (1981), 252--265.
+  \href{https://doi.org/10.1007/BF02188039}
+  {doi:10.1007/BF02188039}.
+
+  \item A. W. M. Dress, ``A Combinatorial Theory of Grünbaum's New
+  Regular Polyhedra, Part II: Complete Enumeration'',
+  \emph{Aequationes Mathematicae} 29 (1985), 222--243.
+  \href{https://doi.org/10.1007/BF02189831}
+  {doi:10.1007/BF02189831}.
+\end{enumerate}
+}
+
+\end{document}

@@ -1,0 +1,641 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Relativistic Beam Paths as Observation Geometry},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Typed LHC beam kinematics, observation channels, accelerator invariants, and detector reconstruction},
+  pdfkeywords={LHC, accelerator physics, relativistic kinematics, observation geometry, natural units, emittance, invariant mass}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{proposition}[definition]{Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\Law}{\operatorname{Law}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\GeV}{\mathrm{GeV}}
+\newcommand{\TeV}{\mathrm{TeV}}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Kcal}{\mathcal K}
+\newcommand{\Rcal}{\mathcal R}
+\newcommand{\Ecal}{\mathcal E}
+\newcommand{\Fcal}{\mathcal F}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Relativistic Beam Paths as Observation Geometry\\
+\large From synchrotron phase space to typed detector invariants}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.3 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working draft
+v1.2. It is migrated to GO Core v0.2 and the SI--HEP Quantity Passport
+v0.5. The physical reference is standard Run 3 proton--proton
+operation; on the document date the LHC is in Long Shutdown 3. No new
+accelerator model or particle-physics prediction is claimed.}}
+\end{center}
+
+\begin{abstract}
+An accelerator is not observed as one visible trajectory. Its hidden
+state contains a lattice-constrained reference orbit, time-dependent
+beam distributions, RF and betatron phases, magnet settings, collision
+states, and detector response variables. We type the corresponding
+chain as
+\[
+X_t\xrightarrow{\Rcal}\widetilde X_t
+\xrightarrow{\Ocal_\lambda}Z_t
+\xrightarrow{\Kcal_\lambda}\Law(Y_t\mid Z_t)
+\xrightarrow{\widehat\theta_\lambda}
+\widehat\theta_t,
+\]
+where reduction, ideal observation, stochastic measurement, and
+estimation are distinct maps. The SI--HEP boundary is explicit:
+\(p^\mu_{\rm SI}=(E/c,\bm p)\),
+\(\Pi^\mu=(E,c\bm p)\), and the HEP numerical four-vector is
+\(\Pi^\mu/\Ecal_0\). This removes the ambiguity in
+\(E^2=\bm p^2+m^2\). For charged beam transport, SI magnetic rigidity
+and HEP momentum are connected by the exact declared-unit identity
+\[
+p[\GeV/c]=0.299792458\,z\,B\rho[\mathrm{T\,m}].
+\]
+At a Run 3 reference total energy of \(6.8\,\TeV\), the proton has
+\(\gamma\approx7.2474\times10^3\),
+\(1-\beta\approx9.5194\times10^{-9}\), and
+\(B\rho\approx2.26824\times10^4\,\mathrm{T\,m}\). The manuscript
+separates Lorentz invariants, longitudinal-boost covariants,
+symplectic invariants, operational observables, and estimator outputs.
+In particular, geometric emittance is invariant only under a specified
+ideal symplectic transport, while normalized emittance is the relevant
+ideal adiabatic invariant during acceleration. Equal-time Lorentz
+contraction and Penrose--Terrell camera appearance are retained as
+different observation maps, neither being a direct imaging model for
+LHC protons.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and claim boundary}
+
+The manuscript is a typed interface between standard accelerator
+physics and Geometry of Observation. It is not:
+\begin{itemize}
+  \item a lattice design, collimation, impedance, beam-loss, or
+  machine-protection model;
+  \item a replacement for tracking, beam-beam, or detector simulation;
+  \item a hard-body model of the proton;
+  \item a detector reconstruction algorithm;
+  \item a claim that a hadron's Lorentz-contracted equal-time profile
+  is photographed in the LHC;
+  \item a new Standard Model result.
+\end{itemize}
+
+The strict contribution is infrastructural: it identifies the objects,
+maps, unit charts, transformation groups, and claim conditions needed
+to state accelerator observations without type or dimension gaps.
+
+\section{Observation protocol}
+
+\begin{definition}[Hidden accelerator state]
+A minimal hidden state at machine time \(t\) is a record
+\[
+X_t=
+\bigl(
+\Gamma_0,\mathcal L_{\rm mag}(t),\Phi_{\rm RF}(t),
+f_1(t),f_2(t),\mathcal C_t,\mathcal D_t
+\bigr),
+\]
+where \(\Gamma_0\) is a design orbit, \(\mathcal L_{\rm mag}\) is the
+magnet lattice state, \(\Phi_{\rm RF}\) is the RF state,
+\(f_1,f_2\) are beam phase-space distributions,
+\(\mathcal C_t\) is a collision-event state when a crossing occurs,
+and \(\mathcal D_t\) contains detector-response latent variables.
+\end{definition}
+
+An observation protocol \(\lambda\) contains a frame, clock,
+calibration, spatial and temporal resolutions, trigger and selection
+rules, a deterministic response, a stochastic channel, and an
+estimator. Its typed chain is
+\[
+X_t\xrightarrow{\Rcal}\widetilde X_t
+\xrightarrow{\Ocal_\lambda}Z_t
+\xrightarrow{\Kcal_\lambda}Y_t
+\xrightarrow{\widehat\theta_\lambda}\widehat\theta_t.
+\]
+Here \(\Kcal_\lambda\) denotes a Markov kernel. It must not be merged
+with the deterministic map \(\Ocal_\lambda\), and
+\(\widehat\theta_\lambda\) must not be identified with the underlying
+measurand.
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=8mm and 10mm,
+  box/.style={draw,rounded corners,minimum width=29mm,minimum height=11mm,align=center},
+  arr/.style={-{Latex[length=1.9mm]},thick}
+]
+\node[box,fill=lightblue] (x) {hidden state\\\(X_t\)};
+\node[box,right=of x] (z) {ideal readout\\\(Z_t\)};
+\node[box,right=of z] (y) {raw data\\\(Y_t\)};
+\node[box,fill=lightgreen,below=of z] (est) {estimate\\\(\widehat\theta_t,\Sigma_t\)};
+\draw[arr] (x) -- node[above]{\(\Rcal,\Ocal_\lambda\)} (z);
+\draw[arr] (z) -- node[above]{\(\Kcal_\lambda\)} (y);
+\draw[arr] (y) |- node[pos=0.72,right]{\(\widehat\theta_\lambda\)} (est);
+\end{tikzpicture}
+\end{center}
+
+\section{Reference machine passport}
+
+The numerical audit uses the CERN public Run 3 reference:
+\[
+E_{\rm beam}=6.8\,\TeV,\qquad
+\sqrt{s}=13.6\,\TeV
+\]
+for equal, head-on proton beams. The public circumference
+\(C=26659\,\mathrm m\), roughly \(2500\) bunches per proton beam,
+and roughly \(1.6\times10^{11}\) protons per bunch are rounded or
+approximate operational descriptors, not defining constants.
+
+\begin{warning}[Epoch]
+The LHC entered Long Shutdown 3 in June 2026. Therefore
+\(6.8\,\TeV\) in this document is a Run 3 standard-operation
+reference, not a statement that a beam was circulating on
+28 July 2026.
+\end{warning}
+
+Every machine record must include
+\[
+(\mathsf{facility},\mathsf{species},\mathsf{charge\ state},
+\mathsf{run},\mathsf{mode},\mathsf{epoch},\mathsf{status},
+\mathsf{value},\mathsf{unit},\mathsf{precision},\mathsf{source}).
+\]
+The design energy, an achieved beam energy, a special low-energy run,
+and an HL-LHC target are different records even when they share a unit.
+
+\section{SI--HEP representation boundary}
+
+Adopt \(\eta=\diag(1,-1,-1,-1)\). The SI momentum four-vector and
+energy four-vector are
+\[
+p^\mu_{\rm SI}=(E/c,\bm p_{\rm SI}),\qquad
+\Pi^\mu=c\,p^\mu_{\rm SI}=(E,c\bm p_{\rm SI}).
+\]
+With energy anchor \(\Ecal_0=1\,\GeV\), define the HEP coordinate
+\[
+P^\mu_{\rm HEP}=\frac{\Pi^\mu}{\Ecal_0}.
+\]
+The mass shell has three equivalent representations:
+\[
+p_{\rm SI}^2=m^2c^2,\qquad
+\Pi^2=(mc^2)^2,\qquad
+P_{\rm HEP}^2=\left(\frac{mc^2}{\Ecal_0}\right)^2.
+\]
+
+The shorthand \(E^2=\bm p^2+m^2\) is used only in the last chart.
+In the other charts, omitted factors of \(c\) change dimensions.
+The complete conversion contract is specified in the companion
+\emph{SI--HEP Quantity Passport v0.5}.
+
+\section{Relativistic beam kinematics}
+
+Let
+\[
+\mu_p:=m_pc^2=0.93827208943(29)\,\GeV
+\]
+from CODATA 2022, and let \(E\) denote proton total energy. Define the
+energy-valued momentum \(\pi:=pc\). Then
+\[
+E^2=\pi^2+\mu_p^2,\qquad
+\gamma=\frac{E}{\mu_p},\qquad
+\beta=\frac{\pi}{E}.
+\]
+At high \(\gamma\), direct subtraction of \(\beta\) from one loses
+floating-point significance. The stable identity is
+\[
+1-\beta
+=\frac{1-\beta^2}{1+\beta}
+=\frac{\gamma^{-2}}{1+\beta}.
+\]
+This quantity, rather than a rounded decimal for \(\beta\), controls
+the speed deficit:
+\[
+c-v=c(1-\beta).
+\]
+
+\begin{proposition}[Equal head-on beams]
+For two equal beams with four-momenta
+\(\Pi_1=(E,\bm\pi)\) and
+\(\Pi_2=(E,-\bm\pi)\),
+\[
+s=(\Pi_1+\Pi_2)^2=4E^2,\qquad \sqrt{s}=2E.
+\]
+\end{proposition}
+
+\begin{proof}
+The total spatial momentum vanishes, while the total energy is \(2E\).
+\end{proof}
+
+The result assumes equal, exactly head-on beams and neglects event-wise
+energy spread and crossing-angle corrections. Those effects belong to
+the event and beam-distribution passports.
+
+\section{Frame slices and light-cone observations}
+
+For a boost of rapidity \(Y\) along the beam axis,
+\[
+\begin{aligned}
+ct'&=\gamma(ct-\beta z),&
+z'&=\gamma(z-\beta ct),\\
+x'&=x,&y'&=y.
+\end{aligned}
+\]
+The interval
+\[
+\Delta s^2=c^2\Delta t^2-\Delta x^2-\Delta y^2-\Delta z^2
+\]
+is Lorentz invariant. A rest-defined longitudinal proper length
+\(L_0\), evaluated between endpoints simultaneous in the laboratory,
+has laboratory equal-time length \(L_\parallel=L_0/\gamma\).
+This is a relation between simultaneity slices, not a material
+compression law for a quantum proton.
+
+In light-front coordinates
+\[
+x^\pm=\frac{ct\pm z}{\sqrt2},
+\]
+the same boost acts as
+\[
+x^{+\prime}=e^{-Y}x^+,\qquad
+x^{-\prime}=e^Yx^-.
+\]
+
+A camera image is a different map. A source worldline
+\(X^\mu(\xi,\tau)\) contributes to an image at observer event
+\(O^\mu\) only if
+\[
+\bigl(O-X(\xi,\tau_e)\bigr)^2=0,\qquad \tau_e<t_{\rm obs}.
+\]
+The incoming null direction is then projected to an image plane.
+Thus:
+\[
+\text{equal-time boost}\ne\text{past-light-cone image}.
+\]
+The Penrose--Terrell effect concerns the second map. It is not a
+detector-observable model for individual LHC protons.
+
+\section{Magnetic rigidity and path geometry}
+
+In SI,
+\[
+\frac{\dd\bm p}{\dd t}
+=q(\bm E+\bm v\times\bm B),\qquad
+\frac{\dd E}{\dd t}=q\,\bm E\cdot\bm v.
+\]
+A transverse magnetic field bends the orbit but does no work.
+For local curvature radius \(\rho\),
+\[
+\abs{\bm p}_{\rm SI}=\abs q\,B\rho.
+\]
+With \(q=ze\), the exact declared-unit bridge is
+\[
+\boxed{
+p[\GeV/c]=0.299792458\,z\,B\rho[\mathrm{T\,m}].
+}
+\]
+For a Run 3 reference proton,
+\[
+p=6799.999935268\,\GeV/c,\qquad
+B\rho=22682.358258\,\mathrm{T\,m}.
+\]
+
+\begin{warning}[Local versus global geometry]
+The circumference contains straight insertions and does not determine
+the dipole bending radius by \(C/(2\pi)\). The local field-to-curvature
+map requires the lattice geometry. Conversely, the revolution
+frequency may use the total closed-orbit length.
+\end{warning}
+
+\section{RF phase and longitudinal state}
+
+For an idealized RF gap,
+\[
+\Delta E=qV_{\rm eff}\sin\phi_s.
+\]
+For \(q=ze\),
+\[
+\Delta E[\mathrm{eV}]
+=zV_{\rm eff}[\mathrm V]\sin\phi_s.
+\]
+The unit conversion is exact; the effective-voltage and thin-gap
+model is not.
+
+A common dimensionless longitudinal coordinate is
+\[
+\delta=\frac{p-p_0}{p_0}.
+\]
+The phase \(\phi\) and \(\delta\) are not direct positions and momenta
+until a canonical normalization is declared. Consequently, a plotted
+RF ``bucket area'' is not comparable across conventions without the
+Jacobian and reference energy. The observation protocol must record
+the RF harmonic, synchronous phase, voltage convention, longitudinal
+coordinate convention, and clock.
+
+\section{Transverse optics and emittance}
+
+In one transverse plane, linearized motion about the design orbit is
+\[
+x''(s)+K(s)x(s)=0,
+\qquad [K]=L^{-2}.
+\]
+Here \(x\) has dimension \(L\), \(s\) has dimension \(L\), and
+\(x'=\dd x/\dd s\) is dimensionless. A first-order transport map
+\(\bm u_2=M\bm u_1\), \(\bm u=(x,x')^\mathsf T\), is symplectic when
+\[
+M^\mathsf TJM=J,\qquad
+J=\begin{pmatrix}0&1\\-1&0\end{pmatrix}.
+\]
+
+For a centered beam with covariance matrix \(\Sigma\), define the
+geometric RMS emittance
+\[
+\varepsilon:=\sqrt{\det\Sigma},
+\qquad
+\Sigma=
+\varepsilon
+\begin{pmatrix}
+\beta_T&-\alpha_T\\
+-\alpha_T&\gamma_T
+\end{pmatrix},
+\qquad
+\beta_T\gamma_T-\alpha_T^2=1.
+\]
+The dimensions are
+\[
+[\beta_T]=L,\quad [\alpha_T]=1,\quad
+[\gamma_T]=L^{-1},\quad [\varepsilon]=L.
+\]
+
+\begin{proposition}[Qualified geometric-emittance invariance]
+If \(\Sigma_2=M\Sigma_1M^\mathsf T\) and \(M\) is a \(2\times2\)
+symplectic map in the same canonical coordinate convention, then
+\(\det\Sigma_2=\det\Sigma_1\) and
+\(\varepsilon_2=\varepsilon_1\).
+\end{proposition}
+
+\begin{proof}
+A \(2\times2\) symplectic matrix has \(\det M=1\). Hence
+\(\det\Sigma_2=(\det M)^2\det\Sigma_1=\det\Sigma_1\).
+\end{proof}
+
+During ideal acceleration the geometric emittance in trace-space
+coordinates undergoes adiabatic damping. The corresponding normalized
+emittance is
+\[
+\varepsilon_n=\beta_{\rm rel}\gamma_{\rm rel}\varepsilon.
+\]
+Its invariance still requires ideal uncoupled transport and excludes
+scattering, radiation, noise, nonlinear filamentation, collective
+effects, and losses. The word ``invariant'' without this hypothesis
+list is rejected.
+
+\section{Bunches as hidden distributions}
+
+Let \(u=(x,p_x,y,p_y,z,\delta)\) denote a declared six-dimensional
+coordinate chart and let
+\[
+f_t(u)\ge0,\qquad
+\int f_t(u)\,\dd\mu_\Gamma(u)=1
+\]
+be a normalized hidden beam law with a typed phase-space measure.
+An intensity density uses a different normalization,
+\(\int f_t\,\dd\mu_\Gamma=N_b\).
+
+Profile monitors observe marginals or convolutions, for example
+\[
+\rho_x^{\rm ideal}(x)
+=\int f_t(u)\,\dd\mu_{\Gamma\setminus x},
+\qquad
+Y_x\sim\Kcal_\lambda\bigl(\rho_x^{\rm ideal}\bigr).
+\]
+Equal one-dimensional marginals do not identify the joint law.
+Different transverse correlations, tails, halo populations, and
+loss risks can therefore agree at the profile level.
+
+\section{Collision and detector reconstruction}
+
+For reconstructed final-state energy four-vectors
+\(\Pi_i^\mu=(E_i,\bm\pi_i)\),
+\[
+\mu_{\rm inv}^2
+=
+\left(\sum_iE_i\right)^2
+-\left\lVert\sum_i\bm\pi_i\right\rVert^2.
+\]
+The same physical invariant in SI momentum coordinates is
+\[
+m_{\rm inv}^2c^4
+=
+\left(\sum_iE_i\right)^2
+-c^2\left\lVert\sum_i\bm p_i\right\rVert^2.
+\]
+Detector data do not provide the exact \(\Pi_i^\mu\). Tracks, clusters,
+timing, calibration constants, object identification, and selections
+enter an estimator
+\[
+\widehat\mu_{\rm inv}
+=\widehat\theta_\lambda(Y),\qquad
+\Sigma_{\widehat\mu}
+\ \text{or a likelihood interval}.
+\]
+
+For polar angle \(\theta\),
+\[
+p_T=\norm{\bm p_\perp},\qquad
+\eta=-\ln\tan\frac{\theta}{2}.
+\]
+The logarithm is dimensionless. Under a longitudinal boost, \(p_T\)
+is unchanged. True rapidity
+\[
+y=\frac12\ln\frac{E+\pi_z}{E-\pi_z}
+\]
+shifts additively, so rapidity differences are boost-invariant.
+Pseudorapidity equals rapidity only in the massless limit; it is not
+an unrestricted Lorentz scalar.
+
+\section{Transformation classes}
+
+\begin{longtable}{@{}L{37mm}L{43mm}L{67mm}@{}}
+\toprule
+Class & Object & Correct status \\
+\midrule
+\endhead
+Lorentz &
+\(\Pi^2,\mu_{\rm inv}\) &
+invariant under proper Lorentz transformations \\
+Longitudinal boost &
+\(p_T,y,\Delta y\) &
+\(p_T\) unchanged, \(y\) shifts, \(\Delta y\) invariant \\
+Symplectic transport &
+\(\varepsilon=\sqrt{\det\Sigma}\) &
+invariant under the stated ideal map and coordinate convention \\
+Adiabatic acceleration &
+\(\varepsilon_n\) &
+ideal normalized-emittance invariant under additional hypotheses \\
+Unit chart &
+physical \(Q\) &
+same quantity; numerical coordinate transforms covariantly \\
+Detector reconstruction &
+\(\widehat\mu_{\rm inv}\) &
+estimator with calibration and uncertainty, not an exact invariant \\
+Magnet setting &
+\(B\rho\) &
+frame- and species-dependent rigidity relation, not Lorentz invariant \\
+\bottomrule
+\end{longtable}
+
+\section{Non-identifiability}
+
+For a deterministic observation \(y=\Ocal_\lambda(x)\), the exact
+fiber is
+\[
+\Fcal_y=\{x:\Ocal_\lambda(x)=y\}.
+\]
+For a stochastic channel with likelihood \(k_\lambda(y\mid x)\), the
+compatibility set becomes
+\[
+\Fcal_{y,\lambda}
+=\{x:k_\lambda(y\mid x)>0\},
+\]
+or, more usefully, a likelihood or posterior level set. A ``size of
+the fiber'' is undefined until a metric, measure, prior, threshold,
+and quotient by representation symmetries are specified.
+
+This distinction blocks three invalid inferences:
+\begin{enumerate}[label=(\roman*)]
+  \item a beam profile does not determine the full phase-space law;
+  \item a reconstructed invariant mass does not determine a unique
+  partonic history;
+  \item an event display is not the collision event itself.
+\end{enumerate}
+
+\section{Reproducible Run 3 numerical audit}
+
+The following values use the exact SI definitions of \(c,h,e\), the
+CODATA 2022 proton mass energy, the CERN public \(6.8\,\TeV\)
+reference, and the rounded public circumference.
+
+\begin{center}
+\small
+\input{generated/lhc_audit_table.tex}
+\end{center}
+
+The revolution-frequency value has more displayed digits only as a
+regression output; its physical precision is limited by the rounded
+circumference and the orbit definition. The approximate public bunch
+count and population would imply a beam-energy scale of about
+\(4.36\times10^8\,\mathrm J\), but this is not an event-by-event or
+fill-specific measurement.
+
+\section{Claim audit}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{@{}L{49mm}L{27mm}Y@{}}
+\toprule
+Statement & Status & Required hypotheses or reason \\
+\midrule
+Mass-shell equivalence across SI/HEP charts & theorem & explicit \(c\)-map and common signature \\
+Run 3 numerical audit & derived check & declared source values and epoch \\
+Geometric-emittance invariance & proposition & linear symplectic map, fixed canonical convention \\
+Normalized-emittance invariance & ideal model & adiabatic acceleration and excluded nonideal effects \\
+Equal-time longitudinal contraction & standard kinematics & inertial frames and declared simultaneity slices \\
+Penrose--Terrell appearance & standard optical result & past-light-cone image of an extended source \\
+Direct optical image of an LHC proton & rejected & no such detector channel is modelled \\
+New LHC or particle-physics prediction & not claimed & reference/infrastructure module only \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\section*{References}
+\addcontentsline{toc}{section}{References}
+
+\begin{enumerate}[label={[\arabic*]}]
+  \item BIPM, \emph{The International System of Units (SI)},
+  9th ed., version 4.01.
+  \url{https://www.bipm.org/documents/20126/41483022/SI-Brochure-9-EN.pdf}
+  \item P.\ J.\ Mohr et al., ``CODATA recommended values of the
+  fundamental physical constants: 2022,'' 2025.
+  \url{https://physics.nist.gov/cuu/pdf/JPCRD2022CODATA.pdf}
+  \item Particle Data Group, ``Physical Constants,'' in
+  \emph{Review of Particle Physics 2024}.
+  \url{https://pdg.lbl.gov/2024/reviews/rpp2024-rev-phys-constants.pdf}
+  \item CERN, ``Large Hadron Collider: facts and figures.''
+  \url{https://home.cern/science/accelerators/large-hadron-collider/}
+  \item CERN, ``CERN bids farewell to the LHC and enters Long
+  Shutdown 3,'' 29 June 2026.
+  \href{https://home.cern/cern-bids-farewell-to-the-lhc-and-enters-long-shutdown-3/}
+  {CERN news page, 29 June 2026}.
+  \item O.\ Br\"uning et al. (eds.), \emph{LHC Design Report},
+  Vol.\ I, CERN, 2004.
+  \url{https://cds.cern.ch/record/782076/files/CERN-2004-003-V1-ft.pdf}
+  \item E.\ D.\ Courant and H.\ S.\ Snyder, ``Theory of the
+  alternating-gradient synchrotron,'' \emph{Annals of Physics}
+  \textbf{3} (1958), 1--48.
+  \url{https://doi.org/10.1016/0003-4916(58)90012-5}
+  \item R.\ Penrose, ``The apparent shape of a relativistically
+  moving sphere,'' \emph{Math. Proc. Camb. Phil. Soc.}
+  \textbf{55} (1959), 137--139.
+  \url{https://doi.org/10.1017/S0305004100033776}
+  \item J.\ Terrell, ``Invisibility of the Lorentz contraction,''
+  \emph{Physical Review} \textbf{116} (1959), 1041--1045.
+  \url{https://doi.org/10.1103/PhysRev.116.1041}
+\end{enumerate}
+
+\end{document}

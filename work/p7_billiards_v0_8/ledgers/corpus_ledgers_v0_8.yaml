@@ -1,0 +1,8018 @@
+schema:
+  id: go-corpus-ledgers
+  version: 0.8.0
+  date: '2026-07-28'
+  core_contract: go-core-spec@0.2.0
+  canonical_documents: 18
+  audit_policy: reference_ledgers_are_p1_eligible_critical_adapters_are_not
+  extension_contract: go-billiards-observation-contract@0.8.0
+  inherited_extension_contract: go-gear-contact-contract@0.7.0
+duplicate_or_superseded_sources:
+- status: superseded
+  path: upload/Geometry_of_Observation_Functional_Interface_v0_1(1).pdf
+  sha256: dfaf38c124b984b7c851e6764dceda4bf32fba8b9ff9fb77a38578ef7351579f
+  canonical_document: functional-interface-go-qs-v0-2
+- status: superseded
+  path: upload/Tensorial_Observation_Geometry_GR_v0_2.pdf
+  sha256: 24e078ed0bc2cc58cbd87ed327af3d35540f7e3621b0456db59f854d7152f9d3
+  canonical_document: tensorial-observation-geometry-gr-v0-3
+- status: duplicate
+  path: upload/conical_intersections_observation_caustics_v1_bilingual (1)(2).pdf
+  sha256: 346cf20f4edcb25a127e8d05282d02279051e0eb1cf66dea6135a80b0406fec7
+  canonical_path: upload/conical_intersections_observation_caustics_v1_bilingual.pdf
+  canonical_document: conical-intersections-v1
+- status: superseded
+  path: upload/Information_Theoretic_Observation_Geometry_v0_1(1).pdf
+  sha256: 24fd1228d382e1ed2e53924d93a2f8be42c25007d44f4b1f91a94dda7f5d890b
+  canonical_document: information-theoretic-observation-v0-2
+- status: superseded
+  path: upload/Metric_Entropy_and_Observational_Entropy_Defect_v0_1(1).pdf
+  sha256: 508109e33da1186bc4cbc1ffa5a3355087515a7ba7296e584909ff3c1d1a4e95
+  canonical_document: metric-entropy-defect-v0-2
+- status: superseded
+  path: upload/Unit_Distances_under_Observation_Maps_v0_1(2).pdf
+  sha256: 55d1e61f7bc6bd0454f8f166001611eb9e88f1f03a1142920a6fb3ade4a02678
+  canonical_document: distance-scale-interface-v0-2
+- status: superseded
+  path: upload/mandelbrot_rulers_observation_v1_bilingual(3).pdf
+  sha256: 6678e0db4ebfb4be0b225f9ace41f87b60e74999adc3202bce9bd66248e7a87c
+  canonical_document: mandelbrot-rulers-v1-1
+- status: superseded
+  path: upload/planck_cosmos_observation_rulers_v1_bilingual(3).pdf
+  sha256: 68a3051e593d6de7ed867d50b8c132ac6a6231ea711e76730101a0b6f24fa9d3
+  canonical_document: planck-cosmos-rulers-v1-1
+- status: superseded
+  path: upload/lhc_beam_geometry_observation_v12_terrell_bilingual.pdf
+  sha256: 77ea946d19e6ef3050ec23bf7a270a070df6641a5bde3484e204fc71eb72f101
+  canonical_document: lhc-beam-observation-v1-3
+- status: superseded
+  path: upload/celestial_foucault_networks_observation_v1_bilingual(2).pdf
+  sha256: c85279b4b08071e80699cc907042eb61636b257d4d790ef0790e9eb48dc076eb
+  canonical_document: celestial-foucault-networks-v1-1
+- status: superseded
+  path: upload/bobsleigh_contact_geometry_observation_v1_bilingual.pdf
+  sha256: a5b77d7932394064c71b3dda5ef056e321f5c179a8c83d46b4e79286d423cefb
+  canonical_document: bobsleigh-contact-v1-1
+- status: superseded
+  path: upload/roller_coaster_geometry_observation_v1_bilingual.pdf
+  sha256: a0b8befc66c7358febb965d167599487129f7b78828088f4e3870a5701894ed2
+  canonical_document: roller-coaster-v1-1
+- status: superseded
+  path: upload/gear_contact_geometry_observation_v1_bilingual.pdf
+  sha256: f9bc8cfed550cd7d8df0b958b6255ccdb316e082db0b02eff71f020916112bc9
+  canonical_document: gear-contact-v1-1
+- status: superseded
+  path: upload/billiards_geometry_observation_v1_bilingual(2).pdf
+  sha256: 6f2f73ea9fee8987f53d7ce69c7cc9c6f259af338c7a463654c4a36bc5a15086
+  canonical_document: billiards-observation-v1-1
+documents:
+- id: functional-interface-go-qs-v0-2
+  title: Functional Interface GO-QS
+  version: 0.2.0
+  source:
+    pdf: output/pdf/Functional_Interface_GO_QS_v0_2_ru.pdf
+    tex: work/p0/src/functional_interface_go_qs_v0_2_ru.tex
+    pages: 12
+    sha256: 57bf764c905cc1405b971fd6c59f9086c2b3b50842582141dc1099747f26de73
+  ledger_level: reference
+  migration_status: p0_reference
+  unit_contexts:
+  - SI
+  - GR_geometrized
+  groups:
+  - declared_application_group
+  maps:
+  - id: frame_transform
+    domain: X
+    codomain: X
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: reduction
+    domain: X
+    codomain: X_lambda
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: deterministic_observation
+    domain: X_lambda
+    codomain: Y_lambda_ideal
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: stochastic_channel
+    domain: Y_lambda_ideal
+    codomain: Prob_Y_lambda
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: estimator
+    domain: Y_lambda
+    codomain: PowerSet_Theta_lambda
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: core
+    key: X
+    meaning: hidden_space
+  - scope: core
+    key: lambda_protocol
+    meaning: protocol
+  - scope: objective
+    key: J_lambda
+    meaning: decision_functional
+  quantities:
+  - id: fi.curvature
+    extends: geometry.curvature
+    frame: invariant
+  - id: fi.reference_length
+    extends: geometry.reference_length
+  - id: fi.output_residual
+    extends: geometry.length
+    symbol: d_Y
+  - id: fi.output_resolution
+    extends: observation.spatial_resolution
+    symbol: epsilon_y
+  - id: fi.normalized_defect
+    extends: observation.normalized_loss
+  expressions:
+  - id: normalized_curvature
+    anchor: Functional v0.2, dimensionless curvature term
+    ast:
+      op: mul
+      left:
+        q: fi.curvature
+      right:
+        q: fi.reference_length
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: normalized_output_residual
+    anchor: Functional v0.2, normalized data residual
+    ast:
+      op: normalize
+      value:
+        q: fi.output_residual
+      reference:
+        q: fi.output_resolution
+      zero_policy: strictly_positive_resolution
+      semantic_kind: loss
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: loss
+  - id: typed_defect_scalarization
+    anchor: Functional v0.2, decision functional
+    ast:
+      op: aggregate
+      terms:
+      - q: fi.normalized_defect
+      - q: fi.normalized_defect
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: loss
+  claim_register:
+  - id: kernel_composition
+    status: proposition
+    hypotheses:
+    - measurable_reduction
+    - measurable_observation
+    - markov_kernel
+  - id: direct_method
+    status: theorem
+    hypotheses:
+    - reflexive_banach_space
+    - weakly_closed_admissible_set
+    - coercive_weakly_lower_semicontinuous_functional
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_core_reference
+- id: tensorial-observation-geometry-gr-v0-3
+  title: Tensorial Observation Geometry in GR
+  version: 0.3.0
+  source:
+    pdf: output/pdf/Tensorial_Observation_Geometry_GR_v0_3.pdf
+    tex: work/p0/src/tensorial_observation_geometry_gr_v0_3.tex
+    pages: 11
+    sha256: d7d88a2ddc40531f8e60fe3d33fe7c56c6262e5ef286b2c60227229cc7d2cd6f
+  ledger_level: reference
+  migration_status: p0_reference
+  unit_contexts:
+  - GR_geometrized
+  - SI
+  groups:
+  - Diff_M
+  - SO_1_3_local
+  maps:
+  - id: passive_coordinate_change
+    domain: chart_image
+    codomain: chart_image_prime
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: local_lorentz_gauge
+    domain: orthonormal_frame
+    codomain: orthonormal_frame
+    kind: gauge_transform
+    invertibility: required
+    information_loss: false
+  - id: relativistic_observation
+    domain: E_lambda
+    codomain: Y_lambda
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  symbols:
+  - scope: spacetime
+    key: g
+    meaning: lorentz_metric
+  - scope: tetrad
+    key: e_frame
+    meaning: frame_coefficients
+  - scope: tetrad
+    key: e_coframe
+    meaning: coframe_coefficients
+  quantities:
+  - id: gr.scalar_curvature
+    extends: geometry.scalar_curvature
+    unit_context: GR_geometrized
+  - id: gr.reference_length
+    extends: geometry.reference_length
+    unit_context: GR_geometrized
+  - id: gr.si_four_velocity
+    extends: mechanics.velocity
+    frame: observer
+  - id: gr.speed_of_light
+    extends: relativity.speed_of_light
+  expressions:
+  - id: dimensionless_curvature_scale
+    anchor: Tensor/GR v0.3, curvature passport
+    ast:
+      op: mul
+      left:
+        q: gr.scalar_curvature
+      right:
+        op: pow
+        arg:
+          q: gr.reference_length
+        exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: si_four_velocity_normalization
+    anchor: Tensor/GR v0.3, SI/GR boundary
+    ast:
+      op: normalize
+      value:
+        op: norm
+        arg:
+          q: gr.si_four_velocity
+      reference:
+        q: gr.speed_of_light
+      zero_policy: c_is_strictly_positive
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  claim_register:
+  - id: metric_reconstruction
+    status: proposition
+    hypotheses:
+    - dual_frame_coframe_pair
+    - lorentz_orthonormality
+  - id: pullback_radical
+    status: theorem
+    hypotheses:
+    - smooth_map
+    - nondegenerate_target_form
+  - id: tensor_descent
+    status: theorem
+    hypotheses:
+    - surjective_submersion
+    - connected_fibers_or_component_consistency
+    - horizontality
+    - vertical_lie_invariance
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_tensor_reference
+- id: information-theoretic-observation-v0-2
+  title: Information-Theoretic Observation Geometry
+  version: 0.2.0
+  source:
+    pdf: work/p1_info_metric_v0_2/build/information/information_theoretic_observation_geometry_v0_2.pdf
+    tex: work/p1_info_metric_v0_2/src/information_theoretic_observation_geometry_v0_2.tex
+    text: work/p1_info_metric_v0_2/checks/information/information_theoretic_observation_geometry_v0_2.txt
+    pages: 9
+    sha256: 5a64daee29f75c8951f9fb1e2ff263fea27f3ab2128144abf8c64284eabf8a92
+    supersedes_sha256: 24fd1228d382e1ed2e53924d93a2f8be42c25007d44f4b1f91a94dda7f5d890b
+  ledger_level: reference
+  migration_status: p1_reference_pass
+  unit_contexts:
+  - neutral
+  - SI
+  groups: []
+  maps:
+  - id: information_model_reduction
+    domain: hidden_state
+    codomain: reduced_hidden_state
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: information_ideal_readout
+    domain: reduced_hidden_state
+    codomain: ideal_datum
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: information_sensor_channel
+    domain: ideal_datum
+    codomain: registered_datum_distribution
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: information_postprocessing_channel
+    domain: registered_datum
+    codomain: postprocessed_datum_distribution
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: information_target_estimator
+    domain: registered_datum
+    codomain: target_estimate
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: information_v0_2
+    key: b
+    meaning: declared_logarithm_base
+  - scope: information_v0_2
+    key: H_b
+    meaning: base_b_entropy
+  - scope: information_v0_2
+    key: I_b
+    meaning: base_b_mutual_information
+  - scope: information_v0_2
+    key: D_info
+    meaning: raw_conditional_entropy_defect
+  - scope: information_v0_2
+    key: delta_info
+    meaning: normalized_information_defect
+  - scope: information_v0_2
+    key: W_lambda
+    meaning: induced_hidden_to_data_channel
+  quantities:
+  - id: info_v02.probability_p
+    extends: information.probability
+  - id: info_v02.probability_q
+    extends: information.probability
+  - id: info_v02.entropy_X
+    symbol: H_b_X
+    semantic_kind: information
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: base_b_information_unit
+    unit_context: neutral
+    frame: none
+    log_base: b
+    claim_status: definition
+  - id: info_v02.entropy_Y
+    extends: info_v02.entropy_X
+    symbol: H_b_Y
+  - id: info_v02.conditional_entropy_X_given_Y
+    extends: info_v02.entropy_X
+    symbol: H_b_X_given_Y
+  - id: info_v02.conditional_entropy_X_given_Z
+    extends: info_v02.entropy_X
+    symbol: H_b_X_given_Z
+  - id: info_v02.mutual_information_XY
+    extends: info_v02.entropy_X
+    symbol: I_b_XY
+  - id: info_v02.raw_information_defect
+    extends: info_v02.entropy_X
+    symbol: D_info
+  - id: info_v02.normalized_information_defect
+    extends: observation.normalized_loss
+    symbol: delta_info
+  - id: info_v02.base_conversion_factor
+    extends: dimensionless.scalar
+    symbol: log_b_c
+  - id: info_v02.distortion
+    symbol: d_Q
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m
+    unit_context: SI
+    frame: invariant
+    claim_status: model
+  - id: info_v02.reference_distortion
+    extends: info_v02.distortion
+    symbol: d_ref
+  - id: info_v02.spatial_resolution
+    extends: observation.spatial_resolution
+    symbol: epsilon_ell
+  - id: info_v02.circle_radius
+    extends: geometry.length
+    symbol: r_circle
+  - id: info_v02.coordinate_density_1d
+    symbol: p_x_density
+    semantic_kind: scalar
+    dimension:
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: 1/m
+    unit_context: SI
+    frame: coordinate_chart
+    claim_status: definition
+  - id: info_v02.reference_coordinate_volume_1d
+    extends: geometry.reference_length
+    symbol: v_star_1d
+  expressions:
+  - id: shannon_probability_log_term
+    anchor: section 2, definition of H_b
+    ast:
+      op: mul
+      left:
+        q: info_v02.probability_p
+      right:
+        op: log
+        base: b
+        semantic_kind: information
+        arg:
+          q: info_v02.probability_p
+      semantic_kind: information
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: information_base_change
+    anchor: theorem 2.3
+    ast:
+      op: mul
+      left:
+        q: info_v02.entropy_X
+      right:
+        q: info_v02.base_conversion_factor
+      semantic_kind: information
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: entropy_decomposition
+    anchor: proposition 3.3
+    ast:
+      op: add
+      args:
+      - q: info_v02.mutual_information_XY
+      - q: info_v02.raw_information_defect
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: normalized_information_defect
+    anchor: definition 3.2
+    ast:
+      op: normalize
+      value:
+        q: info_v02.raw_information_defect
+      reference:
+        q: info_v02.entropy_X
+      zero_policy: degenerate_source_returns_zero
+      semantic_kind: loss
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: loss
+  - id: kl_probability_ratio
+    anchor: section 2, definition of D_KL_b
+    ast:
+      op: log
+      base: b
+      semantic_kind: information
+      arg:
+        op: normalize
+        value:
+          q: info_v02.probability_p
+        reference:
+          q: info_v02.probability_q
+        zero_policy: extended_value_absolute_continuity_policy
+        semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: postprocessing_defect_increment
+    anchor: theorem 4.2
+    ast:
+      op: sub
+      args:
+      - q: info_v02.conditional_entropy_X_given_Z
+      - q: info_v02.conditional_entropy_X_given_Y
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: normalized_physical_distortion
+    anchor: model 8.2
+    ast:
+      op: normalize
+      value:
+        q: info_v02.distortion
+      reference:
+        q: info_v02.reference_distortion
+      zero_policy: strictly_positive_reference
+      semantic_kind: loss
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: loss
+  - id: hidden_circle_resolution_ratio
+    anchor: section 6.3
+    ast:
+      op: log
+      base: b
+      semantic_kind: information
+      arg:
+        op: normalize
+        value:
+          q: info_v02.circle_radius
+        reference:
+          q: info_v02.spatial_resolution
+        zero_policy: strictly_positive_resolution
+        semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: referenced_differential_entropy_log_argument
+    anchor: section 7, log_b(p_X times v_star)
+    ast:
+      op: log
+      base: b
+      semantic_kind: information
+      arg:
+        op: mul
+        left:
+          q: info_v02.coordinate_density_1d
+        right:
+          q: info_v02.reference_coordinate_volume_1d
+        semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  claim_register:
+  - id: information_unit_change
+    status: theorem
+    hypotheses:
+    - finite_information_quantity
+    - logarithm_bases_b_and_c_greater_than_one
+  - id: information_defect_decomposition
+    status: proposition
+    hypotheses:
+    - finite_hidden_alphabet
+    - declared_source_law
+    - declared_channel
+  - id: deterministic_fiber_formula
+    status: theorem
+    hypotheses:
+    - finite_hidden_and_observed_alphabets
+    - deterministic_observation
+  - id: data_processing_defect_monotonicity
+    status: theorem
+    hypotheses:
+    - finite_markov_chain_X_to_Y_to_Z
+  - id: kl_contraction
+    status: theorem
+    hypotheses:
+    - finite_alphabets
+    - markov_kernel
+    - extended_value_convention
+  - id: exact_recoverability_criterion
+    status: theorem
+    hypotheses:
+    - finite_target_and_observation_alphabets
+    - almost_sure_recovery
+  - id: fano_inequality
+    status: theorem
+    hypotheses:
+    - finite_target_alphabet_of_size_at_least_two
+    - declared_decoder
+  - id: information_bottleneck_interface
+    status: model
+    hypotheses:
+    - declared_channel_class
+    - markov_condition_Q_X_Y
+    - finite_information_budget
+  - id: rate_distortion_interface
+    status: model
+    hypotheses:
+    - declared_distortion
+    - positive_same_dimension_reference
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_information_reference_and_migrate_downstream_probabilistic_modules
+- id: metric-entropy-defect-v0-2
+  title: Metric Entropy and Observational Entropy Defect
+  version: 0.2.0
+  source:
+    pdf: work/p1_info_metric_v0_2/build/metric/metric_entropy_observational_defect_v0_2.pdf
+    tex: work/p1_info_metric_v0_2/src/metric_entropy_observational_defect_v0_2.tex
+    text: work/p1_info_metric_v0_2/checks/metric/metric_entropy_observational_defect_v0_2.txt
+    pages: 10
+    sha256: 615670a93610ce5a4911fa2d2e30c1e06f1faec900d614d21492e36a664b1257
+    supersedes_sha256: 508109e33da1186bc4cbc1ffa5a3355087515a7ba7296e584909ff3c1d1a4e95
+  ledger_level: reference
+  migration_status: p1_reference_pass
+  unit_contexts:
+  - neutral
+  - SI
+  groups: []
+  maps:
+  - id: metric_identity_reduction
+    domain: hidden_metric_space
+    codomain: protocol_metric_space
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: metric_lipschitz_observation
+    domain: input_metric_space
+    codomain: output_metric_space
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: metric_noiseless_readout
+    domain: observed_metric_point
+    codomain: registered_metric_point
+    kind: inclusion
+    invertibility: injective_not_surjective
+    information_loss: false
+  - id: metric_cover_quantizer
+    domain: totally_bounded_metric_set
+    codomain: finite_cell_labels
+    kind: discretizer
+    invertibility: not_required
+    information_loss: possible
+  - id: metric_direct_covering_readout
+    domain: finite_cell_labels
+    codomain: covering_count
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: metric_v0_2
+    key: epsilon_X
+    meaning: input_resolution
+  - scope: metric_v0_2
+    key: epsilon_Y
+    meaning: output_resolution
+  - scope: metric_v0_2
+    key: ell_star
+    meaning: positive_reference_length
+  - scope: metric_v0_2
+    key: L_O
+    meaning: lipschitz_scale_converter
+  - scope: metric_v0_2
+    key: H_metric
+    meaning: covering_entropy_with_declared_base
+  - scope: metric_v0_2
+    key: D_metric
+    meaning: matched_scale_metric_defect
+  - scope: metric_v0_2
+    key: s
+    meaning: geometric_heat_parameter_L_squared
+  - scope: metric_v0_2
+    key: tau
+    meaning: dimensionless_heat_scale
+  quantities:
+  - id: metric_v02.epsilon_X
+    extends: observation.spatial_resolution
+    symbol: epsilon_X
+    frame: input_observer
+  - id: metric_v02.epsilon_Y
+    extends: observation.spatial_resolution
+    symbol: epsilon_Y
+    frame: output_observer
+  - id: metric_v02.reference_length
+    extends: geometry.reference_length
+    symbol: ell_star
+  - id: metric_v02.reference_length_squared
+    symbol: ell_star_squared
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: metric_v02.unit_scale_factor
+    extends: dimensionless.scalar
+    symbol: a
+  - id: metric_v02.lipschitz_constant
+    extends: dimensionless.scalar
+    symbol: L_O
+  - id: metric_v02.cover_count
+    extends: discrete.count
+    symbol: N_epsilon
+  - id: metric_v02.input_covering_entropy
+    symbol: H_input_b
+    semantic_kind: information
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: base_b_information_unit
+    unit_context: neutral
+    frame: none
+    log_base: b
+    claim_status: definition
+  - id: metric_v02.output_covering_entropy
+    extends: metric_v02.input_covering_entropy
+    symbol: H_output_b
+  - id: metric_v02.raw_metric_defect
+    extends: metric_v02.input_covering_entropy
+    symbol: D_metric
+  - id: metric_v02.raw_metric_defect_first
+    extends: metric_v02.input_covering_entropy
+    symbol: D_metric_1
+  - id: metric_v02.raw_metric_defect_second
+    extends: metric_v02.input_covering_entropy
+    symbol: D_metric_2
+  - id: metric_v02.normalized_metric_defect
+    extends: observation.normalized_loss
+    symbol: delta_metric
+  - id: metric_v02.heat_parameter
+    symbol: s_heat
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: metric_v02.laplacian_eigenvalue
+    extends: spectral.laplacian_eigenvalue
+    symbol: lambda_Delta
+  - id: metric_v02.diffusivity
+    symbol: kappa_diff
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2/s
+    unit_context: SI
+    frame: model_dependent
+    claim_status: model
+  - id: metric_v02.physical_time
+    extends: time.duration
+    symbol: t_phys
+  - id: metric_v02.scalar_curvature
+    extends: geometry.scalar_curvature
+    symbol: Scal_g
+  - id: metric_v02.radius
+    extends: geometry.length
+    symbol: r
+  - id: metric_v02.feature_scale_converter
+    extends: geometry.length
+    symbol: lambda_feature
+  - id: metric_v02.feature_lipschitz_constant
+    symbol: L_c
+    semantic_kind: scalar
+    dimension:
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: 1/m
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: metric_v02.shell_distance
+    extends: geometry.length
+    symbol: d_ij
+  - id: metric_v02.shell_radius
+    extends: geometry.length
+    symbol: r_shell
+  expressions:
+  - id: coherent_rescaled_resolution
+    anchor: theorem 2.5
+    ast:
+      op: mul
+      left:
+        q: metric_v02.unit_scale_factor
+      right:
+        q: metric_v02.epsilon_X
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: matched_output_scale
+    anchor: section 4, matched scale definition
+    ast:
+      op: mul
+      left:
+        q: metric_v02.lipschitz_constant
+      right:
+        q: metric_v02.epsilon_X
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: dimensionless_reference_scale_ratio
+    anchor: section 3
+    ast:
+      op: normalize
+      value:
+        q: metric_v02.reference_length
+      reference:
+        q: metric_v02.epsilon_X
+      zero_policy: strictly_positive_resolution
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: typed_box_dimension_log_denominator
+    anchor: section 3, log_b(ell_star/epsilon)
+    ast:
+      op: log
+      base: b
+      semantic_kind: information
+      arg:
+        op: normalize
+        value:
+          q: metric_v02.reference_length
+        reference:
+          q: metric_v02.epsilon_X
+        zero_policy: strictly_positive_resolution
+        semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: matched_scale_metric_defect
+    anchor: definition 4.3
+    ast:
+      op: sub
+      args:
+      - q: metric_v02.input_covering_entropy
+      - q: metric_v02.output_covering_entropy
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: normalized_metric_defect
+    anchor: definition 4.4
+    ast:
+      op: normalize
+      value:
+        q: metric_v02.raw_metric_defect
+      reference:
+        q: metric_v02.input_covering_entropy
+      zero_policy: one_cell_input_returns_zero
+      semantic_kind: loss
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: loss
+  - id: metric_defect_composition
+    anchor: theorem 4.6
+    ast:
+      op: add
+      args:
+      - q: metric_v02.raw_metric_defect_first
+      - q: metric_v02.raw_metric_defect_second
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: typed_heat_exponent
+    anchor: section 9, s times lambda_Delta
+    ast:
+      op: mul
+      left:
+        q: metric_v02.heat_parameter
+      right:
+        q: metric_v02.laplacian_eigenvalue
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: dimensionless_geometric_heat_scale
+    anchor: section 9, tau=s/ell_star^2
+    ast:
+      op: normalize
+      value:
+        q: metric_v02.heat_parameter
+      reference:
+        q: metric_v02.reference_length_squared
+      zero_policy: strictly_positive_reference_length
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: physical_diffusion_heat_scale
+    anchor: section 9, tau=kappa*t_phys/ell_star^2
+    ast:
+      op: div
+      left:
+        op: mul
+        left:
+          q: metric_v02.diffusivity
+        right:
+          q: metric_v02.physical_time
+        semantic_kind: scalar
+      right:
+        q: metric_v02.reference_length_squared
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: scalar_curvature_radius_squared
+    anchor: proposition 8.1
+    ast:
+      op: mul
+      left:
+        q: metric_v02.scalar_curvature
+      right:
+        op: pow
+        arg:
+          q: metric_v02.radius
+        exponent: 2
+        semantic_kind: scalar
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: chromatic_dimensionless_slope
+    anchor: proposition 7.1
+    ast:
+      op: mul
+      left:
+        q: metric_v02.feature_scale_converter
+      right:
+        q: metric_v02.feature_lipschitz_constant
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: typed_shell_difference
+    anchor: section 10, abs(d_ij-r_shell)
+    ast:
+      op: sub
+      args:
+      - q: metric_v02.shell_distance
+      - q: metric_v02.shell_radius
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  claim_register:
+  - id: covering_packing_sandwich
+    status: proposition
+    hypotheses:
+    - totally_bounded_metric_set
+    - positive_resolution
+  - id: metric_unit_covariance
+    status: theorem
+    hypotheses:
+    - positive_scale_factor
+    - coherent_rescaling_of_metric_and_resolution
+  - id: box_dimension_convention_independence
+    status: proposition
+    hypotheses:
+    - totally_bounded_nonempty_set
+    - fixed_positive_reference_length
+  - id: matched_scale_covering_contraction
+    status: theorem
+    hypotheses:
+    - lipschitz_observation
+    - positive_matched_input_output_resolutions
+  - id: exact_metric_defect_composition
+    status: theorem
+    hypotheses:
+    - composable_lipschitz_maps
+    - two_matched_scale_conditions
+  - id: product_covering_bounds
+    status: proposition
+    hypotheses:
+    - nonempty_totally_bounded_factors
+    - max_product_metric
+  - id: compact_manifold_fiber_asymptotics
+    status: theorem
+    hypotheses:
+    - compact_smooth_riemannian_factors
+    - common_reference_length
+    - max_product_metric
+  - id: chromatic_entropy_sandwich
+    status: proposition
+    hypotheses:
+    - lipschitz_feature_field
+    - typed_positive_feature_scale_converter
+  - id: small_ball_expansion
+    status: proposition
+    hypotheses:
+    - smooth_riemannian_manifold
+    - sufficiently_small_geodesic_radius
+  - id: heat_trace_expansion
+    status: theorem
+    hypotheses:
+    - closed_smooth_riemannian_manifold
+    - nonnegative_laplace_beltrami_operator
+  - id: dimensionless_entropy_pressure
+    status: model
+    hypotheses:
+    - positive_reference_information
+    - positive_reference_volume
+    - declared_penalty
+  - id: cylindrical_parameter_fiber
+    status: model
+    hypotheses:
+    - regular_product_metric
+    - finite_separated_diameter_set
+    - lipschitz_bounded_interval_readout
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_metric_scale_reference_and_migrate_distance_and_mechanics_modules
+- id: distance-scale-interface-v0-2
+  title: Distance and Scale Interface under Observation Maps
+  version: 0.2.0
+  source:
+    pdf: work/p2_distance_scale_v0_3/build/distance/distance_scale_interface_observation_maps_v0_2.pdf
+    tex: work/p2_distance_scale_v0_3/src/distance_scale_interface_observation_maps_v0_2.tex
+    text: work/p2_distance_scale_v0_3/checks/distance/distance_scale_interface_observation_maps_v0_2.txt
+    pages: 9
+    sha256: 11b99c7e9e0eddb038796e2982f42d9a48111eb883e7ea228ecd41a35268f71f
+  ledger_level: reference
+  migration_status: p2_reference_pass
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - positive_coherent_metric_rescalings
+  - observed_space_isometries
+  maps:
+  - id: distance_observation
+    domain: hidden_metric_space
+    codomain: observed_metric_space
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: global_pseudometric_pullback
+    domain: observed_metric_and_observation_map
+    codomain: hidden_state_pseudometric
+    kind: pullback
+    invertibility: not_required
+    information_loss: not_applicable
+  - id: observation_fiber_quotient
+    domain: hidden_state_pseudometric_space
+    codomain: metric_quotient
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: local_tensor_pullback
+    domain: observed_riemannian_metric
+    codomain: source_semidefinite_quadratic_form
+    kind: pullback
+    invertibility: not_required
+    information_loss: not_applicable
+  - id: distance_estimator
+    domain: registered_measurement
+    codomain: estimated_observed_distance
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  - id: shell_graph_discretizer
+    domain: finite_hidden_sample
+    codomain: observed_distance_graph
+    kind: discretizer
+    invertibility: not_required
+    information_loss: possible
+  symbols:
+  - scope: distance_v0_2
+    key: O
+    meaning: deterministic_observation_map
+  - scope: distance_v0_2
+    key: d_O
+    meaning: global_observed_pseudometric
+  - scope: distance_v0_2
+    key: rho_O
+    meaning: pullback_path_pseudometric
+  - scope: distance_v0_2
+    key: r_star
+    meaning: positive_reference_shell_radius
+  - scope: distance_v0_2
+    key: epsilon_X
+    meaning: input_resolution
+  - scope: distance_v0_2
+    key: epsilon_Y
+    meaning: output_resolution
+  - scope: distance_v0_2
+    key: tau
+    meaning: decision_tolerance
+  - scope: distance_v0_2
+    key: u
+    meaning: deterministic_distance_error_bound
+  - scope: distance_v0_2
+    key: P
+    meaning: physical_readout_period
+  - scope: distance_v0_2
+    key: delta_d
+    meaning: physical_ladder_step
+  quantities:
+  - id: dsi.observed_distance
+    extends: geometry.length
+    symbol: d_O
+  - id: dsi.shell_radius
+    extends: geometry.reference_length
+    symbol: r_star
+  - id: dsi.tolerance
+    extends: observation.spatial_resolution
+    symbol: tau
+  - id: dsi.error_bound
+    extends: geometry.length
+    symbol: u
+  - id: dsi.input_resolution
+    extends: observation.spatial_resolution
+    symbol: epsilon_X
+  - id: dsi.output_resolution
+    extends: observation.spatial_resolution
+    symbol: epsilon_Y
+  - id: dsi.reference_length
+    extends: geometry.reference_length
+    symbol: ell_star
+  - id: dsi.lipschitz_converter
+    extends: dimensionless.scalar
+    symbol: L_O
+  - id: dsi.lipschitz_converter_first
+    extends: dimensionless.scalar
+    symbol: L_1
+  - id: dsi.lipschitz_converter_second
+    extends: dimensionless.scalar
+    symbol: L_2
+  - id: dsi.normalized_distance
+    extends: dimensionless.scalar
+    symbol: d_bar_O
+  - id: dsi.normalized_tolerance
+    extends: dimensionless.scalar
+    symbol: tau_bar
+  - id: dsi.diameter_origin
+    extends: geometry.length
+    symbol: d_0
+  - id: dsi.diameter_offset
+    extends: geometry.length
+    symbol: d_n_minus_d_0
+  - id: dsi.step_length
+    extends: geometry.length
+    symbol: delta_d
+  - id: dsi.readout_period
+    extends: geometry.length
+    symbol: P
+  - id: dsi.hidden_index
+    extends: discrete.count
+    symbol: n
+  - id: dsi.hidden_vertical_separation
+    extends: geometry.length
+    symbol: delta_z
+  - id: dsi.phase
+    extends: geometry.angle
+    symbol: phi
+  - id: dsi.distance_squared
+    symbol: d_squared
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  expressions:
+  - id: exact_shell_comparison
+    anchor: section 4, d_O(x,x_prime)=r_star
+    ast:
+      op: compare
+      left:
+        q: dsi.observed_distance
+      right:
+        q: dsi.shell_radius
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: probability
+  - id: tolerant_shell_comparison
+    anchor: section 4, abs(d_O-r_star)<=tau
+    ast:
+      op: compare
+      left:
+        op: sub
+        args:
+        - q: dsi.observed_distance
+        - q: dsi.shell_radius
+      right:
+        q: dsi.tolerance
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: probability
+  - id: deterministic_error_envelope
+    anchor: section 4, accepted deviation <= tau+u
+    ast:
+      op: add
+      args:
+      - q: dsi.tolerance
+      - q: dsi.error_bound
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: normalized_observed_distance
+    anchor: section 5, d_bar_O=d_O/r_star
+    ast:
+      op: normalize
+      value:
+        q: dsi.observed_distance
+      reference:
+        q: dsi.shell_radius
+      zero_policy: strictly_positive_shell_radius
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: normalized_tolerance
+    anchor: section 5, tau_bar=tau/r_star
+    ast:
+      op: normalize
+      value:
+        q: dsi.tolerance
+      reference:
+        q: dsi.shell_radius
+      zero_policy: strictly_positive_shell_radius
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: logarithmic_resolution_coordinate
+    anchor: section 5, s_b=log_b(ell_star/epsilon)
+    ast:
+      op: log
+      base: b
+      arg:
+        op: normalize
+        value:
+          q: dsi.reference_length
+        reference:
+          q: dsi.output_resolution
+        zero_policy: strictly_positive_output_resolution
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: matched_output_resolution
+    anchor: section 6, L_O epsilon_X
+    ast:
+      op: mul
+      left:
+        q: dsi.lipschitz_converter
+      right:
+        q: dsi.input_resolution
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: composed_lipschitz_converter
+    anchor: section 6, L_21=L_2 L_1
+    ast:
+      op: mul
+      left:
+        q: dsi.lipschitz_converter_second
+      right:
+        q: dsi.lipschitz_converter_first
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: projected_hidden_distance_squared
+    anchor: section 7, norm(X-X_prime)^2=r_star^2+delta_z^2
+    ast:
+      op: add
+      args:
+      - op: pow
+        arg:
+          q: dsi.shell_radius
+        exponent: 2
+      - op: pow
+        arg:
+          q: dsi.hidden_vertical_separation
+        exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: typed_diameter_ladder
+    anchor: section 9, d_n=d_0+n delta_d
+    ast:
+      op: add
+      args:
+      - q: dsi.diameter_origin
+      - op: mul
+        left:
+          q: dsi.hidden_index
+        right:
+          q: dsi.step_length
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: dimensionless_periodic_ratio
+    anchor: section 9, (d_n-d_0)/P
+    ast:
+      op: normalize
+      value:
+        q: dsi.diameter_offset
+      reference:
+        q: dsi.readout_period
+      zero_policy: strictly_positive_period
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: typed_periodic_readout
+    anchor: section 9, cos(phi)
+    ast:
+      op: trig
+      function: cos
+      arg:
+        q: dsi.phase
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  invariants:
+  - id: normalized_shell_predicate
+    claimed_invariant: true
+    group: positive_coherent_metric_rescalings
+    anchor: section 5
+  - id: quotient_distance_under_observed_isometry
+    claimed_invariant: true
+    group: observed_space_isometries
+    anchor: sections 2 and 3
+  claim_register:
+  - id: observed_pseudometric_theorem
+    status: theorem
+    hypotheses:
+    - observed_space_is_metric
+    - observation_is_a_map
+  - id: canonical_quotient_metric_theorem
+    status: theorem
+    hypotheses:
+    - quotient_by_equal_observations
+  - id: ambient_path_inequality
+    status: proposition
+    hypotheses:
+    - smooth_observation
+    - riemannian_target
+    - admissible_connecting_paths
+  - id: deterministic_error_guarantee
+    status: proposition
+    hypotheses:
+    - uniform_declared_distance_error_bound
+  - id: unit_covariance_of_shells
+    status: theorem
+    hypotheses:
+    - positive_coherent_rescaling
+  - id: lipschitz_resolution_propagation
+    status: proposition
+    hypotheses:
+    - typed_lipschitz_observation
+    - positive_input_resolution
+  - id: rational_step_factorization
+    status: theorem
+    hypotheses:
+    - positive_period
+    - rational_step_ratio_in_lowest_terms
+  - id: erdos_extension_firewall
+    status: model
+    hypotheses:
+    - declared_visible_or_hidden_multiplicity_count
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_common_distance_scale_reference_and_migrate_planck_cosmos
+- id: planck-cosmos-rulers-v1-1
+  title: Planck-to-Cosmos Observation Rulers
+  version: 1.1.0
+  source:
+    pdf: work/p3_planck_cosmos_v0_4/build/planck/planck_cosmos_observation_rulers_v1_1.pdf
+    tex: work/p3_planck_cosmos_v0_4/src/planck_cosmos_observation_rulers_v1_1.tex
+    text: work/p3_planck_cosmos_v0_4/checks/planck/planck_cosmos_observation_rulers_v1_1.txt
+    data_yaml: work/p3_planck_cosmos_v0_4/data/planck_cosmos_inputs_v0_4.yaml
+    data_csv: work/p3_planck_cosmos_v0_4/data/planck_cosmos_landmarks_v0_4.csv
+    metrics_json: work/p3_planck_cosmos_v0_4/data/planck_cosmos_metrics_v0_4.json
+    pages: 12
+    sha256: ded3c6b041e8dbadef53edf67e2f4ae3475f0d1914a045f0cec39cd2c44ff9a5
+  ledger_level: reference
+  migration_status: p3_reference_pass
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - positive_coherent_axis_rescalings
+  - logarithmic_anchor_translations
+  - positive_base_changes_with_weight_covariance
+  - declared_reference_frame_group
+  maps:
+  - id: labelled_scale_extraction
+    domain: hidden_system_and_intrinsic_descriptor
+    codomain: typed_partial_scale_catalogue
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: logarithmic_descriptor_chart
+    domain: positive_length_mass_time_cone
+    codomain: R3
+    kind: deterministic_observation
+    invertibility: required
+    information_loss: false
+  - id: protocol_resolution_chart
+    domain: applicable_positive_resolution_tuple
+    codomain: partial_log_resolution_space
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: ideal_scale_dependent_observation
+    domain: reduced_hidden_system
+    codomain: ideal_observed_data
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: stochastic_measurement_channel
+    domain: ideal_observed_data
+    codomain: probability_law_on_observed_data
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: scale_estimator
+    domain: observed_data
+    codomain: typed_scale_estimate_or_region
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  - id: monomial_log_interpretation
+    domain: positive_typed_quantities_and_reference_tuple
+    codomain: affine_log_constraint
+    kind: interpretation
+    invertibility: not_required
+    information_loss: not_applicable
+  - id: cosmological_landmark_interpretation
+    domain: cosmological_model_epoch_distance_volume_component_passport
+    codomain: typed_cosmological_scale_record
+    kind: interpretation
+    invertibility: not_required
+    information_loss: not_applicable
+  symbols:
+  - scope: planck_cosmos_v1_1
+    key: Xi_X
+    meaning: labelled_intrinsic_scale_catalogue
+  - scope: planck_cosmos_v1_1
+    key: lambda_protocol
+    meaning: observation_protocol
+  - scope: planck_cosmos_v1_1
+    key: chi_L
+    meaning: logarithmic_length_descriptor_coordinate
+  - scope: planck_cosmos_v1_1
+    key: chi_M
+    meaning: logarithmic_mass_descriptor_coordinate
+  - scope: planck_cosmos_v1_1
+    key: chi_T
+    meaning: logarithmic_time_descriptor_coordinate
+  - scope: planck_cosmos_v1_1
+    key: eta_i
+    meaning: protocol_resolution_depth
+  - scope: planck_cosmos_v1_1
+    key: g_i
+    meaning: anchor_independent_resolution_margin
+  - scope: planck_cosmos_v1_1
+    key: W
+    meaning: declared_log_scale_weight_matrix
+  - scope: planck_cosmos_v1_1
+    key: ell_P
+    meaning: planck_length_normalization
+  - scope: planck_cosmos_v1_1
+    key: m_P
+    meaning: planck_mass_normalization
+  - scope: planck_cosmos_v1_1
+    key: t_P
+    meaning: planck_time_normalization
+  - scope: planck_cosmos_v1_1
+    key: rho_c0
+    meaning: model_dependent_critical_mass_density
+  quantities:
+  - id: pcr.length
+    extends: geometry.length
+    symbol: L
+  - id: pcr.planck_length
+    extends: geometry.reference_length
+    symbol: ell_P
+  - id: pcr.reference_length
+    extends: geometry.reference_length
+    symbol: r_L_star
+  - id: pcr.spatial_resolution
+    extends: observation.spatial_resolution
+    symbol: epsilon_L
+  - id: pcr.length_uncertainty
+    extends: geometry.length
+    symbol: u_L
+  - id: pcr.mass
+    extends: mechanics.mass
+    symbol: M
+  - id: pcr.planck_mass
+    extends: mechanics.mass
+    symbol: m_P
+  - id: pcr.reference_mass
+    extends: mechanics.mass
+    symbol: r_M_star
+  - id: pcr.mass_resolution
+    symbol: epsilon_M
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 1
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: kg
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: pcr.duration
+    extends: time.duration
+    symbol: T
+  - id: pcr.planck_time
+    extends: time.reference_duration
+    symbol: t_P
+    frame: invariant
+  - id: pcr.reference_duration
+    extends: time.reference_duration
+    symbol: r_T_star
+  - id: pcr.temporal_resolution
+    extends: time.duration
+    symbol: epsilon_T
+  - id: pcr.energy_threshold
+    extends: mechanics.energy
+    symbol: epsilon_E
+  - id: pcr.speed_of_light
+    extends: relativity.speed_of_light
+  - id: pcr.speed_of_light_squared
+    symbol: c_squared
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 0
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2/s^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: pcr.hbar
+    extends: quantum.hbar
+  - id: pcr.gravitational_constant
+    symbol: G
+    semantic_kind: scalar
+    dimension:
+    - 3
+    - -1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^3/(kg*s^2)
+    unit_context: SI
+    frame: invariant
+    claim_status: empirical
+  - id: pcr.hubble_rate
+    symbol: H_0
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: 1/s
+    unit_context: SI
+    frame: cosmological
+    claim_status: model
+  - id: pcr.density_fraction
+    extends: dimensionless.scalar
+    symbol: Omega
+  - id: pcr.density
+    symbol: rho
+    semantic_kind: scalar
+    dimension:
+    - -3
+    - 1
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: kg/m^3
+    unit_context: SI
+    frame: cosmological
+    claim_status: model
+  - id: pcr.volume
+    symbol: V
+    semantic_kind: scalar
+    dimension:
+    - 3
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^3
+    unit_context: SI
+    frame: cosmological
+    claim_status: model
+  - id: pcr.log_coordinate
+    extends: dimensionless.scalar
+    symbol: chi
+  - id: pcr.log_coordinate_second
+    extends: dimensionless.scalar
+    symbol: chi_prime
+  expressions:
+  - id: logarithmic_length_descriptor
+    anchor: section 3, chi_L=log_b(L/ell_P)
+    ast:
+      op: log
+      base: b
+      arg:
+        op: normalize
+        value:
+          q: pcr.length
+        reference:
+          q: pcr.planck_length
+        zero_policy: positive_planck_length
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: logarithmic_mass_descriptor
+    anchor: section 3, chi_M=log_b(M/m_P)
+    ast:
+      op: log
+      base: b
+      arg:
+        op: normalize
+        value:
+          q: pcr.mass
+        reference:
+          q: pcr.planck_mass
+        zero_policy: positive_planck_mass
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: logarithmic_time_descriptor
+    anchor: section 3, chi_T=log_b(T/t_P)
+    ast:
+      op: log
+      base: b
+      arg:
+        op: normalize
+        value:
+          q: pcr.duration
+        reference:
+          q: pcr.planck_time
+        zero_policy: positive_planck_time
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: spatial_resolution_depth
+    anchor: section 5, eta_L=log_b(r_L_star/epsilon_L)
+    ast:
+      op: log
+      base: b
+      arg:
+        op: normalize
+        value:
+          q: pcr.reference_length
+        reference:
+          q: pcr.spatial_resolution
+        zero_policy: positive_spatial_resolution
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: mass_resolution_depth
+    anchor: section 5, eta_M=log_b(r_M_star/epsilon_M)
+    ast:
+      op: log
+      base: b
+      arg:
+        op: normalize
+        value:
+          q: pcr.reference_mass
+        reference:
+          q: pcr.mass_resolution
+        zero_policy: positive_mass_resolution
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: temporal_resolution_depth
+    anchor: section 5, eta_T=log_b(r_T_star/epsilon_T)
+    ast:
+      op: log
+      base: b
+      arg:
+        op: normalize
+        value:
+          q: pcr.reference_duration
+        reference:
+          q: pcr.temporal_resolution
+        zero_policy: positive_temporal_resolution
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: spatial_resolution_margin
+    anchor: section 5, g_L=log_b(L/epsilon_L)
+    ast:
+      op: log
+      base: b
+      arg:
+        op: normalize
+        value:
+          q: pcr.length
+        reference:
+          q: pcr.spatial_resolution
+        zero_policy: positive_spatial_resolution
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: energy_to_mass_resolution_converter
+    anchor: section 2, epsilon_M=epsilon_E/c^2
+    ast:
+      op: div
+      left:
+        q: pcr.energy_threshold
+      right:
+        q: pcr.speed_of_light_squared
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: planck_speed_identity
+    anchor: section 6, ell_P/t_P=c
+    ast:
+      op: div
+      left:
+        q: pcr.planck_length
+      right:
+        q: pcr.planck_time
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: planck_action_identity
+    anchor: section 6, ell_P m_P c=hbar
+    ast:
+      op: mul
+      left:
+        op: mul
+        left:
+          q: pcr.planck_length
+        right:
+          q: pcr.planck_mass
+      right:
+        q: pcr.speed_of_light
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: planck_energy_identity
+    anchor: section 6, E_P=m_P c^2
+    ast:
+      op: mul
+      left:
+        q: pcr.planck_mass
+      right:
+        q: pcr.speed_of_light_squared
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: planck_density
+    anchor: section 6, rho_P=m_P/ell_P^3
+    ast:
+      op: div
+      left:
+        q: pcr.planck_mass
+      right:
+        op: pow
+        arg:
+          q: pcr.planck_length
+        exponent: 3
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - -3
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: reduced_compton_length
+    anchor: section 6, lambda_bar_C=hbar/(Mc)
+    ast:
+      op: div
+      left:
+        q: pcr.hbar
+      right:
+        op: mul
+        left:
+          q: pcr.mass
+        right:
+          q: pcr.speed_of_light
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: schwarzschild_length_without_dimensionless_two
+    anchor: section 6, r_s=2GM/c^2
+    ast:
+      op: div
+      left:
+        op: mul
+        left:
+          q: pcr.gravitational_constant
+        right:
+          q: pcr.mass
+      right:
+        q: pcr.speed_of_light_squared
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: causal_dimensionless_ratio
+    anchor: section 6, L/(cT)
+    ast:
+      op: div
+      left:
+        q: pcr.length
+      right:
+        op: mul
+        left:
+          q: pcr.speed_of_light
+        right:
+          q: pcr.duration
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: first_order_relative_length_uncertainty
+    anchor: section 7, u_L/L
+    ast:
+      op: normalize
+      value:
+        q: pcr.length_uncertainty
+      reference:
+        q: pcr.length
+      zero_policy: positive_measurand
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: critical_density_dimension
+    anchor: section 8, rho_c0=3H_0^2/(8piG)
+    ast:
+      op: div
+      left:
+        op: pow
+        arg:
+          q: pcr.hubble_rate
+        exponent: 2
+      right:
+        q: pcr.gravitational_constant
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - -3
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: flat_horizon_volume_dimension
+    anchor: section 8, V_flat=(4pi/3)R^3
+    ast:
+      op: pow
+      arg:
+        q: pcr.length
+      exponent: 3
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 3
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: cosmological_mass_equivalent_dimension
+    anchor: section 8, M=Omega rho V
+    ast:
+      op: mul
+      left:
+        op: mul
+        left:
+          q: pcr.density_fraction
+        right:
+          q: pcr.density
+      right:
+        q: pcr.volume
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  invariants:
+  - id: coherent_unit_invariance
+    claimed_invariant: true
+    group: positive_coherent_axis_rescalings
+    anchor: theorem 4.1(i)
+  - id: anchor_independence_of_coordinate_differences
+    claimed_invariant: true
+    group: logarithmic_anchor_translations
+    anchor: theorem 4.1(ii)
+  - id: covariant_base_invariance_of_weighted_distance
+    claimed_invariant: true
+    group: positive_base_changes_with_weight_covariance
+    anchor: theorem 4.3
+  claim_register:
+  - id: positive_cone_global_chart
+    status: theorem
+    hypotheses:
+    - positive_scale_triple
+    - positive_reference_triple
+    - logarithm_base_greater_than_one
+  - id: coordinate_covariance
+    status: theorem
+    hypotheses:
+    - coherent_unit_conversion_or_declared_anchor_or_base_change
+  - id: weighted_log_scale_metric
+    status: theorem
+    hypotheses:
+    - symmetric_positive_definite_dimensionless_weight_matrix
+  - id: anchor_independent_resolution_margin
+    status: proposition
+    hypotheses:
+    - matched_measurand_and_resolution_axis
+    - positive_scales
+  - id: monomial_log_linearization
+    status: theorem
+    hypotheses:
+    - positive_quantities
+    - dimensionally_matched_references
+  - id: causal_log_half_space
+    status: corollary
+    hypotheses:
+    - length_and_duration_of_same_causal_process
+    - L_less_or_equal_c_times_T
+  - id: compton_schwarzschild_log_planes
+    status: corollary
+    hypotheses:
+    - standard_reduced_compton_and_schwarzschild_formulas
+    - planck_normalization
+  - id: first_order_log_uncertainty
+    status: proposition
+    hypotheses:
+    - positive_measurand_and_reference
+    - differentiable_first_order_covariance_propagation
+  - id: cosmic_mass_anchor_ambiguity
+    status: proposition
+    hypotheses:
+    - declared_flat_volume_landmark
+    - declared_H0_Omega_b_Omega_m
+  - id: cosmological_landmark_catalogue
+    status: model
+    hypotheses:
+    - Planck2018_flat_base_LambdaCDM_landmark
+    - rounded_93_Gly_present_comoving_particle_horizon
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_planck_cosmos_scale_reference_and_migrate_application_modules
+- id: mandelbrot-rulers-v1-1
+  title: Mandelbrot Rulers as Observation-Scale Geometry
+  version: 1.1.0
+  source:
+    pdf: work/p2_distance_scale_v0_3/build/mandelbrot/mandelbrot_rulers_observation_scale_v1_1.pdf
+    tex: work/p2_distance_scale_v0_3/src/mandelbrot_rulers_observation_scale_v1_1.tex
+    text: work/p2_distance_scale_v0_3/checks/mandelbrot/mandelbrot_rulers_observation_scale_v1_1.txt
+    pages: 11
+    sha256: 0a3b02c620c681b07bc279944e4fd2082b6ab8a088ee8f9dd377d2994cb6868f
+  ledger_level: reference
+  migration_status: p2_reference_pass
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - positive_coherent_metric_rescalings
+  - logarithm_base_changes
+  - bi_lipschitz_observations
+  - exponent_equivalent_protocols
+  maps:
+  - id: covering_discretizer
+    domain: totally_bounded_metric_set_and_resolution
+    codomain: finite_cover_count
+    kind: discretizer
+    invertibility: not_required
+    information_loss: possible
+  - id: divider_discretizer
+    domain: ordered_curve_and_protocol
+    codomain: ruler_step_count
+    kind: discretizer
+    invertibility: not_required
+    information_loss: possible
+  - id: dilation_observation
+    domain: euclidean_set_and_radius
+    codomain: minkowski_sausage_volume
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: scale_coordinate_reduction
+    domain: positive_reference_and_resolution
+    codomain: dimensionless_log_scale
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: finite_window_slope_estimator
+    domain: declared_scale_trace_window
+    codomain: exponent_and_residual_report
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: mandelbrot_v1_1
+    key: epsilon
+    meaning: physical_observation_resolution
+  - scope: mandelbrot_v1_1
+    key: ell_star
+    meaning: positive_reference_length
+  - scope: mandelbrot_v1_1
+    key: t
+    meaning: dimensionless_log_scale_coordinate
+  - scope: mandelbrot_v1_1
+    key: N_epsilon
+    meaning: protocol_specific_count
+  - scope: mandelbrot_v1_1
+    key: W
+    meaning: declared_fit_window
+  - scope: mandelbrot_v1_1
+    key: D_hat
+    meaning: finite_window_slope_estimate
+  - scope: mandelbrot_v1_1
+    key: Sigma
+    meaning: declared_log_count_covariance
+  quantities:
+  - id: mr11.epsilon
+    extends: observation.spatial_resolution
+    symbol: epsilon
+  - id: mr11.reference_length
+    extends: geometry.reference_length
+    symbol: ell_star
+  - id: mr11.count
+    extends: discrete.count
+    symbol: N_epsilon
+  - id: mr11.count_fine
+    extends: discrete.count
+    symbol: N_fine
+  - id: mr11.count_coarse
+    extends: discrete.count
+    symbol: N_coarse
+  - id: mr11.ruler_length
+    extends: geometry.length
+    symbol: L_epsilon
+  - id: mr11.normalized_ruler_length
+    extends: dimensionless.scalar
+    symbol: L_bar_epsilon
+  - id: mr11.log_scale
+    extends: dimensionless.scalar
+    symbol: t
+  - id: mr11.log_scale_first
+    extends: dimensionless.scalar
+    symbol: t_i
+  - id: mr11.log_scale_second
+    extends: dimensionless.scalar
+    symbol: t_j
+  - id: mr11.log_count
+    symbol: y
+    semantic_kind: information
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: declared_by_b
+    unit_context: neutral
+    frame: none
+    log_base: b
+    claim_status: definition
+  - id: mr11.log_count_first
+    extends: mr11.log_count
+    symbol: y_i
+  - id: mr11.log_count_second
+    extends: mr11.log_count
+    symbol: y_j
+  - id: mr11.dimension_estimate
+    extends: dimensionless.scalar
+    symbol: D_hat
+  - id: mr11.lipschitz_converter
+    extends: dimensionless.scalar
+    symbol: L_O
+  - id: mr11.output_resolution
+    extends: observation.spatial_resolution
+    symbol: epsilon_Y
+  - id: mr11.area
+    symbol: V_epsilon
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: mr11.reference_area
+    extends: mr11.area
+    symbol: ell_star_squared
+  - id: mr11.normalized_volume
+    extends: dimensionless.scalar
+    symbol: V_bar
+  - id: mr11.koch_initial_length
+    extends: geometry.reference_length
+    symbol: ell_0
+  - id: mr11.koch_segment_length
+    extends: geometry.length
+    symbol: epsilon_n
+  - id: mr11.residual
+    extends: dimensionless.scalar
+    symbol: r_i
+  expressions:
+  - id: normalized_resolution_ratio
+    anchor: section 2, ell_star/epsilon
+    ast:
+      op: normalize
+      value:
+        q: mr11.reference_length
+      reference:
+        q: mr11.epsilon
+      zero_policy: strictly_positive_resolution
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: typed_log_scale_coordinate
+    anchor: section 2, t=log_b(ell_star/epsilon)
+    ast:
+      op: log
+      base: b
+      arg:
+        op: normalize
+        value:
+          q: mr11.reference_length
+        reference:
+          q: mr11.epsilon
+        zero_policy: strictly_positive_resolution
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: typed_log_cover_count
+    anchor: section 3, H_b_epsilon=log_b N_epsilon
+    ast:
+      op: log
+      base: b
+      semantic_kind: information
+      arg:
+        q: mr11.count
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: ruler_length
+    anchor: section 6, L_epsilon=epsilon N_epsilon
+    ast:
+      op: mul
+      left:
+        q: mr11.count
+      right:
+        q: mr11.epsilon
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: normalized_ruler_length
+    anchor: section 6, L_epsilon/ell_star
+    ast:
+      op: normalize
+      value:
+        q: mr11.ruler_length
+      reference:
+        q: mr11.reference_length
+      zero_policy: strictly_positive_reference_length
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: normalized_minkowski_area
+    anchor: section 6, V_A(epsilon)/ell_star^2
+    ast:
+      op: normalize
+      value:
+        q: mr11.area
+      reference:
+        q: mr11.reference_area
+      zero_policy: strictly_positive_reference_length
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: finite_pairwise_slope
+    anchor: section 7, (y_j-y_i)/(t_j-t_i)
+    ast:
+      op: div
+      left:
+        op: sub
+        args:
+        - q: mr11.log_count_second
+        - q: mr11.log_count_first
+      right:
+        op: sub
+        args:
+        - q: mr11.log_scale_second
+        - q: mr11.log_scale_first
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: matched_lipschitz_resolution
+    anchor: section 4, L_O epsilon_X
+    ast:
+      op: mul
+      left:
+        q: mr11.lipschitz_converter
+      right:
+        q: mr11.epsilon
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: covering_monotonicity_comparison
+    anchor: section 3, N_fine >= N_coarse
+    ast:
+      op: compare
+      left:
+        q: mr11.count_fine
+      right:
+        q: mr11.count_coarse
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: probability
+  - id: koch_normalized_segment_scale
+    anchor: section 10, epsilon_n/ell_0
+    ast:
+      op: normalize
+      value:
+        q: mr11.koch_segment_length
+      reference:
+        q: mr11.koch_initial_length
+      zero_policy: strictly_positive_initial_length
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: koch_dimension_ratio
+    anchor: section 10, log(4)/log(3)
+    ast:
+      op: div
+      left:
+        op: log
+        base: e
+        arg:
+          const: 4
+      right:
+        op: log
+        base: e
+        arg:
+          const: 3
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: residual_is_dimensionless
+    anchor: section 7, r_i=y_i-alpha-D_hat t_i
+    ast:
+      q: mr11.residual
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  invariants:
+  - id: scale_coordinate_under_length_units
+    claimed_invariant: true
+    group: positive_coherent_metric_rescalings
+    anchor: sections 2 and 7
+  - id: finite_slope_under_log_base
+    claimed_invariant: true
+    group: logarithm_base_changes
+    anchor: section 7
+  - id: box_dimensions_under_bilipschitz_observation
+    claimed_invariant: true
+    group: bi_lipschitz_observations
+    anchor: section 4
+  - id: asymptotic_exponent_under_comparable_protocols
+    claimed_invariant: true
+    group: exponent_equivalent_protocols
+    anchor: section 5
+  claim_register:
+  - id: covering_count_monotonicity
+    status: proposition
+    hypotheses:
+    - fixed_metric
+    - fixed_cover_convention
+    - positive_resolutions
+  - id: box_dimension_reference_independence
+    status: theorem
+    hypotheses:
+    - positive_reference_length
+    - totally_bounded_nonempty_set
+  - id: matched_lipschitz_cover
+    status: theorem
+    hypotheses:
+    - positive_typed_lipschitz_constant
+    - totally_bounded_input_set
+  - id: bilipschitz_box_dimension_invariance
+    status: corollary
+    hypotheses:
+    - positive_lower_and_upper_distance_bounds
+  - id: protocol_comparison_theorem
+    status: theorem
+    hypotheses:
+    - two_sided_count_comparison_by_fixed_positive_constants
+  - id: finite_window_weighted_slope
+    status: diagnostic
+    hypotheses:
+    - at_least_two_distinct_log_scales
+    - positive_declared_weights
+  - id: gls_confidence_interval
+    status: model
+    hypotheses:
+    - declared_stochastic_log_count_model
+    - positive_definite_covariance
+  - id: koch_divider_benchmark
+    status: theorem
+    hypotheses:
+    - generator_aligned_koch_construction_scales
+  - id: natural_coastline_exponent
+    status: diagnostic
+    hypotheses:
+    - declared_protocol_window_residual_and_uncertainty
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_scale_trace_reference_and_migrate_planck_cosmos
+- id: regular-polyhedra-v1
+  title: Regular Polyhedra as Observation-Dependent Classification
+  version: 1.0.0
+  source:
+    pdf: upload/regular_polyhedra_observation_v1_bilingual(2).pdf
+    text: tmp/pdfs/text/regular_polyhedra_observation_v1_bilingual(2).txt
+    pages: 11
+    sha256: 890536d32b30a7b995f3e9b1935c13561331eb5476e519c0aa33511ffcf23d4e
+  ledger_level: critical_adapter
+  migration_status: category_and_order_fix_required
+  unit_contexts:
+  - neutral
+  groups:
+  - Aut_P
+  - geometric_symmetry_group
+  maps:
+  - id: realization
+    domain: incidence_structure
+    codomain: geometric_realization
+    kind: interpretation
+    invertibility: not_required
+    information_loss: possible
+  - id: observation_filter
+    domain: geometric_realization
+    codomain: visible_class
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  symbols:
+  - scope: combinatorics
+    key: P
+    meaning: incidence_structure
+  - scope: protocol
+    key: O_filter
+    meaning: admissibility_realization_equivalence_tuple
+  quantities:
+  - id: rp.flag_orbit_count
+    extends: discrete.count
+  expressions: []
+  invariants:
+  - id: flag_transitivity
+    claimed_invariant: true
+    group: Aut_P
+    anchor: sections 3 and 10
+  claim_register:
+  - id: observation_filter_dependence
+    status: proposition
+    hypotheses:
+    - a_defined_preorder_on_filters
+    - fixed_object_category
+  protocol_fields_present:
+  - hidden_space
+  - deterministic_observation
+  - observed_space
+  - reference_frame
+  manual_findings:
+  - rule: FILTER-ORDER
+    anchor: 'text lines 278-286: O1 subset O2'
+    message: O=(A,R,Q) is a tuple, but the partial order O1<=O2 and its variance in A,R,Q are not defined
+  next_action: define_category_of_objects_and_preorder_of_observation_filters
+- id: satellite-networks-v1-1
+  title: Satellite Networks as Nested Observation Geometry
+  version: 1.1.0
+  source:
+    pdf: upload/satellite_networks_observation_v11_relativistic_bilingual(2).pdf
+    text: tmp/pdfs/text/satellite_networks_observation_v11_relativistic_bilingual(2).txt
+    pages: 21
+    sha256: 0ceb2a8452911791f5597a3d9cb848203e8d664c6940b29740249c9f29a51ec2
+  ledger_level: critical_adapter
+  migration_status: frame_group_fix_required
+  unit_contexts:
+  - SI
+  - GR_geometrized
+  groups:
+  - common_translations
+  maps:
+  - id: common_translation
+    domain: network_configuration
+    codomain: translated_network_configuration
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: observer_trace
+    domain: nested_orbital_state
+    codomain: observer_frame_curves
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  symbols:
+  - scope: frame
+    key: A_t
+    meaning: common_translation
+  - scope: geometry
+    key: K_O
+    meaning: observer_frame_orbit_closure
+  quantities:
+  - id: sn.ri
+    extends: geometry.position
+    frame: observer
+  - id: sn.rj
+    extends: geometry.position
+    frame: observer
+  - id: sn.translation
+    extends: geometry.displacement
+    frame: observer
+  expressions:
+  - id: pairwise_distance_translation_cancellation
+    anchor: text lines 139-147
+    ast:
+      op: sub
+      args:
+      - op: add
+        args:
+        - q: sn.ri
+        - q: sn.translation
+      - op: add
+        args:
+        - q: sn.rj
+        - q: sn.translation
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: observer
+  invariants:
+  - id: observer_frame_orbit_closure
+    claimed_invariant: true
+    group: null
+    anchor: text lines 310-365
+  claim_register:
+  - id: pairwise_distance_translation_invariance
+    status: proposition
+    hypotheses:
+    - common_translation_applied_to_all_nodes
+    - euclidean_distance
+  - id: toric_closure
+    status: proposition
+    hypotheses:
+    - quasiperiodic_phase_model
+    - declared_frequency_vector
+  protocol_fields_present:
+  - hidden_space
+  - deterministic_observation
+  - observed_space
+  - reference_frame
+  - temporal_resolution
+  - observation_horizon
+  - unit_context
+  manual_findings:
+  - rule: FRAME-COVERAGE
+    anchor: sections 1.2 and 1.9
+    message: the proved frame law covers common translations, not the full SE(3) or Lorentz observer class
+      used elsewhere in the narrative
+  next_action: restrict_invariant_claims_to_declared_group_and_type_orbit_closure_as_protocol_dependent
+- id: frames-forces-dissipation-interface-v0-1
+  title: Frames, Forces, Constraints, and Dissipation under Observation Maps
+  version: 0.1.0
+  source:
+    pdf: work/p5_mechanics_frames_v0_6/build/interface/frame_force_dissipation_interface_v0_1.pdf
+    tex: work/p5_mechanics_frames_v0_6/src/frame_force_dissipation_interface_v0_1.tex
+    text: work/p5_mechanics_frames_v0_6/checks_final/interface/frame_force_dissipation_interface_v0_1.txt
+    pages: 7
+    sha256: 0af4c0b49aba775e28cac7644c9d5e17dd17982801cb0843e7ed56cfbb5e093f
+  ledger_level: reference
+  migration_status: p5_reference_pass
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - SO3_coframed_vector_changes
+  - SE3_static_point_changes
+  - configuration_coordinate_changes
+  maps:
+  - id: directed_frame_edge
+    domain: vector_components_in_source_frame
+    codomain: vector_components_in_target_frame
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: affine_point_frame_map
+    domain: point_and_frame_pose
+    codomain: point_in_target_frame
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: spatial_force_pullback
+    domain: spatial_force_and_application_jacobian
+    codomain: generalized_force_covector
+    kind: pullback
+    invertibility: not_required
+    information_loss: possible
+  - id: mechanics_reduction
+    domain: ambient_mechanical_state
+    codomain: constrained_configuration_state
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: ideal_mechanical_observation
+    domain: framed_constrained_state
+    codomain: ideal_sensor_readout
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: mechanical_measurement_channel
+    domain: ideal_sensor_readout
+    codomain: probability_law_on_recorded_data
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: mechanical_estimator
+    domain: recorded_data
+    codomain: estimated_mechanical_quantity
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: frames_v0_1
+    key: A_F_from_G
+    meaning: directed_rotation_edge
+  - scope: frames_v0_1
+    key: Omega_F
+    meaning: angular_velocity_in_moving_frame
+  - scope: mechanics_v0_1
+    key: Q_d
+    meaning: dissipative_generalized_force
+  - scope: mechanics_v0_1
+    key: P_diss
+    meaning: nonnegative_dissipated_power
+  - scope: contact_v0_1
+    key: g_j
+    meaning: positive_separation_gap
+  - scope: contact_v0_1
+    key: N_j
+    meaning: compressive_normal_reaction
+  quantities:
+  - id: ffd.origin_position
+    extends: geometry.position
+    symbol: c_F
+    frame: inertial
+  - id: ffd.mapped_point
+    extends: geometry.displacement
+    symbol: A_x
+    frame: inertial
+  - id: ffd.target_point
+    extends: geometry.position
+    symbol: x_I
+    frame: inertial
+  - id: ffd.local_acceleration
+    extends: mechanics.acceleration
+    symbol: a_F
+    frame: moving
+  - id: ffd.coriolis_acceleration
+    extends: mechanics.acceleration
+    symbol: a_cor
+    frame: moving
+  - id: ffd.euler_acceleration
+    extends: mechanics.acceleration
+    symbol: a_eul
+    frame: moving
+  - id: ffd.centrifugal_acceleration
+    extends: mechanics.acceleration
+    symbol: a_cen
+    frame: moving
+  - id: ffd.mass
+    extends: mechanics.mass
+  - id: ffd.physical_acceleration
+    extends: mechanics.acceleration
+    frame: inertial
+  - id: ffd.physical_force
+    extends: mechanics.force
+    frame: inertial
+  - id: ffd.physical_velocity
+    extends: mechanics.velocity
+    frame: inertial
+  - id: ffd.energy
+    extends: mechanics.energy
+  - id: ffd.time
+    extends: time.duration
+  - id: ffd.active_power
+    extends: mechanics.power
+    symbol: P_act
+  - id: ffd.dissipated_power
+    extends: mechanics.power
+    symbol: P_diss
+  - id: ffd.constraint_power
+    extends: mechanics.power
+    symbol: P_con
+  - id: ffd.explicit_lagrangian_power
+    extends: mechanics.power
+    symbol: partial_t_L
+  - id: ffd.rayleigh_function
+    extends: mechanics.power
+    symbol: R
+  - id: ffd.friction_force
+    extends: mechanics.force
+    frame: contact
+  - id: ffd.relative_velocity
+    extends: mechanics.velocity
+    frame: contact
+  - id: ffd.friction_coefficient
+    extends: mechanics.friction_coefficient
+  - id: ffd.normal_force_magnitude
+    symbol: N
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: ffd.friction_capacity
+    symbol: mu_N
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: ffd.friction_force_norm
+    symbol: norm_T
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: ffd.cone_utilization
+    extends: dimensionless.scalar
+    symbol: u
+  expressions:
+  - id: affine_point_sum
+    anchor: section 2, x_I=c_F+A x_F
+    ast:
+      op: add
+      args:
+      - q: ffd.origin_position
+      - q: ffd.mapped_point
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: inertial
+  - id: moving_frame_acceleration_sum
+    anchor: theorem 3.3, acceleration bracket
+    ast:
+      op: add
+      args:
+      - q: ffd.local_acceleration
+      - q: ffd.coriolis_acceleration
+      - q: ffd.euler_acceleration
+      - q: ffd.centrifugal_acceleration
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: moving
+  - id: newton_force
+    anchor: section 3, m a
+    ast:
+      op: mul
+      left:
+        q: ffd.mass
+      right:
+        q: ffd.physical_acceleration
+      semantic_kind: vector
+      frame: inertial
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: inertial
+  - id: orthogonal_power_pairing
+    anchor: section 5, F dot v
+    ast:
+      op: dot
+      left:
+        q: ffd.physical_force
+      right:
+        q: ffd.physical_velocity
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: energy_rate
+    anchor: theorem 7.1, dot E_L
+    ast:
+      op: derivative
+      dependent:
+        q: ffd.energy
+      independent:
+        q: ffd.time
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: energy_balance_rhs
+    anchor: theorem 7.1, P_act-P_diss+P_con-partial_t_L
+    ast:
+      op: sub
+      args:
+      - q: ffd.active_power
+      - q: ffd.dissipated_power
+      - q: ffd.constraint_power
+      - q: ffd.explicit_lagrangian_power
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: rayleigh_loss
+    anchor: section 6, P_diss=2R
+    ast:
+      op: mul
+      left:
+        const: 2
+        dimension:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        unit_context: neutral
+      right:
+        q: ffd.rayleigh_function
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: friction_power
+    anchor: section 6, -T dot v_T
+    ast:
+      op: dot
+      left:
+        q: ffd.friction_force
+      right:
+        q: ffd.relative_velocity
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: friction_capacity
+    anchor: section 6, mu N
+    ast:
+      op: mul
+      left:
+        q: ffd.friction_coefficient
+      right:
+        q: ffd.normal_force_magnitude
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: guarded_cone_utilization
+    anchor: section 6, piecewise norm(T)/(mu N)
+    ast:
+      op: normalize
+      value:
+        q: ffd.friction_force_norm
+      reference:
+        q: ffd.friction_capacity
+      zero_policy: piecewise_zero_capacity_guard
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  invariants:
+  - id: orthogonal_virtual_power
+    claimed_invariant: true
+    group: SO3_coframed_vector_changes
+    anchor: section 5
+  - id: static_euclidean_distance
+    claimed_invariant: true
+    group: SE3_static_point_changes
+    anchor: sections 2 and 8
+  claim_register:
+  - id: moving_frame_kinematics
+    status: theorem
+    hypotheses:
+    - twice_differentiable_point_and_frame
+    - declared_angular_velocity_convention
+  - id: mass_form_rank
+    status: proposition
+    hypotheses:
+    - positive_masses
+    - differentiable_configuration_realization
+  - id: energy_balance
+    status: theorem
+    hypotheses:
+    - C2_solution
+    - smooth_forced_lagrange_dalembert_regime
+  - id: coulomb_friction_layer
+    status: model
+    hypotheses:
+    - fixed_force_on_body_convention
+    - smooth_active_contact_regime
+  protocol_fields_present: &id001
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_common_mechanics_reference
+- id: celestial-foucault-networks-v1-1
+  title: Foucault Networks on Celestial Bodies
+  version: 1.1.0
+  source:
+    pdf: work/p5_mechanics_frames_v0_6/build/foucault/celestial_foucault_networks_v1_1.pdf
+    tex: work/p5_mechanics_frames_v0_6/src/celestial_foucault_networks_v1_1.tex
+    text: work/p5_mechanics_frames_v0_6/checks_final/foucault/celestial_foucault_networks_v1_1.txt
+    pages: 6
+    sha256: f33ce208083ae1e465d8663848832350d586d8f432052ad888213306095d5533
+  ledger_level: reference
+  migration_status: p5_reference_pass
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - SO3_common_body_vector_changes
+  - SE3_static_observer_isometries
+  - time_origin_translations
+  - tangent_orientation_reversal
+  maps:
+  - id: body_to_inertial_attitude
+    domain: body_vector_components
+    codomain: inertial_vector_components
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: inertial_to_observer_frame
+    domain: inertial_point_and_observer_pose
+    codomain: observer_point
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: finite_hierarchy_reduction
+    domain: celestial_state_family
+    codomain: finite_body_site_pendulum_state
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: camera_projection
+    domain: observer_frame_endpoint
+    codomain: ideal_screen_trace
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: sampled_trace_channel
+    domain: ideal_screen_trace
+    codomain: probability_law_on_sampled_trace
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: frequency_relation_estimator
+    domain: sampled_trace
+    codomain: estimated_frequency_relations
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: foucault_v1_1
+    key: A_I_from_B
+    meaning: body_to_inertial_attitude
+  - scope: foucault_v1_1
+    key: Omega_n
+    meaning: signed_normal_spin_component
+  - scope: foucault_v1_1
+    key: J
+    meaning: oriented_tangent_quarter_turn
+  - scope: foucault_v1_1
+    key: beta
+    meaning: linear_damping_rate
+  quantities:
+  - id: fou11.body_center
+    extends: geometry.position
+    frame: inertial
+  - id: fou11.rotated_site
+    extends: geometry.displacement
+    frame: inertial
+  - id: fou11.rotated_local_displacement
+    extends: geometry.displacement
+    frame: inertial
+  - id: fou11.endpoint
+    extends: geometry.position
+    frame: inertial
+  - id: fou11.observer_origin
+    extends: geometry.position
+    frame: inertial
+  - id: fou11.body_angular_velocity
+    symbol: Omega_B
+    semantic_kind: vector
+    dimension:
+    - 0
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: rad/s
+    unit_context: SI
+    frame: body
+    claim_status: definition
+  - id: fou11.local_normal
+    extends: dimensionless.scalar
+    symbol: n_B
+    semantic_kind: vector
+    frame: body
+  - id: fou11.normal_spin_rate
+    extends: time.angular_frequency
+    symbol: Omega_n
+    frame: scalar
+  - id: fou11.body_rotation_rate
+    extends: time.angular_frequency
+    symbol: Omega
+    frame: scalar
+  - id: fou11.latitude
+    extends: geometry.angle
+    symbol: lambda
+  - id: fou11.damping_rate
+    extends: time.angular_frequency
+    symbol: beta
+    frame: scalar
+  - id: fou11.mass
+    extends: mechanics.mass
+  - id: fou11.local_velocity
+    extends: mechanics.velocity
+    frame: local_tangent
+  - id: fou11.local_displacement
+    extends: geometry.displacement
+    frame: local_tangent
+  - id: fou11.oscillator_rate_squared
+    extends: time.angular_frequency_squared
+    symbol: omega_0_squared
+    frame: scalar
+  - id: fou11.local_energy
+    extends: mechanics.energy
+  - id: fou11.time
+    extends: time.duration
+  - id: fou11.phase
+    extends: geometry.angle
+    symbol: theta
+  expressions:
+  - id: inertial_endpoint_sum
+    anchor: section 2, equation endpoint-I
+    ast:
+      op: add
+      args:
+      - q: fou11.body_center
+      - q: fou11.rotated_site
+      - q: fou11.rotated_local_displacement
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: inertial
+  - id: observer_relative_point
+    anchor: section 2, p_I-c_O_I before observer rotation
+    ast:
+      op: sub
+      args:
+      - q: fou11.endpoint
+      - q: fou11.observer_origin
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: inertial
+  - id: normal_spin_projection
+    anchor: section 3, Omega_n=Omega_B dot n_B
+    ast:
+      op: dot
+      left:
+        q: fou11.body_angular_velocity
+      right:
+        q: fou11.local_normal
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: spherical_normal_rate
+    anchor: section 3, Omega sin(lambda)
+    ast:
+      op: mul
+      left:
+        q: fou11.body_rotation_rate
+      right:
+        op: trig
+        function: sin
+        arg:
+          q: fou11.latitude
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: local_energy_rate
+    anchor: section 4, dot E_loc
+    ast:
+      op: derivative
+      dependent:
+        q: fou11.local_energy
+      independent:
+        q: fou11.time
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: damping_dissipation_power
+    anchor: section 4, 2 m beta norm(u_dot)^2
+    ast:
+      op: mul
+      left:
+        op: mul
+        left:
+          const: 2
+          dimension:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          unit_context: neutral
+        right:
+          q: fou11.mass
+      right:
+        op: mul
+        left:
+          q: fou11.damping_rate
+        right:
+          op: pow
+          arg:
+            op: norm
+            arg:
+              q: fou11.local_velocity
+          exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: typed_periodic_readout
+    anchor: section 5, exp(i theta) channel
+    ast:
+      op: trig
+      function: cos
+      arg:
+        q: fou11.phase
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  invariants:
+  - id: normal_spin_scalar
+    claimed_invariant: true
+    group: SO3_common_body_vector_changes
+    anchor: sections 2 and 7
+  - id: orbit_closure_topology
+    claimed_invariant: true
+    group: SE3_static_observer_isometries
+    anchor: sections 5 and 6
+  - id: static_observer_frequency_support
+    claimed_invariant: true
+    group: time_origin_translations
+    anchor: section 6
+  claim_register:
+  - id: reduced_signed_precession
+    status: theorem
+    hypotheses:
+    - undamped_linear_small_amplitude_model
+    - fixed_oriented_tangent_plane
+    - constant_normal_spin_component
+  - id: local_energy_dissipation
+    status: proposition
+    hypotheses:
+    - linear_foucault_model
+    - nonnegative_damping_rate
+  - id: torus_orbit_closure
+    status: theorem
+    hypotheses:
+    - finite_frequency_vector
+    - continuous_torus_readout
+  - id: trace_nonidentifiability
+    status: proposition
+    hypotheses:
+    - single_lossy_projection
+    - finite_or_sampled_observation_channel
+  protocol_fields_present: *id001
+  next_action: retain_as_frame_consistent_celestial_toy_reference
+- id: billiards-observation-v1-1
+  title: Billiards as a Typed Geometry of Observation Laboratory
+  version: 1.1.0
+  source:
+    pdf: work/p7_billiards_v0_8/build/billiards/billiards_observation_laboratory_v1_1.pdf
+    tex: work/p7_billiards_v0_8/src/billiards_observation_laboratory_v1_1.tex
+    text: work/p7_billiards_v0_8/checks/billiards/billiards_observation_laboratory_v1_1.txt
+    pages: 9
+    sha256: 162775907ff1be26f95cacda82277e6a16ab340bd1a38198d38d451c1d0852e8
+  ledger_level: reference
+  migration_status: strict_reference_migrated
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - euclidean_table_isometries
+  - positive_table_similarities
+  - boundary_reparameterizations
+  - finite_symbol_relabelings
+  - elastic_time_reversal
+  - integer_collision_iteration_action
+  - disk_collision_iteration_action
+  maps:
+  - id: collision_section_reduction
+    domain: regular_continuous_billiard_flow
+    codomain: regular_boundary_collision_space
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: collision_map
+    domain: regular_boundary_collision_space_minus_forward_singularities
+    codomain: regular_boundary_collision_space
+    kind: reduction
+    invertibility: required
+    information_loss: false
+  - id: roof_time_readout
+    domain: regular_collision_state
+    codomain: positive_flight_duration
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: true
+  - id: impact_position_readout
+    domain: regular_collision_state
+    codomain: boundary_arclength
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: true
+  - id: two_impact_reconstruction
+    domain: ordered_pair_of_regular_impacts_on_known_strictly_convex_table
+    codomain: current_regular_collision_state
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  - id: finite_symbolic_word
+    domain: regular_collision_state
+    codomain: finite_alphabet_word_of_declared_horizon
+    kind: discretizer
+    invertibility: not_required
+    information_loss: true
+  - id: recorded_symbol_channel
+    domain: true_finite_symbolic_word
+    codomain: observed_word_with_missing_or_misclassified_symbols
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: laplacian_spectral_map
+    domain: bounded_planar_domain_with_Dirichlet_boundary_condition
+    codomain: ordered_inverse_length_squared_spectrum_with_multiplicity
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: true
+  - id: laplacian_energy_bridge
+    domain: laplacian_eigenvalue_with_positive_particle_mass_and_hbar
+    codomain: nonrelativistic_energy
+    kind: interpretation
+    invertibility: required
+    information_loss: false
+  - id: finite_window_divergence_estimator
+    domain: declared_collision_space_distance_series_and_fit_window
+    codomain: dimensionless_slope_per_collision
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: collision
+    key: T
+    meaning: regular_elastic_collision_map
+  - scope: collision
+    key: tau
+    meaning: positive_free_flight_roof_time
+  - scope: collision
+    key: phi
+    meaning: outgoing_angle_from_inward_normal
+  - scope: collision
+    key: p
+    meaning: sin_phi_tangent_collision_coordinate
+  - scope: information
+    key: H_b
+    meaning: declared_base_b_symbol_entropy
+  - scope: information
+    key: h_b
+    meaning: declared_partition_entropy_rate
+  - scope: spectral
+    key: lambda_n
+    meaning: Dirichlet_Laplacian_eigenvalue_with_dimension_inverse_length_squared
+  - scope: spectral
+    key: E_n
+    meaning: physical_nonrelativistic_energy_after_hbar_mass_bridge
+  - scope: diagnostics
+    key: lambda_hat
+    meaning: finite_window_log_distance_slope_not_asymptotic_exponent
+  quantities:
+  - id: billiards.position
+    extends: geometry.position
+    symbol: q
+    frame: lab
+  - id: billiards.chord_displacement
+    extends: geometry.displacement
+    symbol: q_prime_minus_q
+    frame: lab
+  - id: billiards.direction
+    symbol: u
+    semantic_kind: vector
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: lab
+    claim_status: definition
+  - id: billiards.normal
+    symbol: n
+    semantic_kind: vector
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: lab
+    claim_status: definition
+  - id: billiards.tangent
+    symbol: t
+    semantic_kind: vector
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: lab
+    claim_status: definition
+  - id: billiards.normal_component
+    symbol: u_dot_n
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: scalar
+    claim_status: definition
+  - id: billiards.tangent_coordinate
+    symbol: p
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: scalar
+    claim_status: definition
+  - id: billiards.speed
+    symbol: c_0
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s
+    unit_context: SI
+    frame: lab
+    claim_status: definition
+  - id: billiards.normal_speed
+    symbol: v_n
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s
+    unit_context: SI
+    frame: contact
+    claim_status: model
+  - id: billiards.duration
+    extends: time.duration
+    symbol: t
+  - id: billiards.roof_time
+    extends: time.duration
+    symbol: tau
+  - id: billiards.chord_length
+    extends: geometry.length
+    symbol: ell_chord
+  - id: billiards.flight_length
+    extends: geometry.length
+    symbol: ell_flight
+  - id: billiards.boundary_length
+    extends: geometry.length
+    symbol: L_boundary
+  - id: billiards.arclength
+    extends: geometry.length
+    symbol: s
+  - id: billiards.radius
+    extends: geometry.length
+    symbol: R
+  - id: billiards.disk_advance
+    extends: geometry.length
+    symbol: Delta_s
+  - id: billiards.reduced_angular_momentum_coordinate
+    extends: geometry.length
+    symbol: j_z
+  - id: billiards.angle
+    extends: geometry.angle
+    symbol: phi
+  - id: billiards.central_angle
+    extends: geometry.angle
+    symbol: Delta_theta
+  - id: billiards.full_turn_angle
+    extends: geometry.angle
+    symbol: 2_pi
+  - id: billiards.cos_phi
+    symbol: cos_phi
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: billiards.normalized_arclength
+    symbol: s_over_L
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: billiards.rotation_number
+    symbol: rho
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: turn
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: billiards.symbol_probability
+    extends: information.probability
+    symbol: p_j
+  - id: billiards.word_probability
+    extends: information.probability
+    symbol: P_n_w
+  - id: billiards.marginal_entropy
+    symbol: H_b
+    semantic_kind: information
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: log_base_b_unit
+    unit_context: neutral
+    frame: none
+    log_base: b
+    claim_status: diagnostic
+  - id: billiards.block_entropy
+    symbol: H_b_n
+    semantic_kind: information
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: log_base_b_unit
+    unit_context: neutral
+    frame: none
+    log_base: b
+    claim_status: definition
+  - id: billiards.max_marginal_entropy
+    symbol: log_b_m
+    semantic_kind: information
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: log_base_b_unit
+    unit_context: neutral
+    frame: none
+    log_base: b
+    claim_status: definition
+  - id: billiards.observed_distance
+    extends: geometry.length
+    symbol: d_k
+  - id: billiards.reference_distance
+    extends: geometry.reference_length
+    symbol: d_star
+  - id: billiards.distance_ratio
+    symbol: d_k_over_d_star
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: diagnostic
+  - id: billiards.iteration_count
+    extends: discrete.count
+    symbol: N
+  - id: billiards.laplacian_eigenvalue
+    extends: spectral.laplacian_eigenvalue
+    symbol: lambda_n
+  - id: billiards.scaled_laplacian_eigenvalue
+    extends: spectral.laplacian_eigenvalue
+    symbol: lambda_n_scaled
+  - id: billiards.hbar
+    extends: quantum.hbar
+    symbol: hbar
+  - id: billiards.mass
+    extends: mechanics.mass
+    symbol: m
+  - id: billiards.energy
+    extends: mechanics.energy
+    symbol: E_n
+  - id: billiards.area
+    symbol: area_Omega
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: billiards.scaled_area
+    symbol: area_scaled_Omega
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m^2
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: billiards.dimensionless_spectrum
+    symbol: lambda_tilde_n
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: definition
+  - id: billiards.restitution
+    symbol: e
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: model
+  - id: billiards.restitution_factor
+    symbol: one_minus_e_squared
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: '1'
+    unit_context: neutral
+    frame: none
+    claim_status: model
+  - id: billiards.dissipative_loss
+    extends: mechanics.energy
+    symbol: Delta_E_diss
+  expressions:
+  - id: free_flight_length
+    anchor: equation (1), c0 times duration
+    ast:
+      op: mul
+      left:
+        q: billiards.speed
+      right:
+        q: billiards.duration
+      semantic_kind: scalar
+      frame: lab
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: lab
+  - id: incoming_normal_component
+    anchor: equation (2), dot(u_minus,n)
+    ast:
+      op: dot
+      left:
+        q: billiards.direction
+      right:
+        q: billiards.normal
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: reflection_normal_correction
+    anchor: equation (2), scalar normal correction
+    ast:
+      op: mul
+      left:
+        q: billiards.normal_component
+      right:
+        q: billiards.normal
+      semantic_kind: vector
+      frame: lab
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: lab
+  - id: roof_time
+    anchor: definition 2.1, chord length divided by c0
+    ast:
+      op: div
+      left:
+        q: billiards.chord_length
+      right:
+        q: billiards.speed
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: tangent_coordinate
+    anchor: section 2, p equals dot(u,t)
+    ast:
+      op: dot
+      left:
+        q: billiards.direction
+      right:
+        q: billiards.tangent
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: cosine_of_collision_angle
+    anchor: equation (4), cos(phi)
+    ast:
+      op: trig
+      function: cos
+      arg:
+        q: billiards.angle
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: normalized_arclength
+    anchor: equation (4), ds divided by boundary length
+    ast:
+      op: normalize
+      value:
+        q: billiards.arclength
+      reference:
+        q: billiards.boundary_length
+      zero_policy: positive_boundary_length
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: normalized_collision_measure_factor
+    anchor: equation (4), cos(phi) ds over boundary length
+    ast:
+      op: mul
+      left:
+        q: billiards.cos_phi
+      right:
+        q: billiards.normalized_arclength
+      semantic_kind: scalar
+      frame: none
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: none
+  - id: reconstructed_unit_direction
+    anchor: equation (5), chord displacement divided by chord length
+    ast:
+      op: div
+      left:
+        q: billiards.chord_displacement
+      right:
+        q: billiards.chord_length
+      semantic_kind: vector
+      frame: lab
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: lab
+  - id: symbol_probability_logarithm
+    anchor: equation (9), log_b p_j
+    ast:
+      op: log
+      arg:
+        q: billiards.symbol_probability
+      base: b
+      semantic_kind: information
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: word_probability_logarithm
+    anchor: equation (10), log_b P_n(w)
+    ast:
+      op: log
+      arg:
+        q: billiards.word_probability
+      base: b
+      semantic_kind: information
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: normalized_marginal_entropy
+    anchor: section 4, H_b divided by log_b m
+    ast:
+      op: normalize
+      value:
+        q: billiards.marginal_entropy
+      reference:
+        q: billiards.max_marginal_entropy
+      zero_policy: alphabet_size_greater_than_one
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: disk_advance_length
+    anchor: equation (12), R times central angle
+    ast:
+      op: mul
+      left:
+        q: billiards.radius
+      right:
+        q: billiards.central_angle
+      semantic_kind: scalar
+      frame: invariant
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: invariant
+  - id: disk_rotation_number
+    anchor: equation (13), central angle divided by full turn
+    ast:
+      op: normalize
+      value:
+        q: billiards.central_angle
+      reference:
+        q: billiards.full_turn_angle
+      zero_policy: full_turn_nonzero
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: disk_roof_time
+    anchor: equation (13), chord length divided by speed
+    ast:
+      op: div
+      left:
+        q: billiards.chord_length
+      right:
+        q: billiards.speed
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: disk_reduced_angular_momentum_coordinate
+    anchor: theorem 5.1, R times p
+    ast:
+      op: mul
+      left:
+        q: billiards.radius
+      right:
+        q: billiards.tangent_coordinate
+      semantic_kind: scalar
+      frame: invariant
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: invariant
+  - id: dimensionless_distance_ratio
+    anchor: equation (15), d_k divided by d_star
+    ast:
+      op: normalize
+      value:
+        q: billiards.observed_distance
+      reference:
+        q: billiards.reference_distance
+      zero_policy: positive_reference_distance
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: log_distance_ratio
+    anchor: equation (15), log(d_k/d_star)
+    ast:
+      op: log
+      arg:
+        q: billiards.distance_ratio
+      base: e
+      semantic_kind: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: hbar_squared
+    anchor: proposition 7.1, hbar squared
+    ast:
+      op: pow
+      arg:
+        q: billiards.hbar
+      exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 4
+      - 2
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: laplacian_energy_bridge
+    anchor: proposition 7.1, hbar squared lambda_n divided by mass
+    ast:
+      op: div
+      left:
+        op: mul
+        left:
+          op: pow
+          arg:
+            q: billiards.hbar
+          exponent: 2
+        right:
+          q: billiards.laplacian_eigenvalue
+      right:
+        q: billiards.mass
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: dimensionless_spectrum
+    anchor: equation (19), area times lambda_n
+    ast:
+      op: mul
+      left:
+        q: billiards.area
+      right:
+        q: billiards.laplacian_eigenvalue
+      semantic_kind: scalar
+      frame: invariant
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: invariant
+  - id: scaled_dimensionless_spectrum
+    anchor: proposition 7.2, scaled area times scaled lambda_n
+    ast:
+      op: mul
+      left:
+        q: billiards.scaled_area
+      right:
+        q: billiards.scaled_laplacian_eigenvalue
+      semantic_kind: scalar
+      frame: invariant
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: invariant
+  - id: normal_speed_squared
+    anchor: section 8, normal impact speed squared
+    ast:
+      op: pow
+      arg:
+        q: billiards.normal_speed
+      exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 0
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: dissipative_collision_loss
+    anchor: section 8, mass times one-minus-e-squared times normal-speed-squared
+    ast:
+      op: mul
+      left:
+        op: mul
+        left:
+          q: billiards.mass
+        right:
+          q: billiards.restitution_factor
+      right:
+        op: pow
+        arg:
+          q: billiards.normal_speed
+        exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  invariants:
+  - id: elastic_collision_measure
+    claimed_invariant: true
+    group: integer_collision_iteration_action
+    anchor: proposition 2.2
+  - id: disk_tangent_coordinate
+    claimed_invariant: true
+    group: disk_collision_iteration_action
+    anchor: theorem 5.1
+  - id: Dirichlet_spectrum_under_rigid_motion
+    claimed_invariant: true
+    group: euclidean_table_isometries
+    anchor: proposition 7.2
+  - id: area_normalized_spectrum_under_similarity
+    claimed_invariant: true
+    group: positive_table_similarities
+    anchor: proposition 7.2
+  - id: marginal_entropy_under_symbol_relabeling
+    claimed_invariant: true
+    group: finite_symbol_relabelings
+    anchor: section 4
+  claim_register:
+  - id: collision_measure_preservation
+    status: proposition
+    hypotheses:
+    - elastic_specular_reflection
+    - regular_collision_orbit
+    - forward_and_backward_singular_sets_excluded
+  - id: two_impact_reconstruction
+    status: proposition
+    hypotheses:
+    - known_strictly_convex_C1_table
+    - distinct_ordered_consecutive_regular_impacts
+  - id: finite_symbol_noninjectivity
+    status: proposition
+    hypotheses:
+    - uncountable_regular_state_subset
+    - finite_alphabet
+    - finite_observation_horizon
+  - id: disk_collision_map
+    status: theorem
+    hypotheses:
+    - circular_table
+    - elastic_regular_collision
+    - declared_inward_normal_Birkhoff_coordinates
+  - id: stadium_hyperbolic_behavior
+    status: theorem
+    hypotheses:
+    - external_classical_Bunimovich_stadium_theorem
+  - id: finite_window_divergence
+    status: diagnostic
+    hypotheses:
+    - declared_metric
+    - dimensionless_log_ratio
+    - declared_window_weights_and_singularity_policy
+  - id: Laplacian_energy_bridge
+    status: proposition
+    hypotheses:
+    - nonrelativistic_particle
+    - positive_declared_mass
+    - SI_hbar
+  - id: spectral_covariance
+    status: proposition
+    hypotheses:
+    - bounded_planar_domain
+    - Dirichlet_boundary_condition
+    - positive_similarity_scale
+  - id: Weyl_area_readout
+    status: theorem
+    hypotheses:
+    - planar_open_set_of_finite_area
+    - full_Dirichlet_spectrum
+  - id: spectral_nonidentifiability
+    status: theorem
+    hypotheses:
+    - general_planar_domain_class
+    - external_Gordon_Webb_Wolpert_construction
+  - id: marginal_symbol_entropy
+    status: diagnostic
+    hypotheses:
+    - finite_partition
+    - positive_total_count
+    - explicit_logarithm_base
+  - id: dissipative_restitution_loss
+    status: model
+    hypotheses:
+    - frictionless_normal_restitution
+    - positive_particle_mass
+    - restitution_coefficient_in_unit_interval
+  - id: new_billiard_theory
+    status: hypothesis
+    hypotheses:
+    - forbidden_not_claimed
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_collision_symbolic_spectral_observation_reference
+- id: bobsleigh-contact-v1-1
+  title: Bobsleigh Contact Geometry as a Typed Observation System
+  version: 1.1.0
+  source:
+    pdf: work/p5_mechanics_frames_v0_6/build/bobsleigh/bobsleigh_contact_geometry_v1_1.pdf
+    tex: work/p5_mechanics_frames_v0_6/src/bobsleigh_contact_geometry_v1_1.tex
+    text: work/p5_mechanics_frames_v0_6/checks_final/bobsleigh/bobsleigh_contact_geometry_v1_1.txt
+    pages: 6
+    sha256: 0bdd9cee21df204844d53c36d6936737a4037345576f71dfea77819260cd62b6
+  ledger_level: reference
+  migration_status: p5_reference_pass
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - SE3_world_isometries
+  - SO3_contact_basis_changes
+  - positive_log_base_changes
+  maps:
+  - id: sled_body_to_world
+    domain: sled_body_vector
+    codomain: world_vector
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: contact_force_pullback
+    domain: spatial_contact_force
+    codomain: generalized_contact_covector
+    kind: pullback
+    invertibility: not_required
+    information_loss: possible
+  - id: constrained_sled_reduction
+    domain: ambient_rigid_body_contact_state
+    codomain: smooth_active_set_configuration_state
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: center_of_mass_observation
+    domain: full_sled_contact_state
+    codomain: center_of_mass_curve
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: load_observation
+    domain: full_sled_contact_state
+    codomain: normal_load_series
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: contact_measurement_channel
+    domain: ideal_contact_readouts
+    codomain: probability_law_on_sensor_data
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: contact_diagnostic_estimator
+    domain: sensor_data
+    codomain: estimated_load_and_slip_diagnostics
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: bobsleigh_v1_1
+    key: G
+    meaning: mass_form
+  - scope: bobsleigh_v1_1
+    key: g_j
+    meaning: positive_separation_gap
+  - scope: bobsleigh_v1_1
+    key: T_j
+    meaning: tangential_force_on_sled
+  - scope: bobsleigh_v1_1
+    key: P_fric
+    meaning: nonnegative_frictional_loss
+  quantities:
+  - id: bob11.normal_force_vector
+    extends: mechanics.force
+    symbol: N_n
+    frame: inertial
+  - id: bob11.tangential_force
+    extends: mechanics.force
+    symbol: T
+    frame: inertial
+  - id: bob11.contact_force
+    extends: mechanics.force
+    symbol: F_contact
+    frame: inertial
+  - id: bob11.relative_velocity
+    extends: mechanics.velocity
+    symbol: v_T
+    frame: inertial
+  - id: bob11.energy
+    extends: mechanics.energy
+  - id: bob11.time
+    extends: time.duration
+  - id: bob11.active_power
+    extends: mechanics.power
+    symbol: P_act
+  - id: bob11.friction_power
+    extends: mechanics.power
+    symbol: P_fric
+  - id: bob11.constraint_power
+    extends: mechanics.power
+    symbol: P_con
+  - id: bob11.explicit_lagrangian_power
+    extends: mechanics.power
+    symbol: partial_t_L
+  - id: bob11.friction_coefficient
+    extends: mechanics.friction_coefficient
+  - id: bob11.normal_force_magnitude
+    symbol: N
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: bob11.friction_capacity
+    symbol: mu_N
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: bob11.tangential_force_norm
+    symbol: norm_T
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: bob11.load_probability
+    extends: information.probability
+    symbol: p_j
+  - id: bob11.load_entropy
+    extends: information.entropy_nat
+    symbol: H_b
+    log_base: b
+  - id: bob11.max_load_entropy
+    extends: information.entropy_nat
+    symbol: log_b_K
+    log_base: b
+  - id: bob11.normalized_load_entropy
+    extends: observation.normalized_loss
+    symbol: H_bar
+  - id: bob11.left_load
+    symbol: N_L
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: bob11.right_load
+    symbol: N_R
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: bob11.total_two_runner_load
+    symbol: N_L_plus_N_R
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: bob11.load_difference
+    symbol: abs_N_R_minus_N_L
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: bob11.speed
+    symbol: v
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: bob11.curvature
+    extends: geometry.curvature
+  - id: bob11.mass
+    extends: mechanics.mass
+  - id: bob11.required_acceleration
+    extends: mechanics.acceleration
+    frame: inertial
+  expressions:
+  - id: contact_force_sum
+    anchor: section 4, F=Nn+T
+    ast:
+      op: add
+      args:
+      - q: bob11.normal_force_vector
+      - q: bob11.tangential_force
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: inertial
+  - id: friction_power_dimension
+    anchor: section 5, -T dot v_T
+    ast:
+      op: dot
+      left:
+        q: bob11.tangential_force
+      right:
+        q: bob11.relative_velocity
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: energy_rate
+    anchor: section 5, dot E_L
+    ast:
+      op: derivative
+      dependent:
+        q: bob11.energy
+      independent:
+        q: bob11.time
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: energy_balance_rhs
+    anchor: section 5, P_act-P_fric+P_con-partial_t_L
+    ast:
+      op: sub
+      args:
+      - q: bob11.active_power
+      - q: bob11.friction_power
+      - q: bob11.constraint_power
+      - q: bob11.explicit_lagrangian_power
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: cone_capacity
+    anchor: section 6.1, mu N
+    ast:
+      op: mul
+      left:
+        q: bob11.friction_coefficient
+      right:
+        q: bob11.normal_force_magnitude
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: guarded_cone_utilization
+    anchor: section 6.1, piecewise norm(T)/(mu N)
+    ast:
+      op: normalize
+      value:
+        q: bob11.tangential_force_norm
+      reference:
+        q: bob11.friction_capacity
+      zero_policy: piecewise_zero_capacity_guard
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: explicit_contact_entropy_log
+    anchor: section 6.2, log_b p_j
+    ast:
+      op: log
+      base: b
+      arg:
+        q: bob11.load_probability
+      semantic_kind: information
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: normalized_contact_entropy
+    anchor: section 6.2, H_b/log_b K
+    ast:
+      op: normalize
+      value:
+        q: bob11.load_entropy
+      reference:
+        q: bob11.max_load_entropy
+      zero_policy: declared_K_at_least_2
+      semantic_kind: loss
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: loss
+  - id: guarded_load_imbalance
+    anchor: section 6.3, abs(N_R-N_L)/(N_R+N_L)
+    ast:
+      op: normalize
+      value:
+        q: bob11.load_difference
+      reference:
+        q: bob11.total_two_runner_load
+      zero_policy: undefined_in_free_flight
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: curvature_demand
+    anchor: section 6.4, v^2 kappa
+    ast:
+      op: mul
+      left:
+        op: pow
+        arg:
+          q: bob11.speed
+        exponent: 2
+      right:
+        q: bob11.curvature
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: required_force
+    anchor: section 6.4, m(a-g)
+    ast:
+      op: mul
+      left:
+        q: bob11.mass
+      right:
+        q: bob11.required_acceleration
+      semantic_kind: vector
+      frame: inertial
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: inertial
+  invariants:
+  - id: friction_power_under_contact_basis_rotation
+    claimed_invariant: true
+    group: SO3_contact_basis_changes
+    anchor: sections 4 and 5
+  - id: normalized_entropy_base_independence
+    claimed_invariant: true
+    group: positive_log_base_changes
+    anchor: section 6.2
+  claim_register:
+  - id: mass_form_rank
+    status: proposition
+    hypotheses:
+    - positive_point_masses
+    - differentiable_realization_map
+  - id: stationary_track_energy_decay
+    status: corollary
+    hypotheses:
+    - autonomous_smooth_regime
+    - stationary_ideal_normal_support
+    - dissipative_tangential_friction
+  - id: conditional_center_of_mass_nonidentifiability
+    status: proposition
+    hypotheses:
+    - two_admissible_records_share_center_of_mass_curve
+    - hidden_records_are_distinct
+  - id: coulomb_contact
+    status: model
+    hypotheses:
+    - smooth_force_regime
+    - force_on_sled_sign_convention
+  protocol_fields_present: *id001
+  next_action: retain_as_typed_contact_observation_reference
+- id: roller-coaster-v1-1
+  title: Roller-Coaster Geometry as a Typed Observation Laboratory
+  version: 1.1.0
+  source:
+    pdf: work/p5_mechanics_frames_v0_6/build/roller/roller_coaster_geometry_v1_1.pdf
+    tex: work/p5_mechanics_frames_v0_6/src/roller_coaster_geometry_v1_1.tex
+    text: work/p5_mechanics_frames_v0_6/checks_final/roller/roller_coaster_geometry_v1_1.txt
+    pages: 6
+    sha256: f8dbd226870dbbf020d2bd35fce2fb1f1185d273037951d869e4cafe0612edc2
+  ledger_level: reference
+  migration_status: p5_reference_pass
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - SE3_static_world_isometries
+  - SO3_apparatus_axis_changes
+  - rail_label_exchange_Z2
+  - orientation_preserving_curve_reparameterizations
+  maps:
+  - id: apparatus_to_world_frame
+    domain: apparatus_vector_components
+    codomain: world_vector_components
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: track_kinematic_reduction
+    domain: vehicle_track_state
+    codomain: framed_curve_speed_state
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: rider_specific_force_observation
+    domain: framed_curve_speed_gravity_state
+    codomain: apparatus_specific_force
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: rail_offset_construction
+    domain: framed_curve_and_gauge
+    codomain: labelled_offset_curves
+    kind: interpretation
+    invertibility: not_required
+    information_loss: not_applicable
+  - id: rider_sensor_channel
+    domain: ideal_specific_force_and_angular_velocity
+    codomain: probability_law_on_sensor_data
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: rider_signal_estimator
+    domain: sensor_data
+    codomain: estimated_load_and_jerk
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  symbols:
+  - scope: roller_v1_1
+    key: R
+    meaning: adapted_track_to_world_frame
+  - scope: roller_v1_1
+    key: kappa_R
+    meaning: frame_strain_vector
+  - scope: roller_v1_1
+    key: G_vec
+    meaning: dimensionless_body_load_vector
+  - scope: roller_v1_1
+    key: G
+    meaning: scalar_load_norm
+  - scope: roller_v1_1
+    key: Delta_L_or
+    meaning: labelled_rail_length_split
+  quantities:
+  - id: rol11.tangential_acceleration
+    extends: mechanics.acceleration
+    frame: inertial
+  - id: rol11.normal_acceleration
+    extends: mechanics.acceleration
+    frame: inertial
+  - id: rol11.inertial_acceleration
+    extends: mechanics.acceleration
+    frame: inertial
+  - id: rol11.gravity
+    extends: mechanics.acceleration
+    frame: inertial
+  - id: rol11.specific_force_world
+    extends: mechanics.acceleration
+    frame: inertial
+  - id: rol11.specific_force_body
+    extends: mechanics.acceleration
+    frame: apparatus
+  - id: rol11.g0
+    symbol: g0
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 0
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s^2
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: rol11.load_vector
+    extends: accelerometer.load_vector
+  - id: rol11.load_norm
+    extends: accelerometer.load_norm
+  - id: rol11.speed
+    symbol: v
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s
+    unit_context: SI
+    frame: scalar
+    claim_status: definition
+  - id: rol11.frame_strain
+    symbol: kappa_R
+    semantic_kind: vector
+    dimension:
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: 1/m
+    unit_context: SI
+    frame: apparatus
+    claim_status: definition
+  - id: rol11.angular_velocity
+    symbol: Omega_B
+    semantic_kind: vector
+    dimension:
+    - 0
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: rad/s
+    unit_context: SI
+    frame: apparatus
+    claim_status: definition
+  - id: rol11.left_length
+    extends: geometry.length
+    symbol: L_plus
+  - id: rol11.right_length
+    extends: geometry.length
+    symbol: L_minus
+  - id: rol11.rail_circumference
+    extends: geometry.length
+    symbol: 2pi_r_w
+  - id: rol11.centerline_point
+    extends: geometry.position
+    frame: inertial
+  - id: rol11.offset_displacement
+    extends: geometry.displacement
+    frame: inertial
+  - id: rol11.offset_point
+    extends: geometry.position
+    frame: inertial
+  - id: rol11.dissipative_force
+    extends: mechanics.force
+    frame: inertial
+  - id: rol11.relative_velocity
+    extends: mechanics.velocity
+    frame: inertial
+  - id: rol11.mapped_inertial_jerk
+    symbol: R_T_jerk_I
+    semantic_kind: vector
+    dimension:
+    - 1
+    - 0
+    - -3
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s^3
+    unit_context: SI
+    frame: apparatus
+    claim_status: definition
+  - id: rol11.rotational_jerk_correction
+    symbol: Omega_cross_f
+    semantic_kind: vector
+    dimension:
+    - 1
+    - 0
+    - -3
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s^3
+    unit_context: SI
+    frame: apparatus
+    claim_status: definition
+  - id: rol11.gauge
+    extends: geometry.length
+    symbol: d
+  - id: rol11.lateral_frame_derivative_norm
+    extends: geometry.curvature
+    symbol: norm_e2_prime
+  - id: rol11.offset_regular_ratio
+    extends: dimensionless.scalar
+    symbol: rho_offset
+  expressions:
+  - id: inertial_acceleration_sum
+    anchor: section 3, a=tangential+normal acceleration
+    ast:
+      op: add
+      args:
+      - q: rol11.tangential_acceleration
+      - q: rol11.normal_acceleration
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: inertial
+  - id: world_specific_force
+    anchor: section 3, a-g
+    ast:
+      op: sub
+      args:
+      - q: rol11.inertial_acceleration
+      - q: rol11.gravity
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: inertial
+  - id: body_load_vector
+    anchor: section 3, G_vec=f_B/g0
+    ast:
+      op: normalize
+      value:
+        q: rol11.specific_force_body
+      reference:
+        q: rol11.g0
+      zero_policy: positive_reference_acceleration
+      semantic_kind: load_vector
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: load_vector
+  - id: scalar_load_norm
+    anchor: section 3, G=norm(G_vec)
+    ast:
+      op: norm
+      arg:
+        q: rol11.load_vector
+      semantic_kind: load_norm
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: load_norm
+  - id: apparatus_angular_velocity
+    anchor: section 3, Omega_B=v kappa_R
+    ast:
+      op: mul
+      left:
+        q: rol11.speed
+      right:
+        q: rol11.frame_strain
+      semantic_kind: vector
+      frame: apparatus
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: apparatus
+  - id: body_jerk_with_rotation_correction
+    anchor: section 3, j_f_B=R_T jerk_I-Omega cross f_B
+    ast:
+      op: sub
+      args:
+      - q: rol11.mapped_inertial_jerk
+      - q: rol11.rotational_jerk_correction
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: apparatus
+  - id: left_offset_point
+    anchor: section 4, gamma_plus=gamma+(d/2)e2
+    ast:
+      op: add
+      args:
+      - q: rol11.centerline_point
+      - q: rol11.offset_displacement
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: vector
+      frame: inertial
+  - id: signed_rail_length_split
+    anchor: section 4, Delta_L_or=L_plus-L_minus
+    ast:
+      op: sub
+      args:
+      - q: rol11.left_length
+      - q: rol11.right_length
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: ideal_wheel_revolution_count
+    anchor: section 5, N=L/(2 pi r_w)
+    ast:
+      op: normalize
+      value:
+        q: rol11.left_length
+      reference:
+        q: rol11.rail_circumference
+      zero_policy: positive_wheel_radius
+      semantic_kind: count
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: count
+  - id: dissipative_power_dimension
+    anchor: section 6, -F_d dot v_rel
+    ast:
+      op: dot
+      left:
+        q: rol11.dissipative_force
+      right:
+        q: rol11.relative_velocity
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: offset_regular_ratio
+    anchor: section 4, (d/2) sup norm(e2_prime)
+    ast:
+      op: mul
+      left:
+        q: rol11.gauge
+      right:
+        q: rol11.lateral_frame_derivative_norm
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  invariants:
+  - id: scalar_load_under_apparatus_axis_change
+    claimed_invariant: true
+    group: SO3_apparatus_axis_changes
+    anchor: sections 3 and 8
+  - id: absolute_rail_split_under_label_exchange
+    claimed_invariant: true
+    group: rail_label_exchange_Z2
+    anchor: sections 4 and 8
+  - id: ideal_wheel_count_under_reparameterization
+    claimed_invariant: true
+    group: orientation_preserving_curve_reparameterizations
+    anchor: sections 5 and 8
+  claim_register:
+  - id: sufficient_offset_regularity
+    status: proposition
+    hypotheses:
+    - unit_speed_C2_centerline
+    - C1_lateral_frame_vector
+    - strict_offset_derivative_bound
+  - id: rail_split_transformation_law
+    status: proposition
+    hypotheses:
+    - regular_labelled_offset_curves
+    - static_euclidean_isometry_or_label_swap
+  - id: scalar_load_nonidentifiability
+    status: proposition
+    hypotheses:
+    - fixed_centerline_and_speed
+    - at_least_two_distinct_smooth_roll_profiles
+  - id: pure_rolling_count
+    status: model
+    hypotheses:
+    - no_slip
+    - constant_positive_effective_wheel_radius
+  protocol_fields_present: *id001
+  next_action: retain_as_framed_curve_observation_reference
+- id: gear-contact-v1-1
+  title: Gear Contact Geometry as a Typed Finite Observation System
+  version: 1.1.0
+  source:
+    pdf: work/p6_gear_contact_v0_7/build/gear/gear_contact_geometry_v1_1.pdf
+    tex: work/p6_gear_contact_v0_7/src/gear_contact_geometry_v1_1.tex
+    text: work/p6_gear_contact_v0_7/checks/gear/gear_contact_geometry_v1_1.txt
+    pages: 9
+    sha256: 6455a0f05ffaa36ba866f1db86dbc8fcccc6388eeb56ff2493a36c3d0d7497f7
+  ledger_level: reference
+  migration_status: strict_reference_migrated
+  unit_contexts:
+  - SI
+  - neutral
+  groups:
+  - tooth_label_translation
+  - orientation_reversal_conjugacy
+  - planetary_uniform_rotation_frame_action
+  - circle_lift_integer_shift
+  - orthogonal_contact_frame_changes
+  maps:
+  - id: pitch_event_shift
+    domain: Z_N1_times_Z_N2
+    codomain: Z_N1_times_Z_N2
+    kind: reduction
+    invertibility: required
+    information_loss: false
+  - id: signed_ratio_observation
+    domain: positive_tooth_count_descriptor_with_mesh_sign
+    codomain: signed_rational_ratio
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: true
+  - id: marked_pair_readout
+    domain: calibrated_tooth_pair_state
+    codomain: ordered_tooth_labels
+    kind: deterministic_observation
+    invertibility: required
+    information_loss: false
+  - id: active_contact_readout
+    domain: continuous_contact_state
+    codomain: resolved_active_pair_set
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: true
+  - id: tooth_label_channel
+    domain: ordered_tooth_labels
+    codomain: recorded_or_missing_labels
+    kind: stochastic_channel
+    invertibility: not_required
+    information_loss: possible
+  - id: rotating_frame_action
+    domain: absolute_planetary_angular_velocity_triple
+    codomain: shifted_planetary_angular_velocity_triple
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: planetary_relative_quotient
+    domain: absolute_planetary_angular_velocity_triple
+    codomain: carrier_relative_angular_velocity_pair
+    kind: reduction
+    invertibility: not_required
+    information_loss: true
+  - id: generalized_contact_pullback
+    domain: contact_spatial_force
+    codomain: generalized_force_covector
+    kind: pullback
+    invertibility: not_required
+    information_loss: possible
+  - id: noncircular_return_map
+    domain: output_phase_circle
+    codomain: output_phase_circle
+    kind: reduction
+    invertibility: required
+    information_loss: false
+  - id: translation_number_estimator
+    domain: lifted_return_orbit
+    codomain: real_turns_per_driver_period
+    kind: estimator
+    invertibility: not_required
+    information_loss: true
+  symbols:
+  - scope: gear_fixed_axis
+    key: sigma
+    meaning: declared_external_or_internal_mesh_sign
+  - scope: gear_fixed_axis
+    key: rho_2_from_1
+    meaning: directed_output_to_input_angular_velocity_ratio
+  - scope: pitch_event
+    key: T_sigma
+    meaning: one_pitch_tooth_pair_translation
+  - scope: contact
+    key: A_t
+    meaning: simultaneous_active_tooth_pair_set
+  - scope: contact
+    key: P_fric
+    meaning: nonnegative_frictional_power_loss
+  - scope: planetary
+    key: G_alpha
+    meaning: uniform_angular_velocity_frame_action
+  - scope: noncircular
+    key: F_tilde
+    meaning: physical_lift_of_one_driver_turn_return_map
+  - scope: noncircular
+    key: tau_F
+    meaning: translation_number_of_selected_lift
+  quantities:
+  - id: gear.N1
+    extends: discrete.count
+    symbol: N_1
+  - id: gear.N2
+    extends: discrete.count
+    symbol: N_2
+  - id: gear.gcd_count
+    extends: discrete.count
+    symbol: g
+  - id: gear.orbit_count
+    extends: discrete.count
+    symbol: P
+  - id: gear.event_count
+    extends: discrete.count
+    symbol: C_ij
+  - id: gear.total_event_count
+    extends: discrete.count
+    symbol: K
+  - id: gear.iteration_count
+    extends: discrete.count
+    symbol: n
+  - id: gear.theta1
+    extends: geometry.angle
+    symbol: theta_1
+    frame: lab
+  - id: gear.theta2
+    extends: geometry.angle
+    symbol: theta_2
+    frame: lab
+  - id: gear.weighted_phase1
+    extends: geometry.angle
+    symbol: N_1_theta_1
+    frame: lab
+  - id: gear.weighted_phase2
+    extends: geometry.angle
+    symbol: sigma_N_2_theta_2
+    frame: lab
+  - id: gear.lift_displacement
+    extends: geometry.angle
+    symbol: Delta_theta_tilde
+    frame: lifted_phase
+  - id: gear.full_turn_angle
+    extends: geometry.angle
+    symbol: 2_pi_n
+    frame: lifted_phase
+  - id: gear.omega1
+    extends: time.angular_frequency
+    symbol: omega_1
+    frame: lab
+  - id: gear.omega2
+    extends: time.angular_frequency
+    symbol: omega_2
+    frame: lab
+  - id: gear.omega_s
+    extends: time.angular_frequency
+    symbol: omega_s
+    frame: lab
+  - id: gear.omega_r
+    extends: time.angular_frequency
+    symbol: omega_r
+    frame: lab
+  - id: gear.omega_c
+    extends: time.angular_frequency
+    symbol: omega_c
+    frame: lab
+  - id: gear.frame_rate
+    extends: time.angular_frequency
+    symbol: alpha
+    frame: lab
+  - id: gear.relative_omega_s
+    extends: time.angular_frequency
+    symbol: omega_s_minus_omega_c
+    frame: carrier_relative
+  - id: gear.relative_omega_r
+    extends: time.angular_frequency
+    symbol: omega_r_minus_omega_c
+    frame: carrier_relative
+  - id: gear.mesh_term1
+    extends: time.angular_frequency
+    symbol: N_1_omega_1
+    frame: lab
+  - id: gear.mesh_term2
+    extends: time.angular_frequency
+    symbol: sigma_N_2_omega_2
+    frame: lab
+  - id: gear.willis_term_s
+    extends: time.angular_frequency
+    symbol: N_s_omega_s_rel
+    frame: carrier_relative
+  - id: gear.willis_term_r
+    extends: time.angular_frequency
+    symbol: N_r_omega_r_rel
+    frame: carrier_relative
+  - id: gear.radius1
+    extends: geometry.length
+    symbol: r_1
+  - id: gear.radius2
+    extends: geometry.length
+    symbol: r_2
+  - id: gear.pitch_speed1
+    symbol: v_p_1
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 0
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: m/s
+    unit_context: SI
+    frame: lab
+    claim_status: definition
+  - id: gear.torque1
+    symbol: tau_1
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N*m
+    unit_context: SI
+    frame: lab
+    claim_status: definition
+  - id: gear.torque2
+    symbol: tau_2
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N*m
+    unit_context: SI
+    frame: lab
+    claim_status: definition
+  - id: gear.contact_force
+    extends: mechanics.force
+    symbol: T_alpha
+    frame: contact
+  - id: gear.normal_force
+    symbol: N_alpha
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N
+    unit_context: SI
+    frame: scalar
+    claim_status: model
+  - id: gear.relative_tangent_velocity
+    extends: mechanics.velocity
+    symbol: v_T_alpha
+    frame: contact
+  - id: gear.friction_power
+    extends: mechanics.power
+    symbol: P_fric
+    frame: model_dependent
+  - id: gear.duration
+    extends: time.duration
+    symbol: T_obs
+  - id: gear.normal_impulse_exposure
+    symbol: I_ij
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: N*s
+    unit_context: SI
+    frame: scalar
+    claim_status: diagnostic
+  - id: gear.dissipative_work
+    extends: mechanics.energy
+    symbol: D_ij
+    frame: model_dependent
+  - id: gear.event_probability
+    extends: information.probability
+    symbol: p_ij
+  - id: gear.entropy
+    symbol: H_b
+    semantic_kind: information
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: log_base_b_unit
+    unit_context: neutral
+    frame: none
+    log_base: b
+    claim_status: definition
+  - id: gear.reference_entropy
+    symbol: log_b_cardinality
+    semantic_kind: information
+    dimension:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: log_base_b_unit
+    unit_context: neutral
+    frame: none
+    log_base: b
+    claim_status: definition
+  - id: gear.normalized_defect
+    extends: observation.normalized_loss
+    symbol: Delta_bar
+  expressions:
+  - id: mesh_phase_difference
+    anchor: equation (1), N1 theta1 - sigma N2 theta2
+    ast:
+      op: sub
+      args:
+      - q: gear.weighted_phase1
+      - q: gear.weighted_phase2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: angle
+      frame: lab
+  - id: mesh_velocity_difference
+    anchor: equation (2), N1 omega1 - sigma N2 omega2
+    ast:
+      op: sub
+      args:
+      - q: gear.mesh_term1
+      - q: gear.mesh_term2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: lab
+  - id: directed_speed_ratio
+    anchor: equation (2), omega2/omega1
+    ast:
+      op: normalize
+      value:
+        q: gear.omega2
+      reference:
+        q: gear.omega1
+      zero_policy: omega1_nonzero
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: ideal_contact_power
+    anchor: proposition 2.1, tau1 omega1 plus tau2 omega2
+    ast:
+      op: add
+      args:
+      - op: mul
+        left:
+          q: gear.torque1
+        right:
+          q: gear.omega1
+        semantic_kind: scalar
+        frame: scalar
+      - op: mul
+        left:
+          q: gear.torque2
+        right:
+          q: gear.omega2
+        semantic_kind: scalar
+        frame: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: scalar
+  - id: pitch_speed
+    anchor: section 9 constant-radii model, r1 omega1
+    ast:
+      op: mul
+      left:
+        q: gear.radius1
+      right:
+        q: gear.omega1
+      semantic_kind: scalar
+      frame: lab
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: lab
+  - id: radius_ratio
+    anchor: equation (17), r1/r2
+    ast:
+      op: normalize
+      value:
+        q: gear.radius1
+      reference:
+        q: gear.radius2
+      zero_policy: r2_strictly_positive
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: carrier_relative_sun_rate
+    anchor: equation (14), omega_s-omega_c
+    ast:
+      op: sub
+      args:
+      - q: gear.omega_s
+      - q: gear.omega_c
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: lab
+  - id: carrier_relative_ring_rate
+    anchor: equation (14), omega_r-omega_c
+    ast:
+      op: sub
+      args:
+      - q: gear.omega_r
+      - q: gear.omega_c
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: lab
+  - id: frame_shifted_sun_rate
+    anchor: equation (13), omega_s-alpha
+    ast:
+      op: sub
+      args:
+      - q: gear.omega_s
+      - q: gear.frame_rate
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: lab
+  - id: willis_frequency_sum
+    anchor: equation (15), Ns omega_s_rel plus Nr omega_r_rel
+    ast:
+      op: add
+      args:
+      - q: gear.willis_term_s
+      - q: gear.willis_term_r
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: carrier_relative
+  - id: friction_power_pairing
+    anchor: equation (8), -T dot v_T
+    ast:
+      op: dot
+      left:
+        q: gear.contact_force
+      right:
+        q: gear.relative_tangent_velocity
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -3
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: normal_impulse_exposure
+    anchor: equation (10), integral N dt
+    ast:
+      op: mul
+      left:
+        q: gear.normal_force
+      right:
+        q: gear.duration
+      semantic_kind: scalar
+      frame: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 1
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: scalar
+  - id: dissipative_work
+    anchor: equation (11), integral P_fric dt
+    ast:
+      op: mul
+      left:
+        q: gear.friction_power
+      right:
+        q: gear.duration
+      semantic_kind: scalar
+      frame: model_dependent
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: model_dependent
+  - id: event_probability
+    anchor: section 6, p_alpha=w_alpha/W
+    ast:
+      op: normalize
+      value:
+        q: gear.event_count
+      reference:
+        q: gear.total_event_count
+      zero_policy: total_event_count_positive
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: probability_logarithm
+    anchor: section 6, log_b p_alpha
+    ast:
+      op: log
+      arg:
+        q: gear.event_probability
+      base: b
+      semantic_kind: information
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: normalized_entropy
+    anchor: section 6, H_b/log_b cardinality
+    ast:
+      op: normalize
+      value:
+        q: gear.entropy
+      reference:
+        q: gear.reference_entropy
+      zero_policy: cardinality_greater_than_one
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: gcd_support_defect
+    anchor: equation (12), log_b gcd(N1,N2)
+    ast:
+      op: log
+      arg:
+        q: gear.gcd_count
+      base: b
+      semantic_kind: information
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: information
+  - id: path_terminal_ratio
+    anchor: equation (13), omega_out/omega_in
+    ast:
+      op: normalize
+      value:
+        q: gear.omega2
+      reference:
+        q: gear.omega1
+      zero_policy: input_rate_nonzero
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: translation_number_estimate
+    anchor: equation (20), lift displacement over 2 pi n
+    ast:
+      op: normalize
+      value:
+        q: gear.lift_displacement
+      reference:
+        q: gear.full_turn_angle
+      zero_policy: iteration_count_positive
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: contact_gap_reaction_product
+    anchor: equation (7), N_alpha g_alpha
+    ast:
+      op: mul
+      left:
+        const: gap
+        dimension:
+        - 1
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        semantic_kind: scalar
+        unit_context: SI
+        frame: scalar
+      right:
+        q: gear.normal_force
+      semantic_kind: scalar
+      frame: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+      frame: scalar
+  invariants:
+  - id: contact_cycle_multiset_under_label_translation
+    claimed_invariant: true
+    group: tooth_label_translation
+    anchor: theorem 3.2 and following conjugacy paragraph
+  - id: contact_cycle_multiset_under_orientation_reversal
+    claimed_invariant: true
+    group: orientation_reversal_conjugacy
+    anchor: section 3
+  - id: planetary_relative_rates
+    claimed_invariant: true
+    group: planetary_uniform_rotation_frame_action
+    anchor: theorem 8.1
+  - id: rotation_number_mod_integers
+    claimed_invariant: true
+    group: circle_lift_integer_shift
+    anchor: theorem 9.1
+  - id: frictional_power_under_coframed_rotation
+    claimed_invariant: true
+    group: orthogonal_contact_frame_changes
+    anchor: equations (8)-(9)
+  claim_register:
+  - id: finite_orbit_decomposition
+    status: theorem
+    hypotheses:
+    - positive_integer_tooth_counts
+    - declared_pitch_event_section
+    - ideal_one_pitch_translation
+  - id: hunting_tooth_criterion
+    status: corollary
+    hypotheses:
+    - finite_orbit_decomposition_hypotheses
+  - id: ratio_observation_fiber
+    status: proposition
+    hypotheses:
+    - exact_positive_tooth_counts
+    - reduced_positive_ratio
+  - id: ideal_mesh_reaction_power
+    status: proposition
+    hypotheses:
+    - smooth_ideal_holonomic_constraint
+    - admissible_velocity
+  - id: willis_relative_quotient
+    status: theorem
+    hypotheses:
+    - common_axis_orientation
+    - ideal_simple_planetary_kinematics
+  - id: noncircular_translation_number
+    status: theorem
+    hypotheses:
+    - positive_C1_periodic_effective_radii
+    - monotone_driver_phase
+    - orientation_preserving_circle_homeomorphism
+    - selected_degree_one_lift
+  - id: smooth_contact_friction
+    status: model
+    hypotheses:
+    - declared_active_set
+    - force_on_gear2_convention
+    - smooth_force_regime
+  - id: event_entropy
+    status: diagnostic
+    hypotheses:
+    - declared_nonnegative_channel
+    - positive_total_weight
+    - explicit_logarithm_base
+  - id: wear_prediction
+    status: hypothesis
+    hypotheses:
+    - external_validated_material_evolution_model_required
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  next_action: retain_as_finite_contact_observation_reference
+- id: conical-intersections-v1
+  title: Conical Intersections as Observation Caustics
+  version: 1.0.0
+  source:
+    pdf: upload/conical_intersections_observation_caustics_v1_bilingual.pdf
+    text: tmp/pdfs/text/conical_intersections_observation_caustics_v1_bilingual.txt
+    pages: 15
+    sha256: 346cf20f4edcb25a127e8d05282d02279051e0eb1cf66dea6135a80b0406fec7
+  ledger_level: critical_adapter
+  migration_status: eigenbundle_map_fix_required
+  unit_contexts:
+  - atomic
+  - neutral
+  groups:
+  - Z2_eigenvector_gauge
+  maps:
+  - id: born_oppenheimer_spectral_map
+    domain: electronic_hamiltonian_family
+    codomain: eigenvalues_and_local_eigenrays
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: adiabatic_observation
+    domain: coupled_electron_nuclear_state
+    codomain: local_adiabatic_data
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  symbols:
+  - scope: branching_plane
+    key: Q1
+    meaning: diabatic_energy_coordinate
+  - scope: branching_plane
+    key: Q2
+    meaning: diabatic_energy_coordinate
+  quantities:
+  - id: ci.Q1
+    extends: mechanics.energy
+    unit_context: atomic
+  - id: ci.Q2
+    extends: mechanics.energy
+    unit_context: atomic
+  expressions:
+  - id: conical_spectrum_radius
+    anchor: 'text lines 184-211: r=sqrt(Q1^2+Q2^2)'
+    ast:
+      op: sqrt
+      arg:
+        op: add
+        args:
+        - op: pow
+          arg:
+            q: ci.Q1
+          exponent: 2
+        - op: pow
+          arg:
+            q: ci.Q2
+          exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  claim_register:
+  - id: double_cone_spectrum
+    status: proposition
+    hypotheses:
+    - real_two_state_normal_form
+  - id: berry_sign_change
+    status: proposition
+    hypotheses:
+    - loop_encircles_origin_once
+    - real_two_state_model
+    - eigenray_interpretation
+  - id: codimension_two_seam
+    status: model
+    hypotheses:
+    - generic_real_two_state_same_symmetry_crossing
+  protocol_fields_present:
+  - hidden_space
+  - reduction
+  - deterministic_observation
+  - observed_space
+  - reference_frame
+  - unit_context
+  manual_findings:
+  - rule: EIGENBUNDLE-GAUGE
+    anchor: map (3) and equations (13)-(14), text lines 156-166 and 212-237
+    message: the global output cannot be a single eigenvector map; it must be an eigenprojector or a local
+      section of the eigenline bundle
+  - rule: CAUSTIC-RANK
+    anchor: equation (18), text lines 268-276
+    message: det DF is valid only for the stated square two-dimensional chart; the reusable core criterion
+      must be rank loss
+  next_action: replace_global_eigenvector_output_by_projector_or_eigenline_bundle
+- id: quantum-chemistry-observation-v1
+  title: Quantum Chemistry through Geometry of Observation
+  version: 1.0.0
+  source:
+    pdf: upload/quantum_chemistry_observation_v1_bilingual(1).pdf
+    text: tmp/pdfs/text/quantum_chemistry_observation_v1_bilingual(1).txt
+    pages: 18
+    sha256: a99ed4bfdfbc416ef10b4d4ed10c1f667515a0005c8c934d9b58e21fa3648d1e
+  ledger_level: critical_adapter
+  migration_status: p0_frequency_formula_error
+  unit_contexts:
+  - atomic
+  - SI
+  groups:
+  - Euclidean_nuclear_motions
+  - orbital_unitary_gauge
+  maps:
+  - id: born_oppenheimer_projection
+    domain: molecular_hamiltonian
+    codomain: potential_energy_surface
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: density_projection
+    domain: many_electron_wavefunction
+    codomain: one_body_density
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: spectral_readout
+    domain: molecular_state
+    codomain: transition_spectrum
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  symbols:
+  - scope: vibrations
+    key: lambda_MW
+    meaning: mass_weighted_hessian_eigenvalue
+  - scope: vibrations
+    key: omega
+    meaning: angular_frequency
+  quantities:
+  - id: qc.mass_weighted_hessian_eigenvalue
+    extends: chemistry.mass_weighted_hessian_eigenvalue
+  - id: qc.energy_initial
+    extends: mechanics.energy
+    unit_context: atomic
+  - id: qc.energy_final
+    extends: mechanics.energy
+    unit_context: atomic
+  expressions:
+  - id: hessian_eigenvalue_called_frequency
+    anchor: 'text lines 360-370: vibrational frequencies are eigenvalues of the mass-weighted Hessian'
+    ast:
+      q: qc.mass_weighted_hessian_eigenvalue
+    expect:
+      outcome: fail
+      rules:
+      - RESULT-DIM
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: transition_energy_difference
+    anchor: equation (21), text lines 367-376
+    ast:
+      op: sub
+      args:
+      - q: qc.energy_final
+      - q: qc.energy_initial
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  claim_register:
+  - id: born_oppenheimer_surface
+    status: model
+    hypotheses:
+    - nonrelativistic_electronic_hamiltonian
+    - clamped_nuclei
+  - id: stable_geometry
+    status: proposition
+    hypotheses:
+    - stationary_point_on_quotient_by_rigid_motions
+    - positive_vibrational_hessian
+  protocol_fields_present:
+  - hidden_space
+  - reduction
+  - deterministic_observation
+  - observed_space
+  - reference_frame
+  - unit_context
+  manual_findings:
+  - rule: ZERO-MODES
+    anchor: equations (6)-(7) and spectroscopy section
+    message: Hessian positivity and the one-negative-mode criterion must be stated after removing 5 or
+      6 rigid translation/rotation zero modes
+  next_action: replace_lambda_by_omega_squared_take_square_roots_and_quotient_rigid_modes
+- id: lhc-beam-observation-v1-3
+  title: Relativistic Beam Paths as Observation Geometry
+  version: 1.3.0
+  source:
+    pdf: work/p4_lhc_si_hep_v0_5/build/lhc/lhc_beam_observation_geometry_v1_3.pdf
+    tex: work/p4_lhc_si_hep_v0_5/src/lhc_beam_observation_geometry_v1_3.tex
+    text: work/p4_lhc_si_hep_v0_5/checks/lhc/lhc_beam_observation_geometry_v1_3.txt
+    metrics_json: work/p4_lhc_si_hep_v0_5/data/lhc_si_hep_metrics_v0_5.json
+    pages: 9
+    sha256: 5abbae43db274df13dddf2529a174b692dd6bb73717287b559d4d901cd911494
+  ledger_level: reference
+  migration_status: p4_reference_pass
+  unit_contexts:
+  - SI
+  - HEP_natural
+  - neutral
+  groups:
+  - proper_orthochronous_lorentz_group
+  - longitudinal_lorentz_boosts
+  - linear_symplectic_transport
+  - ideal_adiabatic_acceleration
+  - invertible_si_hep_representation_changes
+  maps:
+  - id: accelerator_state_reduction
+    domain: full_machine_beam_collision_detector_state
+    codomain: task_relevant_hidden_state
+    kind: reduction
+    invertibility: not_required
+    information_loss: possible
+  - id: ideal_beam_observation
+    domain: reduced_hidden_beam_state
+    codomain: ideal_instrument_response
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: detector_response_channel
+    domain: ideal_instrument_response
+    codomain: probability_law_on_raw_detector_data
+    kind: stochastic_channel
+    invertibility: not_applicable
+    information_loss: possible
+  - id: reconstructed_quantity_estimator
+    domain: raw_detector_data_and_calibration
+    codomain: estimate_and_uncertainty_region
+    kind: estimator
+    invertibility: not_applicable
+    information_loss: not_a_map_property
+  - id: lorentz_frame_transform
+    domain: minkowski_event_or_four_momentum
+    codomain: minkowski_event_or_four_momentum
+    kind: frame_transform
+    invertibility: required
+    information_loss: false
+  - id: past_light_cone_snapshot
+    domain: moving_source_worldtube_and_observer_event
+    codomain: camera_image
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: phase_space_projection
+    domain: six_dimensional_beam_law
+    codomain: profile_marginal
+    kind: deterministic_observation
+    invertibility: not_required
+    information_loss: possible
+  - id: si_hep_four_momentum_interpretation
+    domain: si_energy_four_vector_and_energy_anchor
+    codomain: hep_numerical_four_vector
+    kind: interpretation
+    invertibility: required
+    information_loss: false
+  symbols:
+  - scope: lhc_v1_3
+    key: X_t
+    meaning: typed_hidden_accelerator_state
+  - scope: lhc_v1_3
+    key: Pi_mu
+    meaning: energy_four_momentum
+  - scope: lhc_v1_3
+    key: mu_inv
+    meaning: invariant_mass_energy
+  - scope: lhc_v1_3
+    key: B_rho
+    meaning: magnetic_rigidity
+  - scope: lhc_v1_3
+    key: epsilon
+    meaning: geometric_rms_emittance
+  - scope: lhc_v1_3
+    key: epsilon_n
+    meaning: normalized_rms_emittance
+  - scope: lhc_v1_3
+    key: eta
+    meaning: pseudorapidity
+  - scope: lhc_v1_3
+    key: y
+    meaning: true_rapidity
+  quantities:
+  - id: lhc13.energy_hep
+    extends: mechanics.energy
+    symbol: E
+    canonical_unit: GeV
+    unit_context: HEP_natural
+    frame: lab
+  - id: lhc13.momentum_energy_hep
+    extends: mechanics.energy
+    symbol: pi
+    canonical_unit: GeV
+    unit_context: HEP_natural
+    frame: lab
+  - id: lhc13.mass_energy_hep
+    extends: mechanics.energy
+    symbol: mu
+    canonical_unit: GeV
+    unit_context: HEP_natural
+    frame: invariant
+  - id: lhc13.energy_sum_hep
+    extends: mechanics.energy
+    symbol: E_sum
+    canonical_unit: GeV
+    unit_context: HEP_natural
+    frame: lab
+  - id: lhc13.momentum_sum_energy_hep
+    extends: mechanics.energy
+    symbol: pi_sum
+    canonical_unit: GeV
+    unit_context: HEP_natural
+    frame: lab
+  - id: lhc13.gamma_rel
+    extends: dimensionless.scalar
+    symbol: gamma_rel
+  - id: lhc13.beta_rel
+    extends: dimensionless.scalar
+    symbol: beta_rel
+  - id: lhc13.c
+    extends: relativity.speed_of_light
+    symbol: c
+  - id: lhc13.duration
+    extends: time.duration
+    symbol: Delta_t
+    frame: lab
+  - id: lhc13.displacement_magnitude
+    extends: geometry.length
+    symbol: Delta_r
+    frame: lab
+  - id: lhc13.circumference
+    extends: geometry.length
+    symbol: C
+    frame: lab
+  - id: lhc13.charge_si
+    symbol: q
+    semantic_kind: scalar
+    dimension:
+    - 0
+    - 0
+    - 1
+    - 1
+    - 0
+    - 0
+    - 0
+    canonical_unit: C
+    unit_context: SI
+    frame: invariant
+    claim_status: definition
+  - id: lhc13.rigidity_si
+    symbol: B_rho
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -2
+    - -1
+    - 0
+    - 0
+    - 0
+    canonical_unit: T*m
+    unit_context: SI
+    frame: lab
+    claim_status: definition
+  - id: lhc13.momentum_magnitude_si
+    symbol: p
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: kg*m/s
+    unit_context: SI
+    frame: lab
+    claim_status: definition
+  - id: lhc13.reference_momentum_si
+    symbol: p0
+    semantic_kind: scalar
+    dimension:
+    - 1
+    - 1
+    - -1
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: kg*m/s
+    unit_context: SI
+    frame: lab
+    claim_status: definition
+  - id: lhc13.voltage_si
+    symbol: V_eff
+    semantic_kind: scalar
+    dimension:
+    - 2
+    - 1
+    - -3
+    - -1
+    - 0
+    - 0
+    - 0
+    canonical_unit: V
+    unit_context: SI
+    frame: apparatus
+    claim_status: definition
+  - id: lhc13.rf_phase
+    extends: geometry.angle
+    symbol: phi_s
+  - id: lhc13.x
+    extends: geometry.length
+    symbol: x
+    frame: lattice
+  - id: lhc13.s
+    extends: geometry.length
+    symbol: s
+    frame: lattice
+  - id: lhc13.xprime
+    extends: dimensionless.scalar
+    symbol: x_prime
+  - id: lhc13.K
+    symbol: K
+    semantic_kind: scalar
+    dimension:
+    - -2
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    canonical_unit: 1/m^2
+    unit_context: SI
+    frame: lattice
+    claim_status: model
+  - id: lhc13.twiss_alpha
+    extends: dimensionless.scalar
+    symbol: alpha_T
+  - id: lhc13.twiss_beta
+    extends: geometry.length
+    symbol: beta_T
+    frame: lattice
+  - id: lhc13.twiss_gamma
+    extends: geometry.curvature
+    symbol: gamma_T
+    frame: lattice
+  - id: lhc13.emittance
+    extends: geometry.length
+    symbol: epsilon
+    frame: lattice
+  - id: lhc13.normalized_emittance
+    extends: geometry.length
+    symbol: epsilon_n
+    frame: lattice
+  - id: lhc13.theta
+    extends: geometry.angle
+    symbol: theta
+  - id: lhc13.longitudinal_momentum_energy_hep
+    extends: mechanics.energy
+    symbol: pi_z
+    canonical_unit: GeV
+    unit_context: HEP_natural
+    frame: lab
+  expressions:
+  - id: hep_proton_mass_shell
+    anchor: section 5, E^2=pi^2+mu_p^2
+    ast:
+      op: sub
+      args:
+      - op: pow
+        arg:
+          q: lhc13.energy_hep
+        exponent: 2
+      - op: pow
+        arg:
+          q: lhc13.momentum_energy_hep
+        exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 4
+      - 2
+      - -4
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: lorentz_factor
+    anchor: section 5, gamma=E/mu_p
+    ast:
+      op: normalize
+      value:
+        q: lhc13.energy_hep
+      reference:
+        q: lhc13.mass_energy_hep
+      zero_policy: positive_proton_mass_energy
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: speed_ratio
+    anchor: section 5, beta=pi/E
+    ast:
+      op: normalize
+      value:
+        q: lhc13.momentum_energy_hep
+      reference:
+        q: lhc13.energy_hep
+      zero_policy: positive_total_energy
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: stable_one_minus_beta
+    anchor: section 5, (1/gamma^2)/(1+beta)
+    ast:
+      op: div
+      left:
+        op: div
+        left:
+          const: 1
+        right:
+          op: pow
+          arg:
+            q: lhc13.gamma_rel
+          exponent: 2
+      right:
+        op: add
+        args:
+        - const: 1
+        - q: lhc13.beta_rel
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: minkowski_interval
+    anchor: section 6, Delta_s^2=c^2*Delta_t^2-Delta_r^2
+    ast:
+      op: sub
+      args:
+      - op: pow
+        arg:
+          op: mul
+          left:
+            q: lhc13.c
+          right:
+            q: lhc13.duration
+        exponent: 2
+      - op: pow
+        arg:
+          q: lhc13.displacement_magnitude
+        exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: magnetic_rigidity
+    anchor: section 7, p=q*B*rho
+    ast:
+      op: mul
+      left:
+        q: lhc13.charge_si
+      right:
+        q: lhc13.rigidity_si
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 1
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: rf_energy_gain
+    anchor: section 8, DeltaE=q*V_eff*sin(phi_s)
+    ast:
+      op: mul
+      left:
+        op: mul
+        left:
+          q: lhc13.charge_si
+        right:
+          q: lhc13.voltage_si
+      right:
+        op: trig
+        function: sin
+        arg:
+          q: lhc13.rf_phase
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 2
+      - 1
+      - -2
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: relative_momentum_offset
+    anchor: section 8, delta=(p-p0)/p0
+    ast:
+      op: normalize
+      value:
+        op: sub
+        args:
+        - q: lhc13.momentum_magnitude_si
+        - q: lhc13.reference_momentum_si
+      reference:
+        q: lhc13.reference_momentum_si
+      zero_policy: positive_reference_momentum
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: hill_second_derivative
+    anchor: section 9, x_double_prime
+    ast:
+      op: derivative
+      dependent:
+        op: derivative
+        dependent:
+          q: lhc13.x
+        independent:
+          q: lhc13.s
+      independent:
+        q: lhc13.s
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: hill_focusing_term
+    anchor: section 9, K(s)*x
+    ast:
+      op: mul
+      left:
+        q: lhc13.K
+      right:
+        q: lhc13.x
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: twiss_ellipse_sum
+    anchor: section 9, gamma_T*x^2+2*alpha_T*x*xprime+beta_T*xprime^2
+    ast:
+      op: add
+      args:
+      - op: mul
+        left:
+          q: lhc13.twiss_gamma
+        right:
+          op: pow
+          arg:
+            q: lhc13.x
+          exponent: 2
+      - op: mul
+        left:
+          op: mul
+          left:
+            const: 2
+          right:
+            q: lhc13.twiss_alpha
+        right:
+          op: mul
+          left:
+            q: lhc13.x
+          right:
+            q: lhc13.xprime
+      - op: mul
+        left:
+          q: lhc13.twiss_beta
+        right:
+          op: pow
+          arg:
+            q: lhc13.xprime
+          exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: normalized_emittance
+    anchor: section 9, epsilon_n=beta_rel*gamma_rel*epsilon
+    ast:
+      op: mul
+      left:
+        op: mul
+        left:
+          q: lhc13.beta_rel
+        right:
+          q: lhc13.gamma_rel
+      right:
+        q: lhc13.emittance
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: invariant_mass_hep
+    anchor: section 11, mu_inv^2=E_sum^2-|pi_sum|^2
+    ast:
+      op: sub
+      args:
+      - op: pow
+        arg:
+          q: lhc13.energy_sum_hep
+        exponent: 2
+      - op: pow
+        arg:
+          q: lhc13.momentum_sum_energy_hep
+        exponent: 2
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 4
+      - 2
+      - -4
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: pseudorapidity
+    anchor: section 11, eta=-ln(tan(theta/2))
+    ast:
+      op: log
+      base: e
+      arg:
+        op: trig
+        function: tan
+        arg:
+          op: div
+          left:
+            q: lhc13.theta
+          right:
+            const: 2
+          semantic_kind: angle
+          frame: scalar
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: true_rapidity
+    anchor: section 11, y=(1/2)ln((E+pi_z)/(E-pi_z))
+    ast:
+      op: mul
+      left:
+        const: 0.5
+      right:
+        op: log
+        base: e
+        arg:
+          op: div
+          left:
+            op: add
+            args:
+            - q: lhc13.energy_hep
+            - q: lhc13.longitudinal_momentum_energy_hep
+          right:
+            op: sub
+            args:
+            - q: lhc13.energy_hep
+            - q: lhc13.longitudinal_momentum_energy_hep
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  - id: revolution_frequency
+    anchor: section 14, f_rev=beta*c/C
+    ast:
+      op: div
+      left:
+        op: mul
+        left:
+          q: lhc13.beta_rel
+        right:
+          q: lhc13.c
+      right:
+        q: lhc13.circumference
+    expect:
+      outcome: pass
+      rules: []
+      dimension:
+      - 0
+      - 0
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+      semantic_kind: scalar
+  invariants:
+  - id: lorentz_interval
+    claimed_invariant: true
+    group: proper_orthochronous_lorentz_group
+    anchor: section 6
+  - id: invariant_mass
+    claimed_invariant: true
+    group: proper_orthochronous_lorentz_group
+    anchor: section 11
+  - id: transverse_momentum
+    claimed_invariant: true
+    group: longitudinal_lorentz_boosts
+    anchor: section 11
+  - id: geometric_emittance
+    claimed_invariant: true
+    group: linear_symplectic_transport
+    anchor: section 9
+  - id: normalized_emittance
+    claimed_invariant: true
+    group: ideal_adiabatic_acceleration
+    anchor: section 9
+  claim_register:
+  - id: equal_head_on_sqrt_s
+    status: proposition
+    hypotheses:
+    - equal_beam_total_energies
+    - exactly_opposite_spatial_momenta
+    - common_energy_four_vector_convention
+  - id: geometric_emittance_invariance
+    status: proposition
+    hypotheses:
+    - linear_two_dimensional_symplectic_transport
+    - fixed_canonical_coordinate_convention
+    - finite_second_moments
+  - id: normalized_emittance_invariance
+    status: model
+    hypotheses:
+    - ideal_adiabatic_acceleration
+    - uncoupled_transport
+    - no_scattering_radiation_noise_losses_or_collective_growth
+  - id: run3_numeric_audit
+    status: diagnostic
+    hypotheses:
+    - declared_CERN_operational_reference
+    - CODATA_2022_proton_mass_energy
+    - exact_SI_defining_constants
+  protocol_fields_present:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+  manual_findings: []
+  next_action: use_as_reference_accelerator_module_and_migrate_remaining_mechanical_applications

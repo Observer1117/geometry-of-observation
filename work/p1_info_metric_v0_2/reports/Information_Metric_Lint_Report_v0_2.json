@@ -1,0 +1,53 @@
+{
+  "schema": {
+    "id": "go-lint-corpus-report",
+    "version": "0.2.0",
+    "core_contract": "0.2.0",
+    "corpus_id": "go-p1-information-metric-reference-ledgers"
+  },
+  "summary": {
+    "canonical_documents": 2,
+    "reference_documents": 2,
+    "critical_adapters": 0,
+    "expressions_checked": 22,
+    "findings_total": 0,
+    "core_findings": 0,
+    "status_counts": {
+      "PASS": 2
+    },
+    "rule_counts": {}
+  },
+  "documents": [
+    {
+      "id": "information-theoretic-observation-v0-2",
+      "title": "Information-Theoretic Observation Geometry",
+      "version": "0.2.0",
+      "ledger_level": "reference",
+      "migration_status": "p1_reference_pass",
+      "expressions": 9,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_information_reference_and_migrate_downstream_probabilistic_modules"
+    },
+    {
+      "id": "metric-entropy-defect-v0-2",
+      "title": "Metric Entropy and Observational Entropy Defect",
+      "version": "0.2.0",
+      "ledger_level": "reference",
+      "migration_status": "p1_reference_pass",
+      "expressions": 13,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_metric_scale_reference_and_migrate_distance_and_mechanics_modules"
+    }
+  ],
+  "findings": []
+}

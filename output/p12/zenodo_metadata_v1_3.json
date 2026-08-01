@@ -1,0 +1,32 @@
+{
+  "title": "Geometry of Observation: Frozen Typed Corpus and Reproducibility Master",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "description": "P12 corpus freeze of eighteen Geometry of Observation reference modules. The release preserves component PDFs, sources, typed ledgers, claim boundaries, dependency metadata, exact SHA-256 hashes, and executable validation. The shared architecture does not assert physical equivalence between application domains.",
+  "creators": [
+    {
+      "name": "Stashkevichyus, Stassis",
+      "orcid": "0009-0000-2294-705X",
+      "affiliation": "Independent Research Program"
+    }
+  ],
+  "version": "1.3.0",
+  "license": "cc-by-nc-nd-4.0",
+  "access_right": "open",
+  "keywords": [
+    "geometry of observation",
+    "typed observation maps",
+    "invariance",
+    "covariance",
+    "identifiability",
+    "reproducibility",
+    "corpus freeze"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://theobserverofmultiverses.info",
+      "relation": "isSupplementedBy",
+      "scheme": "url"
+    }
+  ]
+}

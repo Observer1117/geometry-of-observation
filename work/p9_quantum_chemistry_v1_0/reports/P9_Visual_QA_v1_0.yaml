@@ -1,0 +1,70 @@
+schema:
+  id: go-p9-visual-qa
+  version: 1.0.0
+date: 2026-07-28
+status: PASS
+
+document:
+  id: quantum-chemistry-observation-v1-1
+  pdf: work/p9_quantum_chemistry_v1_0/build/qchem/quantum_chemistry_observation_geometry_v1_1.pdf
+  pages: 9
+  sha256: f3b1056f215cebeca914b3c1d3589e18b3764f518a5daac580a487541a9dae8a
+  page_size: A4
+  encrypted: false
+  form_fields: 0
+
+render:
+  engine: Ghostscript
+  version: 10.02.1
+  device: png16m
+  resolution_dpi: 144
+  dimensions_pixels: [1191, 1684]
+  page_pattern: work/p9_quantum_chemistry_v1_0/render/qchem/gs-page-*.png
+  contact_sheet: work/p9_quantum_chemistry_v1_0/checks/qchem/final_contact_sheet.png
+
+global_checks:
+  all_pages_renderable: PASS
+  no_clipping: PASS
+  no_overlap: PASS
+  no_missing_glyphs: PASS
+  consistent_margins: PASS
+  readable_equations: PASS
+  readable_tables: PASS
+  diagram_labels_clear: PASS
+  bibliography_heading_unique: PASS
+  page_numbers_present: PASS
+
+inspection:
+  pages:
+    - page: 1
+      status: PASS
+      focus: title, status box, abstract, contents
+    - page: 2
+      status: PASS
+      focus: exact Hamiltonian, state-space typing, Born-Oppenheimer reduction
+    - page: 3
+      status: PASS
+      focus: reduced-density definitions and non-injectivity proof
+    - page: 4
+      status: PASS
+      focus: three-row inference diagram, generalized eigenproblem, orbital gauge
+    - page: 5
+      status: PASS
+      focus: Hartree-Fock boundary and density-functional firewall
+    - page: 6
+      status: PASS
+      focus: nuclear quotient, mass-weighted Hessian, active-space reduction
+    - page: 7
+      status: PASS
+      focus: ideal spectrum, observation channel, approximation ledger
+    - page: 8
+      status: PASS
+      focus: benchmark table, claim register, protocol minimum
+    - page: 9
+      status: PASS
+      focus: primary-source bibliography
+
+notes:
+  - The final inference diagram uses wider horizontal spacing and opaque label backgrounds.
+  - References begin on a dedicated page; no duplicate bibliography heading remains.
+  - All final page images were inspected at native 144 dpi render resolution.

@@ -1,0 +1,653 @@
+schema:
+  id: go-gear-contact-reference-ledger
+  version: 0.7.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  mechanics_contract: go-frame-force-dissipation-contract@0.6.0
+  extension_contract: go-gear-contact-contract@0.7.0
+
+documents:
+  - id: gear-contact-v1-1
+    title: Gear Contact Geometry as a Typed Finite Observation System
+    version: 1.1.0
+    source:
+      pdf: work/p6_gear_contact_v0_7/build/gear/gear_contact_geometry_v1_1.pdf
+      tex: work/p6_gear_contact_v0_7/src/gear_contact_geometry_v1_1.tex
+      text: work/p6_gear_contact_v0_7/checks/gear/gear_contact_geometry_v1_1.txt
+      pages: 9
+      sha256: 6455a0f05ffaa36ba866f1db86dbc8fcccc6388eeb56ff2493a36c3d0d7497f7
+    ledger_level: reference
+    migration_status: strict_reference_migrated
+    unit_contexts:
+      - SI
+      - neutral
+    groups:
+      - tooth_label_translation
+      - orientation_reversal_conjugacy
+      - planetary_uniform_rotation_frame_action
+      - circle_lift_integer_shift
+      - orthogonal_contact_frame_changes
+    maps:
+      - id: pitch_event_shift
+        domain: Z_N1_times_Z_N2
+        codomain: Z_N1_times_Z_N2
+        kind: reduction
+        invertibility: required
+        information_loss: false
+      - id: signed_ratio_observation
+        domain: positive_tooth_count_descriptor_with_mesh_sign
+        codomain: signed_rational_ratio
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: true
+      - id: marked_pair_readout
+        domain: calibrated_tooth_pair_state
+        codomain: ordered_tooth_labels
+        kind: deterministic_observation
+        invertibility: required
+        information_loss: false
+      - id: active_contact_readout
+        domain: continuous_contact_state
+        codomain: resolved_active_pair_set
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: true
+      - id: tooth_label_channel
+        domain: ordered_tooth_labels
+        codomain: recorded_or_missing_labels
+        kind: stochastic_channel
+        invertibility: not_required
+        information_loss: possible
+      - id: rotating_frame_action
+        domain: absolute_planetary_angular_velocity_triple
+        codomain: shifted_planetary_angular_velocity_triple
+        kind: frame_transform
+        invertibility: required
+        information_loss: false
+      - id: planetary_relative_quotient
+        domain: absolute_planetary_angular_velocity_triple
+        codomain: carrier_relative_angular_velocity_pair
+        kind: reduction
+        invertibility: not_required
+        information_loss: true
+      - id: generalized_contact_pullback
+        domain: contact_spatial_force
+        codomain: generalized_force_covector
+        kind: pullback
+        invertibility: not_required
+        information_loss: possible
+      - id: noncircular_return_map
+        domain: output_phase_circle
+        codomain: output_phase_circle
+        kind: reduction
+        invertibility: required
+        information_loss: false
+      - id: translation_number_estimator
+        domain: lifted_return_orbit
+        codomain: real_turns_per_driver_period
+        kind: estimator
+        invertibility: not_required
+        information_loss: true
+    symbols:
+      - scope: gear_fixed_axis
+        key: sigma
+        meaning: declared_external_or_internal_mesh_sign
+      - scope: gear_fixed_axis
+        key: rho_2_from_1
+        meaning: directed_output_to_input_angular_velocity_ratio
+      - scope: pitch_event
+        key: T_sigma
+        meaning: one_pitch_tooth_pair_translation
+      - scope: contact
+        key: A_t
+        meaning: simultaneous_active_tooth_pair_set
+      - scope: contact
+        key: P_fric
+        meaning: nonnegative_frictional_power_loss
+      - scope: planetary
+        key: G_alpha
+        meaning: uniform_angular_velocity_frame_action
+      - scope: noncircular
+        key: F_tilde
+        meaning: physical_lift_of_one_driver_turn_return_map
+      - scope: noncircular
+        key: tau_F
+        meaning: translation_number_of_selected_lift
+    quantities:
+      - id: gear.N1
+        extends: discrete.count
+        symbol: N_1
+      - id: gear.N2
+        extends: discrete.count
+        symbol: N_2
+      - id: gear.gcd_count
+        extends: discrete.count
+        symbol: g
+      - id: gear.orbit_count
+        extends: discrete.count
+        symbol: P
+      - id: gear.event_count
+        extends: discrete.count
+        symbol: C_ij
+      - id: gear.total_event_count
+        extends: discrete.count
+        symbol: K
+      - id: gear.iteration_count
+        extends: discrete.count
+        symbol: n
+      - id: gear.theta1
+        extends: geometry.angle
+        symbol: theta_1
+        frame: lab
+      - id: gear.theta2
+        extends: geometry.angle
+        symbol: theta_2
+        frame: lab
+      - id: gear.weighted_phase1
+        extends: geometry.angle
+        symbol: N_1_theta_1
+        frame: lab
+      - id: gear.weighted_phase2
+        extends: geometry.angle
+        symbol: sigma_N_2_theta_2
+        frame: lab
+      - id: gear.lift_displacement
+        extends: geometry.angle
+        symbol: Delta_theta_tilde
+        frame: lifted_phase
+      - id: gear.full_turn_angle
+        extends: geometry.angle
+        symbol: 2_pi_n
+        frame: lifted_phase
+      - id: gear.omega1
+        extends: time.angular_frequency
+        symbol: omega_1
+        frame: lab
+      - id: gear.omega2
+        extends: time.angular_frequency
+        symbol: omega_2
+        frame: lab
+      - id: gear.omega_s
+        extends: time.angular_frequency
+        symbol: omega_s
+        frame: lab
+      - id: gear.omega_r
+        extends: time.angular_frequency
+        symbol: omega_r
+        frame: lab
+      - id: gear.omega_c
+        extends: time.angular_frequency
+        symbol: omega_c
+        frame: lab
+      - id: gear.frame_rate
+        extends: time.angular_frequency
+        symbol: alpha
+        frame: lab
+      - id: gear.relative_omega_s
+        extends: time.angular_frequency
+        symbol: omega_s_minus_omega_c
+        frame: carrier_relative
+      - id: gear.relative_omega_r
+        extends: time.angular_frequency
+        symbol: omega_r_minus_omega_c
+        frame: carrier_relative
+      - id: gear.mesh_term1
+        extends: time.angular_frequency
+        symbol: N_1_omega_1
+        frame: lab
+      - id: gear.mesh_term2
+        extends: time.angular_frequency
+        symbol: sigma_N_2_omega_2
+        frame: lab
+      - id: gear.willis_term_s
+        extends: time.angular_frequency
+        symbol: N_s_omega_s_rel
+        frame: carrier_relative
+      - id: gear.willis_term_r
+        extends: time.angular_frequency
+        symbol: N_r_omega_r_rel
+        frame: carrier_relative
+      - id: gear.radius1
+        extends: geometry.length
+        symbol: r_1
+      - id: gear.radius2
+        extends: geometry.length
+        symbol: r_2
+      - id: gear.pitch_speed1
+        symbol: v_p_1
+        semantic_kind: scalar
+        dimension: [1, 0, -1, 0, 0, 0, 0]
+        canonical_unit: m/s
+        unit_context: SI
+        frame: lab
+        claim_status: definition
+      - id: gear.torque1
+        symbol: tau_1
+        semantic_kind: scalar
+        dimension: [2, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N*m
+        unit_context: SI
+        frame: lab
+        claim_status: definition
+      - id: gear.torque2
+        symbol: tau_2
+        semantic_kind: scalar
+        dimension: [2, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N*m
+        unit_context: SI
+        frame: lab
+        claim_status: definition
+      - id: gear.contact_force
+        extends: mechanics.force
+        symbol: T_alpha
+        frame: contact
+      - id: gear.normal_force
+        symbol: N_alpha
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: model
+      - id: gear.relative_tangent_velocity
+        extends: mechanics.velocity
+        symbol: v_T_alpha
+        frame: contact
+      - id: gear.friction_power
+        extends: mechanics.power
+        symbol: P_fric
+        frame: model_dependent
+      - id: gear.duration
+        extends: time.duration
+        symbol: T_obs
+      - id: gear.normal_impulse_exposure
+        symbol: I_ij
+        semantic_kind: scalar
+        dimension: [1, 1, -1, 0, 0, 0, 0]
+        canonical_unit: N*s
+        unit_context: SI
+        frame: scalar
+        claim_status: diagnostic
+      - id: gear.dissipative_work
+        extends: mechanics.energy
+        symbol: D_ij
+        frame: model_dependent
+      - id: gear.event_probability
+        extends: information.probability
+        symbol: p_ij
+      - id: gear.entropy
+        symbol: H_b
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: log_base_b_unit
+        unit_context: neutral
+        frame: none
+        log_base: b
+        claim_status: definition
+      - id: gear.reference_entropy
+        symbol: log_b_cardinality
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: log_base_b_unit
+        unit_context: neutral
+        frame: none
+        log_base: b
+        claim_status: definition
+      - id: gear.normalized_defect
+        extends: observation.normalized_loss
+        symbol: Delta_bar
+    expressions:
+      - id: mesh_phase_difference
+        anchor: equation (1), N1 theta1 - sigma N2 theta2
+        ast:
+          op: sub
+          args:
+            - {q: gear.weighted_phase1}
+            - {q: gear.weighted_phase2}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: angle
+          frame: lab
+      - id: mesh_velocity_difference
+        anchor: equation (2), N1 omega1 - sigma N2 omega2
+        ast:
+          op: sub
+          args:
+            - {q: gear.mesh_term1}
+            - {q: gear.mesh_term2}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: lab
+      - id: directed_speed_ratio
+        anchor: equation (2), omega2/omega1
+        ast:
+          op: normalize
+          value: {q: gear.omega2}
+          reference: {q: gear.omega1}
+          zero_policy: omega1_nonzero
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: ideal_contact_power
+        anchor: proposition 2.1, tau1 omega1 plus tau2 omega2
+        ast:
+          op: add
+          args:
+            - op: mul
+              left: {q: gear.torque1}
+              right: {q: gear.omega1}
+              semantic_kind: scalar
+              frame: scalar
+            - op: mul
+              left: {q: gear.torque2}
+              right: {q: gear.omega2}
+              semantic_kind: scalar
+              frame: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: scalar
+      - id: pitch_speed
+        anchor: section 9 constant-radii model, r1 omega1
+        ast:
+          op: mul
+          left: {q: gear.radius1}
+          right: {q: gear.omega1}
+          semantic_kind: scalar
+          frame: lab
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: lab
+      - id: radius_ratio
+        anchor: equation (17), r1/r2
+        ast:
+          op: normalize
+          value: {q: gear.radius1}
+          reference: {q: gear.radius2}
+          zero_policy: r2_strictly_positive
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: carrier_relative_sun_rate
+        anchor: equation (14), omega_s-omega_c
+        ast:
+          op: sub
+          args:
+            - {q: gear.omega_s}
+            - {q: gear.omega_c}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: lab
+      - id: carrier_relative_ring_rate
+        anchor: equation (14), omega_r-omega_c
+        ast:
+          op: sub
+          args:
+            - {q: gear.omega_r}
+            - {q: gear.omega_c}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: lab
+      - id: frame_shifted_sun_rate
+        anchor: equation (13), omega_s-alpha
+        ast:
+          op: sub
+          args:
+            - {q: gear.omega_s}
+            - {q: gear.frame_rate}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: lab
+      - id: willis_frequency_sum
+        anchor: equation (15), Ns omega_s_rel plus Nr omega_r_rel
+        ast:
+          op: add
+          args:
+            - {q: gear.willis_term_s}
+            - {q: gear.willis_term_r}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: carrier_relative
+      - id: friction_power_pairing
+        anchor: equation (8), -T dot v_T
+        ast:
+          op: dot
+          left: {q: gear.contact_force}
+          right: {q: gear.relative_tangent_velocity}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: normal_impulse_exposure
+        anchor: equation (10), integral N dt
+        ast:
+          op: mul
+          left: {q: gear.normal_force}
+          right: {q: gear.duration}
+          semantic_kind: scalar
+          frame: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 1, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: scalar
+      - id: dissipative_work
+        anchor: equation (11), integral P_fric dt
+        ast:
+          op: mul
+          left: {q: gear.friction_power}
+          right: {q: gear.duration}
+          semantic_kind: scalar
+          frame: model_dependent
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: model_dependent
+      - id: event_probability
+        anchor: section 6, p_alpha=w_alpha/W
+        ast:
+          op: normalize
+          value: {q: gear.event_count}
+          reference: {q: gear.total_event_count}
+          zero_policy: total_event_count_positive
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: probability_logarithm
+        anchor: section 6, log_b p_alpha
+        ast:
+          op: log
+          arg: {q: gear.event_probability}
+          base: b
+          semantic_kind: information
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: normalized_entropy
+        anchor: section 6, H_b/log_b cardinality
+        ast:
+          op: normalize
+          value: {q: gear.entropy}
+          reference: {q: gear.reference_entropy}
+          zero_policy: cardinality_greater_than_one
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: gcd_support_defect
+        anchor: equation (12), log_b gcd(N1,N2)
+        ast:
+          op: log
+          arg: {q: gear.gcd_count}
+          base: b
+          semantic_kind: information
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: path_terminal_ratio
+        anchor: equation (13), omega_out/omega_in
+        ast:
+          op: normalize
+          value: {q: gear.omega2}
+          reference: {q: gear.omega1}
+          zero_policy: input_rate_nonzero
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: translation_number_estimate
+        anchor: equation (20), lift displacement over 2 pi n
+        ast:
+          op: normalize
+          value: {q: gear.lift_displacement}
+          reference: {q: gear.full_turn_angle}
+          zero_policy: iteration_count_positive
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: contact_gap_reaction_product
+        anchor: equation (7), N_alpha g_alpha
+        ast:
+          op: mul
+          left:
+            const: gap
+            dimension: [1, 0, 0, 0, 0, 0, 0]
+            semantic_kind: scalar
+            unit_context: SI
+            frame: scalar
+          right: {q: gear.normal_force}
+          semantic_kind: scalar
+          frame: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+          frame: scalar
+    invariants:
+      - id: contact_cycle_multiset_under_label_translation
+        claimed_invariant: true
+        group: tooth_label_translation
+        anchor: theorem 3.2 and following conjugacy paragraph
+      - id: contact_cycle_multiset_under_orientation_reversal
+        claimed_invariant: true
+        group: orientation_reversal_conjugacy
+        anchor: section 3
+      - id: planetary_relative_rates
+        claimed_invariant: true
+        group: planetary_uniform_rotation_frame_action
+        anchor: theorem 8.1
+      - id: rotation_number_mod_integers
+        claimed_invariant: true
+        group: circle_lift_integer_shift
+        anchor: theorem 9.1
+      - id: frictional_power_under_coframed_rotation
+        claimed_invariant: true
+        group: orthogonal_contact_frame_changes
+        anchor: equations (8)-(9)
+    claim_register:
+      - id: finite_orbit_decomposition
+        status: theorem
+        hypotheses:
+          - positive_integer_tooth_counts
+          - declared_pitch_event_section
+          - ideal_one_pitch_translation
+      - id: hunting_tooth_criterion
+        status: corollary
+        hypotheses:
+          - finite_orbit_decomposition_hypotheses
+      - id: ratio_observation_fiber
+        status: proposition
+        hypotheses:
+          - exact_positive_tooth_counts
+          - reduced_positive_ratio
+      - id: ideal_mesh_reaction_power
+        status: proposition
+        hypotheses:
+          - smooth_ideal_holonomic_constraint
+          - admissible_velocity
+      - id: willis_relative_quotient
+        status: theorem
+        hypotheses:
+          - common_axis_orientation
+          - ideal_simple_planetary_kinematics
+      - id: noncircular_translation_number
+        status: theorem
+        hypotheses:
+          - positive_C1_periodic_effective_radii
+          - monotone_driver_phase
+          - orientation_preserving_circle_homeomorphism
+          - selected_degree_one_lift
+      - id: smooth_contact_friction
+        status: model
+        hypotheses:
+          - declared_active_set
+          - force_on_gear2_convention
+          - smooth_force_regime
+      - id: event_entropy
+        status: diagnostic
+        hypotheses:
+          - declared_nonnegative_channel
+          - positive_total_weight
+          - explicit_logarithm_base
+      - id: wear_prediction
+        status: hypothesis
+        hypotheses:
+          - external_validated_material_evolution_model_required
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    next_action: retain_as_finite_contact_observation_reference

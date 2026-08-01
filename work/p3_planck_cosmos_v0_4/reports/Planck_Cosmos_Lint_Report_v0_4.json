@@ -1,0 +1,38 @@
+{
+  "schema": {
+    "id": "go-lint-corpus-report",
+    "version": "0.2.0",
+    "core_contract": "0.2.0",
+    "corpus_id": "go-p3-planck-cosmos-reference-ledger"
+  },
+  "summary": {
+    "canonical_documents": 1,
+    "reference_documents": 1,
+    "critical_adapters": 0,
+    "expressions_checked": 19,
+    "findings_total": 0,
+    "core_findings": 0,
+    "status_counts": {
+      "PASS": 1
+    },
+    "rule_counts": {}
+  },
+  "documents": [
+    {
+      "id": "planck-cosmos-rulers-v1-1",
+      "title": "Planck-to-Cosmos Observation Rulers",
+      "version": "1.1.0",
+      "ledger_level": "reference",
+      "migration_status": "p3_reference_pass",
+      "expressions": 19,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_planck_cosmos_scale_reference_and_migrate_application_modules"
+    }
+  ],
+  "findings": []
+}

@@ -1,0 +1,676 @@
+schema:
+  id: go-p1-information-metric-reference-ledgers
+  version: 0.2.0
+  date: 2026-07-28
+  core_contract: go-core-spec-v0.2
+
+documents:
+  - id: information-theoretic-observation-v0-2
+    title: Information-Theoretic Observation Geometry
+    version: 0.2.0
+    source:
+      pdf: work/p1_info_metric_v0_2/build/information/information_theoretic_observation_geometry_v0_2.pdf
+      tex: work/p1_info_metric_v0_2/src/information_theoretic_observation_geometry_v0_2.tex
+      text: work/p1_info_metric_v0_2/checks/information/information_theoretic_observation_geometry_v0_2.txt
+      pages: 9
+      sha256: 5a64daee29f75c8951f9fb1e2ff263fea27f3ab2128144abf8c64284eabf8a92
+      supersedes_sha256: 24fd1228d382e1ed2e53924d93a2f8be42c25007d44f4b1f91a94dda7f5d890b
+    ledger_level: reference
+    migration_status: p1_reference_pass
+    unit_contexts: [neutral, SI]
+    groups: []
+    maps:
+      - id: information_model_reduction
+        domain: hidden_state
+        codomain: reduced_hidden_state
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: information_ideal_readout
+        domain: reduced_hidden_state
+        codomain: ideal_datum
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: information_sensor_channel
+        domain: ideal_datum
+        codomain: registered_datum_distribution
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: information_postprocessing_channel
+        domain: registered_datum
+        codomain: postprocessed_datum_distribution
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: information_target_estimator
+        domain: registered_datum
+        codomain: target_estimate
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - {scope: information_v0_2, key: b, meaning: declared_logarithm_base}
+      - {scope: information_v0_2, key: H_b, meaning: base_b_entropy}
+      - {scope: information_v0_2, key: I_b, meaning: base_b_mutual_information}
+      - {scope: information_v0_2, key: D_info, meaning: raw_conditional_entropy_defect}
+      - {scope: information_v0_2, key: delta_info, meaning: normalized_information_defect}
+      - {scope: information_v0_2, key: W_lambda, meaning: induced_hidden_to_data_channel}
+    quantities:
+      - id: info_v02.probability_p
+        extends: information.probability
+      - id: info_v02.probability_q
+        extends: information.probability
+      - id: info_v02.entropy_X
+        symbol: H_b_X
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: base_b_information_unit
+        unit_context: neutral
+        frame: none
+        log_base: b
+        claim_status: definition
+      - id: info_v02.entropy_Y
+        extends: info_v02.entropy_X
+        symbol: H_b_Y
+      - id: info_v02.conditional_entropy_X_given_Y
+        extends: info_v02.entropy_X
+        symbol: H_b_X_given_Y
+      - id: info_v02.conditional_entropy_X_given_Z
+        extends: info_v02.entropy_X
+        symbol: H_b_X_given_Z
+      - id: info_v02.mutual_information_XY
+        extends: info_v02.entropy_X
+        symbol: I_b_XY
+      - id: info_v02.raw_information_defect
+        extends: info_v02.entropy_X
+        symbol: D_info
+      - id: info_v02.normalized_information_defect
+        extends: observation.normalized_loss
+        symbol: delta_info
+      - id: info_v02.base_conversion_factor
+        extends: dimensionless.scalar
+        symbol: log_b_c
+      - id: info_v02.distortion
+        symbol: d_Q
+        semantic_kind: scalar
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: invariant
+        claim_status: model
+      - id: info_v02.reference_distortion
+        extends: info_v02.distortion
+        symbol: d_ref
+      - id: info_v02.spatial_resolution
+        extends: observation.spatial_resolution
+        symbol: epsilon_ell
+      - id: info_v02.circle_radius
+        extends: geometry.length
+        symbol: r_circle
+      - id: info_v02.coordinate_density_1d
+        symbol: p_x_density
+        semantic_kind: scalar
+        dimension: [-1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: 1/m
+        unit_context: SI
+        frame: coordinate_chart
+        claim_status: definition
+      - id: info_v02.reference_coordinate_volume_1d
+        extends: geometry.reference_length
+        symbol: v_star_1d
+    expressions:
+      - id: shannon_probability_log_term
+        anchor: section 2, definition of H_b
+        ast:
+          op: mul
+          left: {q: info_v02.probability_p}
+          right:
+            op: log
+            base: b
+            semantic_kind: information
+            arg: {q: info_v02.probability_p}
+          semantic_kind: information
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: information_base_change
+        anchor: theorem 2.3
+        ast:
+          op: mul
+          left: {q: info_v02.entropy_X}
+          right: {q: info_v02.base_conversion_factor}
+          semantic_kind: information
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: entropy_decomposition
+        anchor: proposition 3.3
+        ast:
+          op: add
+          args:
+            - {q: info_v02.mutual_information_XY}
+            - {q: info_v02.raw_information_defect}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: normalized_information_defect
+        anchor: definition 3.2
+        ast:
+          op: normalize
+          value: {q: info_v02.raw_information_defect}
+          reference: {q: info_v02.entropy_X}
+          zero_policy: degenerate_source_returns_zero
+          semantic_kind: loss
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: loss
+      - id: kl_probability_ratio
+        anchor: section 2, definition of D_KL_b
+        ast:
+          op: log
+          base: b
+          semantic_kind: information
+          arg:
+            op: normalize
+            value: {q: info_v02.probability_p}
+            reference: {q: info_v02.probability_q}
+            zero_policy: extended_value_absolute_continuity_policy
+            semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: postprocessing_defect_increment
+        anchor: theorem 4.2
+        ast:
+          op: sub
+          args:
+            - {q: info_v02.conditional_entropy_X_given_Z}
+            - {q: info_v02.conditional_entropy_X_given_Y}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: normalized_physical_distortion
+        anchor: model 8.2
+        ast:
+          op: normalize
+          value: {q: info_v02.distortion}
+          reference: {q: info_v02.reference_distortion}
+          zero_policy: strictly_positive_reference
+          semantic_kind: loss
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: loss
+      - id: hidden_circle_resolution_ratio
+        anchor: section 6.3
+        ast:
+          op: log
+          base: b
+          semantic_kind: information
+          arg:
+            op: normalize
+            value: {q: info_v02.circle_radius}
+            reference: {q: info_v02.spatial_resolution}
+            zero_policy: strictly_positive_resolution
+            semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: referenced_differential_entropy_log_argument
+        anchor: section 7, log_b(p_X times v_star)
+        ast:
+          op: log
+          base: b
+          semantic_kind: information
+          arg:
+            op: mul
+            left: {q: info_v02.coordinate_density_1d}
+            right: {q: info_v02.reference_coordinate_volume_1d}
+            semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+    claim_register:
+      - id: information_unit_change
+        status: theorem
+        hypotheses: [finite_information_quantity, logarithm_bases_b_and_c_greater_than_one]
+      - id: information_defect_decomposition
+        status: proposition
+        hypotheses: [finite_hidden_alphabet, declared_source_law, declared_channel]
+      - id: deterministic_fiber_formula
+        status: theorem
+        hypotheses: [finite_hidden_and_observed_alphabets, deterministic_observation]
+      - id: data_processing_defect_monotonicity
+        status: theorem
+        hypotheses: [finite_markov_chain_X_to_Y_to_Z]
+      - id: kl_contraction
+        status: theorem
+        hypotheses: [finite_alphabets, markov_kernel, extended_value_convention]
+      - id: exact_recoverability_criterion
+        status: theorem
+        hypotheses: [finite_target_and_observation_alphabets, almost_sure_recovery]
+      - id: fano_inequality
+        status: theorem
+        hypotheses: [finite_target_alphabet_of_size_at_least_two, declared_decoder]
+      - id: information_bottleneck_interface
+        status: model
+        hypotheses: [declared_channel_class, markov_condition_Q_X_Y, finite_information_budget]
+      - id: rate_distortion_interface
+        status: model
+        hypotheses: [declared_distortion, positive_same_dimension_reference]
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    next_action: retain_as_information_reference_and_migrate_downstream_probabilistic_modules
+
+  - id: metric-entropy-defect-v0-2
+    title: Metric Entropy and Observational Entropy Defect
+    version: 0.2.0
+    source:
+      pdf: work/p1_info_metric_v0_2/build/metric/metric_entropy_observational_defect_v0_2.pdf
+      tex: work/p1_info_metric_v0_2/src/metric_entropy_observational_defect_v0_2.tex
+      text: work/p1_info_metric_v0_2/checks/metric/metric_entropy_observational_defect_v0_2.txt
+      pages: 10
+      sha256: 615670a93610ce5a4911fa2d2e30c1e06f1faec900d614d21492e36a664b1257
+      supersedes_sha256: 508109e33da1186bc4cbc1ffa5a3355087515a7ba7296e584909ff3c1d1a4e95
+    ledger_level: reference
+    migration_status: p1_reference_pass
+    unit_contexts: [neutral, SI]
+    groups: []
+    maps:
+      - id: metric_identity_reduction
+        domain: hidden_metric_space
+        codomain: protocol_metric_space
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: metric_lipschitz_observation
+        domain: input_metric_space
+        codomain: output_metric_space
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: metric_noiseless_readout
+        domain: observed_metric_point
+        codomain: registered_metric_point
+        kind: inclusion
+        invertibility: injective_not_surjective
+        information_loss: false
+      - id: metric_cover_quantizer
+        domain: totally_bounded_metric_set
+        codomain: finite_cell_labels
+        kind: discretizer
+        invertibility: not_required
+        information_loss: possible
+      - id: metric_direct_covering_readout
+        domain: finite_cell_labels
+        codomain: covering_count
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - {scope: metric_v0_2, key: epsilon_X, meaning: input_resolution}
+      - {scope: metric_v0_2, key: epsilon_Y, meaning: output_resolution}
+      - {scope: metric_v0_2, key: ell_star, meaning: positive_reference_length}
+      - {scope: metric_v0_2, key: L_O, meaning: lipschitz_scale_converter}
+      - {scope: metric_v0_2, key: H_metric, meaning: covering_entropy_with_declared_base}
+      - {scope: metric_v0_2, key: D_metric, meaning: matched_scale_metric_defect}
+      - {scope: metric_v0_2, key: s, meaning: geometric_heat_parameter_L_squared}
+      - {scope: metric_v0_2, key: tau, meaning: dimensionless_heat_scale}
+    quantities:
+      - id: metric_v02.epsilon_X
+        extends: observation.spatial_resolution
+        symbol: epsilon_X
+        frame: input_observer
+      - id: metric_v02.epsilon_Y
+        extends: observation.spatial_resolution
+        symbol: epsilon_Y
+        frame: output_observer
+      - id: metric_v02.reference_length
+        extends: geometry.reference_length
+        symbol: ell_star
+      - id: metric_v02.reference_length_squared
+        symbol: ell_star_squared
+        semantic_kind: scalar
+        dimension: [2, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m^2
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: metric_v02.unit_scale_factor
+        extends: dimensionless.scalar
+        symbol: a
+      - id: metric_v02.lipschitz_constant
+        extends: dimensionless.scalar
+        symbol: L_O
+      - id: metric_v02.cover_count
+        extends: discrete.count
+        symbol: N_epsilon
+      - id: metric_v02.input_covering_entropy
+        symbol: H_input_b
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: base_b_information_unit
+        unit_context: neutral
+        frame: none
+        log_base: b
+        claim_status: definition
+      - id: metric_v02.output_covering_entropy
+        extends: metric_v02.input_covering_entropy
+        symbol: H_output_b
+      - id: metric_v02.raw_metric_defect
+        extends: metric_v02.input_covering_entropy
+        symbol: D_metric
+      - id: metric_v02.raw_metric_defect_first
+        extends: metric_v02.input_covering_entropy
+        symbol: D_metric_1
+      - id: metric_v02.raw_metric_defect_second
+        extends: metric_v02.input_covering_entropy
+        symbol: D_metric_2
+      - id: metric_v02.normalized_metric_defect
+        extends: observation.normalized_loss
+        symbol: delta_metric
+      - id: metric_v02.heat_parameter
+        symbol: s_heat
+        semantic_kind: scalar
+        dimension: [2, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m^2
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: metric_v02.laplacian_eigenvalue
+        extends: spectral.laplacian_eigenvalue
+        symbol: lambda_Delta
+      - id: metric_v02.diffusivity
+        symbol: kappa_diff
+        semantic_kind: scalar
+        dimension: [2, 0, -1, 0, 0, 0, 0]
+        canonical_unit: m^2/s
+        unit_context: SI
+        frame: model_dependent
+        claim_status: model
+      - id: metric_v02.physical_time
+        extends: time.duration
+        symbol: t_phys
+      - id: metric_v02.scalar_curvature
+        extends: geometry.scalar_curvature
+        symbol: Scal_g
+      - id: metric_v02.radius
+        extends: geometry.length
+        symbol: r
+      - id: metric_v02.feature_scale_converter
+        extends: geometry.length
+        symbol: lambda_feature
+      - id: metric_v02.feature_lipschitz_constant
+        symbol: L_c
+        semantic_kind: scalar
+        dimension: [-1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: 1/m
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: metric_v02.shell_distance
+        extends: geometry.length
+        symbol: d_ij
+      - id: metric_v02.shell_radius
+        extends: geometry.length
+        symbol: r_shell
+    expressions:
+      - id: coherent_rescaled_resolution
+        anchor: theorem 2.5
+        ast:
+          op: mul
+          left: {q: metric_v02.unit_scale_factor}
+          right: {q: metric_v02.epsilon_X}
+          semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: matched_output_scale
+        anchor: section 4, matched scale definition
+        ast:
+          op: mul
+          left: {q: metric_v02.lipschitz_constant}
+          right: {q: metric_v02.epsilon_X}
+          semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: dimensionless_reference_scale_ratio
+        anchor: section 3
+        ast:
+          op: normalize
+          value: {q: metric_v02.reference_length}
+          reference: {q: metric_v02.epsilon_X}
+          zero_policy: strictly_positive_resolution
+          semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: typed_box_dimension_log_denominator
+        anchor: section 3, log_b(ell_star/epsilon)
+        ast:
+          op: log
+          base: b
+          semantic_kind: information
+          arg:
+            op: normalize
+            value: {q: metric_v02.reference_length}
+            reference: {q: metric_v02.epsilon_X}
+            zero_policy: strictly_positive_resolution
+            semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: matched_scale_metric_defect
+        anchor: definition 4.3
+        ast:
+          op: sub
+          args:
+            - {q: metric_v02.input_covering_entropy}
+            - {q: metric_v02.output_covering_entropy}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: normalized_metric_defect
+        anchor: definition 4.4
+        ast:
+          op: normalize
+          value: {q: metric_v02.raw_metric_defect}
+          reference: {q: metric_v02.input_covering_entropy}
+          zero_policy: one_cell_input_returns_zero
+          semantic_kind: loss
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: loss
+      - id: metric_defect_composition
+        anchor: theorem 4.6
+        ast:
+          op: add
+          args:
+            - {q: metric_v02.raw_metric_defect_first}
+            - {q: metric_v02.raw_metric_defect_second}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: typed_heat_exponent
+        anchor: section 9, s times lambda_Delta
+        ast:
+          op: mul
+          left: {q: metric_v02.heat_parameter}
+          right: {q: metric_v02.laplacian_eigenvalue}
+          semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: dimensionless_geometric_heat_scale
+        anchor: section 9, tau=s/ell_star^2
+        ast:
+          op: normalize
+          value: {q: metric_v02.heat_parameter}
+          reference: {q: metric_v02.reference_length_squared}
+          zero_policy: strictly_positive_reference_length
+          semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: physical_diffusion_heat_scale
+        anchor: section 9, tau=kappa*t_phys/ell_star^2
+        ast:
+          op: div
+          left:
+            op: mul
+            left: {q: metric_v02.diffusivity}
+            right: {q: metric_v02.physical_time}
+            semantic_kind: scalar
+          right: {q: metric_v02.reference_length_squared}
+          semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: scalar_curvature_radius_squared
+        anchor: proposition 8.1
+        ast:
+          op: mul
+          left: {q: metric_v02.scalar_curvature}
+          right:
+            op: pow
+            arg: {q: metric_v02.radius}
+            exponent: 2
+            semantic_kind: scalar
+          semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: chromatic_dimensionless_slope
+        anchor: proposition 7.1
+        ast:
+          op: mul
+          left: {q: metric_v02.feature_scale_converter}
+          right: {q: metric_v02.feature_lipschitz_constant}
+          semantic_kind: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: typed_shell_difference
+        anchor: section 10, abs(d_ij-r_shell)
+        ast:
+          op: sub
+          args:
+            - {q: metric_v02.shell_distance}
+            - {q: metric_v02.shell_radius}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+    claim_register:
+      - id: covering_packing_sandwich
+        status: proposition
+        hypotheses: [totally_bounded_metric_set, positive_resolution]
+      - id: metric_unit_covariance
+        status: theorem
+        hypotheses: [positive_scale_factor, coherent_rescaling_of_metric_and_resolution]
+      - id: box_dimension_convention_independence
+        status: proposition
+        hypotheses: [totally_bounded_nonempty_set, fixed_positive_reference_length]
+      - id: matched_scale_covering_contraction
+        status: theorem
+        hypotheses: [lipschitz_observation, positive_matched_input_output_resolutions]
+      - id: exact_metric_defect_composition
+        status: theorem
+        hypotheses: [composable_lipschitz_maps, two_matched_scale_conditions]
+      - id: product_covering_bounds
+        status: proposition
+        hypotheses: [nonempty_totally_bounded_factors, max_product_metric]
+      - id: compact_manifold_fiber_asymptotics
+        status: theorem
+        hypotheses: [compact_smooth_riemannian_factors, common_reference_length, max_product_metric]
+      - id: chromatic_entropy_sandwich
+        status: proposition
+        hypotheses: [lipschitz_feature_field, typed_positive_feature_scale_converter]
+      - id: small_ball_expansion
+        status: proposition
+        hypotheses: [smooth_riemannian_manifold, sufficiently_small_geodesic_radius]
+      - id: heat_trace_expansion
+        status: theorem
+        hypotheses: [closed_smooth_riemannian_manifold, nonnegative_laplace_beltrami_operator]
+      - id: dimensionless_entropy_pressure
+        status: model
+        hypotheses: [positive_reference_information, positive_reference_volume, declared_penalty]
+      - id: cylindrical_parameter_fiber
+        status: model
+        hypotheses: [regular_product_metric, finite_separated_diameter_set, lipschitz_bounded_interval_readout]
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    next_action: retain_as_metric_scale_reference_and_migrate_distance_and_mechanics_modules

@@ -1,0 +1,528 @@
+{
+  "schema": {
+    "id": "go-p12-validation-summary",
+    "version": "1.3.0"
+  },
+  "date": "2026-07-28",
+  "status": "PASS",
+  "release_check_count": 51,
+  "regression_tests": 259,
+  "phase_validators": 11,
+  "corpus_modules": 18,
+  "component_pages": 158,
+  "master_pages": 166,
+  "typed_expressions": 347,
+  "dependency_nodes": 29,
+  "dependency_edges": 36,
+  "short_identifier_overlaps": 7,
+  "qualified_collisions": 0,
+  "corpus_statuses": {
+    "PASS": 18,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "bundle_present": true,
+  "release_manifest_present": true,
+  "checks": [
+    {
+      "id": "required_files",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "deterministic_master_rebuild",
+      "status": "PASS",
+      "detail": {
+        "before_sha256": "3942277bc24ce6c134876bf27d322e03869a40e7d52eb084bcab6b3c885bf2d2",
+        "after_sha256": "3942277bc24ce6c134876bf27d322e03869a40e7d52eb084bcab6b3c885bf2d2",
+        "pages": 166
+      }
+    },
+    {
+      "id": "freeze_totals",
+      "status": "PASS",
+      "detail": {
+        "modules": 18,
+        "component_pages": 158,
+        "master_pages": 166,
+        "expressions": 347,
+        "claims": 136,
+        "findings": 0
+      }
+    },
+    {
+      "id": "corpus_statuses",
+      "status": "PASS",
+      "detail": {
+        "PASS": 18,
+        "FAIL": 0,
+        "BLOCKED": 0
+      }
+    },
+    {
+      "id": "baseline_identity",
+      "status": "PASS",
+      "detail": {
+        "sha256": "3f50f7941f8549c4b9de626fdb107431c07238582cdf8ebce90203500189f68e",
+        "canonical_documents": 18
+      }
+    },
+    {
+      "id": "module_ids_and_order",
+      "status": "PASS",
+      "detail": {
+        "first": "functional-interface-go-qs-v0-2",
+        "last": "satellite-networks-observation-v1-2"
+      }
+    },
+    {
+      "id": "satellite_semantic_reorder",
+      "status": "PASS",
+      "detail": {
+        "release_index": 18,
+        "ledger_index": 9
+      }
+    },
+    {
+      "id": "component_hash_page_and_pdf_gate",
+      "status": "PASS",
+      "detail": {
+        "modules": 18,
+        "pages": 158,
+        "failures": []
+      }
+    },
+    {
+      "id": "component_author_variants",
+      "status": "PASS",
+      "detail": [
+        "Stas, Independent Research Program",
+        "Stassis Research Program"
+      ]
+    },
+    {
+      "id": "namespace_qualification",
+      "status": "PASS",
+      "detail": {
+        "qualified_ids": 483,
+        "short_overlaps": 7,
+        "collisions": 0
+      }
+    },
+    {
+      "id": "dependency_endpoints",
+      "status": "PASS",
+      "detail": {
+        "nodes": 29,
+        "edges": 36,
+        "unresolved": []
+      }
+    },
+    {
+      "id": "dependency_acyclicity",
+      "status": "PASS",
+      "detail": {
+        "topological_nodes": 29,
+        "violations": []
+      }
+    },
+    {
+      "id": "dependency_source_evidence",
+      "status": "PASS",
+      "detail": {
+        "evidence_edges": 8,
+        "failures": []
+      }
+    },
+    {
+      "id": "contextual_dependency_firewall",
+      "status": "PASS",
+      "detail": {
+        "excluded": 3
+      }
+    },
+    {
+      "id": "master_pdf_metadata",
+      "status": "PASS",
+      "detail": {
+        "pages": 166,
+        "title": "Geometry of Observation: Frozen Typed Corpus and Reproducibility Master",
+        "author": "Stassis Stashkevichyus"
+      }
+    },
+    {
+      "id": "master_pdf_security_and_geometry",
+      "status": "PASS",
+      "detail": {
+        "encrypted": false,
+        "form_fields": 0,
+        "page_size": [
+          595.28,
+          841.89
+        ]
+      }
+    },
+    {
+      "id": "frontmatter_pdf",
+      "status": "PASS",
+      "detail": {
+        "pages": 8,
+        "sha256": "930d9dcf750ae991f6aef7158202c26d6a8dcd0292f27ad9eb28bca71e2e2635"
+      }
+    },
+    {
+      "id": "master_outline_and_page_labels",
+      "status": "PASS",
+      "detail": {
+        "outline_items": 19,
+        "first_labels": [
+          "i",
+          "ii",
+          "iii",
+          "iv",
+          "v",
+          "vi",
+          "vii",
+          "viii",
+          "M01-1"
+        ],
+        "last_label": "M18-8"
+      }
+    },
+    {
+      "id": "master_header_and_eof",
+      "status": "PASS",
+      "detail": {
+        "bytes": 2540669,
+        "sha256": "3942277bc24ce6c134876bf27d322e03869a40e7d52eb084bcab6b3c885bf2d2"
+      }
+    },
+    {
+      "id": "master_embedded_fonts",
+      "status": "PASS",
+      "detail": {
+        "font_rows": 358,
+        "nonembedded": []
+      }
+    },
+    {
+      "id": "frontmatter_embedded_fonts",
+      "status": "PASS",
+      "detail": {
+        "font_rows": 14,
+        "nonembedded": []
+      }
+    },
+    {
+      "id": "frontmatter_latex_log",
+      "status": "PASS",
+      "detail": {
+        "hits": []
+      }
+    },
+    {
+      "id": "p12_regression_suite",
+      "status": "PASS",
+      "detail": {
+        "tests": 259,
+        "returncode": 0
+      }
+    },
+    {
+      "id": "go_core_strict_replay",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 18,
+        "reference_documents": 18,
+        "critical_adapters": 0,
+        "expressions_checked": 347,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 18
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "phase_validator_replay",
+      "status": "PASS",
+      "detail": {
+        "validators": 11,
+        "statuses": {
+          "validate_p1_release.py": "PASS",
+          "validate_p2_release.py": "PASS",
+          "validate_p3_release.py": "PASS",
+          "validate_p4_release.py": "PASS",
+          "validate_p5_release.py": "PASS",
+          "validate_p6_release.py": "PASS",
+          "validate_p7_release.py": "PASS",
+          "validate_p8_release.py": "PASS",
+          "validate_p9_release.py": "PASS",
+          "validate_p10_release.py": "PASS",
+          "validate_p11_release.py": "PASS"
+        }
+      }
+    },
+    {
+      "id": "phase_validator_01",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p1_info_metric_v0_2/tests/validate_p1_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_02",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p2_distance_scale_v0_3/tests/validate_p2_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_03",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p3_planck_cosmos_v0_4/tests/validate_p3_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_04",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p4_lhc_si_hep_v0_5/tests/validate_p4_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_05",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p5_mechanics_frames_v0_6/tests/validate_p5_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_06",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p6_gear_contact_v0_7/tests/validate_p6_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_07",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p7_billiards_v0_8/tests/validate_p7_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_08",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p8_conical_intersections_v0_9/tests/validate_p8_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_09",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p9_quantum_chemistry_v1_0/tests/validate_p9_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_10",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p10_regular_polyhedra_v1_1/tests/validate_p10_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "phase_validator_11",
+      "status": "PASS",
+      "detail": {
+        "path": "work/p11_satellite_networks_v1_2/tests/validate_p11_release.py",
+        "reported_tests": 0
+      }
+    },
+    {
+      "id": "independent_master_render",
+      "status": "PASS",
+      "detail": {
+        "rendered_pages": 166,
+        "dimensions": [
+          [
+            298,
+            421
+          ]
+        ],
+        "total_png_bytes": 6246045
+      }
+    },
+    {
+      "id": "visual_contact_sheets",
+      "status": "PASS",
+      "detail": {
+        "front_sheets": 1,
+        "master_sheets": 6,
+        "dimensions": [
+          [
+            984,
+            2880
+          ],
+          [
+            855,
+            1620
+          ],
+          [
+            855,
+            1620
+          ],
+          [
+            855,
+            1620
+          ],
+          [
+            855,
+            1620
+          ],
+          [
+            855,
+            1620
+          ],
+          [
+            780,
+            1208
+          ]
+        ],
+        "bytes": 16562702
+      }
+    },
+    {
+      "id": "visual_qa_record",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "master_sha256": "3942277bc24ce6c134876bf27d322e03869a40e7d52eb084bcab6b3c885bf2d2",
+        "rendered_pngs": 166
+      }
+    },
+    {
+      "id": "master_page_map",
+      "status": "PASS",
+      "detail": {
+        "entries": 19,
+        "terminal_cursor": 167,
+        "master_sha256": "3942277bc24ce6c134876bf27d322e03869a40e7d52eb084bcab6b3c885bf2d2"
+      }
+    },
+    {
+      "id": "frozen_checksums",
+      "status": "PASS",
+      "detail": {
+        "records": 78,
+        "failures": []
+      }
+    },
+    {
+      "id": "citation_metadata",
+      "status": "PASS",
+      "detail": {
+        "cff_version": "1.2.0",
+        "release_version": "1.3.0"
+      }
+    },
+    {
+      "id": "zenodo_metadata",
+      "status": "PASS",
+      "detail": {
+        "record_type": "preprint",
+        "license": "cc-by-nc-nd-4.0"
+      }
+    },
+    {
+      "id": "osf_metadata",
+      "status": "PASS",
+      "detail": {
+        "version": "1.3.0",
+        "doi": null
+      }
+    },
+    {
+      "id": "metadata_identity_consistency",
+      "status": "PASS",
+      "detail": {
+        "freeze_author": "Stassis Stashkevichyus",
+        "zenodo_author": "Stashkevichyus, Stassis"
+      }
+    },
+    {
+      "id": "doi_firewall",
+      "status": "PASS",
+      "detail": {
+        "assigned": false,
+        "placeholder": false
+      }
+    },
+    {
+      "id": "license_consistency",
+      "status": "PASS",
+      "detail": {
+        "contract": "CC-BY-NC-ND-4.0",
+        "zenodo": "cc-by-nc-nd-4.0",
+        "cff": "CC-BY-NC-ND-4.0"
+      }
+    },
+    {
+      "id": "freeze_report_coverage",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "public_output_copies",
+      "status": "PASS",
+      "detail": {
+        "failures": []
+      }
+    },
+    {
+      "id": "bundle_integrity",
+      "status": "PASS",
+      "detail": {
+        "members": 101,
+        "bad_member": null,
+        "sorted": true,
+        "timestamps": [
+          [
+            2026,
+            7,
+            28,
+            12,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "id": "release_manifest",
+      "status": "PASS",
+      "detail": {
+        "status": "PASS",
+        "master_pages": 166,
+        "bundle_present": true
+      }
+    }
+  ]
+}

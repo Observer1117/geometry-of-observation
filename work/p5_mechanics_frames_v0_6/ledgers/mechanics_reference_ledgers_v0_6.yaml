@@ -1,0 +1,1292 @@
+schema:
+  id: go-p5-mechanics-reference-ledgers
+  version: 0.6.0
+  date: 2026-07-28
+  core_contract: go-core-spec@0.2.0
+  extension_contract: go-frame-force-dissipation-contract@0.6.0
+
+documents:
+  - id: frames-forces-dissipation-interface-v0-1
+    title: Frames, Forces, Constraints, and Dissipation under Observation Maps
+    version: 0.1.0
+    source:
+      pdf: work/p5_mechanics_frames_v0_6/build/interface/frame_force_dissipation_interface_v0_1.pdf
+      tex: work/p5_mechanics_frames_v0_6/src/frame_force_dissipation_interface_v0_1.tex
+      text: work/p5_mechanics_frames_v0_6/checks_final/interface/frame_force_dissipation_interface_v0_1.txt
+      pages: 7
+      sha256: 0af4c0b49aba775e28cac7644c9d5e17dd17982801cb0843e7ed56cfbb5e093f
+    ledger_level: reference
+    migration_status: p5_reference_pass
+    unit_contexts: [SI, neutral]
+    groups:
+      - SO3_coframed_vector_changes
+      - SE3_static_point_changes
+      - configuration_coordinate_changes
+    maps:
+      - id: directed_frame_edge
+        domain: vector_components_in_source_frame
+        codomain: vector_components_in_target_frame
+        kind: frame_transform
+        invertibility: required
+        information_loss: false
+      - id: affine_point_frame_map
+        domain: point_and_frame_pose
+        codomain: point_in_target_frame
+        kind: frame_transform
+        invertibility: required
+        information_loss: false
+      - id: spatial_force_pullback
+        domain: spatial_force_and_application_jacobian
+        codomain: generalized_force_covector
+        kind: pullback
+        invertibility: not_required
+        information_loss: possible
+      - id: mechanics_reduction
+        domain: ambient_mechanical_state
+        codomain: constrained_configuration_state
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: ideal_mechanical_observation
+        domain: framed_constrained_state
+        codomain: ideal_sensor_readout
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: mechanical_measurement_channel
+        domain: ideal_sensor_readout
+        codomain: probability_law_on_recorded_data
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: mechanical_estimator
+        domain: recorded_data
+        codomain: estimated_mechanical_quantity
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - {scope: frames_v0_1, key: A_F_from_G, meaning: directed_rotation_edge}
+      - {scope: frames_v0_1, key: Omega_F, meaning: angular_velocity_in_moving_frame}
+      - {scope: mechanics_v0_1, key: Q_d, meaning: dissipative_generalized_force}
+      - {scope: mechanics_v0_1, key: P_diss, meaning: nonnegative_dissipated_power}
+      - {scope: contact_v0_1, key: g_j, meaning: positive_separation_gap}
+      - {scope: contact_v0_1, key: N_j, meaning: compressive_normal_reaction}
+    quantities:
+      - id: ffd.origin_position
+        extends: geometry.position
+        symbol: c_F
+        frame: inertial
+      - id: ffd.mapped_point
+        extends: geometry.displacement
+        symbol: A_x
+        frame: inertial
+      - id: ffd.target_point
+        extends: geometry.position
+        symbol: x_I
+        frame: inertial
+      - id: ffd.local_acceleration
+        extends: mechanics.acceleration
+        symbol: a_F
+        frame: moving
+      - id: ffd.coriolis_acceleration
+        extends: mechanics.acceleration
+        symbol: a_cor
+        frame: moving
+      - id: ffd.euler_acceleration
+        extends: mechanics.acceleration
+        symbol: a_eul
+        frame: moving
+      - id: ffd.centrifugal_acceleration
+        extends: mechanics.acceleration
+        symbol: a_cen
+        frame: moving
+      - id: ffd.mass
+        extends: mechanics.mass
+      - id: ffd.physical_acceleration
+        extends: mechanics.acceleration
+        frame: inertial
+      - id: ffd.physical_force
+        extends: mechanics.force
+        frame: inertial
+      - id: ffd.physical_velocity
+        extends: mechanics.velocity
+        frame: inertial
+      - id: ffd.energy
+        extends: mechanics.energy
+      - id: ffd.time
+        extends: time.duration
+      - id: ffd.active_power
+        extends: mechanics.power
+        symbol: P_act
+      - id: ffd.dissipated_power
+        extends: mechanics.power
+        symbol: P_diss
+      - id: ffd.constraint_power
+        extends: mechanics.power
+        symbol: P_con
+      - id: ffd.explicit_lagrangian_power
+        extends: mechanics.power
+        symbol: partial_t_L
+      - id: ffd.rayleigh_function
+        extends: mechanics.power
+        symbol: R
+      - id: ffd.friction_force
+        extends: mechanics.force
+        frame: contact
+      - id: ffd.relative_velocity
+        extends: mechanics.velocity
+        frame: contact
+      - id: ffd.friction_coefficient
+        extends: mechanics.friction_coefficient
+      - id: ffd.normal_force_magnitude
+        symbol: N
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: ffd.friction_capacity
+        symbol: mu_N
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: ffd.friction_force_norm
+        symbol: norm_T
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: ffd.cone_utilization
+        extends: dimensionless.scalar
+        symbol: u
+    expressions:
+      - id: affine_point_sum
+        anchor: section 2, x_I=c_F+A x_F
+        ast:
+          op: add
+          args:
+            - {q: ffd.origin_position}
+            - {q: ffd.mapped_point}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: inertial
+      - id: moving_frame_acceleration_sum
+        anchor: theorem 3.3, acceleration bracket
+        ast:
+          op: add
+          args:
+            - {q: ffd.local_acceleration}
+            - {q: ffd.coriolis_acceleration}
+            - {q: ffd.euler_acceleration}
+            - {q: ffd.centrifugal_acceleration}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, -2, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: moving
+      - id: newton_force
+        anchor: section 3, m a
+        ast:
+          op: mul
+          left: {q: ffd.mass}
+          right: {q: ffd.physical_acceleration}
+          semantic_kind: vector
+          frame: inertial
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 1, -2, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: inertial
+      - id: orthogonal_power_pairing
+        anchor: section 5, F dot v
+        ast:
+          op: dot
+          left: {q: ffd.physical_force}
+          right: {q: ffd.physical_velocity}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: energy_rate
+        anchor: theorem 7.1, dot E_L
+        ast:
+          op: derivative
+          dependent: {q: ffd.energy}
+          independent: {q: ffd.time}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: energy_balance_rhs
+        anchor: theorem 7.1, P_act-P_diss+P_con-partial_t_L
+        ast:
+          op: sub
+          args:
+            - {q: ffd.active_power}
+            - {q: ffd.dissipated_power}
+            - {q: ffd.constraint_power}
+            - {q: ffd.explicit_lagrangian_power}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: rayleigh_loss
+        anchor: section 6, P_diss=2R
+        ast:
+          op: mul
+          left: {const: 2, dimension: [0, 0, 0, 0, 0, 0, 0], unit_context: neutral}
+          right: {q: ffd.rayleigh_function}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: friction_power
+        anchor: section 6, -T dot v_T
+        ast:
+          op: dot
+          left: {q: ffd.friction_force}
+          right: {q: ffd.relative_velocity}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: friction_capacity
+        anchor: section 6, mu N
+        ast:
+          op: mul
+          left: {q: ffd.friction_coefficient}
+          right: {q: ffd.normal_force_magnitude}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: guarded_cone_utilization
+        anchor: section 6, piecewise norm(T)/(mu N)
+        ast:
+          op: normalize
+          value: {q: ffd.friction_force_norm}
+          reference: {q: ffd.friction_capacity}
+          zero_policy: piecewise_zero_capacity_guard
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+    invariants:
+      - id: orthogonal_virtual_power
+        claimed_invariant: true
+        group: SO3_coframed_vector_changes
+        anchor: section 5
+      - id: static_euclidean_distance
+        claimed_invariant: true
+        group: SE3_static_point_changes
+        anchor: sections 2 and 8
+    claim_register:
+      - id: moving_frame_kinematics
+        status: theorem
+        hypotheses:
+          - twice_differentiable_point_and_frame
+          - declared_angular_velocity_convention
+      - id: mass_form_rank
+        status: proposition
+        hypotheses:
+          - positive_masses
+          - differentiable_configuration_realization
+      - id: energy_balance
+        status: theorem
+        hypotheses:
+          - C2_solution
+          - smooth_forced_lagrange_dalembert_regime
+      - id: coulomb_friction_layer
+        status: model
+        hypotheses:
+          - fixed_force_on_body_convention
+          - smooth_active_contact_regime
+    protocol_fields_present: &complete_protocol
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+    next_action: retain_as_common_mechanics_reference
+
+  - id: celestial-foucault-networks-v1-1
+    title: Foucault Networks on Celestial Bodies
+    version: 1.1.0
+    source:
+      pdf: work/p5_mechanics_frames_v0_6/build/foucault/celestial_foucault_networks_v1_1.pdf
+      tex: work/p5_mechanics_frames_v0_6/src/celestial_foucault_networks_v1_1.tex
+      text: work/p5_mechanics_frames_v0_6/checks_final/foucault/celestial_foucault_networks_v1_1.txt
+      pages: 6
+      sha256: f33ce208083ae1e465d8663848832350d586d8f432052ad888213306095d5533
+    ledger_level: reference
+    migration_status: p5_reference_pass
+    unit_contexts: [SI, neutral]
+    groups:
+      - SO3_common_body_vector_changes
+      - SE3_static_observer_isometries
+      - time_origin_translations
+      - tangent_orientation_reversal
+    maps:
+      - id: body_to_inertial_attitude
+        domain: body_vector_components
+        codomain: inertial_vector_components
+        kind: frame_transform
+        invertibility: required
+        information_loss: false
+      - id: inertial_to_observer_frame
+        domain: inertial_point_and_observer_pose
+        codomain: observer_point
+        kind: frame_transform
+        invertibility: required
+        information_loss: false
+      - id: finite_hierarchy_reduction
+        domain: celestial_state_family
+        codomain: finite_body_site_pendulum_state
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: camera_projection
+        domain: observer_frame_endpoint
+        codomain: ideal_screen_trace
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: sampled_trace_channel
+        domain: ideal_screen_trace
+        codomain: probability_law_on_sampled_trace
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: frequency_relation_estimator
+        domain: sampled_trace
+        codomain: estimated_frequency_relations
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - {scope: foucault_v1_1, key: A_I_from_B, meaning: body_to_inertial_attitude}
+      - {scope: foucault_v1_1, key: Omega_n, meaning: signed_normal_spin_component}
+      - {scope: foucault_v1_1, key: J, meaning: oriented_tangent_quarter_turn}
+      - {scope: foucault_v1_1, key: beta, meaning: linear_damping_rate}
+    quantities:
+      - id: fou11.body_center
+        extends: geometry.position
+        frame: inertial
+      - id: fou11.rotated_site
+        extends: geometry.displacement
+        frame: inertial
+      - id: fou11.rotated_local_displacement
+        extends: geometry.displacement
+        frame: inertial
+      - id: fou11.endpoint
+        extends: geometry.position
+        frame: inertial
+      - id: fou11.observer_origin
+        extends: geometry.position
+        frame: inertial
+      - id: fou11.body_angular_velocity
+        symbol: Omega_B
+        semantic_kind: vector
+        dimension: [0, 0, -1, 0, 0, 0, 0]
+        canonical_unit: rad/s
+        unit_context: SI
+        frame: body
+        claim_status: definition
+      - id: fou11.local_normal
+        extends: dimensionless.scalar
+        symbol: n_B
+        semantic_kind: vector
+        frame: body
+      - id: fou11.normal_spin_rate
+        extends: time.angular_frequency
+        symbol: Omega_n
+        frame: scalar
+      - id: fou11.body_rotation_rate
+        extends: time.angular_frequency
+        symbol: Omega
+        frame: scalar
+      - id: fou11.latitude
+        extends: geometry.angle
+        symbol: lambda
+      - id: fou11.damping_rate
+        extends: time.angular_frequency
+        symbol: beta
+        frame: scalar
+      - id: fou11.mass
+        extends: mechanics.mass
+      - id: fou11.local_velocity
+        extends: mechanics.velocity
+        frame: local_tangent
+      - id: fou11.local_displacement
+        extends: geometry.displacement
+        frame: local_tangent
+      - id: fou11.oscillator_rate_squared
+        extends: time.angular_frequency_squared
+        symbol: omega_0_squared
+        frame: scalar
+      - id: fou11.local_energy
+        extends: mechanics.energy
+      - id: fou11.time
+        extends: time.duration
+      - id: fou11.phase
+        extends: geometry.angle
+        symbol: theta
+    expressions:
+      - id: inertial_endpoint_sum
+        anchor: section 2, equation endpoint-I
+        ast:
+          op: add
+          args:
+            - {q: fou11.body_center}
+            - {q: fou11.rotated_site}
+            - {q: fou11.rotated_local_displacement}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: inertial
+      - id: observer_relative_point
+        anchor: section 2, p_I-c_O_I before observer rotation
+        ast:
+          op: sub
+          args:
+            - {q: fou11.endpoint}
+            - {q: fou11.observer_origin}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: inertial
+      - id: normal_spin_projection
+        anchor: section 3, Omega_n=Omega_B dot n_B
+        ast:
+          op: dot
+          left: {q: fou11.body_angular_velocity}
+          right: {q: fou11.local_normal}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: spherical_normal_rate
+        anchor: section 3, Omega sin(lambda)
+        ast:
+          op: mul
+          left: {q: fou11.body_rotation_rate}
+          right:
+            op: trig
+            function: sin
+            arg: {q: fou11.latitude}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, -1, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: local_energy_rate
+        anchor: section 4, dot E_loc
+        ast:
+          op: derivative
+          dependent: {q: fou11.local_energy}
+          independent: {q: fou11.time}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: damping_dissipation_power
+        anchor: section 4, 2 m beta norm(u_dot)^2
+        ast:
+          op: mul
+          left:
+            op: mul
+            left: {const: 2, dimension: [0, 0, 0, 0, 0, 0, 0], unit_context: neutral}
+            right: {q: fou11.mass}
+          right:
+            op: mul
+            left: {q: fou11.damping_rate}
+            right:
+              op: pow
+              arg:
+                op: norm
+                arg: {q: fou11.local_velocity}
+              exponent: 2
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: typed_periodic_readout
+        anchor: section 5, exp(i theta) channel
+        ast:
+          op: trig
+          function: cos
+          arg: {q: fou11.phase}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+    invariants:
+      - id: normal_spin_scalar
+        claimed_invariant: true
+        group: SO3_common_body_vector_changes
+        anchor: sections 2 and 7
+      - id: orbit_closure_topology
+        claimed_invariant: true
+        group: SE3_static_observer_isometries
+        anchor: sections 5 and 6
+      - id: static_observer_frequency_support
+        claimed_invariant: true
+        group: time_origin_translations
+        anchor: section 6
+    claim_register:
+      - id: reduced_signed_precession
+        status: theorem
+        hypotheses:
+          - undamped_linear_small_amplitude_model
+          - fixed_oriented_tangent_plane
+          - constant_normal_spin_component
+      - id: local_energy_dissipation
+        status: proposition
+        hypotheses:
+          - linear_foucault_model
+          - nonnegative_damping_rate
+      - id: torus_orbit_closure
+        status: theorem
+        hypotheses:
+          - finite_frequency_vector
+          - continuous_torus_readout
+      - id: trace_nonidentifiability
+        status: proposition
+        hypotheses:
+          - single_lossy_projection
+          - finite_or_sampled_observation_channel
+    protocol_fields_present: *complete_protocol
+    next_action: retain_as_frame_consistent_celestial_toy_reference
+
+  - id: bobsleigh-contact-v1-1
+    title: Bobsleigh Contact Geometry as a Typed Observation System
+    version: 1.1.0
+    source:
+      pdf: work/p5_mechanics_frames_v0_6/build/bobsleigh/bobsleigh_contact_geometry_v1_1.pdf
+      tex: work/p5_mechanics_frames_v0_6/src/bobsleigh_contact_geometry_v1_1.tex
+      text: work/p5_mechanics_frames_v0_6/checks_final/bobsleigh/bobsleigh_contact_geometry_v1_1.txt
+      pages: 6
+      sha256: 0bdd9cee21df204844d53c36d6936737a4037345576f71dfea77819260cd62b6
+    ledger_level: reference
+    migration_status: p5_reference_pass
+    unit_contexts: [SI, neutral]
+    groups:
+      - SE3_world_isometries
+      - SO3_contact_basis_changes
+      - positive_log_base_changes
+    maps:
+      - id: sled_body_to_world
+        domain: sled_body_vector
+        codomain: world_vector
+        kind: frame_transform
+        invertibility: required
+        information_loss: false
+      - id: contact_force_pullback
+        domain: spatial_contact_force
+        codomain: generalized_contact_covector
+        kind: pullback
+        invertibility: not_required
+        information_loss: possible
+      - id: constrained_sled_reduction
+        domain: ambient_rigid_body_contact_state
+        codomain: smooth_active_set_configuration_state
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: center_of_mass_observation
+        domain: full_sled_contact_state
+        codomain: center_of_mass_curve
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: load_observation
+        domain: full_sled_contact_state
+        codomain: normal_load_series
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: contact_measurement_channel
+        domain: ideal_contact_readouts
+        codomain: probability_law_on_sensor_data
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: contact_diagnostic_estimator
+        domain: sensor_data
+        codomain: estimated_load_and_slip_diagnostics
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - {scope: bobsleigh_v1_1, key: G, meaning: mass_form}
+      - {scope: bobsleigh_v1_1, key: g_j, meaning: positive_separation_gap}
+      - {scope: bobsleigh_v1_1, key: T_j, meaning: tangential_force_on_sled}
+      - {scope: bobsleigh_v1_1, key: P_fric, meaning: nonnegative_frictional_loss}
+    quantities:
+      - id: bob11.normal_force_vector
+        extends: mechanics.force
+        symbol: N_n
+        frame: inertial
+      - id: bob11.tangential_force
+        extends: mechanics.force
+        symbol: T
+        frame: inertial
+      - id: bob11.contact_force
+        extends: mechanics.force
+        symbol: F_contact
+        frame: inertial
+      - id: bob11.relative_velocity
+        extends: mechanics.velocity
+        symbol: v_T
+        frame: inertial
+      - id: bob11.energy
+        extends: mechanics.energy
+      - id: bob11.time
+        extends: time.duration
+      - id: bob11.active_power
+        extends: mechanics.power
+        symbol: P_act
+      - id: bob11.friction_power
+        extends: mechanics.power
+        symbol: P_fric
+      - id: bob11.constraint_power
+        extends: mechanics.power
+        symbol: P_con
+      - id: bob11.explicit_lagrangian_power
+        extends: mechanics.power
+        symbol: partial_t_L
+      - id: bob11.friction_coefficient
+        extends: mechanics.friction_coefficient
+      - id: bob11.normal_force_magnitude
+        symbol: N
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: bob11.friction_capacity
+        symbol: mu_N
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: bob11.tangential_force_norm
+        symbol: norm_T
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: bob11.load_probability
+        extends: information.probability
+        symbol: p_j
+      - id: bob11.load_entropy
+        extends: information.entropy_nat
+        symbol: H_b
+        log_base: b
+      - id: bob11.max_load_entropy
+        extends: information.entropy_nat
+        symbol: log_b_K
+        log_base: b
+      - id: bob11.normalized_load_entropy
+        extends: observation.normalized_loss
+        symbol: H_bar
+      - id: bob11.left_load
+        symbol: N_L
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: bob11.right_load
+        symbol: N_R
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: bob11.total_two_runner_load
+        symbol: N_L_plus_N_R
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: bob11.load_difference
+        symbol: abs_N_R_minus_N_L
+        semantic_kind: scalar
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: N
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: bob11.speed
+        symbol: v
+        semantic_kind: scalar
+        dimension: [1, 0, -1, 0, 0, 0, 0]
+        canonical_unit: m/s
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: bob11.curvature
+        extends: geometry.curvature
+      - id: bob11.mass
+        extends: mechanics.mass
+      - id: bob11.required_acceleration
+        extends: mechanics.acceleration
+        frame: inertial
+    expressions:
+      - id: contact_force_sum
+        anchor: section 4, F=Nn+T
+        ast:
+          op: add
+          args:
+            - {q: bob11.normal_force_vector}
+            - {q: bob11.tangential_force}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 1, -2, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: inertial
+      - id: friction_power_dimension
+        anchor: section 5, -T dot v_T
+        ast:
+          op: dot
+          left: {q: bob11.tangential_force}
+          right: {q: bob11.relative_velocity}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: energy_rate
+        anchor: section 5, dot E_L
+        ast:
+          op: derivative
+          dependent: {q: bob11.energy}
+          independent: {q: bob11.time}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: energy_balance_rhs
+        anchor: section 5, P_act-P_fric+P_con-partial_t_L
+        ast:
+          op: sub
+          args:
+            - {q: bob11.active_power}
+            - {q: bob11.friction_power}
+            - {q: bob11.constraint_power}
+            - {q: bob11.explicit_lagrangian_power}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: cone_capacity
+        anchor: section 6.1, mu N
+        ast:
+          op: mul
+          left: {q: bob11.friction_coefficient}
+          right: {q: bob11.normal_force_magnitude}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: guarded_cone_utilization
+        anchor: section 6.1, piecewise norm(T)/(mu N)
+        ast:
+          op: normalize
+          value: {q: bob11.tangential_force_norm}
+          reference: {q: bob11.friction_capacity}
+          zero_policy: piecewise_zero_capacity_guard
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: explicit_contact_entropy_log
+        anchor: section 6.2, log_b p_j
+        ast:
+          op: log
+          base: b
+          arg: {q: bob11.load_probability}
+          semantic_kind: information
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: information
+      - id: normalized_contact_entropy
+        anchor: section 6.2, H_b/log_b K
+        ast:
+          op: normalize
+          value: {q: bob11.load_entropy}
+          reference: {q: bob11.max_load_entropy}
+          zero_policy: declared_K_at_least_2
+          semantic_kind: loss
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: loss
+      - id: guarded_load_imbalance
+        anchor: section 6.3, abs(N_R-N_L)/(N_R+N_L)
+        ast:
+          op: normalize
+          value: {q: bob11.load_difference}
+          reference: {q: bob11.total_two_runner_load}
+          zero_policy: undefined_in_free_flight
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: curvature_demand
+        anchor: section 6.4, v^2 kappa
+        ast:
+          op: mul
+          left:
+            op: pow
+            arg: {q: bob11.speed}
+            exponent: 2
+          right: {q: bob11.curvature}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: required_force
+        anchor: section 6.4, m(a-g)
+        ast:
+          op: mul
+          left: {q: bob11.mass}
+          right: {q: bob11.required_acceleration}
+          semantic_kind: vector
+          frame: inertial
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 1, -2, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: inertial
+    invariants:
+      - id: friction_power_under_contact_basis_rotation
+        claimed_invariant: true
+        group: SO3_contact_basis_changes
+        anchor: sections 4 and 5
+      - id: normalized_entropy_base_independence
+        claimed_invariant: true
+        group: positive_log_base_changes
+        anchor: section 6.2
+    claim_register:
+      - id: mass_form_rank
+        status: proposition
+        hypotheses:
+          - positive_point_masses
+          - differentiable_realization_map
+      - id: stationary_track_energy_decay
+        status: corollary
+        hypotheses:
+          - autonomous_smooth_regime
+          - stationary_ideal_normal_support
+          - dissipative_tangential_friction
+      - id: conditional_center_of_mass_nonidentifiability
+        status: proposition
+        hypotheses:
+          - two_admissible_records_share_center_of_mass_curve
+          - hidden_records_are_distinct
+      - id: coulomb_contact
+        status: model
+        hypotheses:
+          - smooth_force_regime
+          - force_on_sled_sign_convention
+    protocol_fields_present: *complete_protocol
+    next_action: retain_as_typed_contact_observation_reference
+
+  - id: roller-coaster-v1-1
+    title: Roller-Coaster Geometry as a Typed Observation Laboratory
+    version: 1.1.0
+    source:
+      pdf: work/p5_mechanics_frames_v0_6/build/roller/roller_coaster_geometry_v1_1.pdf
+      tex: work/p5_mechanics_frames_v0_6/src/roller_coaster_geometry_v1_1.tex
+      text: work/p5_mechanics_frames_v0_6/checks_final/roller/roller_coaster_geometry_v1_1.txt
+      pages: 6
+      sha256: f8dbd226870dbbf020d2bd35fce2fb1f1185d273037951d869e4cafe0612edc2
+    ledger_level: reference
+    migration_status: p5_reference_pass
+    unit_contexts: [SI, neutral]
+    groups:
+      - SE3_static_world_isometries
+      - SO3_apparatus_axis_changes
+      - rail_label_exchange_Z2
+      - orientation_preserving_curve_reparameterizations
+    maps:
+      - id: apparatus_to_world_frame
+        domain: apparatus_vector_components
+        codomain: world_vector_components
+        kind: frame_transform
+        invertibility: required
+        information_loss: false
+      - id: track_kinematic_reduction
+        domain: vehicle_track_state
+        codomain: framed_curve_speed_state
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: rider_specific_force_observation
+        domain: framed_curve_speed_gravity_state
+        codomain: apparatus_specific_force
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: rail_offset_construction
+        domain: framed_curve_and_gauge
+        codomain: labelled_offset_curves
+        kind: interpretation
+        invertibility: not_required
+        information_loss: not_applicable
+      - id: rider_sensor_channel
+        domain: ideal_specific_force_and_angular_velocity
+        codomain: probability_law_on_sensor_data
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: rider_signal_estimator
+        domain: sensor_data
+        codomain: estimated_load_and_jerk
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - {scope: roller_v1_1, key: R, meaning: adapted_track_to_world_frame}
+      - {scope: roller_v1_1, key: kappa_R, meaning: frame_strain_vector}
+      - {scope: roller_v1_1, key: G_vec, meaning: dimensionless_body_load_vector}
+      - {scope: roller_v1_1, key: G, meaning: scalar_load_norm}
+      - {scope: roller_v1_1, key: Delta_L_or, meaning: labelled_rail_length_split}
+    quantities:
+      - id: rol11.tangential_acceleration
+        extends: mechanics.acceleration
+        frame: inertial
+      - id: rol11.normal_acceleration
+        extends: mechanics.acceleration
+        frame: inertial
+      - id: rol11.inertial_acceleration
+        extends: mechanics.acceleration
+        frame: inertial
+      - id: rol11.gravity
+        extends: mechanics.acceleration
+        frame: inertial
+      - id: rol11.specific_force_world
+        extends: mechanics.acceleration
+        frame: inertial
+      - id: rol11.specific_force_body
+        extends: mechanics.acceleration
+        frame: apparatus
+      - id: rol11.g0
+        symbol: g0
+        semantic_kind: scalar
+        dimension: [1, 0, -2, 0, 0, 0, 0]
+        canonical_unit: m/s^2
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: rol11.load_vector
+        extends: accelerometer.load_vector
+      - id: rol11.load_norm
+        extends: accelerometer.load_norm
+      - id: rol11.speed
+        symbol: v
+        semantic_kind: scalar
+        dimension: [1, 0, -1, 0, 0, 0, 0]
+        canonical_unit: m/s
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: rol11.frame_strain
+        symbol: kappa_R
+        semantic_kind: vector
+        dimension: [-1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: 1/m
+        unit_context: SI
+        frame: apparatus
+        claim_status: definition
+      - id: rol11.angular_velocity
+        symbol: Omega_B
+        semantic_kind: vector
+        dimension: [0, 0, -1, 0, 0, 0, 0]
+        canonical_unit: rad/s
+        unit_context: SI
+        frame: apparatus
+        claim_status: definition
+      - id: rol11.left_length
+        extends: geometry.length
+        symbol: L_plus
+      - id: rol11.right_length
+        extends: geometry.length
+        symbol: L_minus
+      - id: rol11.rail_circumference
+        extends: geometry.length
+        symbol: 2pi_r_w
+      - id: rol11.centerline_point
+        extends: geometry.position
+        frame: inertial
+      - id: rol11.offset_displacement
+        extends: geometry.displacement
+        frame: inertial
+      - id: rol11.offset_point
+        extends: geometry.position
+        frame: inertial
+      - id: rol11.dissipative_force
+        extends: mechanics.force
+        frame: inertial
+      - id: rol11.relative_velocity
+        extends: mechanics.velocity
+        frame: inertial
+      - id: rol11.mapped_inertial_jerk
+        symbol: R_T_jerk_I
+        semantic_kind: vector
+        dimension: [1, 0, -3, 0, 0, 0, 0]
+        canonical_unit: m/s^3
+        unit_context: SI
+        frame: apparatus
+        claim_status: definition
+      - id: rol11.rotational_jerk_correction
+        symbol: Omega_cross_f
+        semantic_kind: vector
+        dimension: [1, 0, -3, 0, 0, 0, 0]
+        canonical_unit: m/s^3
+        unit_context: SI
+        frame: apparatus
+        claim_status: definition
+      - id: rol11.gauge
+        extends: geometry.length
+        symbol: d
+      - id: rol11.lateral_frame_derivative_norm
+        extends: geometry.curvature
+        symbol: norm_e2_prime
+      - id: rol11.offset_regular_ratio
+        extends: dimensionless.scalar
+        symbol: rho_offset
+    expressions:
+      - id: inertial_acceleration_sum
+        anchor: section 3, a=tangential+normal acceleration
+        ast:
+          op: add
+          args:
+            - {q: rol11.tangential_acceleration}
+            - {q: rol11.normal_acceleration}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, -2, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: inertial
+      - id: world_specific_force
+        anchor: section 3, a-g
+        ast:
+          op: sub
+          args:
+            - {q: rol11.inertial_acceleration}
+            - {q: rol11.gravity}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, -2, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: inertial
+      - id: body_load_vector
+        anchor: section 3, G_vec=f_B/g0
+        ast:
+          op: normalize
+          value: {q: rol11.specific_force_body}
+          reference: {q: rol11.g0}
+          zero_policy: positive_reference_acceleration
+          semantic_kind: load_vector
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: load_vector
+      - id: scalar_load_norm
+        anchor: section 3, G=norm(G_vec)
+        ast:
+          op: norm
+          arg: {q: rol11.load_vector}
+          semantic_kind: load_norm
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: load_norm
+      - id: apparatus_angular_velocity
+        anchor: section 3, Omega_B=v kappa_R
+        ast:
+          op: mul
+          left: {q: rol11.speed}
+          right: {q: rol11.frame_strain}
+          semantic_kind: vector
+          frame: apparatus
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, -1, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: apparatus
+      - id: body_jerk_with_rotation_correction
+        anchor: section 3, j_f_B=R_T jerk_I-Omega cross f_B
+        ast:
+          op: sub
+          args:
+            - {q: rol11.mapped_inertial_jerk}
+            - {q: rol11.rotational_jerk_correction}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, -3, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: apparatus
+      - id: left_offset_point
+        anchor: section 4, gamma_plus=gamma+(d/2)e2
+        ast:
+          op: add
+          args:
+            - {q: rol11.centerline_point}
+            - {q: rol11.offset_displacement}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: inertial
+      - id: signed_rail_length_split
+        anchor: section 4, Delta_L_or=L_plus-L_minus
+        ast:
+          op: sub
+          args:
+            - {q: rol11.left_length}
+            - {q: rol11.right_length}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: ideal_wheel_revolution_count
+        anchor: section 5, N=L/(2 pi r_w)
+        ast:
+          op: normalize
+          value: {q: rol11.left_length}
+          reference: {q: rol11.rail_circumference}
+          zero_policy: positive_wheel_radius
+          semantic_kind: count
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: count
+      - id: dissipative_power_dimension
+        anchor: section 6, -F_d dot v_rel
+        ast:
+          op: dot
+          left: {q: rol11.dissipative_force}
+          right: {q: rol11.relative_velocity}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: offset_regular_ratio
+        anchor: section 4, (d/2) sup norm(e2_prime)
+        ast:
+          op: mul
+          left: {q: rol11.gauge}
+          right: {q: rol11.lateral_frame_derivative_norm}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+    invariants:
+      - id: scalar_load_under_apparatus_axis_change
+        claimed_invariant: true
+        group: SO3_apparatus_axis_changes
+        anchor: sections 3 and 8
+      - id: absolute_rail_split_under_label_exchange
+        claimed_invariant: true
+        group: rail_label_exchange_Z2
+        anchor: sections 4 and 8
+      - id: ideal_wheel_count_under_reparameterization
+        claimed_invariant: true
+        group: orientation_preserving_curve_reparameterizations
+        anchor: sections 5 and 8
+    claim_register:
+      - id: sufficient_offset_regularity
+        status: proposition
+        hypotheses:
+          - unit_speed_C2_centerline
+          - C1_lateral_frame_vector
+          - strict_offset_derivative_bound
+      - id: rail_split_transformation_law
+        status: proposition
+        hypotheses:
+          - regular_labelled_offset_curves
+          - static_euclidean_isometry_or_label_swap
+      - id: scalar_load_nonidentifiability
+        status: proposition
+        hypotheses:
+          - fixed_centerline_and_speed
+          - at_least_two_distinct_smooth_roll_profiles
+      - id: pure_rolling_count
+        status: model
+        hypotheses:
+          - no_slip
+          - constant_positive_effective_wheel_radius
+    protocol_fields_present: *complete_protocol
+    next_action: retain_as_framed_curve_observation_reference

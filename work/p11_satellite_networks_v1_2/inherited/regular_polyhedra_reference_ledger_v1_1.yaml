@@ -1,0 +1,767 @@
+schema:
+  id: go-regular-polyhedra-reference-ledger
+  version: 1.1.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  inherited_contracts:
+    - go-quantum-chemistry-observation-contract@1.0.0
+  extension_contract: go-regular-polyhedra-observation-contract@1.1.0
+
+documents:
+  - id: regular-polyhedra-observation-v1-1
+    title: Regular Polyhedra under Typed Observation Filters
+    version: 1.1.0
+    source:
+      pdf: work/p10_regular_polyhedra_v1_1/build/polyhedra/regular_polyhedra_observation_filters_v1_1.pdf
+      tex: work/p10_regular_polyhedra_v1_1/src/regular_polyhedra_observation_filters_v1_1.tex
+      text: work/p10_regular_polyhedra_v1_1/checks/polyhedra/regular_polyhedra_observation_filters_v1_1.txt
+      metrics_json: work/p10_regular_polyhedra_v1_1/data/regular_polyhedra_metrics_v1_1.json
+      pages: 7
+      sha256: 9193ad45b5dbbb2fac52392d383eb8878e937eacf817fd686b5f895ae0af1b0d
+    ledger_level: reference
+    migration_status: strict_reference_migrated
+    unit_contexts:
+      - SI
+      - neutral
+    groups:
+      - abstract_automorphism_group
+      - geometric_isometry_group
+      - ambient_Euclidean_isometries
+      - incidence_relabelings
+      - cube_full_symmetry_group
+      - generic_cuboid_metric_symmetry_group
+    maps:
+      - id: realization_choice
+        domain: abstract_polyhedron_and_realization_convention
+        codomain: realized_polyhedron_object
+        kind: interpretation
+        invertibility: not_required
+        information_loss: not_applicable
+      - id: induced_geometric_automorphism
+        domain: geometric_isometry_group
+        codomain: abstract_automorphism_group
+        kind: interpretation
+        invertibility: not_required
+        information_loss: not_applicable
+      - id: admissible_subgroupoid_inclusion
+        domain: stricter_full_subgroupoid
+        codomain: broader_full_subgroupoid
+        kind: inclusion
+        invertibility: injective_not_surjective
+        information_loss: false
+      - id: forget_face_set
+        domain: full_incidence_polyhedron
+        codomain: vertex_edge_skeleton
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: deterministic_sensor_projection
+        domain: realized_vertex_edge_face_data
+        codomain: ideal_observer_record
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: noisy_sensor_channel
+        domain: ideal_observer_record
+        codomain: measured_record
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: information_coarsening
+        domain: fine_observation_record
+        codomain: coarse_observation_record
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: Petrie_operation
+        domain: regular_map_with_distinguished_generators
+        codomain: Petrial_regular_map
+        kind: interpretation
+        invertibility: required
+        information_loss: not_applicable
+      - id: symmetry_residual_estimator
+        domain: registered_noisy_points_and_candidate_isometry
+        codomain: nonnegative_length_residual
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+      - id: finite_library_nearest_candidate
+        domain: observed_record_and_finite_candidate_library
+        codomain: candidate_label_and_margin
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+    symbols:
+      - {scope: abstract_combinatorics, key: P, meaning: rank_3_abstract_polyhedron}
+      - {scope: realization, key: beta, meaning: declared_geometric_realization}
+      - {scope: abstract_symmetry, key: Gamma_P, meaning: automorphism_group}
+      - {scope: geometric_symmetry, key: G_beta, meaning: Euclidean_realization_symmetry_group}
+      - {scope: observation, key: O, meaning: typed_observation_specification}
+      - {scope: observation, key: Q, meaning: invariant_observation_map}
+      - {scope: incidence, key: p, meaning: face_length}
+      - {scope: incidence, key: q, meaning: vertex_valence}
+      - {scope: observation, key: epsilon, meaning: pointwise_noise_bound}
+      - {scope: observation, key: delta, meaning: normalized_symmetry_residual}
+    quantities:
+      - id: rp.vertex_count
+        symbol: V
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.edge_count
+        symbol: E
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.face_count
+        symbol: F
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.dual_vertex_count
+        symbol: V_star
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.dual_edge_count
+        symbol: E_star
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.dual_face_count
+        symbol: F_star
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.face_length
+        symbol: p
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.vertex_valence
+        symbol: q
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.flag_count
+        symbol: N_Flag
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: theorem
+      - id: rp.group_order
+        symbol: order_Gamma
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: theorem
+      - id: rp.Euler_characteristic
+        symbol: chi
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.incidence_pF
+        symbol: pF
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: proposition
+      - id: rp.incidence_qV
+        symbol: qV
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: proposition
+      - id: rp.twice_edge_count
+        symbol: two_E
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.fourfold_edge_count
+        symbol: four_E
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.reciprocal_p
+        symbol: inv_p
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.reciprocal_q
+        symbol: inv_q
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.one_half
+        symbol: one_half
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.spherical_left
+        symbol: sigma_pq
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: proposition
+      - id: rp.reciprocal_E
+        symbol: inv_E
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: proposition
+      - id: rp.abstract_flag_orbits
+        symbol: k_abs
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: diagnostic
+      - id: rp.geometric_flag_orbits
+        symbol: k_geo
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: diagnostic
+      - id: rp.orbit_size
+        symbol: n_j
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.orbit_weight
+        symbol: w_j
+        semantic_kind: probability
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.orbit_weight_2
+        symbol: w_k
+        semantic_kind: probability
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.orbit_entropy
+        symbol: H_orb_2
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: bit
+        unit_context: neutral
+        frame: none
+        log_base: 2
+        claim_status: diagnostic
+      - id: rp.orbit_information_term
+        symbol: h_j
+        semantic_kind: information
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: bit
+        unit_context: neutral
+        frame: none
+        log_base: 2
+        claim_status: definition
+      - id: rp.true_coordinate
+        symbol: x_i
+        semantic_kind: vector
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: rp.noise_vector
+        symbol: eta_i
+        semantic_kind: vector
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: rp.observed_coordinate
+        symbol: y_i
+        semantic_kind: vector
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: rp.noise_norm
+        symbol: norm_eta
+        semantic_kind: scalar
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: scalar
+        claim_status: diagnostic
+      - id: rp.noise_bound
+        symbol: epsilon
+        semantic_kind: scalar
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: rp.twice_noise_bound
+        symbol: two_epsilon
+        semantic_kind: scalar
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: proposition
+      - id: rp.symmetry_residual
+        symbol: r_Y_g
+        semantic_kind: scalar
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: diagnostic
+      - id: rp.symmetry_residual_squared
+        symbol: r_Y_g_squared
+        semantic_kind: scalar
+        dimension: [2, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m^2
+        unit_context: SI
+        frame: observer
+        claim_status: definition
+      - id: rp.reference_length
+        symbol: ell_ref
+        semantic_kind: scalar
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: definition
+      - id: rp.normalized_residual
+        symbol: delta_Y_g
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: diagnostic
+      - id: rp.model_distance
+        symbol: d_Y_M
+        semantic_kind: scalar
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: diagnostic
+      - id: rp.candidate_separation
+        symbol: Delta_i
+        semantic_kind: scalar
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: definition
+      - id: rp.half_separation
+        symbol: half_Delta_i
+        semantic_kind: scalar
+        dimension: [1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m
+        unit_context: SI
+        frame: observer
+        claim_status: theorem
+      - id: rp.cube_vertex_count
+        symbol: V_cube
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.cube_edge_count
+        symbol: E_cube
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.cube_face_count
+        symbol: F_cube
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.Petrial_face_count
+        symbol: F_Petrial
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+      - id: rp.cube_Euler
+        symbol: chi_cube
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: proposition
+      - id: rp.Petrial_Euler
+        symbol: chi_Petrial
+        semantic_kind: count
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: count
+        unit_context: neutral
+        frame: none
+        claim_status: proposition
+    expressions:
+      - id: observed_coordinate_sum
+        anchor: equation (12), y_i equals x_i plus eta_i
+        ast: {op: add, args: [{q: rp.true_coordinate}, {q: rp.noise_vector}]}
+        expect: {outcome: pass, rules: [], dimension: [1, 0, 0, 0, 0, 0, 0], semantic_kind: vector, frame: observer}
+      - id: noise_vector_norm
+        anchor: equation (12), norm eta_i
+        ast: {op: norm, arg: {q: rp.noise_vector}}
+        expect: {outcome: pass, rules: [], dimension: [1, 0, 0, 0, 0, 0, 0], semantic_kind: scalar, frame: scalar}
+      - id: noise_bound_comparison
+        anchor: equation (12), norm eta_i at most epsilon
+        ast: {op: compare, left: {q: rp.noise_norm}, right: {q: rp.noise_bound}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: twice_noise_bound
+        anchor: proposition 8.1, two epsilon
+        ast: {op: mul, left: {const: 2}, right: {q: rp.noise_bound}}
+        expect: {outcome: pass, rules: [], dimension: [1, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: residual_bound_comparison
+        anchor: proposition 8.1, residual at most two epsilon
+        ast: {op: compare, left: {q: rp.symmetry_residual}, right: {q: rp.twice_noise_bound}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: normalized_symmetry_residual
+        anchor: equation (13), delta equals residual over reference length
+        ast:
+          op: normalize
+          value: {q: rp.symmetry_residual}
+          reference: {q: rp.reference_length}
+          zero_policy: strictly_positive_reference_length
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: symmetry_residual_squared
+        anchor: equation (13), squared RMS residual
+        ast: {op: pow, arg: {q: rp.symmetry_residual}, exponent: 2}
+        expect: {outcome: pass, rules: [], dimension: [2, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: symmetry_residual_from_square
+        anchor: equation (13), square root of mean squared residual
+        ast: {op: sqrt, arg: {q: rp.symmetry_residual_squared}}
+        expect: {outcome: pass, rules: [], dimension: [1, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: half_candidate_separation
+        anchor: theorem 8.2, Delta_i over two
+        ast: {op: mul, left: {q: rp.one_half}, right: {q: rp.candidate_separation}}
+        expect: {outcome: pass, rules: [], dimension: [1, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: identification_margin_comparison
+        anchor: theorem 8.2, observed distance below half separation
+        ast: {op: compare, left: {q: rp.model_distance}, right: {q: rp.half_separation}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: p_times_F
+        anchor: equation (8), pF
+        ast: {op: mul, left: {q: rp.face_length}, right: {q: rp.face_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: two_times_E
+        anchor: equation (8), two E
+        ast: {op: mul, left: {const: 2}, right: {q: rp.edge_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: face_edge_incidence_comparison
+        anchor: equation (8), pF equals two E
+        ast: {op: compare, left: {q: rp.incidence_pF}, right: {q: rp.twice_edge_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: q_times_V
+        anchor: equation (8), qV
+        ast: {op: mul, left: {q: rp.vertex_valence}, right: {q: rp.vertex_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: vertex_edge_incidence_comparison
+        anchor: equation (8), qV equals two E
+        ast: {op: compare, left: {q: rp.incidence_qV}, right: {q: rp.twice_edge_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: Euler_vertex_minus_edge
+        anchor: equation (9), V minus E
+        ast: {op: sub, args: [{q: rp.vertex_count}, {q: rp.edge_count}]}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: count}
+      - id: Euler_characteristic_sum
+        anchor: equation (9), V minus E plus F
+        ast:
+          op: add
+          args:
+            - {op: sub, args: [{q: rp.vertex_count}, {q: rp.edge_count}]}
+            - {q: rp.face_count}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: count}
+      - id: Euler_characteristic_comparison
+        anchor: equation (9), Euler left side and chi
+        ast: {op: compare, left: {q: rp.Euler_characteristic}, right: {const: 2}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: four_times_E
+        anchor: proposition 2.1, four flags per edge
+        ast: {op: mul, left: {const: 4}, right: {q: rp.edge_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: flag_count_comparison
+        anchor: proposition 2.1, number of flags equals four E
+        ast: {op: compare, left: {q: rp.flag_count}, right: {q: rp.fourfold_edge_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: regular_group_order_comparison
+        anchor: proposition 2.1, group order equals flag count
+        ast: {op: compare, left: {q: rp.group_order}, right: {q: rp.flag_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: reciprocal_face_length
+        anchor: equation (10), reciprocal p
+        ast: {op: div, left: {const: 1}, right: {q: rp.face_length}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: reciprocal_vertex_valence
+        anchor: equation (10), reciprocal q
+        ast: {op: div, left: {const: 1}, right: {q: rp.vertex_valence}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: reciprocal_sum
+        anchor: equation (10), reciprocal p plus reciprocal q
+        ast: {op: add, args: [{q: rp.reciprocal_p}, {q: rp.reciprocal_q}]}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: spherical_type_left_side
+        anchor: equation (10), reciprocal p plus reciprocal q minus one half
+        ast:
+          op: sub
+          args:
+            - {op: add, args: [{q: rp.reciprocal_p}, {q: rp.reciprocal_q}]}
+            - {q: rp.one_half}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: reciprocal_edge_count
+        anchor: equation (10), one over E
+        ast: {op: div, left: {const: 1}, right: {q: rp.edge_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: spherical_identity_comparison
+        anchor: equation (10), spherical left side equals reciprocal E
+        ast: {op: compare, left: {q: rp.spherical_left}, right: {q: rp.reciprocal_E}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: dual_vertex_face_comparison
+        anchor: duality f-vector action, V star equals F
+        ast: {op: compare, left: {q: rp.dual_vertex_count}, right: {q: rp.face_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: dual_edge_comparison
+        anchor: duality f-vector action, E star equals E
+        ast: {op: compare, left: {q: rp.dual_edge_count}, right: {q: rp.edge_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: dual_face_vertex_comparison
+        anchor: duality f-vector action, F star equals V
+        ast: {op: compare, left: {q: rp.dual_face_count}, right: {q: rp.vertex_count}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: orbit_weight_normalization
+        anchor: equation (15), orbit size divided by total flag count
+        ast:
+          op: div
+          left: {q: rp.orbit_size}
+          right: {q: rp.flag_count}
+          semantic_kind: probability
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: orbit_weight_sum
+        anchor: equation (15), two representative orbit weights
+        ast: {op: add, args: [{q: rp.orbit_weight}, {q: rp.orbit_weight_2}]}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: orbit_weight_logarithm
+        anchor: equation (15), logarithm base two of orbit weight
+        ast: {op: log, arg: {q: rp.orbit_weight}, base: 2}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: orbit_entropy_term
+        anchor: equation (15), weighted base-two information term
+        ast:
+          op: mul
+          left: {q: rp.orbit_weight}
+          right: {q: rp.orbit_information_term}
+          semantic_kind: information
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: information}
+      - id: orbit_entropy_sum
+        anchor: equation (15), sum of like information terms
+        ast: {op: add, args: [{q: rp.orbit_entropy}, {q: rp.orbit_information_term}]}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: information}
+      - id: cube_Euler_sum
+        anchor: proposition 7.1, cube Euler characteristic
+        ast:
+          op: add
+          args:
+            - {op: sub, args: [{q: rp.cube_vertex_count}, {q: rp.cube_edge_count}]}
+            - {q: rp.cube_face_count}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: count}
+      - id: cube_Euler_comparison
+        anchor: proposition 7.1, cube Euler characteristic equals two
+        ast: {op: compare, left: {q: rp.cube_Euler}, right: {const: 2}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: Petrial_Euler_sum
+        anchor: proposition 7.1, Petrial vertex plus face count
+        ast:
+          op: add
+          args:
+            - {op: sub, args: [{q: rp.cube_vertex_count}, {q: rp.cube_edge_count}]}
+            - {q: rp.Petrial_face_count}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: count}
+      - id: Petrial_Euler_comparison
+        anchor: proposition 7.1, Petrial Euler characteristic equals zero
+        ast: {op: compare, left: {q: rp.Petrial_Euler}, right: {const: 0}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: cube_shared_edge_count
+        anchor: proposition 7.1, cube and Petrial share twelve edges
+        ast: {op: compare, left: {q: rp.cube_edge_count}, right: {const: 12}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: abstract_regular_orbit_comparison
+        anchor: definition 2.1, abstract regularity has one flag orbit
+        ast: {op: compare, left: {q: rp.abstract_flag_orbits}, right: {const: 1}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: cuboid_geometric_orbit_comparison
+        anchor: proposition 3.1, generic cuboid has six geometric flag orbits
+        ast: {op: compare, left: {q: rp.geometric_flag_orbits}, right: {const: 6}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+    invariants:
+      - id: abstract_flag_transitivity
+        claimed_invariant: true
+        group: abstract_automorphism_group
+        anchor: definition 2.1
+      - id: geometric_flag_transitivity
+        claimed_invariant: true
+        group: geometric_isometry_group
+        anchor: definition 3.1
+      - id: skeleton_under_Petrie_operation
+        claimed_invariant: true
+        group: incidence_relabelings
+        anchor: proposition 7.1
+      - id: RMS_residual_under_observer_relabeling
+        claimed_invariant: true
+        group: incidence_relabelings
+        anchor: equation (13)
+    claim_register:
+      - id: simple_flag_transitivity
+        status: proposition
+        hypotheses:
+          - rank_3_abstract_polyhedron
+          - diamond_condition
+          - strong_flag_connectivity
+      - id: geometric_regular_implies_abstract_regular
+        status: proposition
+        hypotheses:
+          - faithful_nondegenerate_realization
+          - geometric_flag_transitivity
+      - id: filter_monotonicity
+        status: theorem
+        hypotheses:
+          - fixed_regularity_predicate
+          - full_subgroupoid_inclusion
+      - id: five_spherical_local_types
+        status: proposition
+        hypotheses:
+          - finite_equivelar_rank_3_polyhedron
+          - spherical_Euler_characteristic
+          - p_and_q_integers_at_least_three
+      - id: skeleton_noninjectivity
+        status: proposition
+        hypotheses:
+          - cube_and_its_Petrial
+      - id: exact_symmetry_noise_bound
+        status: proposition
+        hypotheses:
+          - exact_incidence_compatible_isometry
+          - pointwise_noise_bound
+      - id: finite_library_half_separation
+        status: theorem
+        hypotheses:
+          - finite_candidate_library
+          - metric_on_observation_quotient
+          - positive_candidate_separation
+      - id: universal_regular_polyhedron_count
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+      - id: exact_symmetry_from_threshold_residual
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+      - id: new_polyhedron_classification
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - quantizer_or_partition
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+      - abstract_object_axioms_and_rank
+      - realization_convention
+      - faithfulness
+      - abstract_or_geometric_regularity
+      - admissible_subgroupoid
+      - counting_equivalence
+      - face_selection_rule
+      - nuisance_group_and_registration
+      - noise_bound_or_law
+      - identification_candidate_library
+      - infinite_window_and_boundary_policy
+    next_action: retain_as_incidence_realization_filter_and_identifiability_reference

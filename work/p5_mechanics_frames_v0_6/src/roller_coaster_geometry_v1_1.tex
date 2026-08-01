@@ -1,0 +1,415 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Roller-Coaster Geometry as a Typed Observation Laboratory},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Framed curves, specific force, rail offsets, dissipation, and observation loss},
+  pdfkeywords={roller coaster, framed curve, Bishop frame, specific force, offset curve, observation geometry}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SE}{\mathrm{SE}}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Kcal}{\mathcal K}
+\newcommand{\Rcal}{\mathcal R}
+\newcommand{\crossop}[1]{\left[#1\right]_\times}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Roller-Coaster Geometry\\
+\large Framed curves, rider observations, and regular rail offsets}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.1 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working draft
+v1.0. It is migrated to GO Core v0.2 and the Frames--Forces--Dissipation
+Interface v0.1. It is a differential-geometric and observation
+laboratory, not a track design, vehicle model, human-tolerance model,
+or safety certificate.}}
+\end{center}
+
+\begin{abstract}
+A roller-coaster centerline does not encode vehicle orientation,
+rail-contact paths, or rider measurements. We define a track as a
+unit-speed curve \(\gamma(s)\), a nonsingular adapted frame
+\(R(s)\in\SO(3)\), and either a prescribed speed profile or a declared
+dynamical law. With \(R^{\mathsf T}R'=\crossop{\kappa_R}\), the vehicle
+angular velocity is \(\Omega^B=v\kappa_R\). The inertial acceleration
+is
+\[
+a^I=v\frac{\dd v}{\dd s}T+v^2T',
+\]
+while an ideal vehicle accelerometer reads the body-frame specific
+force
+\[
+f^B=R^{\mathsf T}(a^I-g^I).
+\]
+The dimensionless load vector
+\(\bm G=f^B/g_0\) and its scalar norm \(G=\norm{\bm G}\) are separate
+quantities. Body-frame jerk includes the frame-rotation correction and
+is not merely \(R^{\mathsf T}\dot a\). Ideal rail offsets
+\(\gamma_\pm=\gamma\pm(d/2)e_2\) are regular under the sufficient bound
+\((d/2)\sup\norm{e_2'}<1\); global nonintersection additionally
+requires a tubular-neighborhood hypothesis. The labeled length split
+\(\Delta L=L_+-L_-\) changes sign under rail exchange, whereas
+\(\lvert\Delta L\rvert\) is exchange invariant. Dissipation and moving
+support work follow the common energy contract. All claims are
+qualified by their transformation group and model status.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and protocol}
+
+An observation protocol \(\lambda\) specifies the world frame,
+adapted-frame convention, clock, arc-length chart, sensor axes,
+sampling, calibration, stochastic/noiseless channel, estimator, and
+uncertainty. The chain
+\[
+X_t\xrightarrow{\Rcal}\widetilde X_t
+\xrightarrow{\Ocal_\lambda}Z_t
+\xrightarrow{\Kcal_\lambda}\operatorname{Law}(Y_t\mid Z_t)
+\xrightarrow{\widehat\theta_\lambda}\widehat\theta_t
+\]
+keeps the physical state, ideal sensor signal, recorded data, and
+estimate distinct.
+
+\begin{warning}[Two admissible model modes]
+A prescribed pair \((\gamma,v)\) defines a kinematic benchmark. A
+dynamical prediction requires mass, forces, constraints, drive,
+dissipation, and initial data. The speed may not be simultaneously
+prescribed and claimed as the output of an unspecified force law.
+\end{warning}
+
+\section{Track as an adapted framed curve}
+
+Let
+\[
+\gamma:[0,L]\to\R^3,\qquad
+\norm{\gamma'(s)}=1,
+\]
+be \(C^3\), and set \(T=\gamma'\). An adapted frame is
+\[
+R(s)=(e_1,e_2,e_3)\in\SO(3),\qquad e_1=T.
+\]
+It may be a Bishop/rotation-minimizing frame with an added roll
+profile, or any other declared \(C^2\) adapted frame. Unlike the
+Frenet frame, this definition remains meaningful at points where
+\(\gamma''=0\), provided \(R\) is supplied smoothly.
+
+\begin{definition}[Frame strain]
+The spatial frame strain \(\kappa_R^B(s)\) is defined by
+\begin{equation}\label{eq:frame-strain}
+R^{\mathsf T}R'=\crossop{\kappa_R^B},
+\qquad
+\crossop{\kappa}u=\kappa\times u .
+\end{equation}
+It has dimension \(L^{-1}\).
+\end{definition}
+
+Curvature magnitude is
+\[
+\kappa(s)=\norm{T'(s)}.
+\]
+Torsion is defined through the Frenet frame only where
+\(\kappa>0\) with sufficient regularity. The supplied roll/frame
+profile remains the primary apparatus orientation.
+
+\section{Time kinematics}
+
+Let \(s=s(t)\) with \(v=\dot s>0\). Then
+\begin{align}
+\dot\gamma&=vT,\\
+a^I=\ddot\gamma
+&=\dot v\,T+v^2T'
+=v\frac{\dd v}{\dd s}T+v^2T'.
+\label{eq:acceleration}
+\end{align}
+Since
+\[
+R^{\mathsf T}\dot R
+=vR^{\mathsf T}R'
+=\crossop{v\kappa_R^B},
+\]
+the vehicle-frame angular velocity is
+\begin{equation}\label{eq:angular-velocity}
+\Omega^B=v\kappa_R^B.
+\end{equation}
+
+Let \(g^I\) be gravitational acceleration and let \(g_0>0\) be a
+declared reference acceleration. The ideal accelerometer specific
+force is
+\begin{equation}\label{eq:specific-force}
+f^B=R^{\mathsf T}(a^I-g^I).
+\end{equation}
+
+\begin{definition}[Vector and scalar load]
+\begin{equation}\label{eq:load-definitions}
+\bm G(s)=\frac{f^B(s)}{g_0},
+\qquad
+G(s)=\norm{\bm G(s)}.
+\end{equation}
+\end{definition}
+
+\(\bm G\) is a dimensionless body-frame vector; \(G\) is a
+dimensionless scalar. They cannot share one quantity identifier.
+
+\begin{definition}[Body-frame jerk signal]
+The derivative of the measured specific-force components is
+\begin{equation}\label{eq:body-jerk}
+j_f^B
+=\frac{\dd f^B}{\dd t}
+=R^{\mathsf T}(\dot a^I-\dot g^I)
+-\Omega^B\times f^B.
+\end{equation}
+\end{definition}
+
+The last term is required because the sensor axes rotate. The inertial
+jerk \(\dot a^I\), the derivative of specific force, and the derivative
+of body components are different observables.
+
+\section{Rail offsets and their domain}
+
+Let \(d>0\) be the ideal rail gauge and let \(e_2(s)\) be the labeled
+lateral frame direction. Define
+\begin{equation}\label{eq:offsets}
+\gamma_\pm(s)=\gamma(s)\pm\frac d2e_2(s).
+\end{equation}
+
+\begin{proposition}[Sufficient local regularity bound]
+If
+\begin{equation}\label{eq:offset-bound}
+\frac d2\sup_{s\in[0,L]}\norm{e_2'(s)}<1,
+\end{equation}
+then both offset curves in \cref{eq:offsets} are regular.
+\end{proposition}
+
+\begin{proof}
+\[
+\norm{\gamma_\pm'}
+=\norm{T\pm(d/2)e_2'}
+\ge1-(d/2)\norm{e_2'}>0.
+\]
+\end{proof}
+
+The bound is sufficient, not necessary. It prevents a local offset
+cusp but not a global self-intersection. To interpret the offsets as
+two distinct rails, the strip map
+\[
+\Psi(s,u)=\gamma(s)+u e_2(s),
+\qquad |u|\le d/2,
+\]
+must additionally be an embedding (or be restricted to a declared
+tubular neighborhood).
+
+The rail lengths are
+\[
+L_\pm=\int_0^L\norm{\gamma_\pm'(s)}\,\dd s.
+\]
+For a labeled frame define
+\[
+\Delta L_{\rm or}=L_+-L_-,
+\qquad
+\Delta L_{\rm abs}=\lvert L_+-L_-\rvert.
+\]
+
+\begin{proposition}[Transformation law of the split]
+Under a static Euclidean isometry applied to the entire framed track,
+\(L_\pm\), \(\Delta L_{\rm or}\), and
+\(\Delta L_{\rm abs}\) are unchanged. Under the label exchange
+\(+\leftrightarrow-\),
+\[
+\Delta L_{\rm or}\mapsto-\Delta L_{\rm or},
+\qquad
+\Delta L_{\rm abs}\mapsto\Delta L_{\rm abs}.
+\]
+\end{proposition}
+
+Thus the signed split is a covariant of an oriented/labeled rail
+system, not an unqualified invariant.
+
+\section{Rolling count and contact qualification}
+
+For constant effective wheel radius \(r_w>0\), pure rolling without
+slip along rail \(\gamma_\pm\) gives the ideal revolution count
+\[
+N_\pm^{\rm ideal}=\frac{L_\pm}{2\pi r_w}.
+\]
+This formula is dimensionless and parameterization independent. It is
+not an actual wheel count if slip, flange contact, compliance, wear,
+variable rolling radius, or loss of contact occurs. Those effects
+require a contact model and a wheel-angle observation channel.
+
+\section{Force and dissipation layer}
+
+Let \(F_d^I\) be the total dissipative spatial force on a car at a
+declared application point and \(v_{\rm rel}^I\) its velocity relative
+to the corresponding support or medium. The common sign convention is
+\[
+P_{\rm diss}=-F_d^I\cdot v_{\rm rel}^I\ge0.
+\]
+For a stationary ideal rail constraint, the normal reaction performs
+no work along an admissible motion. With generalized Lagrangian energy
+\(E_L\),
+\[
+\dot E_L
+=P_{\rm drive}-P_{\rm diss}+P_{\rm con}-\partial_tL.
+\]
+For a static autonomous track with ideal normal constraints,
+\(P_{\rm con}=0\). A launch system, moving track element, or active
+brake is not covered by that simplification.
+
+\begin{warning}[No force from geometry alone]
+Curvature determines the kinematic acceleration required by a chosen
+speed. It does not by itself determine wheel loads, structural stress,
+or loss of contact. Those require a mass/inertia model and solved
+constraint reactions.
+\end{warning}
+
+\section{Observation loss}
+
+Consider the scalar load observation
+\[
+\Ocal_G:(\gamma,R,v)\longmapsto
+G(s)=\frac{\norm{a^I(s)-g^I}}{g_0}.
+\]
+
+\begin{proposition}[Scalar load is not a complete framed-track
+observation]
+Fix a centerline \(\gamma\) and speed \(v\). Any two smooth adapted
+frames \(R_1,R_2\) with the same tangent but distinct roll profiles
+produce the same scalar load \(G\). Hence \(\Ocal_G\) is not injective
+on framed tracks.
+\end{proposition}
+
+\begin{proof}
+Equation \cref{eq:acceleration} depends on \(\gamma,v\), not on the
+choice of lateral/up axes. Orthogonality gives
+\[
+\norm{R_i^{\mathsf T}(a^I-g^I)}
+=\norm{a^I-g^I}
+\]
+for both frames, although their body-component vectors generally
+differ.
+\end{proof}
+
+The full vector \(\bm G\), angular velocity, visual flow, contact
+signals, and known speed add information but are still protocol
+outputs, not automatically a complete reconstruction of the track.
+
+\section{Transformation audit}
+
+\begin{longtable}{L{34mm}L{48mm}L{68mm}}
+\toprule
+Object & Transformation group & Status \\
+\midrule
+\endhead
+Arc length and curvature magnitude & static Euclidean isometries &
+invariant \\
+Frame components \(\bm G,\Omega^B\) & declared apparatus-axis change &
+covariant vectors \\
+Scalar load \(G\) & apparatus-axis orthogonal change & invariant \\
+Signed rail split \(\Delta L_{\rm or}\) & rail-label exchange &
+sign-covariant \\
+Absolute split \(\Delta L_{\rm abs}\) & rail-label exchange &
+invariant \\
+Ideal wheel count & curve reparameterization & invariant under
+orientation-preserving regular reparameterization \\
+Body jerk components & time-dependent apparatus frame & require the
+correction in \cref{eq:body-jerk} \\
+\bottomrule
+\end{longtable}
+
+\section{Reproducibility and claim boundary}
+
+A numerical benchmark must report:
+\begin{enumerate}[label=(\roman*)]
+  \item \(\gamma,R,v\) and their differentiability;
+  \item sampling and the derivative/smoothing method;
+  \item the bound \cref{eq:offset-bound} and global strip validation;
+  \item gravity, sensor axes, and force/contact status;
+  \item numerical convergence.
+\end{enumerate}
+The v1.0 synthetic numbers are not retained as engineering results:
+the layout supplied no clearance, structural, contact, or convergence
+certificate.
+
+This document does not claim:
+\begin{itemize}
+  \item a realizable or safe track;
+  \item a multibody wheel--rail solution;
+  \item structural, fatigue, restraint, or human-tolerance validation;
+  \item recovery of a track from one rider signal;
+  \item novelty of the standard curve and accelerometer formulas.
+\end{itemize}
+
+\begin{thebibliography}{9}
+
+\bibitem{bishop}
+R.~L. Bishop, ``There is more than one way to frame a curve,''
+\emph{American Mathematical Monthly} 82 (1975), 246--251.
+\href{https://doi.org/10.2307/2319846}{doi:10.2307/2319846}.
+
+\bibitem{docarmo}
+M.~P. do Carmo, \emph{Differential Geometry of Curves and Surfaces},
+Prentice-Hall, 1976.
+
+\bibitem{brogliato}
+B. Brogliato, \emph{Nonsmooth Mechanics: Models, Dynamics and
+Control}, 3rd ed., Springer, 2016.
+\href{https://doi.org/10.1007/978-3-319-28664-8}
+{doi:10.1007/978-3-319-28664-8}.
+
+\end{thebibliography}
+
+\end{document}

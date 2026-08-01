@@ -1,0 +1,249 @@
+schema:
+  id: go-core-spec
+  version: 0.2.0
+  date: 2026-07-27
+  language: en-identifiers
+  title: Geometry of Observation Core Specification
+  canonical_dimension_basis: [L, M, T, I, Theta, N, J]
+  canonical_exchange_context: SI
+  default_defect_aggregation: pareto
+
+imports:
+  symbols: symbols_v0_2.yaml
+  quantities: quantities_v0_2.yaml
+  unit_contexts: unit_contexts_v0_2.yaml
+  normalizations: normalizations_v0_2.yaml
+  defects: defects_v0_2.yaml
+  protocol_schema: protocol_schema_v0_1.yaml
+
+claim_statuses:
+  - definition
+  - lemma
+  - proposition
+  - theorem
+  - corollary
+  - model
+  - hypothesis
+  - diagnostic
+  - analogy
+  - empirical
+
+strong_claim_statuses:
+  - lemma
+  - proposition
+  - theorem
+  - corollary
+
+operator_kinds:
+  frame_transform:
+    invertible: required
+    information_loss: false
+  gauge_transform:
+    invertible: required
+    information_loss: false
+  reduction:
+    invertible: not_required
+    information_loss: possible
+  deterministic_observation:
+    invertible: not_required
+    information_loss: possible
+  stochastic_channel:
+    invertible: not_applicable
+    information_loss: possible
+  estimator:
+    invertible: not_applicable
+    information_loss: not_a_map_property
+  interpretation:
+    invertible: not_required
+    information_loss: not_applicable
+  pullback:
+    invertible: not_required
+    information_loss: not_applicable
+  inclusion:
+    invertible: injective_not_surjective
+    information_loss: false
+  discretizer:
+    invertible: not_required
+    information_loss: possible
+
+semantic_kinds:
+  scalar:
+    shape: scalar
+    addition_family: scalar
+  vector:
+    shape: vector
+    addition_family: vector
+  covector:
+    shape: covector
+    addition_family: covector
+  tensor:
+    shape: tensor
+    addition_family: tensor
+  angle:
+    shape: scalar
+    addition_family: angle
+    physically_dimensionless: true
+  probability:
+    shape: scalar
+    addition_family: probability
+    physically_dimensionless: true
+    range: [0, 1]
+  count:
+    shape: scalar
+    addition_family: count
+    physically_dimensionless: true
+  information:
+    shape: scalar
+    addition_family: information
+    physically_dimensionless: true
+    log_base_required: true
+  loss:
+    shape: scalar
+    addition_family: loss
+    physically_dimensionless: true
+    normalization_required: true
+  load_vector:
+    shape: vector
+    addition_family: load_vector
+    physically_dimensionless: true
+  load_norm:
+    shape: scalar
+    addition_family: load_norm
+    physically_dimensionless: true
+  topological:
+    shape: structured
+    addition_family: forbidden
+    arithmetic_requires_bridge: true
+  label:
+    shape: structured
+    addition_family: forbidden
+    arithmetic: forbidden
+
+neutral_contexts: [neutral]
+frame_neutral_values: [none, invariant, scalar]
+
+algebra:
+  addition:
+    requires_same:
+      - physical_dimension
+      - addition_family
+      - unit_context_after_explicit_conversion
+      - frame_for_non_scalars
+  comparison:
+    requires_same:
+      - physical_dimension
+      - compatible_semantic_kind
+  multiplication:
+    dimension_rule: add_exponent_vectors
+  division:
+    dimension_rule: subtract_exponent_vectors
+  power:
+    dimension_rule: multiply_exponent_vector_by_rational_power
+  logarithm:
+    argument_dimension: dimensionless
+    base_required: true
+    physical_quantity_requires_reference_ratio: true
+  exponential:
+    argument_dimension: dimensionless
+  trigonometric:
+    argument_semantic_kind: angle
+  derivative:
+    dimension_rule: dependent_minus_independent
+  integration:
+    measure_required: true
+    dimension_rule: integrand_plus_measure
+  normalization:
+    numerator_and_reference_dimensions_equal: true
+    zero_policy_required: true
+    output_dimension: [0, 0, 0, 0, 0, 0, 0]
+
+ledger_levels:
+  reference:
+    expression_coverage: complete_registered_contract
+    p1_gate_eligible: true
+  critical_adapter:
+    expression_coverage: critical_formulas_only
+    p1_gate_eligible: false
+
+document_required_fields:
+  - id
+  - title
+  - version
+  - source
+  - ledger_level
+  - migration_status
+  - unit_contexts
+  - maps
+  - quantities
+  - expressions
+  - claim_register
+  - protocol_fields_present
+  - next_action
+
+rule_catalog:
+  CORE-SCHEMA: {severity: error, mode: automatic}
+  DIMENSION-VECTOR: {severity: error, mode: automatic}
+  SYMBOL-COLLISION: {severity: error, mode: automatic}
+  MAP-SIGNATURES: {severity: error, mode: automatic}
+  FRAME-CHANNEL-SEPARATION: {severity: error, mode: automatic}
+  ADD-DIM: {severity: error, mode: automatic}
+  ADD-TYPE: {severity: error, mode: automatic}
+  ADD-FRAME: {severity: error, mode: automatic}
+  COMPARE-DIM: {severity: error, mode: automatic}
+  COMPARE-TYPE: {severity: error, mode: automatic}
+  LOG-DIM: {severity: error, mode: automatic}
+  LOG-BASE: {severity: error, mode: automatic}
+  EXP-DIM: {severity: error, mode: automatic}
+  TRIG-TYPE: {severity: error, mode: automatic}
+  MEASURE-DIM: {severity: error, mode: automatic}
+  NATURAL-UNIT-BOUNDARY: {severity: error, mode: automatic}
+  ZERO-DENOMINATOR: {severity: error, mode: automatic}
+  RESULT-DIM: {severity: error, mode: automatic}
+  RESULT-TYPE: {severity: error, mode: automatic}
+  RESULT-FRAME: {severity: error, mode: automatic}
+  DEFECT-CODOMAIN: {severity: error, mode: automatic}
+  CLAIM-STATUS: {severity: error, mode: automatic}
+  FRAME-LAW: {severity: error, mode: automatic}
+  PROTOCOL-COMPLETE: {severity: error, mode: automatic}
+  NUMERICAL-RANK: {severity: error, mode: automatic}
+  EXPECTATION-MISMATCH: {severity: error, mode: automatic}
+  COVERAGE-INCOMPLETE: {severity: blocker, mode: automatic}
+  DUPLICATE-SOURCE: {severity: warning, mode: automatic}
+  SCALE-PROTOCOL-SEPARATION: {severity: blocker, mode: review}
+  HEAT-PARAMETER: {severity: error, mode: review}
+  FILTER-ORDER: {severity: error, mode: review}
+  FRAME-COVERAGE: {severity: warning, mode: review}
+  FRICTION-SIGN: {severity: error, mode: review}
+  VECTOR-NORM: {severity: error, mode: review}
+  REACH-CONDITION: {severity: warning, mode: review}
+  GEAR-GAUGE: {severity: error, mode: review}
+  ROTATION-NUMBER-SCOPE: {severity: warning, mode: review}
+  EIGENBUNDLE-GAUGE: {severity: error, mode: review}
+  CAUSTIC-RANK: {severity: warning, mode: review}
+  ZERO-MODES: {severity: error, mode: review}
+  UNIT-PASSPORT: {severity: blocker, mode: review}
+  REGRESSION-WINDOW: {severity: error, mode: review}
+  GLOBAL-PSEUDOMETRIC: {severity: error, mode: review}
+  ENTROPY-SEMANTICS: {severity: warning, mode: review}
+
+p0_gates:
+  - id: MAP-SIGNATURES
+  - id: SYMBOL-COLLISION
+  - id: CLAIM-STATUS
+  - id: FRAME-CHANNEL-SEPARATION
+
+p1_gates:
+  - id: ADD-DIM
+  - id: ADD-TYPE
+  - id: ADD-FRAME
+  - id: LOG-DIM
+  - id: LOG-BASE
+  - id: TRIG-TYPE
+  - id: MEASURE-DIM
+  - id: NATURAL-UNIT-BOUNDARY
+  - id: ZERO-DENOMINATOR
+  - id: RESULT-DIM
+  - id: RESULT-TYPE
+  - id: PROTOCOL-COMPLETE
+  - id: COVERAGE-INCOMPLETE
+

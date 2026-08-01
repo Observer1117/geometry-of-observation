@@ -1,0 +1,880 @@
+schema:
+  id: go-quantum-chemistry-reference-ledger
+  version: 1.0.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  inherited_contracts:
+    - go-conical-intersections-observation-contract@0.9.0
+  extension_contract: go-quantum-chemistry-observation-contract@1.0.0
+
+documents:
+  - id: quantum-chemistry-observation-v1-1
+    title: Quantum Chemistry as a Typed Inference Stack under Observation Maps
+    version: 1.1.0
+    source:
+      pdf: work/p9_quantum_chemistry_v1_0/build/qchem/quantum_chemistry_observation_geometry_v1_1.pdf
+      tex: work/p9_quantum_chemistry_v1_0/src/quantum_chemistry_observation_geometry_v1_1.tex
+      text: work/p9_quantum_chemistry_v1_0/checks/qchem/quantum_chemistry_observation_geometry_v1_1.txt
+      metrics_json: work/p9_quantum_chemistry_v1_0/data/quantum_chemistry_metrics_v1_0.json
+      pages: 9
+      sha256: f3b1056f215cebeca914b3c1d3589e18b3764f518a5daac580a487541a9dae8a
+    ledger_level: reference
+    migration_status: strict_reference_migrated
+    unit_contexts:
+      - SI
+      - atomic
+      - neutral
+    groups:
+      - electron_permutation_sign_representation
+      - global_state_phase
+      - occupied_orbital_U_N_gauge
+      - Euclidean_nuclear_rigid_motions
+      - identical_nucleus_permutations
+      - basis_changes_with_overlap_metric
+      - instrument_calibration_transformations
+    maps:
+      - id: exact_to_clamped_nuclei_model
+        domain: full_electron_nuclear_Hamiltonian_and_state
+        codomain: parametric_electronic_Hamiltonian_family
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: born_huang_expansion
+        domain: full_molecular_state_in_declared_electronic_family
+        codomain: coupled_nuclear_channel_amplitudes
+        kind: frame_transform
+        invertibility: required
+        information_loss: false
+      - id: one_body_partial_trace
+        domain: normalized_N_electron_density_operator
+        codomain: trace_N_one_body_reduced_density_matrix
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: density_diagonal
+        domain: one_body_reduced_density_matrix
+        codomain: spin_summed_spatial_density
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: occupied_orbital_rotation
+        domain: S_orthonormal_occupied_coefficient_frame
+        codomain: equivalent_occupied_coefficient_frame
+        kind: gauge_transform
+        invertibility: required
+        information_loss: false
+      - id: active_space_reduction
+        domain: one_body_reduced_density_matrix_and_declared_projector
+        codomain: active_one_body_reduced_density_matrix
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: nuclear_rigid_motion_quotient
+        domain: labeled_nuclear_Cartesian_configuration
+        codomain: internal_geometry_equivalence_class
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: harmonic_normal_mode_reduction
+        domain: stationary_geometry_Hessian_and_mass_matrix
+        codomain: vibrational_eigenvalues_and_modes
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: ideal_spectral_readout
+        domain: state_energies_populations_transition_operator_and_line_profile
+        codomain: ideal_transition_spectral_density
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: instrument_channel
+        domain: ideal_transition_spectral_density
+        codomain: probability_law_on_sampled_instrument_records
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: spectral_estimator
+        domain: sampled_instrument_records_and_calibration
+        codomain: fitted_lines_assignments_and_uncertainties
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+      - id: bond_population_interpretation
+        domain: state_basis_active_space_and_named_scheme
+        codomain: scheme_conditional_chemical_descriptors
+        kind: interpretation
+        invertibility: not_required
+        information_loss: not_applicable
+    symbols:
+      - scope: many_body_state
+        key: Gamma_N
+        meaning: normalized_N_electron_density_operator
+      - scope: reduced_density
+        key: gamma_1
+        meaning: trace_N_one_body_reduced_density_matrix
+      - scope: spatial_density
+        key: n
+        meaning: spin_summed_particle_number_density
+      - scope: clamped_nuclei
+        key: H_e
+        meaning: electronic_Hamiltonian_family_including_declared_nuclear_repulsion
+      - scope: finite_basis
+        key: S
+        meaning: positive_definite_overlap_matrix
+      - scope: finite_basis
+        key: C_occ
+        meaning: occupied_orbital_coefficient_frame
+      - scope: orbital_gauge
+        key: U_occ
+        meaning: occupied_subspace_unitary_rotation
+      - scope: nuclear_geometry
+        key: K
+        meaning: mass_weighted_Hessian
+      - scope: normal_mode
+        key: lambda_k
+        meaning: squared_angular_frequency_eigenvalue
+      - scope: spectroscopy
+        key: S_A
+        meaning: ideal_transition_spectral_density
+      - scope: observation
+        key: Y
+        meaning: sampled_noisy_instrument_record
+    quantities:
+      - id: qc.full_energy
+        extends: mechanics.energy
+        symbol: E_mol
+        frame: scalar
+      - id: qc.electronic_kinetic
+        extends: mechanics.energy
+        symbol: T_e
+        frame: scalar
+      - id: qc.nuclear_kinetic
+        extends: mechanics.energy
+        symbol: T_n
+        frame: scalar
+      - id: qc.electron_nuclear_energy
+        extends: mechanics.energy
+        symbol: V_en
+        frame: scalar
+      - id: qc.electron_electron_energy
+        extends: mechanics.energy
+        symbol: V_ee
+        frame: scalar
+      - id: qc.nuclear_repulsion
+        extends: mechanics.energy
+        symbol: V_nn
+        frame: scalar
+      - id: qc.clamped_energy
+        extends: mechanics.energy
+        symbol: E_e
+        frame: scalar
+      - id: qc.initial_energy
+        extends: mechanics.energy
+        symbol: E_i
+        frame: scalar
+      - id: qc.final_energy
+        extends: mechanics.energy
+        symbol: E_f
+        frame: scalar
+      - id: qc.energy_gap
+        extends: mechanics.energy
+        symbol: Delta_E
+        frame: scalar
+      - id: qc.ground_energy
+        extends: mechanics.energy
+        symbol: E_0
+        frame: scalar
+      - id: qc.HF_energy
+        extends: mechanics.energy
+        symbol: E_HF
+        frame: scalar
+      - id: qc.correlation_energy
+        extends: mechanics.energy
+        symbol: E_corr
+        frame: scalar
+      - id: qc.hbar
+        extends: quantum.hbar
+        symbol: hbar
+      - id: qc.Planck_constant
+        symbol: h
+        semantic_kind: scalar
+        dimension: [2, 1, -1, 0, 0, 0, 0]
+        canonical_unit: J*s
+        unit_context: SI
+        frame: invariant
+        claim_status: empirical
+      - id: qc.speed_of_light
+        extends: relativity.speed_of_light
+        symbol: c
+      - id: qc.angular_frequency
+        extends: time.angular_frequency
+        symbol: omega
+        frame: scalar
+      - id: qc.cyclic_frequency
+        extends: time.frequency
+        symbol: nu
+        frame: scalar
+      - id: qc.angular_frequency_squared
+        extends: time.angular_frequency_squared
+        symbol: omega2
+        frame: scalar
+      - id: qc.mass_weighted_eigenvalue
+        extends: chemistry.mass_weighted_hessian_eigenvalue
+        symbol: lambda_MW
+        frame: mode_basis
+      - id: qc.wavenumber
+        symbol: nu_tilde
+        semantic_kind: scalar
+        dimension: [-1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: 1/m
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: qc.nuclear_coordinate
+        extends: geometry.position
+        symbol: R
+        frame: nuclear_chart
+      - id: qc.nuclear_displacement
+        extends: geometry.displacement
+        symbol: delta_R
+        frame: nuclear_chart
+      - id: qc.nuclear_mass
+        extends: mechanics.mass
+        symbol: M
+      - id: qc.inverse_sqrt_mass
+        symbol: M_inv_sqrt
+        semantic_kind: scalar
+        dimension: [0, "-1/2", 0, 0, 0, 0, 0]
+        canonical_unit: kg^(-1/2)
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: qc.inverse_mass
+        symbol: M_inv
+        semantic_kind: scalar
+        dimension: [0, -1, 0, 0, 0, 0, 0]
+        canonical_unit: 1/kg
+        unit_context: SI
+        frame: invariant
+        claim_status: definition
+      - id: qc.Cartesian_Hessian
+        symbol: H_R
+        semantic_kind: tensor
+        dimension: [0, 1, -2, 0, 0, 0, 0]
+        canonical_unit: J/m^2
+        unit_context: SI
+        frame: nuclear_chart
+        claim_status: definition
+      - id: qc.mass_weighted_Hessian
+        symbol: K
+        semantic_kind: tensor
+        dimension: [0, 0, -2, 0, 0, 0, 0]
+        canonical_unit: 1/s^2
+        unit_context: SI
+        frame: mode_basis
+        claim_status: definition
+      - id: qc.force
+        extends: mechanics.force
+        symbol: F_R
+        frame: nuclear_chart
+      - id: qc.acceleration
+        extends: mechanics.acceleration
+        symbol: a_R
+        frame: nuclear_chart
+      - id: qc.number_density
+        symbol: n
+        semantic_kind: scalar
+        dimension: [-3, 0, 0, 0, 0, 0, 0]
+        canonical_unit: 1/m^3
+        unit_context: SI
+        frame: laboratory
+        claim_status: definition
+      - id: qc.volume_measure
+        symbol: d3r
+        semantic_kind: scalar
+        dimension: [3, 0, 0, 0, 0, 0, 0]
+        canonical_unit: m^3
+        unit_context: SI
+        frame: laboratory
+        claim_status: definition
+      - id: qc.particle_number
+        extends: discrete.count
+        symbol: N
+      - id: qc.integrated_density
+        symbol: N_from_n
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: proposition
+      - id: qc.gamma_trace
+        extends: discrete.count
+        symbol: trace_gamma
+      - id: qc.one_RDM
+        symbol: gamma_1
+        semantic_kind: tensor
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: one_particle_space
+        claim_status: definition
+      - id: qc.overlap_matrix
+        symbol: S
+        semantic_kind: tensor
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: one_particle_basis
+        claim_status: definition
+      - id: qc.Fock_matrix
+        symbol: F
+        semantic_kind: tensor
+        dimension: [2, 1, -2, 0, 0, 0, 0]
+        canonical_unit: J
+        unit_context: SI
+        frame: one_particle_basis
+        claim_status: model
+      - id: qc.orbital_coefficients
+        symbol: C
+        semantic_kind: tensor
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: one_particle_basis
+        claim_status: model
+      - id: qc.orbital_energy_matrix
+        symbol: epsilon
+        semantic_kind: tensor
+        dimension: [2, 1, -2, 0, 0, 0, 0]
+        canonical_unit: J
+        unit_context: SI
+        frame: orbital_basis
+        claim_status: model
+      - id: qc.generalized_eigen_LHS
+        symbol: FC
+        semantic_kind: tensor
+        dimension: [2, 1, -2, 0, 0, 0, 0]
+        canonical_unit: J
+        unit_context: SI
+        frame: one_particle_basis
+        claim_status: model
+      - id: qc.generalized_eigen_RHS
+        symbol: SCepsilon
+        semantic_kind: tensor
+        dimension: [2, 1, -2, 0, 0, 0, 0]
+        canonical_unit: J
+        unit_context: SI
+        frame: one_particle_basis
+        claim_status: model
+      - id: qc.occupied_density_matrix
+        symbol: P
+        semantic_kind: tensor
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: one_particle_basis
+        claim_status: model
+      - id: qc.active_projector
+        symbol: P_A
+        semantic_kind: tensor
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: one_particle_space
+        claim_status: definition
+      - id: qc.active_occupation
+        extends: discrete.count
+        symbol: N_A
+      - id: qc.population
+        extends: information.probability
+        symbol: p_i
+      - id: qc.transition_amplitude
+        symbol: A_fi
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: scalar
+        claim_status: model
+      - id: qc.transition_amplitude_squared
+        symbol: abs_A_fi_squared
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: scalar
+        claim_status: model
+      - id: qc.line_center
+        extends: time.angular_frequency
+        symbol: omega_fi
+        frame: observer
+      - id: qc.frequency_coordinate
+        extends: time.angular_frequency
+        symbol: omega_axis
+        frame: observer
+      - id: qc.line_offset
+        extends: time.angular_frequency
+        symbol: delta_omega
+        frame: observer
+      - id: qc.line_width
+        extends: time.angular_frequency
+        symbol: sigma_omega
+        frame: observer
+      - id: qc.line_offset_squared
+        extends: time.angular_frequency_squared
+        symbol: delta_omega2
+        frame: observer
+      - id: qc.line_width_squared
+        extends: time.angular_frequency_squared
+        symbol: sigma_omega2
+        frame: observer
+      - id: qc.standardized_offset
+        symbol: z_omega
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: qc.Gaussian_exponent
+        symbol: zeta
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: qc.Gaussian_factor
+        symbol: exp_zeta
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: qc.inverse_line_width
+        symbol: sigma_omega_inv
+        semantic_kind: scalar
+        dimension: [0, 0, 1, 0, 0, 0, 0]
+        canonical_unit: s
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: qc.line_profile
+        symbol: L_Gamma
+        semantic_kind: scalar
+        dimension: [0, 0, 1, 0, 0, 0, 0]
+        canonical_unit: s
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: qc.spectral_weight
+        symbol: w_if
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: qc.spectral_density
+        symbol: S_A
+        semantic_kind: scalar
+        dimension: [0, 0, 1, 0, 0, 0, 0]
+        canonical_unit: s
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: qc.angular_frequency_measure
+        symbol: d_omega
+        semantic_kind: scalar
+        dimension: [0, 0, -1, 0, 0, 0, 0]
+        canonical_unit: 1/s
+        unit_context: SI
+        frame: observer
+        claim_status: definition
+      - id: qc.line_area
+        symbol: area
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: qc.instrument_signal
+        symbol: C_inst_S
+        semantic_kind: scalar
+        dimension: [0, 0, 1, 0, 0, 0, 0]
+        canonical_unit: s
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: qc.instrument_noise
+        symbol: eta
+        semantic_kind: scalar
+        dimension: [0, 0, 1, 0, 0, 0, 0]
+        canonical_unit: s
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: qc.observed_signal
+        symbol: Y
+        semantic_kind: scalar
+        dimension: [0, 0, 1, 0, 0, 0, 0]
+        canonical_unit: s
+        unit_context: SI
+        frame: observer
+        claim_status: model
+      - id: qc.two_pi
+        symbol: two_pi
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: definition
+    expressions:
+      - id: full_molecular_Hamiltonian_energy
+        anchor: equation (1), five energy terms
+        ast:
+          op: add
+          args:
+            - {q: qc.electronic_kinetic}
+            - {q: qc.nuclear_kinetic}
+            - {q: qc.electron_nuclear_energy}
+            - {q: qc.electron_electron_energy}
+            - {q: qc.nuclear_repulsion}
+        expect: {outcome: pass, rules: [], dimension: [2, 1, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: clamped_Hamiltonian_energy
+        anchor: equation (3), clamped electronic energy terms
+        ast:
+          op: add
+          args:
+            - {q: qc.electronic_kinetic}
+            - {q: qc.electron_nuclear_energy}
+            - {q: qc.electron_electron_energy}
+            - {q: qc.nuclear_repulsion}
+        expect: {outcome: pass, rules: [], dimension: [2, 1, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: transition_energy_difference
+        anchor: equation (18), E_f minus E_i
+        ast: {op: sub, args: [{q: qc.final_energy}, {q: qc.initial_energy}]}
+        expect: {outcome: pass, rules: [], dimension: [2, 1, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: angular_frequency_from_energy_gap
+        anchor: equation (18), omega_fi equals Delta E over hbar
+        ast: {op: div, left: {q: qc.energy_gap}, right: {q: qc.hbar}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, -1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: cyclic_frequency_from_energy_gap
+        anchor: spectroscopy contract, nu_fi equals Delta E over h
+        ast: {op: div, left: {q: qc.energy_gap}, right: {q: qc.Planck_constant}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, -1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: energy_from_angular_frequency
+        anchor: equation (18), Delta E equals hbar omega
+        ast: {op: mul, left: {q: qc.hbar}, right: {q: qc.angular_frequency}}
+        expect: {outcome: pass, rules: [], dimension: [2, 1, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: energy_from_cyclic_frequency
+        anchor: spectroscopy contract, Delta E equals h nu
+        ast: {op: mul, left: {q: qc.Planck_constant}, right: {q: qc.cyclic_frequency}}
+        expect: {outcome: pass, rules: [], dimension: [2, 1, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: angular_frequency_squared
+        anchor: equation (16), omega squared
+        ast: {op: pow, arg: {q: qc.angular_frequency}, exponent: 2}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: angular_frequency_from_mass_weighted_eigenvalue
+        anchor: equation (16), omega equals square root lambda
+        ast: {op: sqrt, arg: {q: qc.mass_weighted_eigenvalue}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, -1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: cyclic_frequency_from_angular_frequency
+        anchor: equation (16), nu equals omega over two pi
+        ast: {op: div, left: {q: qc.angular_frequency}, right: {q: qc.two_pi}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, -1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: spectroscopic_wavenumber
+        anchor: equation (16), nu tilde equals nu over c
+        ast: {op: div, left: {q: qc.cyclic_frequency}, right: {q: qc.speed_of_light}}
+        expect: {outcome: pass, rules: [], dimension: [-1, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: first_energy_derivative
+        anchor: nuclear force dimension from PES gradient
+        ast: {op: derivative, dependent: {q: qc.clamped_energy}, independent: {q: qc.nuclear_coordinate}}
+        expect: {outcome: pass, rules: [], dimension: [1, 1, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: second_energy_derivative
+        anchor: equation (15), Cartesian Hessian dimension
+        ast:
+          op: derivative
+          dependent:
+            op: derivative
+            dependent: {q: qc.clamped_energy}
+            independent: {q: qc.nuclear_coordinate}
+          independent: {q: qc.nuclear_coordinate}
+        expect: {outcome: pass, rules: [], dimension: [0, 1, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: inverse_sqrt_mass
+        anchor: equation (15), M to power minus one half
+        ast: {op: pow, arg: {q: qc.nuclear_mass}, exponent: "-1/2"}
+        expect: {outcome: pass, rules: [], dimension: [0, "-1/2", 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: inverse_mass_from_two_factors
+        anchor: equation (15), two inverse square-root mass factors
+        ast: {op: pow, arg: {q: qc.inverse_sqrt_mass}, exponent: 2}
+        expect: {outcome: pass, rules: [], dimension: [0, -1, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: mass_weighted_Hessian_dimension
+        anchor: equation (15), M inverse times Hessian scale
+        ast:
+          op: mul
+          left: {q: qc.inverse_mass}
+          right: {q: qc.Cartesian_Hessian}
+          semantic_kind: tensor
+          frame: mode_basis
+        expect: {outcome: pass, rules: [], dimension: [0, 0, -2, 0, 0, 0, 0], semantic_kind: tensor, frame: mode_basis}
+      - id: Hessian_action_is_force
+        anchor: harmonic linear force H_R delta R
+        ast:
+          op: mul
+          left: {q: qc.Cartesian_Hessian}
+          right: {q: qc.nuclear_displacement}
+          semantic_kind: vector
+          frame: nuclear_chart
+        expect: {outcome: pass, rules: [], dimension: [1, 1, -2, 0, 0, 0, 0], semantic_kind: vector, frame: nuclear_chart}
+      - id: mass_times_acceleration_is_force
+        anchor: theorem 7.1 proof
+        ast:
+          op: mul
+          left: {q: qc.nuclear_mass}
+          right: {q: qc.acceleration}
+          semantic_kind: vector
+          frame: nuclear_chart
+        expect: {outcome: pass, rules: [], dimension: [1, 1, -2, 0, 0, 0, 0], semantic_kind: vector, frame: nuclear_chart}
+      - id: normal_mode_acceleration_scale
+        anchor: theorem 7.1, lambda times displacement
+        ast:
+          op: mul
+          left: {q: qc.mass_weighted_eigenvalue}
+          right: {q: qc.nuclear_displacement}
+          semantic_kind: vector
+          frame: nuclear_chart
+        expect: {outcome: pass, rules: [], dimension: [1, 0, -2, 0, 0, 0, 0], semantic_kind: vector, frame: nuclear_chart}
+      - id: density_integral
+        anchor: equation (8), integral n d3r
+        ast: {op: integrate, integrand: {q: qc.number_density}, measure: {q: qc.volume_measure}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: density_normalization_comparison
+        anchor: equation (8), integral n equals N
+        ast: {op: compare, left: {q: qc.integrated_density}, right: {q: qc.particle_number}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: one_RDM_trace
+        anchor: equation (8), trace gamma equals N
+        ast: {q: qc.gamma_trace}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: count}
+      - id: F_times_C
+        anchor: equation (10), generalized eigenproblem left side
+        ast:
+          op: mul
+          left: {q: qc.Fock_matrix}
+          right: {q: qc.orbital_coefficients}
+          semantic_kind: tensor
+          frame: one_particle_basis
+        expect: {outcome: pass, rules: [], dimension: [2, 1, -2, 0, 0, 0, 0], semantic_kind: tensor, frame: one_particle_basis}
+      - id: S_times_C
+        anchor: equation (10), overlap times coefficient matrix
+        ast:
+          op: mul
+          left: {q: qc.overlap_matrix}
+          right: {q: qc.orbital_coefficients}
+          semantic_kind: tensor
+          frame: one_particle_basis
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: tensor, frame: one_particle_basis}
+      - id: S_C_times_epsilon
+        anchor: equation (10), generalized eigenproblem right side
+        ast:
+          op: mul
+          left:
+            op: mul
+            left: {q: qc.overlap_matrix}
+            right: {q: qc.orbital_coefficients}
+            semantic_kind: tensor
+            frame: one_particle_basis
+          right: {q: qc.orbital_energy_matrix}
+          semantic_kind: tensor
+          frame: one_particle_basis
+        expect: {outcome: pass, rules: [], dimension: [2, 1, -2, 0, 0, 0, 0], semantic_kind: tensor, frame: one_particle_basis}
+      - id: generalized_eigenproblem_dimension_match
+        anchor: equation (10), compare F C and S C epsilon
+        ast: {op: compare, left: {q: qc.generalized_eigen_LHS}, right: {q: qc.generalized_eigen_RHS}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: occupied_density_matrix
+        anchor: equation (11), C occupied times C occupied dagger
+        ast:
+          op: mul
+          left: {q: qc.orbital_coefficients}
+          right: {q: qc.orbital_coefficients}
+          semantic_kind: tensor
+          frame: one_particle_basis
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: tensor, frame: one_particle_basis}
+      - id: correlation_energy
+        anchor: equation (13), E zero minus E HF
+        ast: {op: sub, args: [{q: qc.ground_energy}, {q: qc.HF_energy}]}
+        expect: {outcome: pass, rules: [], dimension: [2, 1, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: variational_energy_comparison
+        anchor: equation (13), E zero no greater than E HF
+        ast: {op: compare, left: {q: qc.ground_energy}, right: {q: qc.HF_energy}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: active_occupation
+        anchor: equation (17), trace gamma P A
+        ast: {q: qc.active_occupation}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: count}
+      - id: line_offset
+        anchor: equation (18), omega minus omega fi
+        ast: {op: sub, args: [{q: qc.frequency_coordinate}, {q: qc.line_center}]}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, -1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: line_offset_squared
+        anchor: Gaussian benchmark, squared line offset
+        ast: {op: pow, arg: {q: qc.line_offset}, exponent: 2}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: line_width_squared
+        anchor: Gaussian benchmark, squared line width
+        ast: {op: pow, arg: {q: qc.line_width}, exponent: 2}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, -2, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: standardized_line_offset
+        anchor: Gaussian benchmark, offset divided by positive width
+        ast:
+          op: normalize
+          value: {q: qc.line_offset}
+          reference: {q: qc.line_width}
+          zero_policy: strictly_positive_line_width
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: Gaussian_dimensionless_ratio
+        anchor: Gaussian benchmark, offset squared over width squared
+        ast: {op: div, left: {q: qc.line_offset_squared}, right: {q: qc.line_width_squared}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: Gaussian_factor
+        anchor: Gaussian benchmark, exponential of dimensionless exponent
+        ast: {op: exp, arg: {q: qc.Gaussian_exponent}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: inverse_line_width
+        anchor: Gaussian benchmark, reciprocal angular-frequency width
+        ast: {op: div, left: {const: 1}, right: {q: qc.line_width}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: normalized_line_profile
+        anchor: equation (18), Gaussian factor divided by width
+        ast:
+          op: mul
+          left: {q: qc.Gaussian_factor}
+          right: {q: qc.inverse_line_width}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: transition_amplitude_squared
+        anchor: equation (18), absolute transition amplitude squared
+        ast: {op: pow, arg: {q: qc.transition_amplitude}, exponent: 2}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: spectral_weight
+        anchor: equation (18), population times amplitude squared
+        ast: {op: mul, left: {q: qc.population}, right: {q: qc.transition_amplitude_squared}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: weighted_line_spectral_density
+        anchor: equation (18), spectral weight times line profile
+        ast: {op: mul, left: {q: qc.spectral_weight}, right: {q: qc.line_profile}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: ideal_spectrum_sum
+        anchor: equation (18), sum of like spectral-density terms
+        ast: {op: add, args: [{q: qc.spectral_density}, {q: qc.spectral_density}]}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: normalized_line_area
+        anchor: equation (18), integral line profile over angular frequency
+        ast: {op: integrate, integrand: {q: qc.line_profile}, measure: {q: qc.angular_frequency_measure}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: observed_signal_plus_noise
+        anchor: equation (19), instrument signal plus noise
+        ast: {op: add, args: [{q: qc.instrument_signal}, {q: qc.instrument_noise}]}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 1, 0, 0, 0, 0], semantic_kind: scalar}
+      - id: line_width_comparison
+        anchor: finite-resolution protocol, separation compared with resolution
+        ast: {op: compare, left: {q: qc.line_offset}, right: {q: qc.line_width}}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: probability}
+      - id: active_projector_is_dimensionless
+        anchor: equation (17), declared active projector
+        ast: {q: qc.active_projector}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: tensor, frame: one_particle_space}
+      - id: one_RDM_is_dimensionless_operator
+        anchor: equation (6), one-body reduced density matrix
+        ast: {q: qc.one_RDM}
+        expect: {outcome: pass, rules: [], dimension: [0, 0, 0, 0, 0, 0, 0], semantic_kind: tensor, frame: one_particle_space}
+    claim_register:
+      - id: one_RDM_normalization
+        status: proposition
+        hypotheses:
+          - normalized_N_electron_density_operator
+      - id: one_body_expectation_from_one_RDM
+        status: proposition
+        hypotheses:
+          - sum_of_identical_one_body_operators
+      - id: one_RDM_noninjectivity
+        status: proposition
+        hypotheses:
+          - explicit_two_electron_four_orbital_control
+      - id: occupied_orbital_gauge
+        status: proposition
+        hypotheses:
+          - S_orthonormal_occupied_frame
+          - unitary_occupied_rotation
+      - id: Hartree_Fock_variational_sign
+        status: proposition
+        hypotheses:
+          - same_Hamiltonian_and_one_particle_space
+          - global_HF_minimum
+      - id: harmonic_frequency_square
+        status: theorem
+        hypotheses:
+          - stationary_geometry
+          - harmonic_linearization
+          - positive_nuclear_masses
+      - id: isolated_rigid_zero_mode_count
+        status: theorem
+        hypotheses:
+          - isolated_unconstrained_molecule
+          - nonexceptional_linear_or_nonlinear_geometry
+      - id: Hohenberg_Kohn_density_determines_arbitrary_state
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+      - id: canonical_valence_projector
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+      - id: energy_differences_alone_define_spectrum
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+      - id: new_quantum_chemistry_method
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - quantizer_or_partition
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+      - particle_numbers_and_isotopes
+      - Hamiltonian_terms
+      - pure_or_mixed_state
+      - clamped_or_full_electron_nuclear_model
+      - basis_and_overlap_threshold
+      - active_and_frozen_spaces
+      - orbital_gauge_or_localization_rule
+      - correlation_or_density_functional_model
+      - SCF_stationarity_criterion
+      - nuclear_geometry_quotient
+      - Hessian_projection_and_zero_mode_threshold
+      - property_operator_and_gauge
+      - state_populations
+      - line_profile
+      - instrument_response
+      - noise_law
+      - assignment_rule
+      - identifiability_scope
+    next_action: retain_as_many_body_reduction_orbital_gauge_normal_mode_and_spectroscopy_reference

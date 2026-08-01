@@ -1,0 +1,21 @@
+{
+  "schema": {
+    "id": "go-p8-conical-intersections-metrics",
+    "version": "0.9.0"
+  },
+  "date": "2026-07-28",
+  "benchmark_rows": 35,
+  "family_counts": {
+    "derivative_coupling": 6,
+    "finite_resolution": 4,
+    "gapped_berry": 6,
+    "landau_zener": 6,
+    "real_holonomy": 7,
+    "spectrum": 6
+  },
+  "max_projector_idempotence_residual": 1.3877787807814457e-16,
+  "max_projector_orthogonality_residual": 7.631521572941402e-17,
+  "max_quantum_metric_identity_residual": 1.4210854715202004e-14,
+  "max_random_gauge_holonomy_residual": 4.4487131511840225e-15,
+  "max_gapped_berry_discretization_error": 2.204e-07
+}

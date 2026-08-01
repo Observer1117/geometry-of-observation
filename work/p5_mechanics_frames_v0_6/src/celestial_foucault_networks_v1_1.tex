@@ -1,0 +1,450 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Foucault Networks on Celestial Bodies as Typed Observation Geometry},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Frame-consistent local Foucault dynamics and nested observation maps},
+  pdfkeywords={Foucault pendulum, rotating frame, Coriolis force, celestial hierarchy, torus flow, observation geometry}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\cl}{\operatorname{cl}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Kcal}{\mathcal K}
+\newcommand{\Rcal}{\mathcal R}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Foucault Networks on Celestial Bodies\\
+\large Frame-consistent local dynamics and nested observation maps}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.1 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working draft
+v1.0. It is migrated to GO Core v0.2 and the Frames--Forces--Dissipation
+Interface v0.1. The local pendulum is a small-amplitude rotating-frame
+model; the celestial hierarchy is a finite kinematic laboratory, not
+an ephemeris or a precision geophysical model.}}
+\end{center}
+
+\begin{abstract}
+We formulate a network of idealized Foucault pendula on a finite
+hierarchy of rotating bodies without mixing body, local, inertial, and
+observer-frame components. A body edge in the hierarchy is transformed
+through its parent's attitude, a local endpoint displacement is
+transformed together with the site position, and a moving observer is
+represented by a full affine frame map rather than an origin
+subtraction alone. In the body-fixed tangent plane the declared
+small-amplitude model is
+\[
+\ddot u+2\beta\dot u+2\Omega_nJ\dot u+\omega_0^2u=0,
+\qquad \Omega_n=\Omega^B\cdot n^B .
+\]
+For \(\beta=0\), the substitution
+\(u_{\mathbb C}=e^{-i\Omega_nt}w\) proves that the oscillation plane
+precesses at signed rate \(-\Omega_n\) in the chosen orientation. The
+Coriolis term performs no work, while damping dissipates
+\(P_{\rm diss}=2m\beta\norm{\dot u}^2\ge0\). A nested
+quasiperiodic hierarchy is represented as a continuous readout of a
+torus flow. Its closure is the image of the subtorus determined by
+integer frequency relations. Frequency support is preserved under a
+static Euclidean change of observer and a time-origin shift, but not
+under an arbitrary time-dependent rotating observer or a lossy camera
+projection. The result is a typed observation model with explicit
+claim boundaries, not a new theory of celestial mechanics.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and observation protocol}
+
+The experiment is a finite mathematical laboratory: choose bodies
+\(b\), surface sites \(\ell\), local pendula, an observer frame \(O\),
+and a sampling/camera protocol \(\lambda\). The typed chain is
+\[
+X_t\xrightarrow{\Rcal}\widetilde X_t
+\xrightarrow{\Ocal_\lambda}Z_t
+\xrightarrow{\Kcal_\lambda}\operatorname{Law}(Y_t\mid Z_t)
+\xrightarrow{\widehat\theta_\lambda}\widehat\theta_t.
+\]
+The reduction \(\Rcal\) selects a finite hierarchy and local model,
+\(\Ocal_\lambda\) produces ideal framed endpoints or projected pixels,
+\(\Kcal_\lambda\) represents sampling and noise, and
+\(\widehat\theta_\lambda\) estimates rates or spectral relations.
+These maps are not identified.
+
+\begin{warning}[Claim firewall]
+The model excludes tidal elasticity, polar motion, atmospheric
+loading, suspension anisotropy, finite-amplitude precession, general
+relativity, and precision ephemerides. Parameters called ``planetary''
+or ``galactic'' are labels unless supplied by a dated external model
+with uncertainty.
+\end{warning}
+
+\section{Frame-consistent celestial hierarchy}
+
+Fix an inertial reference \(I\). Each body \(b\) has a center
+\(R_b^I(t)\) and attitude
+\[
+A_{I\leftarrow B_b}(t)\in\SO(3),
+\]
+where \(B_b\) is its body frame. If \(p(b)\) is the parent and the
+relative center vector is stored in the parent frame, recursion is
+\begin{equation}\label{eq:tree}
+R_b^I
+=R_{p(b)}^I
++A_{I\leftarrow B_{p(b)}}\,r_{b\mid p(b)}^{B_{p(b)}}.
+\end{equation}
+Thus every addition in \cref{eq:tree} occurs in \(I\).
+
+At site \(\ell\), let \(r_{b\ell}^{B_b}\) be the body-fixed site point,
+\(n_{b\ell}^{B_b}\) the outward unit normal, and
+\[
+E_{B_b\leftarrow L_{b\ell}}
+=\begin{pmatrix}e_1^{B_b}&e_2^{B_b}&n^{B_b}\end{pmatrix}
+\in\SO(3)
+\]
+the local frame. A horizontal pendulum displacement is
+\(u^{L_{b\ell}}=(u_1,u_2,0)^{\mathsf T}\).
+
+\begin{definition}[Endpoint point map]
+The endpoint in the inertial frame is
+\begin{equation}\label{eq:endpoint-I}
+p_{b\ell}^I
+=R_b^I+
+A_{I\leftarrow B_b}
+\left(
+r_{b\ell}^{B_b}
++E_{B_b\leftarrow L_{b\ell}}u^{L_{b\ell}}
+\right).
+\end{equation}
+\end{definition}
+
+For a moving observer with origin \(c_O^I(t)\) and attitude
+\(A_{I\leftarrow O}(t)\), the observer components are
+\begin{equation}\label{eq:observer-frame}
+p_{b\ell}^{O}
+=A_{O\leftarrow I}
+\bigl(p_{b\ell}^I-c_O^I\bigr).
+\end{equation}
+A camera map \(\Pi_\lambda\) then gives
+\(z_{b\ell}=\Pi_\lambda(p_{b\ell}^{O})\). In general
+\(\Pi_\lambda\) is not invertible.
+
+\begin{remark}[Correction to v1.0]
+The expression
+\(R_b^I+A_{I\leftarrow B_b}r_{b\ell}^{B_b}+u_{b\ell}^{B_b}-c_O^I\)
+mixed the body displacement \(u_{b\ell}^{B_b}\) with inertial
+vectors. Equation \cref{eq:endpoint-I} transforms the site and local
+displacement before their inertial addition; \cref{eq:observer-frame}
+also includes observer attitude.
+\end{remark}
+
+\section{Local rotating-frame pendulum}
+
+Let the body angular velocity be \(\Omega^B\) and set
+\[
+\Omega_n=\Omega^B\cdot n^B .
+\]
+On the oriented tangent plane define
+\[
+Jv=n^B\times v,\qquad J^2=-I .
+\]
+The following is a declared reduced model, not the exact spherical
+pendulum.
+
+\begin{model}[Linear Foucault layer]\label{model:foucault}
+For pendulum length \(\ell_p>0\),
+\(\omega_0^2=g_{\rm eff}/\ell_p\), and damping rate
+\(\beta\ge0\), the body-fixed horizontal displacement obeys
+\begin{equation}\label{eq:local-foucault}
+\ddot u+2\beta\dot u+2\Omega_nJ\dot u+\omega_0^2u=0.
+\end{equation}
+The model assumes a fixed local vertical, small displacement,
+constant \(\Omega_n\), and neglects terms beyond the horizontal
+Coriolis projection.
+\end{model}
+
+\begin{theorem}[Signed precession in the undamped reduced model]
+\label{thm:precession}
+Under \cref{model:foucault} with \(\beta=0\), identify the oriented
+tangent plane with \(\mathbb C\), so \(J\) acts as multiplication by
+\(i\). Every solution has the form
+\[
+z(t)=e^{-i\Omega_nt}
+\left(C_+\cos(\omega_ct)+C_-\sin(\omega_ct)\right),
+\qquad
+\omega_c=\sqrt{\omega_0^2+\Omega_n^2}.
+\]
+Consequently a linearly polarized oscillation plane precesses in the
+body frame at signed rate
+\[
+\boxed{\dot\alpha=-\Omega_n}
+\]
+for the stated orientation convention.
+\end{theorem}
+
+\begin{proof}
+With \(z=e^{-i\Omega_nt}w\), the complex form
+\[
+\ddot z+2i\Omega_n\dot z+\omega_0^2z=0
+\]
+reduces to
+\(\ddot w+(\omega_0^2+\Omega_n^2)w=0\).
+\end{proof}
+
+For a spherical body whose spin axis defines latitude \(\lambda\),
+\[
+\Omega_n=\Omega\sin\lambda.
+\]
+Hence the magnitude vanishes at the equator and equals
+\(\lvert\Omega\rvert\) at the poles. The sign depends on the
+orientation of \(n,e_1,e_2\) and on the sign of the body's rotation;
+only after these are declared is ``clockwise'' meaningful.
+
+\section{Dissipation and energy}
+
+Define the reduced mechanical energy
+\[
+E_{\rm loc}
+=\frac m2\norm{\dot u}^2+\frac{m\omega_0^2}{2}\norm u^2.
+\]
+
+\begin{proposition}[Coriolis work and damping sign]
+Every solution of \cref{eq:local-foucault} satisfies
+\begin{equation}\label{eq:local-energy}
+\dot E_{\rm loc}
+=-2m\beta\norm{\dot u}^2.
+\end{equation}
+Thus the Coriolis term performs no work and
+\[
+P_{\rm diss}=2m\beta\norm{\dot u}^2\ge0.
+\]
+\end{proposition}
+
+\begin{proof}
+Dot \cref{eq:local-foucault} with \(m\dot u\). Since
+\(\dot u\cdot J\dot u=0\), the Coriolis contribution vanishes.
+\end{proof}
+
+Equation \cref{eq:local-energy} does not imply that the full
+body--pendulum--support energy is autonomous. Body rotation and
+suspension control are externalized by the reduced model.
+
+\section{Nested torus layer}
+
+Let the active phases be
+\[
+\Theta(t)=\Theta_0+\omega t\pmod{2\pi},
+\qquad \Theta\in\T^m .
+\]
+A finite circular hierarchy and local oscillation can be represented
+by a continuous map \(F:\T^m\to\R^3\), with ideal trace
+\[
+Y(t)=F(\Theta(t)).
+\]
+This includes finite Fourier readouts
+\[
+Y(t)=\sum_{k\in\mathcal K}
+c_ke^{\,i(k\cdot\omega)t},
+\qquad \mathcal K\subset\mathbb Z^m\ \text{finite}.
+\]
+
+\begin{theorem}[Orbit closure of the phase flow]
+Let
+\[
+\Lambda_\omega
+=\{k\in\mathbb Z^m:k\cdot\omega=0\}.
+\]
+The closure of \(\Theta(t)\) is the translate by \(\Theta_0\) of the
+closed subtorus whose annihilator is \(\Lambda_\omega\). In
+particular:
+\begin{enumerate}[label=(\roman*)]
+  \item the flow is periodic iff some \(T>0\) satisfies
+  \(T\omega\in2\pi\mathbb Z^m\);
+  \item if the components of \(\omega\) are rationally independent,
+  the phase orbit is dense in \(\T^m\);
+  \item \(\cl\{Y(t)\}=F(\cl\{\Theta(t)\})\).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The first two statements are the standard character description of a
+one-parameter subgroup of a torus. The last follows because the phase
+closure is compact and \(F\) is continuous.
+\end{proof}
+
+The map \(F\) can collapse dimensions or frequency amplitudes.
+Therefore a full phase torus need not be identifiable from one
+projected trace.
+
+\section{Transformation audit}
+
+\begin{longtable}{L{34mm}L{48mm}L{68mm}}
+\toprule
+Quantity or structure & Declared transformation & Status \\
+\midrule
+\endhead
+\(\Omega^B\cdot n^B\) & common \(A\in\SO(3)\) applied to both vectors
+& invariant scalar \\
+Endpoint \(p^I\) & affine Euclidean frame change & covariant point,
+not invariant components \\
+Local energy \(E_{\rm loc}\) & static tangent-plane orthogonal basis
+change & invariant \\
+Orbit-closure topology & static observer-space homeomorphism &
+preserved \\
+Frequency set & static Euclidean isometry and time-origin shift &
+preserved up to zero/trend conventions \\
+Frequency amplitudes & camera projection & may be suppressed \\
+Frequency set & arbitrary time-dependent rotating observer & not
+invariant; modulation and shifts may occur \\
+Signed precession & reversal of tangent-plane orientation & changes
+sign \\
+\bottomrule
+\end{longtable}
+
+\begin{warning}[No universal spectral invariant]
+``Frequency support'' is not an invariant under every observer
+choice. The admissible statement requires a fixed clock and a static
+Euclidean change of observer, or a specified correction for the
+observer motion.
+\end{warning}
+
+\section{Non-identifiability}
+
+\begin{proposition}[One trace does not identify one hierarchy]
+For a single linear camera projection and finite observation horizon,
+the map from hierarchy parameters, local site state, and phase
+amplitudes to the projected trace is not injective in general.
+\end{proposition}
+
+\begin{proof}
+Any component in the kernel of the camera projection is invisible.
+Furthermore, two latent Fourier channels whose projected coefficient
+sum is equal produce the same projected signal when their frequencies
+coincide. Finite sampled data additionally admit aliases separated by
+integer multiples of the sampling angular frequency. Hence distinct
+hidden records can have the same observation.
+\end{proof}
+
+Recoverability requires extra hypotheses: multiple noncoplanar camera
+channels, multiple sites, known body attitudes, anti-alias sampling,
+or external ephemeris constraints. The present document proves none
+of these sufficient in a realistic network.
+
+\section{Analytic sanity checks}
+
+Using the conventional nominal terrestrial rotation magnitude
+\(\Omega_\oplus=7.2921150\times10^{-5}\,\mathrm{s}^{-1}\), the
+reduced-model precession period is
+\[
+T_F(\lambda)=\frac{2\pi}{\Omega_\oplus\lvert\sin\lambda\rvert}
+\]
+when \(\sin\lambda\ne0\). This gives:
+
+\begin{center}
+\begin{tabular}{ccc}
+\toprule
+Latitude & \(\Omega_n/\Omega_\oplus\) & \(T_F\) \\
+\midrule
+\(0^\circ\) & \(0\) & no reduced-model precession \\
+\(45^\circ\) & \(1/\sqrt2\) & \(33.85\) h \\
+\(90^\circ\) & \(1\) & \(23.93\) h \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These are formula checks, not predictions for a real installation.
+The nominal rotation value does not encode polar motion or
+length-of-day variations.
+
+\section{Claim boundary}
+
+The strict contributions are frame correction, typed observation
+maps, a proved precession statement inside a declared reduced model,
+and qualified transformation laws. This document does not claim:
+\begin{itemize}
+  \item a new derivation of the Foucault effect;
+  \item a KAM theorem for the Solar System;
+  \item a realistic pendulum on another celestial body;
+  \item recovery of a celestial hierarchy from one trace;
+  \item an empirical test or a new physical parameter.
+\end{itemize}
+
+\begingroup
+\hbadness=10000
+\begin{thebibliography}{9}
+
+\bibitem{arnold}
+V.~I. Arnold, \emph{Mathematical Methods of Classical Mechanics},
+2nd ed., Springer, 1989.
+\href{https://doi.org/10.1007/978-1-4757-2063-1}
+{doi:10.1007/978-1-4757-2063-1}.
+
+\bibitem{foucault-sagnac}
+G. Rizzi and M.~L. Ruggiero, ``The Foucault pendulum and the Sagnac
+effect,'' \emph{General Relativity and Gravitation} 35 (2003),
+1743--1764.
+\href{https://doi.org/10.1023/A:1021932917936}
+{doi:10.1023/A:1021932917936}.
+
+\bibitem{katok}
+A. Katok and B. Hasselblatt,
+\emph{Introduction to the Modern Theory of Dynamical Systems},
+Cambridge University Press, 1995.
+
+\end{thebibliography}
+\endgroup
+
+\end{document}

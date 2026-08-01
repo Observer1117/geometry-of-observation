@@ -1,0 +1,449 @@
+{
+  "schema": {
+    "id": "go-p10-validation-summary",
+    "version": "1.1.0"
+  },
+  "date": "2026-07-28",
+  "status": "PASS",
+  "release_check_count": 28,
+  "typed_expressions": 42,
+  "regression_tests": 357,
+  "benchmark_rows": 302,
+  "rendered_pages": 7,
+  "corpus_expressions": 295,
+  "corpus_statuses": {
+    "PASS": 17,
+    "FAIL": 1,
+    "BLOCKED": 0
+  },
+  "checks": [
+    {
+      "id": "required_files",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "pdf_sha256",
+      "status": "PASS",
+      "detail": {
+        "expected": "9193ad45b5dbbb2fac52392d383eb8878e937eacf817fd686b5f895ae0af1b0d",
+        "actual": "9193ad45b5dbbb2fac52392d383eb8878e937eacf817fd686b5f895ae0af1b0d"
+      }
+    },
+    {
+      "id": "pdf_metadata",
+      "status": "PASS",
+      "detail": {
+        "pages": 7,
+        "title": "Regular Polyhedra under Typed Observation Filters",
+        "author": "Stas, Independent Research Program"
+      }
+    },
+    {
+      "id": "pdf_security_and_page_size",
+      "status": "PASS",
+      "detail": {
+        "encrypted": false,
+        "form_fields": 0,
+        "page_size_points": [
+          595.28,
+          841.89
+        ]
+      }
+    },
+    {
+      "id": "no_prohibited_tokens",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "bibliography_heading_unique",
+      "status": "PASS",
+      "detail": {
+        "extracted": 1,
+        "source": 1
+      }
+    },
+    {
+      "id": "extracted_text",
+      "status": "PASS",
+      "detail": {
+        "characters": 19943,
+        "form_feeds": 7
+      }
+    },
+    {
+      "id": "required_source_fragments",
+      "status": "PASS",
+      "detail": {
+        "absent": []
+      }
+    },
+    {
+      "id": "latex_log",
+      "status": "PASS",
+      "detail": {
+        "hits": []
+      }
+    },
+    {
+      "id": "embedded_fonts",
+      "status": "PASS",
+      "detail": {
+        "font_count": 16,
+        "nonembedded": [],
+        "returncode": 0
+      }
+    },
+    {
+      "id": "contract_schema_and_gates",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-regular-polyhedra-observation-contract",
+          "version": "1.1.0",
+          "date": "2026-07-28",
+          "base_contract": "go-core-spec@0.2.0",
+          "inherited_contracts": [
+            "go-quantum-chemistry-observation-contract@1.0.0"
+          ],
+          "normative_document": "regular-polyhedra-observation-v1-1"
+        },
+        "reference_gate_count": 15
+      }
+    },
+    {
+      "id": "contract_object_and_symmetry_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_preorder_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_Petrial_and_count_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_resolution_and_entropy_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "reference_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 1,
+        "reference_documents": 1,
+        "critical_adapters": 0,
+        "expressions_checked": 42,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 1
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "corpus_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 18,
+        "reference_documents": 17,
+        "critical_adapters": 1,
+        "expressions_checked": 295,
+        "findings_total": 3,
+        "core_findings": 0,
+        "status_counts": {
+          "FAIL": 1,
+          "PASS": 17
+        },
+        "rule_counts": {
+          "COVERAGE-INCOMPLETE": 1,
+          "FRAME-COVERAGE": 1,
+          "FRAME-LAW": 1
+        }
+      }
+    },
+    {
+      "id": "expected_remaining_failure",
+      "status": "PASS",
+      "detail": {
+        "actual": [
+          "satellite-networks-v1-1"
+        ],
+        "expected": [
+          "satellite-networks-v1-1"
+        ]
+      }
+    },
+    {
+      "id": "legacy_supersession",
+      "status": "PASS",
+      "detail": {
+        "legacy_records": [
+          {
+            "status": "superseded",
+            "path": "upload/regular_polyhedra_observation_v1_bilingual(2).pdf",
+            "sha256": "890536d32b30a7b995f3e9b1935c13561331eb5476e519c0aa33511ffcf23d4e",
+            "canonical_document": "regular-polyhedra-observation-v1-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "benchmark_table",
+      "status": "PASS",
+      "detail": {
+        "rows": 302,
+        "categories": {
+          "Platonic_incidence": 40,
+          "spherical_type": 100,
+          "cube_Petrial": 11,
+          "flag_orbits": 7,
+          "bounded_noise_symmetry": 48,
+          "finite_library": 96
+        }
+      }
+    },
+    {
+      "id": "numerical_residuals",
+      "status": "PASS",
+      "detail": {
+        "benchmark_rows": 302,
+        "categories": [
+          "Platonic_incidence",
+          "bounded_noise_symmetry",
+          "cube_Petrial",
+          "finite_library",
+          "flag_orbits",
+          "spherical_type"
+        ],
+        "controls": {
+          "Platonic_objects": 5,
+          "bounded_noise_seeds": 24,
+          "cube_Petrie_faces": 4,
+          "cube_group_order": 48,
+          "cube_square_faces": 6,
+          "cuboid_group_order": 8,
+          "finite_library_seeds": 24,
+          "spherical_pair_grid": 100
+        },
+        "date": "2026-07-28",
+        "failed_rows": 0,
+        "max_absolute_error": 1.3322676295501878e-15,
+        "schema": {
+          "id": "go-p10-regular-polyhedra-metrics",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "id": "regression_suite",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "tests": 357,
+        "result": "OK"
+      }
+    },
+    {
+      "id": "reference_strict_replay",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stdout": "GO-LINT documents=1 expressions=42 findings=0 statuses={'PASS': 1}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "corpus_strict_expected_nonzero",
+      "status": "PASS",
+      "detail": {
+        "returncode": 1,
+        "stdout": "GO-LINT documents=18 expressions=295 findings=3 statuses={'FAIL': 1, 'PASS': 17}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "visual_qa",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-p10-visual-qa",
+          "version": "1.1.0"
+        },
+        "date": "2026-07-28",
+        "status": "PASS",
+        "document": {
+          "id": "regular-polyhedra-observation-v1-1",
+          "pdf": "work/p10_regular_polyhedra_v1_1/build/polyhedra/regular_polyhedra_observation_filters_v1_1.pdf",
+          "pages": 7,
+          "sha256": "9193ad45b5dbbb2fac52392d383eb8878e937eacf817fd686b5f895ae0af1b0d",
+          "page_size": "A4",
+          "encrypted": false,
+          "form_fields": 0
+        },
+        "render": {
+          "engine": "Poppler",
+          "command": "pdftoppm",
+          "resolution_dpi": 144,
+          "dimensions_pixels": [
+            1191,
+            1684
+          ],
+          "page_pattern": "work/p10_regular_polyhedra_v1_1/render/polyhedra/page-*.png",
+          "contact_sheet": "work/p10_regular_polyhedra_v1_1/checks/polyhedra/contact_sheet.png"
+        },
+        "global_checks": {
+          "all_pages_renderable": "PASS",
+          "no_clipping": "PASS",
+          "no_overlap": "PASS",
+          "no_missing_glyphs": "PASS",
+          "consistent_margins": "PASS",
+          "readable_equations": "PASS",
+          "readable_tables": "PASS",
+          "diagram_labels_clear": "PASS",
+          "bibliography_heading_unique": "PASS",
+          "page_numbers_present": "PASS"
+        },
+        "inspection": {
+          "pages": [
+            {
+              "page": 1,
+              "status": "PASS",
+              "focus": "title, status box, abstract, contents"
+            },
+            {
+              "page": 2,
+              "status": "PASS",
+              "focus": "abstract-polyhedron axioms, realization groupoid, flag regularity"
+            },
+            {
+              "page": 3,
+              "status": "PASS",
+              "focus": "string C-group, abstract and geometric symmetry, typed observation"
+            },
+            {
+              "page": 4,
+              "status": "PASS",
+              "focus": "two preorders, typed filter diagram, spherical count"
+            },
+            {
+              "page": 5,
+              "status": "PASS",
+              "focus": "Platonic incidence table, duality, cube-Petrial control"
+            },
+            {
+              "page": 6,
+              "status": "PASS",
+              "focus": "bounded-noise residual, half-separation theorem, claim firewall"
+            },
+            {
+              "page": 7,
+              "status": "PASS",
+              "focus": "convention-scoped count table, protocol minimum, references"
+            }
+          ]
+        },
+        "notes": [
+          "Every final page was inspected at the native 144 dpi render resolution.",
+          "The filter diagram keeps domain selection distinct from lossy observation channels.",
+          "The bibliography occurs once and remains on the final page without clipping."
+        ]
+      }
+    },
+    {
+      "id": "rendered_pages",
+      "status": "PASS",
+      "detail": {
+        "count": 7,
+        "pages": [
+          {
+            "file": "page-1.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 319702
+          },
+          {
+            "file": "page-2.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 315310
+          },
+          {
+            "file": "page-3.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 311616
+          },
+          {
+            "file": "page-4.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 290601
+          },
+          {
+            "file": "page-5.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 268655
+          },
+          {
+            "file": "page-6.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 290517
+          },
+          {
+            "file": "page-7.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 356455
+          }
+        ]
+      }
+    },
+    {
+      "id": "migration_report_coverage",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "primary_reference_identifiers",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    }
+  ]
+}

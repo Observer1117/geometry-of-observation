@@ -1,0 +1,850 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=21mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Mandelbrot Rulers as Observation-Scale Geometry},
+  pdfauthor={Stassis Research Program},
+  pdfsubject={Strict GO Core migration for dimensionless scale traces, protocol equivalence, finite-window exponents, and uncertainty},
+  pdfkeywords={Mandelbrot, coastline paradox, box dimension, Minkowski dimension, ruler method, scale trace, regression window, Geometry of Observation}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Pcal}{\mathcal{P}}
+\newcommand{\Mcal}{\mathcal{M}}
+\newcommand{\Wcal}{\mathcal{W}}
+\newcommand{\Hmet}{\mathscr{H}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\Vol}{\operatorname{Vol}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\status}[1]{\textsf{\footnotesize #1}}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Mandelbrot Rulers as Observation-Scale Geometry\\
+\large Dimensionless traces, protocol equivalence, finite-window exponents, and uncertainty}
+\author{Stassis Research Program}
+\date{Strict GO Core reference revision v1.1 --- 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.91\linewidth}{\small
+\textbf{Status.} This revision supersedes v1.0. Every physical scale is
+normalized by a positive reference length before entering a logarithm.
+Intrinsic object scales are separated from instrument resolutions.
+Finite-scale exponents require a declared scale window, weighting rule,
+residual diagnostic, and uncertainty semantics. A statistical confidence
+interval is forbidden unless a stochastic error model is supplied.}}
+\end{center}
+
+\begin{abstract}
+Mandelbrot's coastline problem is naturally expressed as a family of
+scale-indexed observation protocols rather than as a single
+instrument-free length. For a bounded set $A$ in a metric space, a
+protocol records a positive reference length $\ell_*$, physical
+resolutions $\varepsilon$, a covering, divider, or dilation rule, and an
+error model. The dimensionless coordinate
+$t=\log_b(\ell_*/\varepsilon)$ and the trace
+$y(t)=\log_bN_\varepsilon(A)$ are invariant under coherent changes of
+length unit. Lower and upper box dimensions are independent of both
+$\ell_*$ and the logarithm base. Lipschitz observations cannot increase
+upper box dimension at matched scales, while bi-Lipschitz observations
+preserve it. Protocols whose counts are comparable up to fixed
+multiplicative and scale constants have the same asymptotic exponent,
+although finite-scale amplitudes and residuals may differ. For finite
+data, the weighted slope estimator is defined together with its window;
+a deterministic stability interval is distinguished from a probabilistic
+confidence interval. The Koch curve supplies an exact divider benchmark.
+Natural coastlines need not possess a unique universal exponent outside a
+declared finite scale regime.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and claim firewall}
+
+This module uses Mandelbrot's ruler argument as a strict test of the
+distance-scale interface. It does not replace Hausdorff measure,
+Minkowski content, or geometric measure theory. It distinguishes three
+levels:
+\[
+\text{set and metric}
+\longrightarrow
+\text{scale-indexed protocol}
+\longrightarrow
+\begin{gathered}
+\text{asymptotic or}\\[-1mm]
+\text{finite-window summary}
+\end{gathered}.
+\]
+
+\begin{warning}[Claim boundary]
+Scale-dependent measurements do not imply that geometry is subjective.
+The set, metric, protocol, and scale are mathematical data. A log-log
+line over a short range is not proof of exact self-similarity. Different
+protocols may share an exponent while differing in prefactor,
+oscillation, lacunarity, bias, and uncertainty.
+\end{warning}
+
+\section{Typed scale protocol}
+
+Let $(X,d)$ be a metric space whose distance has scale type $U_L$, and let
+$A\subseteq X$ be nonempty and bounded.
+
+\begin{definition}[Intrinsic descriptor]
+The intrinsic descriptor is
+\[
+ \xi_A=(A,d,\diam_d A,\text{regularity and topology data},\ldots).
+\]
+It contains properties of the mathematical object and metric, not the
+instrument resolution.
+\end{definition}
+
+\begin{definition}[Scale-observation protocol]
+A finite scale protocol is a tuple
+\[
+\Pcal=
+\bigl(
+\ell_*,b,I,\{\varepsilon_i\}_{i=1}^m,
+\Mcal,\mathsf A,
+\vartheta,\Wcal,\mathsf E
+\bigr),
+\]
+where
+\begin{enumerate}[label=(\roman*)]
+\item $\ell_*>0$ is a reference length with type $U_L$;
+\item $b>1$ is the logarithm base;
+\item $I=[\varepsilon_{\min},\varepsilon_{\max}]$ is the physical scale
+      range;
+\item each $\varepsilon_i\in I$ is a positive instrument resolution;
+\item $\Mcal$ is the measurement family (cover, divider, dilation, or
+      another declared operator);
+\item $\mathsf A$ is the anchoring, grid, stopping, or boundary
+      convention;
+\item $\vartheta$ collects nuisance settings such as grid translation,
+      rotation, and sampling phase;
+\item $\Wcal\subseteq\{1,\ldots,m\}$ is a fit window;
+\item $\mathsf E$ is an exactness, deterministic-error, or stochastic
+      error model.
+\end{enumerate}
+\end{definition}
+
+The scale coordinate is
+\[
+ t_i
+ :=
+ \log_b\frac{\ell_*}{\varepsilon_i}.
+\]
+Its argument is dimensionless. A bare expression
+$\log(1/\varepsilon)$ is prohibited when $\varepsilon$ is a physical
+length.
+
+\begin{definition}[Scale trace]
+For a protocol output $Y_\Pcal(A;\varepsilon)$, the finite trace is
+\[
+ T_\Pcal(A)
+ :=
+ \set{\bigl(t_i,Y_\Pcal(A;\varepsilon_i)\bigr):1\leq i\leq m}.
+\]
+An asymptotic trace additionally specifies the directed limit
+$\varepsilon\downarrow0$ and the admissible protocol family.
+\end{definition}
+
+\section{Covering trace and box dimensions}
+
+Use internal closed-ball covers:
+\[
+N_\varepsilon(A,d)
+=
+\min\left\{
+\abs S:
+S\subseteq A,\ 
+A\subseteq\bigcup_{s\in S}\overline B_d(s,\varepsilon)
+\right\},
+\]
+with value $+\infty$ if no finite cover exists. For totally bounded $A$,
+the count is finite for every $\varepsilon>0$.
+
+\begin{definition}[Covering entropy]
+For $b>1$,
+\[
+\Hmet_{b,\varepsilon}(A,d)
+:=
+\log_bN_\varepsilon(A,d).
+\]
+This is a covering-complexity quantity with information unit fixed by
+$b$; it is not thermodynamic entropy.
+\end{definition}
+
+\begin{proposition}[Scale monotonicity]
+\label{prop:monotone}
+If $0<\varepsilon_1\leq\varepsilon_2$, then
+\[
+ N_{\varepsilon_1}(A,d)\geq N_{\varepsilon_2}(A,d).
+\]
+Consequently $t\mapsto\Hmet_{b,\ell_*b^{-t}}(A,d)$ is nondecreasing.
+\end{proposition}
+
+\begin{proof}
+Every $\varepsilon_1$-ball lies in the ball with the same center and
+radius $\varepsilon_2$, so any $\varepsilon_1$-cover can be enlarged
+without increasing its cardinality.
+\end{proof}
+
+\begin{definition}[Lower and upper box dimensions]
+\label{def:box}
+\[
+\underline{\dim}_{B}A
+:=
+\liminf_{\varepsilon\downarrow0}
+\frac{\log_bN_\varepsilon(A,d)}
+     {\log_b(\ell_*/\varepsilon)},
+\]
+\[
+\overline{\dim}_{B}A
+:=
+\limsup_{\varepsilon\downarrow0}
+\frac{\log_bN_\varepsilon(A,d)}
+     {\log_b(\ell_*/\varepsilon)}.
+\]
+If they agree, their common value is $\dim_BA$.
+\end{definition}
+
+\begin{theorem}[Reference and base independence]
+\label{thm:reference}
+The lower and upper dimensions in \cref{def:box} are independent of the
+positive reference length $\ell_*$ and of the logarithm base $b>1$.
+\end{theorem}
+
+\begin{proof}
+Changing the base multiplies numerator and denominator by the same
+positive constant. Replacing $\ell_*$ by $c\ell_*$ adds the constant
+$\log_b c$ to the denominator. Since
+$\log_b(\ell_*/\varepsilon)\to+\infty$, this constant does not alter the
+liminf or limsup quotient.
+\end{proof}
+
+\begin{remark}
+Reference independence is an asymptotic statement. A finite-window
+intercept depends on $\ell_*$, while a fitted slope with an intercept does
+not.
+\end{remark}
+
+\section{Observation maps and dimension}
+
+\begin{theorem}[Matched Lipschitz cover]
+\label{thm:lipschitz}
+If $O:(X,d_X)\to(Y,d_Y)$ is $L_O$-Lipschitz with $L_O>0$, then
+\[
+ N_{L_O\varepsilon}\bigl(O(A),d_Y\bigr)
+ \leq
+ N_\varepsilon(A,d_X).
+\]
+Hence
+\[
+ \overline{\dim}_B O(A)\leq\overline{\dim}_B A,
+\qquad
+ \underline{\dim}_B O(A)\leq\underline{\dim}_B A
+\]
+whenever the displayed dimensions are defined by compatible reference
+scales.
+\end{theorem}
+
+\begin{proof}
+The image of every $d_X$-ball of radius $\varepsilon$ is contained in a
+$d_Y$-ball of radius $L_O\varepsilon$. Map a finite input cover into the
+output. For the dimension statement, take logarithms and note that the
+fixed scale factor $L_O$ shifts the logarithmic denominator by a constant.
+\end{proof}
+
+\begin{corollary}[Bi-Lipschitz invariance]
+\label{cor:bilip}
+If, for some $0<m_O\leq L_O<\infty$,
+\[
+m_Od_X(x,x')
+\leq d_Y(Ox,Ox')
+\leq L_Od_X(x,x')
+\]
+on $A$, then lower and upper box dimensions are preserved.
+\end{corollary}
+
+\begin{proof}
+Apply \cref{thm:lipschitz} to $O$ and to the inverse
+$O^{-1}:O(A)\to A$, which is $m_O^{-1}$-Lipschitz.
+\end{proof}
+
+Thus the exponent is an invariant of the bi-Lipschitz observation class,
+not of arbitrary lossy observations.
+
+\section{When different rulers have the same exponent}
+
+Finite-scale traces depend on the protocol. The following criterion
+separates protocol dependence from asymptotic exponent dependence.
+
+\begin{definition}[Exponent-equivalent protocols]
+Two positive count traces $N_\varepsilon^{(1)}$ and
+$N_\varepsilon^{(2)}$ are exponent-equivalent if there exist constants
+$a_1,a_2,c_1,c_2>0$ and $\varepsilon_0>0$ such that, for
+$0<\varepsilon<\varepsilon_0$,
+\[
+c_1N_{a_1\varepsilon}^{(1)}
+\leq
+N_{\varepsilon}^{(2)}
+\leq
+c_2N_{a_2\varepsilon}^{(1)}.
+\]
+\end{definition}
+
+\begin{theorem}[Protocol-comparison criterion]
+\label{thm:protocol}
+Exponent-equivalent protocols have the same lower and upper logarithmic
+scaling exponents.
+\end{theorem}
+
+\begin{proof}
+Take logarithms. The constants $c_j$ add bounded terms to the numerators,
+and the constants $a_j$ add bounded terms to the logarithmic scale
+coordinates. Division by
+$\log(\ell_*/\varepsilon)\to+\infty$ removes all such bounded terms.
+Apply the two inequalities to obtain matching liminf and limsup bounds.
+\end{proof}
+
+\begin{remark}
+\Cref{thm:protocol} does not say that the traces are equal. Prefactors,
+log-periodic residuals, crossovers, and finite-window biases remain
+protocol-dependent.
+\end{remark}
+
+For Euclidean subsets, standard axis-aligned cube covers, ball covers,
+and comparable grids satisfy relations of this type, so they recover the
+same box exponent even though their finite counts differ.
+
+\section{Divider, covering-length, and dilation protocols}
+
+\subsection{Divider or ruler walk}
+
+A ruler walk along an ordered curve requires a stopping and anchoring
+rule. There is no protocol-free integer $N_\varepsilon^{\mathrm{ruler}}$.
+Once a rule $\mathsf A$ is declared, define
+\[
+L_{\varepsilon}^{\mathrm{ruler}}
+(A;\mathsf A)
+:=
+\varepsilon
+N_{\varepsilon}^{\mathrm{ruler}}(A;\mathsf A).
+\]
+The product has physical dimension $L$.
+
+If, for some $D$ and dimensionless $C_{\mathsf A}>0$,
+\[
+N_{\varepsilon}^{\mathrm{ruler}}(A;\mathsf A)
+=
+C_{\mathsf A}
+\left(\frac{\ell_*}{\varepsilon}\right)^D
+(1+o(1)),
+\]
+then the normalized measured length obeys
+\[
+\frac{L_{\varepsilon}^{\mathrm{ruler}}}{\ell_*}
+=
+C_{\mathsf A}
+\left(\frac{\varepsilon}{\ell_*}\right)^{1-D}
+(1+o(1)).
+\]
+For $D>1$ this diverges as $\varepsilon\downarrow0$; for $D=1$ it can
+converge to a finite protocol-dependent prefactor.
+
+\begin{warning}[No universal divider]
+For self-intersections, inlets narrower than $\varepsilon$, disconnected
+sets, or digitized curves, a greedy divider may skip different pieces
+depending on traversal and anchoring. The algorithm is therefore part of
+the observation map.
+\end{warning}
+
+\subsection{Covering-length proxy}
+
+For a curve-like set one may define the distinct proxy
+\[
+L_\varepsilon^{\mathrm{cov}}(A)
+:=
+\varepsilon N_\varepsilon(A,d).
+\]
+This is not automatically the arclength of a curve. It is a typed
+scale-dependent proxy derived from covering complexity.
+
+\subsection{Minkowski sausage}
+
+For bounded $A\subset\R^m$, let
+\[
+A_\varepsilon
+:=
+\set{x\in\R^m:\dist(x,A)\leq\varepsilon},
+\qquad
+V_A(\varepsilon):=\Vol_m(A_\varepsilon).
+\]
+The normalized volume trace is
+\[
+\bar V_A(\varepsilon)
+:=
+\frac{V_A(\varepsilon)}{\ell_*^m}.
+\]
+If the limit exists, a Minkowski exponent can be written dimensionally as
+\[
+D_M
+=
+m-
+\lim_{\varepsilon\downarrow0}
+\frac{\log_b\bar V_A(\varepsilon)}
+     {\log_b(\varepsilon/\ell_*)}.
+\]
+Equivalently, finite nonzero Minkowski content corresponds to
+\[
+\bar V_A(\varepsilon)
+=
+C_M
+\left(\frac{\varepsilon}{\ell_*}\right)^{m-D_M}
+(1+o(1)),
+\]
+with dimensionless $C_M>0$.
+
+\section{Finite-window exponent estimation}
+
+An asymptotic dimension is a limit. Experimental and numerical data are
+finite. Let
+\[
+t_i=\log_b\frac{\ell_*}{\varepsilon_i},
+\qquad
+y_i=\log_bN_{\varepsilon_i}(A,d),
+\qquad i\in\Wcal,
+\]
+where $\Wcal$ contains at least two distinct values of $t_i$.
+
+\begin{definition}[Weighted finite-window slope]
+\label{def:wls}
+For declared weights $w_i>0$, set
+\[
+\bar t_w=\frac{\sum_{i\in\Wcal}w_it_i}
+                {\sum_{i\in\Wcal}w_i},
+\qquad
+\bar y_w=\frac{\sum_{i\in\Wcal}w_iy_i}
+                {\sum_{i\in\Wcal}w_i},
+\]
+\[
+\widehat D_{\Wcal,w}
+=
+\frac{\sum_{i\in\Wcal}w_i(t_i-\bar t_w)(y_i-\bar y_w)}
+     {\sum_{i\in\Wcal}w_i(t_i-\bar t_w)^2}.
+\]
+The fitted intercept is
+$\widehat\alpha=\bar y_w-\widehat D_{\Wcal,w}\bar t_w$.
+\end{definition}
+
+\begin{theorem}[Unit, reference, and base covariance of the slope]
+\label{thm:slope-covariance}
+The slope in \cref{def:wls} is unchanged by:
+\begin{enumerate}[label=(\roman*)]
+\item coherent changes of length unit
+      $(\ell_*,\varepsilon_i)\mapsto(a\ell_*,a\varepsilon_i)$;
+\item replacing $\ell_*$ by $c\ell_*$ while retaining an intercept;
+\item changing the logarithm base simultaneously in $t_i$ and $y_i$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+In (i), every ratio $\ell_*/\varepsilon_i$ is unchanged. In (ii), all
+$t_i$ receive the same additive constant, which cancels in
+$t_i-\bar t_w$. In (iii), all $t_i$ and $y_i$ are multiplied by the same
+positive constant, so numerator and denominator receive the same squared
+factor.
+\end{proof}
+
+\begin{definition}[Residual diagnostics]
+Let
+\[
+r_i=y_i-\widehat\alpha-\widehat D_{\Wcal,w}t_i.
+\]
+A minimum deterministic report contains
+\[
+\left(
+\Wcal,\{\varepsilon_i\},\{w_i\},
+\widehat D_{\Wcal,w},
+\max_{i\in\Wcal}\abs{r_i},
+\sqrt{\frac{\sum w_ir_i^2}{\sum w_i}}
+\right).
+\]
+\end{definition}
+
+\begin{definition}[Deterministic pairwise-slope range]
+\[
+I_{\Wcal}^{\mathrm{pair}}
+:=
+\left[
+\min_{\substack{i<j\\i,j\in\Wcal}}
+\frac{y_j-y_i}{t_j-t_i},
+\quad
+\max_{\substack{i<j\\i,j\in\Wcal}}
+\frac{y_j-y_i}{t_j-t_i}
+\right].
+\]
+\end{definition}
+
+This interval measures finite-window slope variation. It is not a
+confidence interval and carries no coverage probability.
+
+\subsection{When a confidence interval is legitimate}
+
+Suppose repeated measurements or a declared stochastic model justify
+\[
+\bm y=\mathbf X\bm\beta+\bm\eta,
+\qquad
+\bm\beta=(\alpha,D)^\mathsf T,
+\qquad
+\mathbb E[\bm\eta]=0,
+\qquad
+\Cov(\bm\eta)=\bm\Sigma,
+\]
+where $\mathbf X$ has rows $(1,t_i)$ and $\bm\Sigma$ is positive
+definite. The generalized least-squares estimator is
+\[
+\widehat{\bm\beta}
+=
+(\mathbf X^\mathsf T\bm\Sigma^{-1}\mathbf X)^{-1}
+\mathbf X^\mathsf T\bm\Sigma^{-1}\bm y.
+\]
+If $\bm\eta$ is multivariate Gaussian and $\bm\Sigma$ is known, then
+\[
+\Cov(\widehat{\bm\beta})
+=
+(\mathbf X^\mathsf T\bm\Sigma^{-1}\mathbf X)^{-1},
+\]
+and a normal-theory interval for $D$ is available. If variance parameters
+are estimated, the corresponding degrees of freedom and estimator must be
+declared.
+
+\begin{warning}[Correlated scales]
+Counts at nested resolutions are usually correlated because they are
+computed from the same set. Treating the log-counts as independent
+homoscedastic observations is not a default law. Without an error model,
+report deterministic residual and window stability only.
+\end{warning}
+
+\section{Grid phase and nuisance-parameter uncertainty}
+
+For box counts in $\R^m$, let $\vartheta$ encode grid translation and,
+when relevant, rotation. The finite count is then
+\[
+N_\varepsilon^{\mathrm{grid}}(A;\vartheta).
+\]
+The protocol must choose one of the following:
+\begin{enumerate}[label=(\alph*)]
+\item a fixed, reproducible $\vartheta$;
+\item an extremal count over a declared nuisance set;
+\item an average or quantile under a declared probability law for
+      $\vartheta$.
+\end{enumerate}
+
+A spread over arbitrarily chosen grid phases is a sensitivity analysis,
+not automatically a sampling confidence interval. Pixelization,
+segmentation, map projection, and boundary extraction add further
+protocol layers and must not be absorbed into the exponent without a
+record.
+
+\section{Exact benchmark: the Koch curve}
+
+Let the initial segment have length $\ell_0>0$. At construction stage
+$n$, the generator-aligned segment ruler has
+\[
+\varepsilon_n=\ell_0\,3^{-n},
+\qquad
+N_n^{\mathrm{seg}}=4^n.
+\]
+Therefore
+\[
+t_n=\log_b\frac{\ell_0}{\varepsilon_n}
+=n\log_b3,
+\qquad
+y_n=\log_bN_n^{\mathrm{seg}}
+=n\log_b4,
+\]
+and every nontrivial exact stage window gives
+\[
+\widehat D
+=
+\frac{\log_b4}{\log_b3}
+=
+\frac{\log4}{\log3}.
+\]
+The measured divider length satisfies
+\[
+\frac{L_n}{\ell_0}
+=
+\frac{N_n^{\mathrm{seg}}\varepsilon_n}{\ell_0}
+=
+\left(\frac43\right)^n
+=
+\left(\frac{\varepsilon_n}{\ell_0}\right)^{1-D}.
+\]
+
+\begin{center}
+\begin{tikzpicture}[x=0.92cm,y=0.72cm]
+\draw[->,thick] (0,0) -- (8.7,0) node[right] {$t=\log_b(\ell_0/\varepsilon)$};
+\draw[->,thick] (0,0) -- (0,6.1) node[above] {$y=\log_bN$};
+\draw[obsblue,very thick] (0,0) -- (8,5.25);
+\foreach \x/\y in {1.2/0.79,2.4/1.58,3.6/2.36,4.8/3.15,6.0/3.94,7.2/4.73}
+  \fill[obsred] (\x,\y) circle (2pt);
+\draw[dashed,obsgreen,thick] (2.25,0) -- (2.25,5.4);
+\draw[dashed,obsgreen,thick] (6.25,0) -- (6.25,5.4);
+\node[obsgreen] at (4.25,5.55) {declared fit window $\Wcal$};
+\node[obsblue,rotate=33] at (6.8,4.75) {slope $D=\log4/\log3$};
+\end{tikzpicture}
+\end{center}
+
+\begin{remark}
+The equality $N_n^{\mathrm{seg}}=4^n$ belongs to the
+generator-aligned divider protocol. It is not asserted as the exact count
+for every axis-aligned box grid. Standard covering protocols recover the
+same asymptotic dimension through comparison estimates.
+\end{remark}
+
+The zero residual of this exact synthetic benchmark is not evidence that
+a natural coastline follows the same law.
+
+\section{Natural boundaries and finite scaling regimes}
+
+For empirical boundaries there may be lower and upper cutoffs:
+\[
+\varepsilon_{\mathrm{pixel}}
+\lesssim
+\varepsilon
+\lesssim
+\varepsilon_{\mathrm{domain}}.
+\]
+Below the first cutoff, segmentation or instrument noise dominates.
+Above the second, the finite domain and large-scale geometry dominate.
+Intermediate intervals can contain several crossovers rather than one
+power law.
+
+A reproducible empirical statement has the form:
+\begin{quote}
+Under protocol $\Pcal$, on the scale window
+$[\varepsilon_a,\varepsilon_b]$, the declared estimator gives
+$\widehat D$, with the listed residual diagnostic and uncertainty model.
+\end{quote}
+It must not be shortened to ``the object has dimension $\widehat D$''
+unless the limiting hypotheses are independently justified.
+
+\section{Connection to GO metric entropy}
+
+The metric-entropy module supplies the trace
+\[
+\Hmet_{b,\varepsilon}(A,d)
+=
+\log_bN_\varepsilon(A,d).
+\]
+The present module adds:
+\begin{enumerate}[label=(\roman*)]
+\item the common distance-scale passport;
+\item the dimensionless coordinate
+      $t=\log_b(\ell_*/\varepsilon)$;
+\item observation-map transformation laws;
+\item finite-window estimation and uncertainty semantics;
+\item protocol-equivalence criteria.
+\end{enumerate}
+
+When a differentiable interpolation is justified, an effective local
+exponent may be written
+\[
+D_{\mathrm{eff}}(t)
+=
+\frac{\dd \Hmet(t)}{\dd t}.
+\]
+For stepwise exact counts, this derivative is not canonical; a finite
+difference or smoothing rule is part of the estimator.
+
+\section{Normative reporting contract}
+
+For exact synthetic sets, the channel is explicitly noiseless. Temporal
+resolution and observation horizon are \texttt{not-applicable} for a
+static boundary; they must be supplied for an evolving boundary or time
+series. This module reports traces and exponent diagnostics rather than a
+scalar GO defect, so \texttt{defect-normalizations} is
+\texttt{not-applicable} until a downstream decision loss is introduced.
+
+\begin{longtable}{L{0.23\textwidth}L{0.20\textwidth}L{0.47\textwidth}}
+\toprule
+Field & Type & Required content\\
+\midrule
+\endhead
+Object $A$ and metric $d$ & set and $U_L$-valued metric & domain,
+boundedness, total boundedness, metric convention\\
+Intrinsic descriptor $\xi_A$ & system data & diameter, regularity, and
+known cutoffs\\
+Measurement family $\Mcal$ & operator & cover, divider, dilation, or
+explicit alternative\\
+Noise/channel policy & kernel or exact flag & stochastic model or
+explicit noiseless statement\\
+Resolution $\varepsilon$ & $U_L$, positive & sampled values and ordering\\
+Temporal resolution/horizon & time or not applicable & mandatory for
+time-dependent traces\\
+Reference length $\ell_*$ & $U_L$, positive & normalization and unit
+context\\
+Logarithm base $b$ & dimensionless, $b>1$ & information unit\\
+Anchoring $\mathsf A$ & protocol metadata & grid, traversal, stopping,
+boundary convention\\
+Nuisance parameter $\vartheta$ & protocol metadata & fixed, extremized, or
+probabilistically averaged\\
+Fit window $\Wcal$ & index/scale interval & predeclared or selection rule\\
+Weights/covariance & positive weights or matrix & deterministic fit or
+stochastic model\\
+Estimator & map & WLS, GLS, pairwise range, or alternative\\
+Residual summary & dimensionless & norm and subwindow stability\\
+Uncertainty statement & semantics & deterministic sensitivity or
+probabilistic coverage\\
+Defect normalization & typed ratio or not applicable & required before
+any scalar loss aggregation\\
+Limit claim & theorem or diagnostic & liminf, limsup, limit, or finite-window
+only\\
+\bottomrule
+\end{longtable}
+
+\section{Claim audit}
+
+\begin{longtable}{L{0.42\textwidth}L{0.20\textwidth}L{0.28\textwidth}}
+\toprule
+Statement & Status & Required hypotheses\\
+\midrule
+\endhead
+Covering counts are monotone in resolution & theorem & fixed metric and
+cover convention\\
+Box exponents are unit, reference, and base independent & theorem &
+positive reference and asymptotic limit\\
+Lipschitz observation cannot increase upper box dimension & theorem &
+matched output scale\\
+Bi-Lipschitz observation preserves box dimensions & theorem & two-sided
+distance bounds\\
+All reasonable rulers give identical finite traces & false & only
+asymptotic comparison may hold\\
+Finite log-log slope is a fractal dimension & diagnostic only & becomes a
+dimension only under a justified limit\\
+Residual slope range is a confidence interval & false & no coverage
+probability without a stochastic model\\
+Every natural coastline has one universal dimension & not claimed &
+finite regimes and crossovers are allowed\\
+Koch divider length diverges & exact benchmark & generator-aligned
+construction scales\\
+Mandelbrot's ruler argument proves an S-model & not claimed & no such
+implication is used\\
+\bottomrule
+\end{longtable}
+
+\section{Conclusion}
+
+The mathematically stable object is not one measured length. It is the
+typed protocol trace
+\[
+\left\{
+\left(
+\log_b\frac{\ell_*}{\varepsilon},
+Y_\Pcal(A;\varepsilon)
+\right)
+:
+\varepsilon\in I
+\right\},
+\]
+together with its transformation law, asymptotic exponent when it exists,
+finite-window residuals, and uncertainty semantics. The exponent is
+robust only under a specified class of observation maps or
+exponent-equivalent protocols. This is the strict content of the
+Mandelbrot ruler layer in Geometry of Observation.
+
+\begin{thebibliography}{12}
+
+\bibitem{Mandelbrot1967}
+B. B. Mandelbrot,
+``How Long Is the Coast of Britain? Statistical Self-Similarity and
+Fractional Dimension,''
+\emph{Science} 156 (1967), 636--638.
+
+\bibitem{Richardson}
+L. F. Richardson,
+``The problem of contiguity: an appendix to statistics of deadly
+quarrels,''
+\emph{General Systems Yearbook} 6 (1961), 139--187.
+
+\bibitem{Falconer}
+K. Falconer,
+\emph{Fractal Geometry: Mathematical Foundations and Applications},
+3rd ed., Wiley, 2014.
+
+\bibitem{Mattila}
+P. Mattila,
+\emph{Geometry of Sets and Measures in Euclidean Spaces},
+Cambridge University Press, 1995.
+
+\bibitem{Tricot}
+C. Tricot,
+\emph{Curves and Fractal Dimension},
+Springer, 1995.
+
+\bibitem{BBI}
+D. Burago, Y. Burago, and S. Ivanov,
+\emph{A Course in Metric Geometry},
+American Mathematical Society, 2001.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,569 @@
+{
+  "schema": {
+    "id": "go-p11-validation-summary",
+    "version": "1.2.0"
+  },
+  "date": "2026-07-28",
+  "status": "PASS",
+  "release_check_count": 31,
+  "typed_expressions": 53,
+  "regression_tests": 623,
+  "benchmark_rows": 553,
+  "rendered_pages": 8,
+  "corpus_expressions": 347,
+  "corpus_statuses": {
+    "PASS": 18,
+    "FAIL": 0,
+    "BLOCKED": 0
+  },
+  "checks": [
+    {
+      "id": "required_files",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "pdf_sha256",
+      "status": "PASS",
+      "detail": {
+        "expected": "0d4cc766732a2c81c09de053a548a305344c7409797ef6832effa41799a49c2c",
+        "actual": "0d4cc766732a2c81c09de053a548a305344c7409797ef6832effa41799a49c2c"
+      }
+    },
+    {
+      "id": "pdf_metadata",
+      "status": "PASS",
+      "detail": {
+        "pages": 8,
+        "title": "Satellite Networks under Typed Frames and Temporal Observation Channels",
+        "author": "Stas, Independent Research Program"
+      }
+    },
+    {
+      "id": "pdf_security_and_page_size",
+      "status": "PASS",
+      "detail": {
+        "encrypted": false,
+        "form_fields": 0,
+        "page_size_points": [
+          595.28,
+          841.89
+        ]
+      }
+    },
+    {
+      "id": "no_prohibited_tokens",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "bibliography_heading_unique",
+      "status": "PASS",
+      "detail": {
+        "extracted": 1,
+        "source": 1
+      }
+    },
+    {
+      "id": "extracted_text",
+      "status": "PASS",
+      "detail": {
+        "characters": 22101,
+        "form_feeds": 8
+      }
+    },
+    {
+      "id": "required_source_fragments",
+      "status": "PASS",
+      "detail": {
+        "absent": []
+      }
+    },
+    {
+      "id": "latex_log",
+      "status": "PASS",
+      "detail": {
+        "hits": []
+      }
+    },
+    {
+      "id": "embedded_fonts",
+      "status": "PASS",
+      "detail": {
+        "font_count": 21,
+        "nonembedded": [],
+        "returncode": 0
+      }
+    },
+    {
+      "id": "contract_schema_and_gates",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-satellite-networks-observation-contract",
+          "version": "1.2.0",
+          "date": "2026-07-28",
+          "base_contract": "go-core-spec@0.2.0",
+          "inherited_contracts": [
+            "go-regular-polyhedra-observation-contract@1.1.0"
+          ],
+          "normative_document": "satellite-networks-observation-v1-2"
+        },
+        "reference_gate_count": 21
+      }
+    },
+    {
+      "id": "contract_frame_firewall",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_distance_firewall",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_closure_firewall",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_sampling_and_signal_firewall",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_graph_and_temporal_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_entropy_and_clock_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_observation_protocol",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "reference_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 1,
+        "reference_documents": 1,
+        "critical_adapters": 0,
+        "expressions_checked": 53,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 1
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "corpus_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 18,
+        "reference_documents": 18,
+        "critical_adapters": 0,
+        "expressions_checked": 347,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 18
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "legacy_supersession",
+      "status": "PASS",
+      "detail": {
+        "legacy_records": [
+          {
+            "status": "superseded",
+            "path": "upload/satellite_networks_observation_v11_relativistic_bilingual(2).pdf",
+            "sha256": "0ceb2a8452911791f5597a3d9cb848203e8d664c6940b29740249c9f29a51ec2",
+            "canonical_document": "satellite-networks-observation-v1-2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "benchmark_table",
+      "status": "PASS",
+      "detail": {
+        "rows": 553,
+        "categories": {
+          "EDM": 16,
+          "clock": 8,
+          "entropy": 3,
+          "frame_clearance": 120,
+          "frame_distance": 120,
+          "graph_frame": 8,
+          "graph_relabel": 48,
+          "light_time": 1,
+          "sampling_alias": 128,
+          "temporal_graph": 5,
+          "two_body": 96
+        }
+      }
+    },
+    {
+      "id": "numerical_residuals",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-p11-satellite-network-benchmark-metrics",
+          "version": "1.2.0"
+        },
+        "date": "2026-07-28",
+        "constants": {
+          "mu_E_m3_s2": 398600441800000.0,
+          "R_E_m": 6378137.0,
+          "c_m_s": 299792458.0
+        },
+        "satellites": [
+          "LEO_A",
+          "LEO_B",
+          "MEO_A",
+          "MEO_B",
+          "GEO_A",
+          "HEO_A"
+        ],
+        "sample_count": 8,
+        "benchmark_rows": 553,
+        "failed_rows": 0,
+        "category_counts": {
+          "EDM": 16,
+          "clock": 8,
+          "entropy": 3,
+          "frame_clearance": 120,
+          "frame_distance": 120,
+          "graph_frame": 8,
+          "graph_relabel": 48,
+          "light_time": 1,
+          "sampling_alias": 128,
+          "temporal_graph": 5,
+          "two_body": 96
+        },
+        "max_abs_error_by_category": {
+          "EDM": 3.5705598821938633e-16,
+          "clock": 1.1102230246251565e-16,
+          "entropy": 0.0,
+          "frame_clearance": 1.6763806343078613e-07,
+          "frame_distance": 2.5331974029541016e-07,
+          "graph_frame": 0.0,
+          "graph_relabel": 4.440892098500626e-15,
+          "light_time": 5.5663806897143786e-14,
+          "sampling_alias": 1.2328332799071973e-13,
+          "temporal_graph": 2.220446049250313e-16,
+          "two_body": 4.57763671875e-05
+        },
+        "snapshot_edge_counts": [
+          10,
+          9,
+          10,
+          10,
+          10,
+          10,
+          10,
+          11
+        ],
+        "snapshot_component_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "clock_offsets_microseconds_per_day": {
+          "zero_crossing": 0.0,
+          "LEO_7000km": -22.03326527954796,
+          "GPS_like": 38.43731151956109,
+          "GEO_like": 46.44611132267322
+        },
+        "alias": {
+          "sampling_interval_s": 37.0,
+          "base_angular_frequency_rad_s": 0.071,
+          "aliased_angular_frequency_rad_s": 0.5804474573388854,
+          "integer_shift": 3
+        },
+        "temporal_earliest_arrivals_s": [
+          0.0,
+          1.2,
+          1.5,
+          1.7000000000000002,
+          2.1
+        ]
+      }
+    },
+    {
+      "id": "benchmark_reproducibility",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "benchmark_sha256_before": "3ad2866e1d2030e4263b93f8ae80495462cba3a1d5deb1ee154a54c8d94de9d2",
+        "benchmark_sha256_after": "3ad2866e1d2030e4263b93f8ae80495462cba3a1d5deb1ee154a54c8d94de9d2",
+        "metrics_sha256_before": "1d71f241b3141ed99cdcf8c47e8f1599b3ad9a074b75274603fcd28f747638aa",
+        "metrics_sha256_after": "1d71f241b3141ed99cdcf8c47e8f1599b3ad9a074b75274603fcd28f747638aa"
+      }
+    },
+    {
+      "id": "regression_suite",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "tests": 623,
+        "result": "OK"
+      }
+    },
+    {
+      "id": "reference_strict_replay",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stdout": "GO-LINT documents=1 expressions=53 findings=0 statuses={'PASS': 1}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "corpus_strict_replay",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stdout": "GO-LINT documents=18 expressions=347 findings=0 statuses={'PASS': 18}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "visual_qa",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-p11-visual-qa",
+          "version": "1.2.0"
+        },
+        "date": "2026-07-28",
+        "status": "PASS",
+        "method": {
+          "renderer": "pdftoppm",
+          "resolution_dpi": 150,
+          "inspection": "contact_sheet_and_full_resolution_page_review"
+        },
+        "document": {
+          "id": "satellite-networks-observation-v1-2",
+          "path": "work/p11_satellite_networks_v1_2/build/satellite/satellite_networks_typed_frames_v1_2.pdf",
+          "sha256": "0d4cc766732a2c81c09de053a548a305344c7409797ef6832effa41799a49c2c",
+          "pages": 8,
+          "page_size": "A4",
+          "render_dimensions_pixels": [
+            1241,
+            1754
+          ]
+        },
+        "inspection": {
+          "pages": [
+            {
+              "page": 1,
+              "status": "PASS",
+              "checks": [
+                "title_block",
+                "status_box",
+                "abstract",
+                "contents",
+                "margins"
+              ]
+            },
+            {
+              "page": 2,
+              "status": "PASS",
+              "checks": [
+                "observation_chain",
+                "equations_1_to_5",
+                "diagram_labels",
+                "margins"
+              ]
+            },
+            {
+              "page": 3,
+              "status": "PASS",
+              "checks": [
+                "frame_theorems",
+                "EDM_reconstruction",
+                "phase_closure",
+                "margins"
+              ]
+            },
+            {
+              "page": 4,
+              "status": "PASS",
+              "checks": [
+                "closure_counterexample",
+                "sampling_alias",
+                "retarded_time",
+                "margins"
+              ]
+            },
+            {
+              "page": 5,
+              "status": "PASS",
+              "checks": [
+                "line_of_sight",
+                "temporal_graph",
+                "entropy",
+                "equation_alignment"
+              ]
+            },
+            {
+              "page": 6,
+              "status": "PASS",
+              "checks": [
+                "proper_time",
+                "weak_field_clock_audit",
+                "claim_firewall"
+              ]
+            },
+            {
+              "page": 7,
+              "status": "PASS",
+              "checks": [
+                "typed_status_table",
+                "protocol_minimum",
+                "bibliography_start"
+              ]
+            },
+            {
+              "page": 8,
+              "status": "PASS",
+              "checks": [
+                "bibliography_continuation",
+                "citation_completeness",
+                "margins"
+              ]
+            }
+          ]
+        },
+        "global_checks": {
+          "no_clipped_text": "PASS",
+          "no_overlapping_elements": "PASS",
+          "no_broken_glyphs": "PASS",
+          "equations_inside_margins": "PASS",
+          "tables_inside_margins": "PASS",
+          "diagram_legible": "PASS",
+          "bibliography_unique": "PASS",
+          "fonts_embedded": "PASS",
+          "latex_log_clean": "PASS"
+        },
+        "notes": [
+          "Page 8 is a deliberate bibliography continuation and contains no missing body text.",
+          "The final LaTeX log has no overfull boxes, underfull boxes, undefined references, or warnings."
+        ]
+      }
+    },
+    {
+      "id": "rendered_pages",
+      "status": "PASS",
+      "detail": {
+        "count": 8,
+        "pages": [
+          {
+            "file": "page-1.png",
+            "status": "PASS",
+            "dimensions": [
+              1241,
+              1754
+            ],
+            "bytes": 341798
+          },
+          {
+            "file": "page-2.png",
+            "status": "PASS",
+            "dimensions": [
+              1241,
+              1754
+            ],
+            "bytes": 306676
+          },
+          {
+            "file": "page-3.png",
+            "status": "PASS",
+            "dimensions": [
+              1241,
+              1754
+            ],
+            "bytes": 290488
+          },
+          {
+            "file": "page-4.png",
+            "status": "PASS",
+            "dimensions": [
+              1241,
+              1754
+            ],
+            "bytes": 311410
+          },
+          {
+            "file": "page-5.png",
+            "status": "PASS",
+            "dimensions": [
+              1241,
+              1754
+            ],
+            "bytes": 311747
+          },
+          {
+            "file": "page-6.png",
+            "status": "PASS",
+            "dimensions": [
+              1241,
+              1754
+            ],
+            "bytes": 325488
+          },
+          {
+            "file": "page-7.png",
+            "status": "PASS",
+            "dimensions": [
+              1241,
+              1754
+            ],
+            "bytes": 328306
+          },
+          {
+            "file": "page-8.png",
+            "status": "PASS",
+            "dimensions": [
+              1241,
+              1754
+            ],
+            "bytes": 95632
+          }
+        ]
+      }
+    },
+    {
+      "id": "migration_report_coverage",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "primary_reference_identifiers",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    }
+  ]
+}

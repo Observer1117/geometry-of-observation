@@ -1,0 +1,53 @@
+{
+  "schema": {
+    "id": "go-lint-corpus-report",
+    "version": "0.2.0",
+    "core_contract": "0.2.0",
+    "corpus_id": "go-p2-distance-scale-reference-ledgers"
+  },
+  "summary": {
+    "canonical_documents": 2,
+    "reference_documents": 2,
+    "critical_adapters": 0,
+    "expressions_checked": 24,
+    "findings_total": 0,
+    "core_findings": 0,
+    "status_counts": {
+      "PASS": 2
+    },
+    "rule_counts": {}
+  },
+  "documents": [
+    {
+      "id": "distance-scale-interface-v0-2",
+      "title": "Distance and Scale Interface under Observation Maps",
+      "version": "0.2.0",
+      "ledger_level": "reference",
+      "migration_status": "p2_reference_pass",
+      "expressions": 12,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_common_distance_scale_reference_and_migrate_planck_cosmos"
+    },
+    {
+      "id": "mandelbrot-rulers-v1-1",
+      "title": "Mandelbrot Rulers as Observation-Scale Geometry",
+      "version": "1.1.0",
+      "ledger_level": "reference",
+      "migration_status": "p2_reference_pass",
+      "expressions": 12,
+      "automatic_findings": 0,
+      "review_findings": 0,
+      "errors": 0,
+      "blockers": 0,
+      "warnings": 0,
+      "status": "PASS",
+      "next_action": "retain_as_scale_trace_reference_and_migrate_planck_cosmos"
+    }
+  ],
+  "findings": []
+}

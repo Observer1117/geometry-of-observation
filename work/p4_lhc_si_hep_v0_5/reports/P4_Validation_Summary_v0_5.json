@@ -1,0 +1,339 @@
+{
+  "schema": {
+    "id": "go-p4-validation-summary",
+    "version": "0.5.0"
+  },
+  "date": "2026-08-01",
+  "release": "GO P4 SI-HEP Quantity Passport and LHC v0.5",
+  "status": "PASS",
+  "summary": {
+    "checks_total": 16,
+    "checks_passed": 16,
+    "checks_failed": 0,
+    "pdf_documents": 2,
+    "pdf_pages": 17,
+    "typed_expressions": 28,
+    "reference_findings": 0,
+    "regression_tests": 41,
+    "conversion_rows": 8,
+    "corpus_status_counts": {
+      "FAIL": 9,
+      "PASS": 8
+    }
+  },
+  "artifacts": {
+    "passport_pdf": "work/p4_lhc_si_hep_v0_5/build/passport/si_hep_quantity_passport_v0_5.pdf",
+    "passport_sha256": "9490d2d94a8b77e2a6f17d9f1098394d47e240cb98a38430a902132b534ad444",
+    "lhc_pdf": "work/p4_lhc_si_hep_v0_5/build/lhc/lhc_beam_observation_geometry_v1_3.pdf",
+    "lhc_sha256": "5abbae43db274df13dddf2529a174b692dd6bb73717287b559d4d901cd911494",
+    "contract": "work/p4_lhc_si_hep_v0_5/core/si_hep_quantity_passport_v0_5.yaml",
+    "reference_ledger": "work/p4_lhc_si_hep_v0_5/ledgers/lhc_si_hep_reference_ledgers_v0_5.yaml",
+    "conversion_table": "work/p4_lhc_si_hep_v0_5/data/si_hep_conversion_table_v0_5.csv"
+  },
+  "checks": [
+    {
+      "id": "required_files",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "pdf_sha256",
+      "status": "PASS",
+      "detail": {
+        "expected": {
+          "si-hep-quantity-passport-v0-5": "9490d2d94a8b77e2a6f17d9f1098394d47e240cb98a38430a902132b534ad444",
+          "lhc-beam-observation-v1-3": "5abbae43db274df13dddf2529a174b692dd6bb73717287b559d4d901cd911494"
+        },
+        "actual": {
+          "si-hep-quantity-passport-v0-5": "9490d2d94a8b77e2a6f17d9f1098394d47e240cb98a38430a902132b534ad444",
+          "lhc-beam-observation-v1-3": "5abbae43db274df13dddf2529a174b692dd6bb73717287b559d4d901cd911494"
+        }
+      }
+    },
+    {
+      "id": "pdf_metadata",
+      "status": "PASS",
+      "detail": [
+        {
+          "file": "si_hep_quantity_passport_v0_5.pdf",
+          "pages": 8,
+          "title": "SI-HEP Quantity Passport for Relativistic Beam Observation"
+        },
+        {
+          "file": "lhc_beam_observation_geometry_v1_3.pdf",
+          "pages": 9,
+          "title": "Relativistic Beam Paths as Observation Geometry"
+        }
+      ]
+    },
+    {
+      "id": "no_prohibited_tokens",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "required_source_fragments",
+      "status": "PASS",
+      "detail": {
+        "absent": []
+      }
+    },
+    {
+      "id": "unit_notation_boundary",
+      "status": "PASS",
+      "detail": {
+        "prohibited_hits": []
+      }
+    },
+    {
+      "id": "latex_logs",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "embedded_fonts",
+      "status": "PASS",
+      "detail": [
+        {
+          "file": "si_hep_quantity_passport_v0_5.pdf",
+          "font_count": 22,
+          "nonembedded": [],
+          "returncode": 0
+        },
+        {
+          "file": "lhc_beam_observation_geometry_v1_3.pdf",
+          "font_count": 20,
+          "nonembedded": [],
+          "returncode": 0
+        }
+      ]
+    },
+    {
+      "id": "rendered_pages",
+      "status": "PASS",
+      "detail": {
+        "passport_pages": 8,
+        "lhc_pages": 9,
+        "images": [
+          {
+            "file": "checks/passport_final/page-1.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/passport_final/page-2.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/passport_final/page-3.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/passport_final/page-4.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/passport_final/page-5.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/passport_final/page-6.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/passport_final/page-7.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/passport_final/page-8.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/lhc/page-1.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/lhc/page-2.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/lhc/page-3.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/lhc/page-4.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/lhc/page-5.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/lhc/page-6.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/lhc/page-7.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/lhc/page-8.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/lhc/page-9.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "checks/passport_final/contact.png",
+            "width": 1056,
+            "height": 758
+          },
+          {
+            "file": "checks/lhc/contact.png",
+            "width": 1056,
+            "height": 1137
+          }
+        ]
+      }
+    },
+    {
+      "id": "conversion_table",
+      "status": "PASS",
+      "detail": {
+        "rows": 8,
+        "quantities": [
+          "action",
+          "area",
+          "duration",
+          "energy",
+          "force",
+          "length",
+          "mass",
+          "momentum"
+        ]
+      }
+    },
+    {
+      "id": "schema_versions",
+      "status": "PASS",
+      "detail": {
+        "inputs": "0.5.0",
+        "metrics": "0.5.0",
+        "contract": "0.5.0",
+        "ledger": "0.5.0"
+      }
+    },
+    {
+      "id": "exactness_and_epoch",
+      "status": "PASS",
+      "detail": {
+        "exact": [
+          "c",
+          "h",
+          "e",
+          "eV_to_J",
+          "GeV_to_J",
+          "rigidity_coefficient_for_declared_units"
+        ],
+        "measured": [
+          "proton_mass_energy"
+        ],
+        "operational_or_rounded": [
+          "beam_energy",
+          "circumference",
+          "bunches_per_beam",
+          "protons_per_bunch"
+        ],
+        "status_at_document_date": "Long_Shutdown_3"
+      }
+    },
+    {
+      "id": "reference_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 2,
+        "reference_documents": 2,
+        "critical_adapters": 0,
+        "expressions_checked": 28,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 2
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "corpus_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 17,
+        "reference_documents": 8,
+        "critical_adapters": 9,
+        "expressions_checked": 100,
+        "findings_total": 28,
+        "core_findings": 0,
+        "status_counts": {
+          "FAIL": 9,
+          "PASS": 8
+        },
+        "rule_counts": {
+          "ADD-FRAME": 1,
+          "CAUSTIC-RANK": 1,
+          "COVERAGE-INCOMPLETE": 9,
+          "DUPLICATE-SOURCE": 1,
+          "EIGENBUNDLE-GAUGE": 1,
+          "FILTER-ORDER": 1,
+          "FRAME-COVERAGE": 1,
+          "FRAME-LAW": 2,
+          "FRICTION-SIGN": 1,
+          "GEAR-GAUGE": 1,
+          "LOG-BASE": 2,
+          "REACH-CONDITION": 1,
+          "RESULT-DIM": 2,
+          "ROTATION-NUMBER-SCOPE": 1,
+          "VECTOR-NORM": 1,
+          "ZERO-DENOMINATOR": 1,
+          "ZERO-MODES": 1
+        }
+      }
+    },
+    {
+      "id": "old_lhc_superseded",
+      "status": "PASS",
+      "detail": {
+        "new_present": true,
+        "old_present": false,
+        "superseded_records": 1
+      }
+    },
+    {
+      "id": "regression_tests",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "ran": 41,
+        "result": "OK"
+      }
+    }
+  ]
+}

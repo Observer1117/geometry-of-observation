@@ -1,0 +1,47 @@
+schema:
+  id: go-unit-contexts
+  version: 0.2.0
+  dimension_basis: [L, M, T, I, Theta, N, J]
+
+contexts:
+  neutral:
+    role: exact_numbers_and_context_free_dimensionless_values
+    fixed_constants: {}
+  SI:
+    role: canonical_exchange_context
+    fixed_constants: {}
+    base_units: {L: m, M: kg, T: s, I: A, Theta: K, N: mol, J: cd}
+  atomic:
+    role: atomic_structure_computation
+    fixed_constants:
+      m_e: 1
+      e: 1
+      hbar: 1
+      four_pi_epsilon_0: 1
+    explicit_conversion_boundary: required
+  HEP_natural:
+    role: high_energy_particle_kinematics
+    fixed_constants:
+      c: 1
+      hbar: 1
+    explicit_conversion_boundary: required
+  GR_geometrized:
+    role: relativistic_geometry
+    fixed_constants:
+      G: 1
+      c: 1
+    explicit_conversion_boundary: required
+
+conversion_boundaries:
+  atomic_to_SI:
+    required_constants: [m_e, e, hbar, four_pi_epsilon_0]
+  HEP_natural_to_SI:
+    required_constants: [c, hbar]
+  GR_geometrized_to_SI:
+    required_constants: [G, c]
+
+coherent_unit_tests:
+  - {id: length_m_to_cm, dimension: [1, 0, 0, 0, 0, 0, 0], scale_factor: 100}
+  - {id: time_s_to_ms, dimension: [0, 0, 1, 0, 0, 0, 0], scale_factor: 1000}
+  - {id: energy_J_to_eV, dimension: [2, 1, -2, 0, 0, 0, 0], scale_factor: 6.241509074e18}
+

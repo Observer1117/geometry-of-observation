@@ -1,0 +1,903 @@
+schema:
+  id: go-conical-intersections-reference-ledger
+  version: 0.9.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  extension_contract: go-conical-intersections-observation-contract@0.9.0
+
+documents:
+  - id: conical-intersections-observation-v1-1
+    title: Conical Intersections as Typed Spectral Singularities under Observation Maps
+    version: 1.1.0
+    source:
+      pdf: work/p8_conical_intersections_v0_9/build/ci/conical_intersections_spectral_observation_v1_1.pdf
+      tex: work/p8_conical_intersections_v0_9/src/conical_intersections_spectral_observation_v1_1.tex
+      text: work/p8_conical_intersections_v0_9/checks/ci/conical_intersections_spectral_observation_v1_1.txt
+      pages: 8
+      sha256: 48507a398983388159a1a4b1bd5cf25abdba231b836a7702d960eeb5778af4dd
+    ledger_level: reference
+    migration_status: strict_reference_migrated
+    unit_contexts:
+      - SI
+      - neutral
+    groups:
+      - nuclear_chart_reparameterizations_with_typed_Jacobian
+      - local_U1_eigenvector_gauge
+      - real_Z2_eigenline_holonomy
+      - internal_U2_cluster_basis_changes
+      - loop_orientation_reversal
+      - positive_energy_unit_changes
+    maps:
+      - id: physical_to_branching_coordinates
+        domain: declared_nuclear_coordinate_neighborhood
+        codomain: energy_valued_branching_plane
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+      - id: isolated_cluster_reduction
+        domain: electronic_Hamiltonian_family_with_external_gap
+        codomain: smooth_rank_two_cluster_projector_and_reduced_Hamiltonian
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: ordered_adiabatic_splitting
+        domain: two_state_cluster_off_internal_degeneracy_seam
+        codomain: ordered_energies_and_rank_one_projectors
+        kind: reduction
+        invertibility: not_required
+        information_loss: possible
+      - id: local_eigenvector_gauge_choice
+        domain: local_rank_one_eigenprojector
+        codomain: local_normalized_eigenvector_section
+        kind: gauge_transform
+        invertibility: required
+        information_loss: false
+      - id: physical_coordinate_pullback
+        domain: energy_coordinate_derivative_coupling_and_quantum_metric
+        codomain: physical_coordinate_coupling_and_metric
+        kind: pullback
+        invertibility: not_required
+        information_loss: not_applicable
+      - id: loop_holonomy_readout
+        domain: closed_projector_loop_avoiding_the_seam
+        codomain: Berry_phase_modulo_two_pi
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: true
+      - id: spectroscopic_readout
+        domain: declared_molecular_dynamics_and_observable
+        codomain: ideal_energy_or_spectral_data
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: true
+      - id: finite_resolution_energy_channel
+        domain: ideal_energy_readout
+        codomain: probability_law_on_measured_spectral_data
+        kind: stochastic_channel
+        invertibility: not_applicable
+        information_loss: possible
+      - id: unresolved_gap_estimator
+        domain: measured_gap_resolution_and_covariance
+        codomain: unresolved_near_degeneracy_classification
+        kind: estimator
+        invertibility: not_applicable
+        information_loss: not_a_map_property
+      - id: nuclear_path_dynamics
+        domain: Hamiltonian_family_path_speed_initial_state_and_masses
+        codomain: time_evolved_state_or_transition_probability
+        kind: deterministic_observation
+        invertibility: not_required
+        information_loss: possible
+    symbols:
+      - scope: nuclear_chart
+        key: q
+        meaning: physical_nuclear_coordinate
+      - scope: branching_plane
+        key: x
+        meaning: energy_valued_diagonal_branching_coordinate
+      - scope: branching_plane
+        key: y
+        meaning: energy_valued_off_diagonal_branching_coordinate
+      - scope: branching_plane
+        key: r
+        meaning: energy_radius_sqrt_x_squared_plus_y_squared
+      - scope: spectral_cluster
+        key: P_cl
+        meaning: smooth_rank_two_cluster_projector
+      - scope: adiabatic_splitting
+        key: P_plus_minus
+        meaning: rank_one_projectors_defined_only_off_the_seam
+      - scope: gauge
+        key: u_a
+        meaning: local_normalized_eigenvector_section
+      - scope: nonadiabatic
+        key: d_E
+        meaning: energy_coordinate_off_diagonal_derivative_coupling
+      - scope: nonadiabatic
+        key: d_q
+        meaning: physical_coordinate_pullback_of_derivative_coupling
+      - scope: observation
+        key: Delta_hat
+        meaning: measured_energy_gap
+    quantities:
+      - id: ci.nuclear_displacement
+        extends: geometry.displacement
+        symbol: delta_q
+        frame: nuclear_chart
+      - id: ci.energy_gradient_g
+        symbol: g
+        semantic_kind: covector
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: J/m
+        unit_context: SI
+        frame: nuclear_chart
+        claim_status: definition
+      - id: ci.energy_gradient_h
+        symbol: h
+        semantic_kind: covector
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: J/m
+        unit_context: SI
+        frame: nuclear_chart
+        claim_status: definition
+      - id: ci.gap_gradient
+        symbol: grad_Delta
+        semantic_kind: covector
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: J/m
+        unit_context: SI
+        frame: nuclear_chart
+        claim_status: model
+      - id: ci.x
+        extends: mechanics.energy
+        symbol: x
+        frame: scalar
+      - id: ci.y
+        extends: mechanics.energy
+        symbol: y
+        frame: scalar
+      - id: ci.reference_energy
+        extends: mechanics.energy
+        symbol: E0
+        frame: scalar
+      - id: ci.radius_energy
+        extends: mechanics.energy
+        symbol: r
+        frame: scalar
+      - id: ci.gap
+        extends: mechanics.energy
+        symbol: Delta
+        frame: scalar
+      - id: ci.upper_energy
+        extends: mechanics.energy
+        symbol: E_plus
+        frame: scalar
+      - id: ci.lower_energy
+        extends: mechanics.energy
+        symbol: E_minus
+        frame: scalar
+      - id: ci.gap_opening_delta
+        extends: mechanics.energy
+        symbol: delta
+        frame: scalar
+      - id: ci.lz_coupling
+        extends: mechanics.energy
+        symbol: b
+        frame: scalar
+      - id: ci.energy_resolution
+        extends: mechanics.energy
+        symbol: epsilon_E
+        frame: observer
+      - id: ci.measured_gap
+        extends: mechanics.energy
+        symbol: Delta_hat
+        frame: observer
+      - id: ci.sigma_plus
+        extends: mechanics.energy
+        symbol: sigma_plus
+        frame: observer
+      - id: ci.sigma_minus
+        extends: mechanics.energy
+        symbol: sigma_minus
+        frame: observer
+      - id: ci.sigma_gap
+        extends: mechanics.energy
+        symbol: sigma_Delta
+        frame: observer
+      - id: ci.detection_threshold
+        extends: mechanics.energy
+        symbol: tau_E
+        frame: observer
+      - id: ci.energy_squared
+        symbol: E2
+        semantic_kind: scalar
+        dimension: [4, 2, -4, 0, 0, 0, 0]
+        canonical_unit: J^2
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: ci.x_squared
+        extends: ci.energy_squared
+        symbol: x2
+      - id: ci.y_squared
+        extends: ci.energy_squared
+        symbol: y2
+      - id: ci.radius_squared
+        extends: ci.energy_squared
+        symbol: r2
+      - id: ci.gap_squared
+        extends: ci.energy_squared
+        symbol: Delta2
+      - id: ci.delta_squared
+        extends: ci.energy_squared
+        symbol: delta2
+      - id: ci.gapped_radius_squared
+        extends: ci.energy_squared
+        symbol: r_delta2
+      - id: ci.lz_coupling_squared
+        extends: ci.energy_squared
+        symbol: b2
+      - id: ci.adiabatic_numerator
+        extends: ci.energy_squared
+        symbol: A_ab
+      - id: ci.adiabatic_denominator
+        extends: ci.energy_squared
+        symbol: Delta_ab2
+      - id: ci.hbar_times_sweep_rate
+        extends: ci.energy_squared
+        symbol: hbar_v
+      - id: ci.gap_variance
+        extends: ci.energy_squared
+        symbol: sigma_Delta2
+        frame: observer
+      - id: ci.energy_covariance
+        extends: ci.energy_squared
+        symbol: cov_plus_minus
+        frame: observer
+      - id: ci.inverse_energy
+        symbol: E_inverse
+        semantic_kind: scalar
+        dimension: [-2, -1, 2, 0, 0, 0, 0]
+        canonical_unit: 1/J
+        unit_context: SI
+        frame: scalar
+        claim_status: definition
+      - id: ci.inverse_radius
+        extends: ci.inverse_energy
+        symbol: r_inverse
+      - id: ci.energy_derivative_coupling
+        symbol: d_E
+        semantic_kind: vector
+        dimension: [-2, -1, 2, 0, 0, 0, 0]
+        canonical_unit: 1/J
+        unit_context: SI
+        frame: energy_branching
+        claim_status: model
+      - id: ci.energy_derivative_coupling_norm
+        extends: ci.inverse_energy
+        symbol: norm_d_E
+      - id: ci.physical_derivative_coupling
+        symbol: d_q
+        semantic_kind: vector
+        dimension: [-1, 0, 0, 0, 0, 0, 0]
+        canonical_unit: 1/m
+        unit_context: SI
+        frame: nuclear_chart
+        claim_status: model
+      - id: ci.branching_jacobian
+        symbol: J
+        semantic_kind: tensor
+        dimension: [1, 1, -2, 0, 0, 0, 0]
+        canonical_unit: J/m
+        unit_context: SI
+        frame: nuclear_chart_to_energy_branching
+        claim_status: definition
+      - id: ci.branching_jacobian_squared
+        symbol: J2
+        semantic_kind: tensor
+        dimension: [2, 2, -4, 0, 0, 0, 0]
+        canonical_unit: J^2/m^2
+        unit_context: SI
+        frame: nuclear_chart_to_energy_branching
+        claim_status: definition
+      - id: ci.energy_quantum_metric
+        symbol: g_E
+        semantic_kind: tensor
+        dimension: [-4, -2, 4, 0, 0, 0, 0]
+        canonical_unit: 1/J^2
+        unit_context: SI
+        frame: energy_branching
+        claim_status: model
+      - id: ci.energy_quantum_metric_trace
+        symbol: trace_g_E
+        semantic_kind: scalar
+        dimension: [-4, -2, 4, 0, 0, 0, 0]
+        canonical_unit: 1/J^2
+        unit_context: SI
+        frame: scalar
+        claim_status: model
+      - id: ci.physical_quantum_metric
+        symbol: g_q
+        semantic_kind: tensor
+        dimension: [-2, 0, 0, 0, 0, 0, 0]
+        canonical_unit: 1/m^2
+        unit_context: SI
+        frame: nuclear_chart
+        claim_status: model
+      - id: ci.hbar
+        extends: quantum.hbar
+        symbol: hbar
+      - id: ci.Hdot_matrix_element
+        symbol: Hdot_ab
+        semantic_kind: scalar
+        dimension: [2, 1, -3, 0, 0, 0, 0]
+        canonical_unit: J/s
+        unit_context: SI
+        frame: scalar
+        claim_status: model
+      - id: ci.sweep_rate
+        symbol: v
+        semantic_kind: scalar
+        dimension: [2, 1, -3, 0, 0, 0, 0]
+        canonical_unit: J/s
+        unit_context: SI
+        frame: scalar
+        claim_status: model
+      - id: ci.gap_rate
+        extends: ci.sweep_rate
+        symbol: Delta_dot
+      - id: ci.adiabatic_parameter
+        symbol: eta_ab
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: diagnostic
+      - id: ci.lz_exponent
+        symbol: zeta_LZ
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: ci.delta_ratio
+        symbol: delta_over_r_delta
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: ci.gapped_phase_factor
+        symbol: one_minus_delta_over_r_delta
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: model
+      - id: ci.kappa
+        symbol: kappa
+        semantic_kind: scalar
+        dimension: [0, 0, 0, 0, 0, 0, 0]
+        canonical_unit: "1"
+        unit_context: neutral
+        frame: none
+        claim_status: diagnostic
+      - id: ci.lz_probability
+        extends: information.probability
+        symbol: P_D
+      - id: ci.unresolved_flag
+        extends: information.probability
+        symbol: unresolved
+      - id: ci.winding_number
+        extends: discrete.count
+        symbol: w
+      - id: ci.pi_angle
+        extends: geometry.angle
+        symbol: pi
+      - id: ci.berry_phase
+        extends: geometry.angle
+        symbol: gamma
+      - id: ci.gapped_berry_phase
+        extends: geometry.angle
+        symbol: gamma_delta
+      - id: ci.gapped_radius_energy
+        extends: mechanics.energy
+        symbol: r_delta
+        frame: scalar
+      - id: ci.gapped_gap
+        extends: mechanics.energy
+        symbol: Delta_delta
+        frame: scalar
+      - id: ci.linear_gap_change
+        extends: mechanics.energy
+        symbol: delta_Delta
+        frame: scalar
+    expressions:
+      - id: x_from_physical_coordinate
+        anchor: equation (2), x equals contraction of g with delta q
+        ast:
+          op: dot
+          left: {q: ci.energy_gradient_g}
+          right: {q: ci.nuclear_displacement}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: y_from_physical_coordinate
+        anchor: equation (2), y equals contraction of h with delta q
+        ast:
+          op: dot
+          left: {q: ci.energy_gradient_h}
+          right: {q: ci.nuclear_displacement}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: x_squared
+        anchor: equation (3), x squared
+        ast: {op: pow, arg: {q: ci.x}, exponent: 2}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: y_squared
+        anchor: equation (3), y squared
+        ast: {op: pow, arg: {q: ci.y}, exponent: 2}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: radius_squared
+        anchor: equation (3), r squared equals x squared plus y squared
+        ast:
+          op: add
+          args:
+            - {q: ci.x_squared}
+            - {q: ci.y_squared}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: radius_energy
+        anchor: equation (3), square root of radius squared
+        ast: {op: sqrt, arg: {q: ci.radius_squared}}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: conical_gap
+        anchor: equation (4), Delta equals two r
+        ast:
+          op: mul
+          left: {const: 2}
+          right: {q: ci.radius_energy}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: upper_energy
+        anchor: abstract, E plus equals E0 plus r
+        ast:
+          op: add
+          args:
+            - {q: ci.reference_energy}
+            - {q: ci.radius_energy}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: lower_energy
+        anchor: abstract, E minus equals E0 minus r
+        ast:
+          op: sub
+          args:
+            - {q: ci.reference_energy}
+            - {q: ci.radius_energy}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: inverse_radius
+        anchor: equation (10), reciprocal energy radius
+        ast:
+          op: div
+          left: {const: 1}
+          right: {q: ci.radius_energy}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [-2, -1, 2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: energy_coordinate_NAC_norm
+        anchor: equation (10), one over two r
+        ast:
+          op: mul
+          left: {const: 0.5}
+          right: {q: ci.inverse_radius}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [-2, -1, 2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: physical_coordinate_NAC
+        anchor: equation (13), transpose J times d E
+        ast:
+          op: mul
+          left: {q: ci.branching_jacobian}
+          right: {q: ci.energy_derivative_coupling}
+          semantic_kind: vector
+          frame: nuclear_chart
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [-1, 0, 0, 0, 0, 0, 0]
+          semantic_kind: vector
+          frame: nuclear_chart
+      - id: energy_metric_trace
+        anchor: equation (12), one over four r squared
+        ast:
+          op: div
+          left: {const: 0.25}
+          right: {q: ci.radius_squared}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [-4, -2, 4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: physical_metric_scale
+        anchor: equation (13), J squared times energy metric scale
+        ast:
+          op: mul
+          left: {q: ci.branching_jacobian_squared}
+          right: {q: ci.energy_quantum_metric_trace}
+          semantic_kind: tensor
+          frame: nuclear_chart
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [-2, 0, 0, 0, 0, 0, 0]
+          semantic_kind: tensor
+          frame: nuclear_chart
+      - id: gap_squared
+        anchor: equation (15), denominator gap squared
+        ast: {op: pow, arg: {q: ci.gap}, exponent: 2}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: adiabatic_numerator
+        anchor: equation (15), hbar times H dot matrix element
+        ast:
+          op: mul
+          left: {q: ci.hbar}
+          right: {q: ci.Hdot_matrix_element}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: adiabatic_parameter
+        anchor: equation (15), numerator divided by gap squared
+        ast:
+          op: div
+          left: {q: ci.adiabatic_numerator}
+          right: {q: ci.adiabatic_denominator}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: LZ_coupling_squared
+        anchor: equation (17), b squared
+        ast: {op: pow, arg: {q: ci.lz_coupling}, exponent: 2}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: hbar_times_sweep_rate
+        anchor: equation (17), hbar times v
+        ast:
+          op: mul
+          left: {q: ci.hbar}
+          right: {q: ci.sweep_rate}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: LZ_dimensionless_ratio
+        anchor: equation (17), b squared divided by hbar v
+        ast:
+          op: div
+          left: {q: ci.lz_coupling_squared}
+          right: {q: ci.hbar_times_sweep_rate}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: LZ_probability
+        anchor: equation (17), exponential of minus pi times dimensionless ratio
+        ast:
+          op: exp
+          arg: {q: ci.lz_exponent}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: Berry_phase_from_winding
+        anchor: equation (8), pi times winding number
+        ast:
+          op: mul
+          left: {q: ci.pi_angle}
+          right: {q: ci.winding_number}
+          semantic_kind: angle
+          frame: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: angle
+      - id: delta_squared
+        anchor: equation (23), delta squared
+        ast: {op: pow, arg: {q: ci.gap_opening_delta}, exponent: 2}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: gapped_radius_squared
+        anchor: equation (23), r squared plus delta squared
+        ast:
+          op: add
+          args:
+            - {q: ci.radius_squared}
+            - {q: ci.delta_squared}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: gapped_radius
+        anchor: equation (23), square root of gapped radius squared
+        ast: {op: sqrt, arg: {q: ci.gapped_radius_squared}}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: gapped_gap
+        anchor: equation (23), two times gapped radius
+        ast:
+          op: mul
+          left: {const: 2}
+          right: {q: ci.gapped_radius_energy}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: gapped_delta_ratio
+        anchor: equation (24), delta normalized by gapped radius
+        ast:
+          op: normalize
+          value: {q: ci.gap_opening_delta}
+          reference: {q: ci.gapped_radius_energy}
+          zero_policy: positive_gapped_radius
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: gapped_phase_factor
+        anchor: equation (24), one minus delta over gapped radius
+        ast:
+          op: sub
+          args:
+            - {const: 1}
+            - {q: ci.delta_ratio}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: gapped_Berry_phase
+        anchor: equation (24), pi times gapped phase factor
+        ast:
+          op: mul
+          left: {q: ci.pi_angle}
+          right: {q: ci.gapped_phase_factor}
+          semantic_kind: angle
+          frame: scalar
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: angle
+      - id: gap_variance
+        anchor: equation (21), sigma plus squared plus sigma minus squared minus two covariance
+        ast:
+          op: sub
+          args:
+            - op: add
+              args:
+                - {op: pow, arg: {q: ci.sigma_plus}, exponent: 2}
+                - {op: pow, arg: {q: ci.sigma_minus}, exponent: 2}
+            - op: mul
+              left: {const: 2}
+              right: {q: ci.energy_covariance}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [4, 2, -4, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: gap_standard_deviation
+        anchor: equation (21), square root of gap variance
+        ast: {op: sqrt, arg: {q: ci.gap_variance}}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: uncertainty_multiple
+        anchor: equation (22), kappa times sigma gap
+        ast:
+          op: mul
+          left: {q: ci.kappa}
+          right: {q: ci.sigma_gap}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: detection_threshold
+        anchor: equation (22), uncertainty multiple plus instrument resolution
+        ast:
+          op: add
+          args:
+            - op: mul
+              left: {q: ci.kappa}
+              right: {q: ci.sigma_gap}
+            - {q: ci.energy_resolution}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: unresolved_near_degeneracy_rule
+        anchor: equation (22), absolute measured gap compared with threshold
+        ast:
+          op: compare
+          left: {op: norm, arg: {q: ci.measured_gap}}
+          right: {q: ci.detection_threshold}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [0, 0, 0, 0, 0, 0, 0]
+          semantic_kind: probability
+      - id: linear_physical_gap_change
+        anchor: section 1.2, gap-gradient contraction with nuclear displacement
+        ast:
+          op: dot
+          left: {q: ci.gap_gradient}
+          right: {q: ci.nuclear_displacement}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -2, 0, 0, 0, 0]
+          semantic_kind: scalar
+      - id: gap_rate
+        anchor: section 6, derivative of energy gap with respect to time
+        ast:
+          op: derivative
+          dependent: {q: ci.gap}
+          independent: {q: time.duration}
+        expect:
+          outcome: pass
+          rules: []
+          dimension: [2, 1, -3, 0, 0, 0, 0]
+          semantic_kind: scalar
+    claim_register:
+      - id: conical_spectrum
+        status: proposition
+        hypotheses:
+          - exact_real_two_state_normal_form
+          - energy_valued_branching_coordinates
+      - id: codimension_two_seam
+        status: proposition
+        hypotheses:
+          - real_symmetric_two_state_class
+          - rank_two_branching_map_differential
+          - regular_value_theorem_scope
+      - id: no_rank_one_projector_extension
+        status: proposition
+        hypotheses:
+          - approach_to_exact_origin_in_branching_plane
+          - individual_rank_one_splitting
+      - id: smooth_cluster_projector
+        status: proposition
+        hypotheses:
+          - C2_Hamiltonian_family
+          - fixed_Riesz_contour
+          - positive_external_cluster_gap
+      - id: Berry_real_line_holonomy
+        status: proposition
+        hypotheses:
+          - closed_loop_avoids_seam
+          - declared_winding_number
+          - real_two_state_model
+      - id: quantum_metric_identity
+        status: proposition
+        hypotheses:
+          - Euclidean_energy_branching_coordinates
+          - rank_one_projector_off_seam
+      - id: physical_coordinate_pullback
+        status: proposition
+        hypotheses:
+          - typed_branching_Jacobian
+          - declared_nuclear_coordinate_chart
+      - id: Landau_Zener_probability
+        status: model
+        hypotheses:
+          - linear_infinite_time_two_state_sweep
+          - constant_coupling
+          - coherent_unitary_evolution
+      - id: unresolved_near_degeneracy
+        status: diagnostic
+        hypotheses:
+          - declared_covariance_resolution_and_threshold
+      - id: conical_intersection_equals_optical_caustic
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+      - id: new_quantum_chemistry_method
+        status: hypothesis
+        hypotheses:
+          - forbidden_not_claimed
+    protocol_fields_present:
+      - hidden_space
+      - system_descriptor
+      - reduction
+      - deterministic_observation
+      - stochastic_channel_or_explicit_noiseless_model
+      - observed_space
+      - reference_frame
+      - spatial_resolution
+      - temporal_resolution
+      - observation_horizon
+      - quantizer_or_partition
+      - estimator_or_declared_direct_readout
+      - uncertainty_or_exactness_statement
+      - unit_context
+      - defect_normalizations
+      - nuclear_coordinate_chart
+      - nuclear_coordinate_dimensions
+      - symmetry_class
+      - retained_cluster
+      - external_cluster_gap
+      - physical_to_branching_Jacobian
+      - projector_or_local_eigenvector_output
+      - gauge_convention
+      - loop_orientation_and_winding_rule
+      - nuclear_path_and_speed_for_dynamics
+      - spectral_resolution
+      - covariance_model
+      - degeneracy_detection_threshold
+      - identifiability_scope
+    next_action: retain_as_spectral_gauge_nonadiabatic_observation_reference

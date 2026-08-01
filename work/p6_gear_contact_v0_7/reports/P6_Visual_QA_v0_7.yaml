@@ -1,0 +1,33 @@
+schema:
+  id: go-p6-visual-qa
+  version: 0.7.0
+  date: 2026-07-28
+
+document:
+  id: gear-contact-v1-1
+  pdf: work/p6_gear_contact_v0_7/build/gear/gear_contact_geometry_v1_1.pdf
+  pages: 9
+  render:
+    engine: pdftoppm
+    format: PNG
+    resolution_dpi: 150
+    page_pattern: work/p6_gear_contact_v0_7/checks/gear/page-N.png
+    contact_sheet: work/p6_gear_contact_v0_7/checks/gear/contact.png
+  inspected_pages: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  inspected_at_detail:
+    contact_sheet: original
+    page_1: original
+    page_8: original
+    page_9: original
+  checks:
+    clipped_text: false
+    overlapping_text: false
+    broken_formulas: false
+    broken_tables: false
+    unreadable_glyphs: false
+    duplicate_bibliography_heading: false
+    inconsistent_page_numbers: false
+    margin_violation: false
+    nonembedded_fonts: false
+  status: PASS
+  findings: []

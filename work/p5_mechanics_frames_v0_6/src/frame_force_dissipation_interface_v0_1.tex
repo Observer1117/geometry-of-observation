@@ -1,0 +1,533 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.035}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Frames, Forces, Constraints, and Dissipation under Observation Maps},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={A typed mechanics interface for Geometry of Observation},
+  pdfkeywords={reference frames, Lagrange-d'Alembert, constraints, contact, friction, dissipation, observation geometry}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\pair}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\SE}{\mathrm{SE}}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Kcal}{\mathcal K}
+\newcommand{\Rcal}{\mathcal R}
+\newcommand{\Qcal}{\mathcal Q}
+\newcommand{\Acal}{\mathcal A}
+\newcommand{\Tcal}{\mathcal T}
+\newcommand{\Dcal}{\mathcal D}
+\newcommand{\crossop}[1]{\left[#1\right]_\times}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Frames, Forces, Constraints, and Dissipation\\
+\large A typed mechanics interface under observation maps}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{GO Core mechanics interface v0.1 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} Normative infrastructure for GO Core v0.2. This
+interface fixes frame direction, point--vector separation, constraint
+signs, force/power duality, and the nonnegative convention for
+dissipation. It supplies a common contract for the Foucault,
+bobsleigh, and roller-coaster modules. It does not propose a new law
+of mechanics.}}
+\end{center}
+
+\begin{abstract}
+Mechanical observation models become ambiguous when positions,
+displacements, forces, generalized forces, and accelerations are added
+without a common frame or when ``dissipated power'' is assigned both
+signs in the same document. We define a typed interface on a
+configuration manifold \(Q\). A frame edge
+\(A_{F\leftarrow G}(t)\in\SO(3)\) maps free-vector components from
+\(G\) to \(F\), while a point map additionally carries an origin.
+Differentiating the affine point map yields the translational,
+Coriolis, Euler, and centrifugal terms; these are representation
+terms, not new interactions. Physical forces are covectors through
+virtual power, and generalized forces belong to \(T_q^*Q\). Equality
+constraints, unilateral contact, and Coulomb-type tangential reactions
+are given separate signatures. Dissipation is defined by
+\[
+P_{\rm diss}:=-\pair{Q_d}{\dot q}\ge0,
+\]
+so a quadratic Rayleigh function produces
+\(P_{\rm diss}=2\Rcal\). The Lagrangian energy identity is
+\[
+\dot E_L=P_{\rm act}-P_{\rm diss}+P_{\rm con}-\partial_tL.
+\]
+For an ideal scleronomous constraint \(P_{\rm con}=0\); for a moving
+constraint it need not vanish. The interface also separates physical
+frame changes, deterministic observation maps, stochastic
+measurement channels, and estimators. Its statements are standard
+mechanics recast as a machine-checkable contract.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and typed objects}
+
+Let \(Q\) be a finite-dimensional configuration manifold and let
+\(\mathsf F\) be a set of declared Euclidean frames. The interface
+distinguishes the following objects.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{L{31mm}L{35mm}Y}
+\toprule
+Object & Mathematical type & Admissible operation \\
+\midrule
+Point \(p\) & affine-space element & affine frame map, point difference \\
+Free vector \(v\) & \(V_F\simeq\R^3\) & linear frame map, norm, dot product \\
+Configuration velocity & \(\dot q\in T_qQ\) & pairing with a covector \\
+Generalized force & \(Q_f\in T_q^*Q\) & virtual power \(\pair{Q_f}{\dot q}\) \\
+Spatial force & \(F^F\in V_F\) & dot product with a coframed velocity \\
+Acceleration & \(a^F\in V_F\) & addition only in one declared frame \\
+Observation & map or Markov kernel & may be non-injective and lossy \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{warning}[Type firewall]
+A frame transform is an invertible change of representation. An
+observation map may be many-to-one. Neither is a force law. A
+generalized force is a covector and cannot be added directly to a
+spatial acceleration. Multiplication by a mass metric or an explicit
+pullback is required.
+\end{warning}
+
+\section{Frame graph and affine point maps}
+
+\begin{definition}[Directed frame edge]
+For frames \(F,G\), the matrix
+\[
+A_{F\leftarrow G}(t)\in\SO(3)
+\]
+maps components of a free vector from \(G\) to \(F\):
+\(v^F=A_{F\leftarrow G}v^G\). It obeys
+\[
+A_{F\leftarrow G}^{-1}=A_{G\leftarrow F}
+=A_{F\leftarrow G}^{\mathsf T},\qquad
+A_{F\leftarrow H}=A_{F\leftarrow G}A_{G\leftarrow H}.
+\]
+\end{definition}
+
+A point needs an origin in addition to a rotation. Fix an inertial
+frame \(I\), let \(c^I_F(t)\) be the origin of \(F\) represented in
+\(I\), and abbreviate \(A(t)=A_{I\leftarrow F}(t)\). Then
+\begin{equation}\label{eq:affine-point}
+x^I=c^I_F+A\,x^F.
+\end{equation}
+The translation is forbidden for a free vector:
+\(v^I=A v^F\), not \(c^I_F+A v^F\).
+
+\begin{definition}[Angular velocity convention]
+The \(F\)-components of angular velocity are defined by
+\[
+A^{\mathsf T}\dot A=\crossop{\Omega^F},\qquad
+\crossop{\Omega}u=\Omega\times u.
+\]
+Thus \(\dot A=A\crossop{\Omega^F}\).
+\end{definition}
+
+\begin{theorem}[Kinematics of a moving frame]\label{thm:frame-kinematics}
+If \(x^F(t)\) is twice differentiable, then
+\begin{align}
+v^I&=\dot c_F^I+
+A\bigl(v^F+\Omega^F\times x^F\bigr),\label{eq:velocity-map}\\
+a^I&=\ddot c_F^I+
+A\bigl(
+a^F+2\Omega^F\times v^F+\dot\Omega^F\times x^F
++\Omega^F\times(\Omega^F\times x^F)
+\bigr).\label{eq:acceleration-map}
+\end{align}
+\end{theorem}
+
+\begin{proof}
+Differentiate \cref{eq:affine-point}, substitute
+\(\dot A=A\crossop{\Omega^F}\), and differentiate once more. The product
+rule gives two equal cross terms
+\(\Omega^F\times v^F\), producing the coefficient \(2\).
+\end{proof}
+
+For a particle of mass \(m\) with physical force
+\(F^F=A^{\mathsf T}F^I\), Newton's equation in \(F\) is
+\begin{align}
+m a^F={}&F^F
+-mA^{\mathsf T}\ddot c_F^I
+-2m\Omega^F\times v^F \notag\\
+&-m\dot\Omega^F\times x^F
+-m\Omega^F\times(\Omega^F\times x^F).
+\label{eq:rotating-newton}
+\end{align}
+The last four terms are respectively translational, Coriolis, Euler,
+and centrifugal effective forces.
+
+\begin{warning}[Interpretation]
+The effective terms in \cref{eq:rotating-newton} are produced by the
+time-dependent representation. They must not be inserted in the
+inertial equation and then transformed again.
+\end{warning}
+
+\section{Configuration embeddings and constraints}
+
+Let a mechanical realization be a possibly time-dependent embedding
+\[
+\Phi_t:Q\longrightarrow(\R^3)^n,\qquad
+q\longmapsto(x_1(t,q),\ldots,x_n(t,q)),
+\]
+with masses \(m_a>0\). For a time-independent embedding, the pullback
+mass form is
+\begin{equation}\label{eq:mass-metric}
+G_{ij}(q)=\sum_{a=1}^n
+m_a\,\partial_i x_a\cdot\partial_j x_a.
+\end{equation}
+
+\begin{proposition}[Mass-form rank]
+The matrix \(G(q)\) in \cref{eq:mass-metric} is positive
+semidefinite. It is positive definite exactly when
+\(\dd\Phi_q:T_qQ\to(\R^3)^n\) is injective.
+\end{proposition}
+
+\begin{proof}
+For \(\xi\in T_qQ\),
+\[
+\xi^{\mathsf T}G\xi
+=\sum_a m_a\norm{\dd\Phi_q(\xi)_a}^2\ge0.
+\]
+It vanishes exactly on \(\ker\dd\Phi_q\).
+\end{proof}
+
+Equality constraints are written
+\[
+h(t,q)=0,\qquad A_h(t,q)=\partial_qh.
+\]
+For a regular ideal constraint with multiplier \(\lambda\), the
+reaction covector is
+\[
+Q_h=A_h^{\mathsf T}\lambda.
+\]
+An admissible velocity satisfies
+\begin{equation}\label{eq:rheo-velocity}
+A_h\dot q+\partial_t h=0.
+\end{equation}
+Therefore its reaction power is
+\begin{equation}\label{eq:rheo-power}
+P_h=\pair{Q_h}{\dot q}
+=-\lambda^{\mathsf T}\partial_t h.
+\end{equation}
+It vanishes for a scleronomous constraint
+\(\partial_t h=0\), but not in general for a moving support.
+
+For unilateral contact we fix the sign convention
+\begin{equation}\label{eq:complementarity}
+g_j(t,q)\ge0,\qquad N_j\ge0,\qquad N_jg_j=0,
+\end{equation}
+where \(g_j>0\) means separation and \(N_j\) is compressive.
+Impacts, restitution, and measure-valued impulses require a separate
+nonsmooth extension and are outside the smooth interface.
+
+\section{Forces, pullback, and virtual power}
+
+Suppose the spatial velocity of application point \(a\) is
+\[
+v_a=J_a(t,q)\dot q+v_{a,0}(t,q).
+\]
+A spatial force \(F_a\) pulls back to
+\[
+Q_a=J_a^{\mathsf T}F_a\in T_q^*Q.
+\]
+For the virtual part,
+\[
+\pair{Q_a}{\delta q}=F_a\cdot J_a\delta q.
+\]
+The actual spatial power contains the affine contribution:
+\[
+F_a\cdot v_a
+=\pair{Q_a}{\dot q}+F_a\cdot v_{a,0}.
+\]
+Consequently a time-dependent embedding cannot be treated as a
+time-independent Jacobian without losing support power.
+
+\begin{proposition}[Orthogonal covariance of power]
+For \(A\in\SO(3)\), if \(F^I=AF^F\) and \(v^I=Av^F\), then
+\[
+F^I\cdot v^I=F^F\cdot v^F.
+\]
+\end{proposition}
+
+\begin{proof}
+\((AF^F)^{\mathsf T}(Av^F)
+=(F^F)^{\mathsf T}A^{\mathsf T}Av^F\).
+\end{proof}
+
+This proposition applies to coframed physical vectors. It does not
+authorize pairing a force in one frame with a velocity in another.
+
+\section{Dissipation and contact friction}
+
+\begin{definition}[Dissipative generalized force]
+A generalized force \(Q_d(t,q,\dot q)\) is dissipative on an
+admissible domain if
+\[
+\pair{Q_d}{\dot q}\le0.
+\]
+Its nonnegative dissipated power is
+\begin{equation}\label{eq:pdiss}
+P_{\rm diss}:=-\pair{Q_d}{\dot q}\ge0.
+\end{equation}
+\end{definition}
+
+For a Rayleigh function
+\[
+\Rcal(t,q,\dot q)=\frac12\dot q^{\mathsf T}C(t,q)\dot q,
+\qquad C=C^{\mathsf T}\succeq0,
+\]
+the convention is
+\[
+Q_d=-\partial_{\dot q}\Rcal=-C\dot q,\qquad
+P_{\rm diss}=\dot q^{\mathsf T}C\dot q=2\Rcal.
+\]
+
+At contact \(j\), let \(n_j\) be the unit normal and
+\(P_{T,j}=I-n_jn_j^{\mathsf T}\). Write the force on the modeled body
+as
+\[
+F_j=N_jn_j+T_j,\qquad T_j\cdot n_j=0,
+\]
+and the tangential relative velocity as
+\[
+v_{T,j}=P_{T,j}(v_{\rm body,j}-v_{\rm support,j}).
+\]
+A Coulomb-type admissible reaction obeys
+\begin{equation}\label{eq:coulomb}
+\norm{T_j}\le\mu_jN_j,\qquad
+T_j\cdot v_{T,j}\le0.
+\end{equation}
+Thus
+\begin{equation}\label{eq:friction-power}
+P_{{\rm fric},j}=-T_j\cdot v_{T,j}\ge0.
+\end{equation}
+For sliding with \(v_{T,j}\ne0\), the maximum-dissipation selection is
+\[
+T_j=-\mu_jN_j\,\frac{v_{T,j}}{\norm{v_{T,j}}}.
+\]
+For sticking, \(v_{T,j}=0\), the friction force is set-valued inside
+the cone and its instantaneous power is zero.
+
+\begin{definition}[Guarded cone utilization]
+On an admissible contact state define
+\[
+u_j=
+\begin{cases}
+\norm{T_j}/(\mu_jN_j),&\mu_jN_j>0,\\
+0,&\mu_jN_j=0\ \text{and}\ T_j=0.
+\end{cases}
+\]
+The cone law excludes the missing case
+\(\mu_jN_j=0,\ T_j\ne0\). For a finite contact set,
+\[
+S_{\rm slip}=1-\max_j u_j\in[0,1],
+\]
+with \(\max\varnothing:=0\).
+\end{definition}
+
+\section{Lagrange--d'Alembert energy identity}
+
+Let \(L(t,q,\dot q)\) be regular on the active smooth regime and set
+\[
+E_L=\pair{\partial_{\dot q}L}{\dot q}-L.
+\]
+The forced equations are
+\begin{equation}\label{eq:lda}
+\frac{\dd}{\dd t}\partial_{\dot q}L-\partial_qL
+=Q_{\rm act}+Q_d+Q_{\rm con}.
+\end{equation}
+
+\begin{theorem}[Energy balance]\label{thm:energy-balance}
+Every \(C^2\) solution of \cref{eq:lda} satisfies
+\begin{equation}\label{eq:energy-balance}
+\dot E_L
+=P_{\rm act}-P_{\rm diss}+P_{\rm con}-\partial_tL,
+\end{equation}
+where
+\[
+P_{\rm act}=\pair{Q_{\rm act}}{\dot q},\qquad
+P_{\rm con}=\pair{Q_{\rm con}}{\dot q}.
+\]
+\end{theorem}
+
+\begin{proof}
+Direct differentiation gives
+\[
+\dot E_L
+=\pair{\frac{\dd}{\dd t}\partial_{\dot q}L-\partial_qL}{\dot q}
+-\partial_tL.
+\]
+Insert \cref{eq:lda} and use
+\cref{eq:pdiss}.
+\end{proof}
+
+\begin{corollary}[Autonomous ideal case]
+If \(\partial_tL=0\), \(Q_{\rm act}=0\),
+\(Q_d=0\), and the constraints are ideal and scleronomous, then
+\(\dot E_L=0\).
+\end{corollary}
+
+\begin{warning}[No-double-counting rule]
+A moving track may be represented either by an ambient formulation
+with explicit reaction/support power or by reduction to a
+time-dependent Lagrangian. The same support work must not be added in
+both places.
+\end{warning}
+
+\section{Observation protocol and transformation classes}
+
+A complete protocol is the typed chain
+\[
+X_t\xrightarrow{\Rcal_{\rm red}}\widetilde X_t
+\xrightarrow{\Ocal_\lambda}Z_t
+\xrightarrow{\Kcal_\lambda}\operatorname{Law}(Y_t\mid Z_t)
+\xrightarrow{\widehat\theta_\lambda}\widehat\theta_t.
+\]
+The protocol record \(\lambda\) includes:
+\begin{enumerate}[label=(\roman*)]
+  \item frame graph, clock, coordinates, and unit context;
+  \item system descriptor and constraint convention;
+  \item spatial and temporal resolution and observation horizon;
+  \item deterministic readout and stochastic/noiseless declaration;
+  \item calibration, estimator, uncertainty, and missing-data policy;
+  \item a declared transformation group for every invariant claim.
+\end{enumerate}
+
+\begin{warning}[Invariant scope]
+Rigid-motion invariance, covariance under a time-dependent frame,
+Galilean invariance, label-swap invariance, and invariance under a
+lossy observation map are different statements. The word
+``invariant'' is rejected unless the acting group and the transformed
+objects are named.
+\end{warning}
+
+\section{Machine gates}
+
+The mechanics extension admits a reference document only if the
+following gates are satisfied.
+
+\begin{longtable}{L{31mm}L{46mm}L{65mm}}
+\toprule
+Gate & Required declaration & Rejected pattern \\
+\midrule
+\endhead
+Frame closure & every vector sum has one frame; every point map has an
+origin & \(r^I+q^B\) without \(A_{I\leftarrow B}\) \\
+Force type & spatial force or generalized covector, with pullback map
+& adding \(F\) directly to \(a\) \\
+Constraint sign & gap side, reaction sign, complementarity, active set
+& unsigned \(g,N\) convention \\
+Dissipation sign & \(P_{\rm diss}\ge0\) and force-on-system convention
+& \(\dot E=-\sum T\cdot v_{\rm rel}\) with \(T\cdot v_{\rm rel}\le0\) \\
+Moving support & explicit \(\partial_t h\), support power, or reduced
+time-dependent \(L\) & declaring every ideal constraint workless \\
+Friction guard & zero-load branch for \(\norm T/(\mu N)\) & division by
+\(\mu N=0\) \\
+Observation split & frame map, observation, channel, estimator kept
+separate & calling a camera projection a frame transform \\
+Invariant scope & named group and hypotheses & unqualified
+``observation invariant'' \\
+\bottomrule
+\end{longtable}
+
+\section{Claim boundary}
+
+The interface is a consistency layer. It does not establish:
+\begin{itemize}
+  \item existence or uniqueness for arbitrary nonsmooth contact;
+  \item a constitutive law for ice, wheel--rail, or air resistance;
+  \item structural safety, fatigue, or human-tolerance limits;
+  \item a precision geophysical pendulum model;
+  \item scientific novelty of the underlying standard identities.
+\end{itemize}
+Any application must add its own regularity, constitutive, parameter,
+and uncertainty hypotheses.
+
+\begin{thebibliography}{9}
+
+\bibitem{bloch}
+A.~M. Bloch, \emph{Nonholonomic Mechanics and Control}, 2nd ed.,
+Springer, 2015. \href{https://doi.org/10.1007/978-1-4939-3017-3}
+{doi:10.1007/978-1-4939-3017-3}.
+
+\bibitem{brogliato}
+B. Brogliato, \emph{Nonsmooth Mechanics: Models, Dynamics and
+Control}, 3rd ed., Springer, 2016.
+\href{https://doi.org/10.1007/978-3-319-28664-8}
+{doi:10.1007/978-3-319-28664-8}.
+
+\bibitem{marsden}
+J.~E. Marsden and T.~S. Ratiu,
+\emph{Introduction to Mechanics and Symmetry}, 2nd ed., Springer,
+1999. \href{https://doi.org/10.1007/978-0-387-21792-5}
+{doi:10.1007/978-0-387-21792-5}.
+
+\bibitem{arnold}
+V.~I. Arnold, \emph{Mathematical Methods of Classical Mechanics},
+2nd ed., Springer, 1989.
+\href{https://doi.org/10.1007/978-1-4757-2063-1}
+{doi:10.1007/978-1-4757-2063-1}.
+
+\end{thebibliography}
+
+\end{document}

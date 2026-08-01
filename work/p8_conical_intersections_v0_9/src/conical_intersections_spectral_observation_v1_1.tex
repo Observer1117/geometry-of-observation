@@ -1,0 +1,676 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\usepackage[a4paper,margin=20.5mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.015}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{booktabs,array,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Conical Intersections as Typed Spectral Singularities under Observation Maps},
+  pdfauthor={Stas, Independent Research Program},
+  pdfsubject={Spectral discriminants, eigenprojectors, Berry holonomy, nonadiabatic coupling, and finite-resolution observation},
+  pdfkeywords={conical intersections, Born-Oppenheimer approximation, spectral projector, Berry phase, nonadiabatic coupling, observation geometry}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{obsviolet}{RGB}{94,64,145}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+\definecolor{lightviolet}{RGB}{246,242,252}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{model}[definition]{Model}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{corollary}[definition]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{warning}[definition]{Boundary}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\pair}[2]{\left\langle #1,#2\right\rangle}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\Kcal}{\mathcal K}
+\newcommand{\Pcal}{\mathcal P}
+\newcommand{\Scal}{\mathcal S}
+\newcommand{\Hcal}{\mathcal H}
+\newcommand{\Dcal}{\mathcal D}
+\newcommand{\Ucal}{\mathcal U}
+\newcommand{\I}{\mathrm i}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Law}{\operatorname{Law}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Conical Intersections as Typed Spectral Singularities\\
+\large Eigenprojectors, holonomy, nonadiabatic geometry, and observation maps}
+\author{Stas\\
+\small Independent Research Program; ORCID: 0009-0000-2294-705X}
+\date{Strict GO Core reference revision v1.1 --- 28 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.92\linewidth}{\small
+\textbf{Status.} This document supersedes the bilingual working note
+v1.0. It is an application-layer reference migrated to GO Core v0.2.
+It does not propose a new electronic-structure method, nonadiabatic
+dynamics algorithm, conical-intersection theorem, or optical-caustic
+equivalence. The internal contribution is a typed separation of
+nuclear coordinates, energy-valued branching coordinates,
+gauge-invariant projectors, local eigenvector sections, dynamics, and
+finite-resolution observation.}}
+\end{center}
+
+\begin{abstract}
+Let \(q\) denote physical nuclear coordinates and let
+\(H_{\rm e}(q)\) be an electronic Hamiltonian family with an isolated
+two-state spectral cluster. Near a generic real two-state degeneracy,
+the linear branching-plane model is
+\[
+H_{\rm eff}(q)=E_0(q)I+x(q)\sigma_z+y(q)\sigma_x,\qquad
+x=g_\mu\delta q^\mu,\quad y=h_\mu\delta q^\mu,
+\]
+where \(x,y\) are energies, not nuclear lengths.  The seam is the
+regular preimage \(x=y=0\), hence has codimension two when
+\(\rank D_q(x,y)=2\).  On the punctured branching plane,
+\[
+E_\pm=E_0\pm r,\quad
+P_\pm=\frac12\left(I\pm\frac{x\sigma_z+y\sigma_x}{r}\right),
+\quad r=\sqrt{x^2+y^2}.
+\]
+The unordered spectrum and the two-state cluster remain meaningful at
+the degeneracy, but neither rank-one projector has a unique limit
+there. Eigenvectors are only gauge-dependent local sections.  A loop
+of winding number \(w\) has real-line holonomy
+\((-1)^w\) and Berry phase \(\pi w\) modulo \(2\pi\).  In the energy
+coordinates, the gauge-invariant quantum metric is
+\[
+g^{(E)}=\frac1{4r^4}
+\begin{pmatrix}y^2&-xy\\-xy&x^2\end{pmatrix},
+\qquad \Tr g^{(E)}=\frac1{4r^2}.
+\]
+Its pullback by \(D_q(x,y)\) supplies the correctly dimensioned
+physical-coordinate coupling. A closing gap invalidates a uniform
+adiabatic estimate, but does not determine a transition probability;
+that requires a nuclear path, speed, initial state, and dynamical
+model. Finally, finite spectral resolution can certify only an
+unresolved near-degeneracy unless uncertainty and identifiability
+conditions are supplied. The strict object is a spectral-discriminant
+singularity. ``Observation caustic'' is retained only as a qualified
+program-level analogy.
+\end{abstract}
+
+\tableofcontents
+
+\section{Scope and typed setting}
+
+\subsection{Electronic family and spectral cluster}
+
+Let \(U\subset\R^f\) be a nuclear-coordinate chart.  For the strict
+finite-dimensional reference, \(H_{\rm e}:U\to\operatorname{Herm}(n)\)
+is \(C^2\).  The two electronic levels of interest form a cluster
+separated from the remaining spectrum by a positive external gap on a
+neighborhood \(V\subset U\).  The Riesz projector onto that cluster is
+\begin{equation}\label{eq:cluster-projector}
+P_{\rm cl}(q)=\frac{1}{2\pi\I}\oint_\Gamma
+(z-H_{\rm e}(q))^{-1}\,\dd z,
+\end{equation}
+where one fixed contour \(\Gamma\) encloses precisely the two cluster
+eigenvalues.  Under these hypotheses \(P_{\rm cl}\) is \(C^2\), even
+when the two eigenvalues cross internally.
+
+For an unbounded electronic operator, a common dense domain,
+self-adjointness, resolvent regularity, and an isolated spectral
+cluster must be stated separately.  The finite matrix reference does
+not silently prove those operator-theoretic hypotheses.
+
+\subsection{Physical and energy-valued coordinates}
+
+Choose \(q_\ast\in U\), set \(\delta q=q-q_\ast\), and write the
+linear two-state reduction after a fixed local basis choice as
+\begin{equation}\label{eq:linear-normal-form}
+H_{\rm eff}(q)
+=E_0(q)I+x(q)\sigma_z+y(q)\sigma_x+O(\norm{\delta q}^2),
+\qquad
+x=g_\mu\delta q^\mu,\quad y=h_\mu\delta q^\mu.
+\end{equation}
+Here \(q^\mu\) is a physical nuclear coordinate, while
+\(g_\mu,h_\mu\) are energy-gradient covectors. Thus
+\[
+[q^\mu]=L,\qquad [g_\mu]=[h_\mu]=EL^{-1},\qquad [x]=[y]=E
+\]
+in the declared length chart. A mass-weighted or curvilinear chart is
+allowed only with its own coordinate dimensions and Jacobian.
+
+\begin{warning}[Coordinate firewall]
+The notation \(H=Q_1\sigma_z+Q_2\sigma_x\) is dimensionally valid only
+if \(Q_1,Q_2\) are declared energy-valued branching coordinates. It
+is not valid when the same symbols denote unscaled nuclear lengths.
+\end{warning}
+
+\section{Spectral discriminant and codimension}
+
+The exact benchmark drops \(E_0I\) and higher-order terms:
+\begin{equation}\label{eq:benchmark-hamiltonian}
+H(x,y)=x\sigma_z+y\sigma_x
+=\begin{pmatrix}x&y\\y&-x\end{pmatrix},
+\qquad
+r=\sqrt{x^2+y^2}.
+\end{equation}
+
+\begin{proposition}[Conical spectrum]\label{prop:conical-spectrum}
+For \((x,y)\ne(0,0)\),
+\begin{equation}\label{eq:eigenvalues-gap}
+E_\pm=\pm r,\qquad \Delta:=E_+-E_-=2r.
+\end{equation}
+The repeated eigenvalue occurs precisely at \(x=y=0\).
+\end{proposition}
+
+\begin{proof}
+\(\det(H-EI)=E^2-x^2-y^2\), so \(E=\pm r\). Equality of the two
+eigenvalues is equivalent to \(r=0\).
+\end{proof}
+
+Let \(F=(x,y):U\to\R^2\) and \(S=F^{-1}(0)\).
+
+\begin{proposition}[Generic real seam]\label{prop:codimension}
+If \(\rank D_qF(q_\ast)=2\), then \(S\) is a \(C^1\) submanifold of
+codimension two near \(q_\ast\). Its tangent space is
+\[
+T_{q_\ast}S=\ker D_qF(q_\ast).
+\]
+\end{proposition}
+
+\begin{proof}
+This is the regular-value theorem applied to \(F\).
+\end{proof}
+
+\begin{warning}[Symmetry class matters]
+A general complex Hermitian two-state matrix contains three
+independent traceless coefficients; its generic degeneracy has
+codimension three. Symmetry-enforced crossings, spin-orbit coupling,
+Kramers degeneracy, and higher multiplicity require different
+discriminants. Codimension two is asserted only for the declared real
+two-state class with a transverse parameter map.
+\end{warning}
+
+\section{Projectors, eigenlines, and gauge}
+
+On \(\R^2\setminus\{0\}\), define the gauge-invariant rank-one
+projectors
+\begin{equation}\label{eq:rank-one-projectors}
+P_\pm(x,y)
+=\frac12\left(I\pm\frac{x\sigma_z+y\sigma_x}{r}\right).
+\end{equation}
+
+\begin{proposition}[No rank-one extension through the seam]
+\label{prop:no-projector-extension}
+Neither \(P_+\) nor \(P_-\) has a continuous extension to
+\((x,y)=(0,0)\).  The cluster projector
+\(P_{\rm cl}=P_++P_-=I_2\) does extend smoothly.
+\end{proposition}
+
+\begin{proof}
+Along \(y=0\), the limits of \(P_-\) as \(x\to0^+\) and \(x\to0^-\)
+are respectively
+\(\operatorname{diag}(0,1)\) and
+\(\operatorname{diag}(1,0)\). They differ. The sum is identically
+\(I_2\).
+\end{proof}
+
+Write \(x=r\cos\phi\), \(y=r\sin\phi\). One real local lift is
+\begin{equation}\label{eq:real-eigenvectors}
+u_-(\phi)=
+\begin{pmatrix}-\sin(\phi/2)\\ \cos(\phi/2)\end{pmatrix},
+\qquad
+u_+(\phi)=
+\begin{pmatrix}\cos(\phi/2)\\ \sin(\phi/2)\end{pmatrix}.
+\end{equation}
+It satisfies \(u_\pm(\phi+2\pi)=-u_\pm(\phi)\).  A local eigenvector
+is not the output of a global gauge-invariant observation map.
+Under
+\[
+u_a(q)\longmapsto e^{\I\chi_a(q)}u_a(q),
+\]
+the projector \(P_a=\lvert u_a\rangle\langle u_a\rvert\) is unchanged.
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=5mm and 9mm,
+  box/.style={draw=obsblue,rounded corners,fill=lightblue,
+    align=center,inner sep=4pt,font=\scriptsize},
+  local/.style={draw=obsviolet,rounded corners,fill=lightviolet,
+    align=center,inner sep=4pt,font=\scriptsize},
+  arr/.style={-{Latex[length=2mm]},thick,draw=obsblue},
+  darr/.style={-{Latex[length=2mm]},thick,dashed,draw=obsviolet}
+]
+\node[box] (family) {\(H_{\rm e}(q)\)};
+\node[box,right=of family] (cluster) {\(P_{\rm cl}(q)\)\\isolated cluster};
+\node[box,right=of cluster] (split) {\((E_\pm,P_\pm)\)\\only off \(S\)};
+\node[local,below=of split] (section) {\(u_\pm^{(\alpha)}\)\\local gauge section};
+\draw[arr] (family) -- (cluster);
+\draw[arr] (cluster) -- node[above,font=\scriptsize] {\(\Delta>0\)} (split);
+\draw[darr] (split) -- node[right,font=\scriptsize] {gauge choice} (section);
+\end{tikzpicture}
+\end{center}
+
+\section{Berry holonomy without a global eigenvector}
+
+Let \(C:[0,1]\to\R^2\setminus\{0\}\) be a closed loop and let
+\(w(C,0)\in\mathbb Z\) be its winding number around the origin.
+
+\begin{proposition}[Real-line holonomy]\label{prop:berry-holonomy}
+For the model \cref{eq:benchmark-hamiltonian}, parallel transport of
+either real eigenline around \(C\) has holonomy
+\begin{equation}\label{eq:berry-phase}
+\operatorname{Hol}(C)=(-1)^{w(C,0)},\qquad
+\gamma(C)=\pi w(C,0)\pmod{2\pi}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+The polar angle changes by \(2\pi w\). Equation
+\cref{eq:real-eigenvectors} therefore changes the real lift by
+\((-1)^w\). The ray returns to itself, while the lifted line has the
+stated holonomy.
+\end{proof}
+
+A gauge-invariant discrete diagnostic for a sufficiently fine loop
+\(q_0,\ldots,q_{N-1}\), with nonzero neighboring overlaps, is
+\begin{equation}\label{eq:discrete-wilson-loop}
+W_N=\prod_{j=0}^{N-1}
+\frac{\langle u_j,u_{j+1}\rangle}
+{\abs{\langle u_j,u_{j+1}\rangle}},
+\qquad u_N=u_0,\qquad
+\gamma_N=\arg W_N.
+\end{equation}
+Local phase factors telescope in the closed product.  In a real gauge,
+\(W_N=-1\) for odd winding and \(+1\) for even winding.
+
+\begin{warning}[Bundle and curvature boundary]
+Over a punctured plane, a complex eigenline can be represented by a
+single-valued complex section, but the Berry connection may have
+nontrivial holonomy. In the real model, the real line over a loop of
+odd winding is the nontrivial real line bundle. The smooth Berry
+curvature vanishes away from the origin in this two-dimensional real
+model; the phase must not be attributed to an ordinary nonzero local
+curvature density on the punctured plane.
+\end{warning}
+
+\section{Derivative coupling and quantum metric}
+
+For local orthonormal sections, define
+\[
+d_{ab}^{(q)}=\langle u_a,\nabla_q u_b\rangle .
+\]
+For \(a\ne b\), a gauge change multiplies \(d_{ab}\) by a phase;
+therefore \(d_{ab}\) itself is gauge covariant, while its norm and the
+quantum metric are gauge invariant.
+
+In the energy coordinates \(\xi=(x,y)\), the gauge
+\cref{eq:real-eigenvectors} gives
+\begin{equation}\label{eq:energy-nac}
+d_{+-}^{(E)}
+=-\frac12\nabla_\xi\phi
+=\frac1{2r^2}\begin{pmatrix}y\\-x\end{pmatrix},
+\qquad
+\norm{d_{+-}^{(E)}}=\frac1{2r}.
+\end{equation}
+Its dimension is \(E^{-1}\), not \(L^{-1}\).
+
+The rank-one quantum metric is
+\begin{equation}\label{eq:quantum-metric}
+g^{(E)}_{\mu\nu}
+=\operatorname{Re}\langle\partial_\mu u_-,
+(I-P_-)\partial_\nu u_-\rangle
+=\frac12\Tr(\partial_\mu P_-\partial_\nu P_-)
+=\frac1{4r^4}
+\begin{pmatrix}
+y^2&-xy\\
+-xy&x^2
+\end{pmatrix}_{\mu\nu}.
+\end{equation}
+Hence
+\begin{equation}\label{eq:metric-trace}
+\Tr g^{(E)}=\frac1{4r^2}
+=\norm{d_{+-}^{(E)}}^2.
+\end{equation}
+
+Let \(J=D_q(x,y)\), with entries of dimension \(EL^{-1}\) in the
+declared length chart. The physical-coordinate quantities are the
+pullbacks
+\begin{equation}\label{eq:physical-pullback}
+d_{+-}^{(q)}=J^\mathsf T d_{+-}^{(E)},\qquad
+g^{(q)}=J^\mathsf T g^{(E)}J,
+\end{equation}
+so \([d_{+-}^{(q)}]=L^{-1}\) and \([g^{(q)}]=L^{-2}\).
+The scalar \(1/(2r)\) is therefore not a coordinate-independent
+physical coupling magnitude; it belongs to the Euclidean metric of
+the chosen energy-coordinate plane.
+
+\section{Born--Oppenheimer reduction and dynamics firewall}
+
+For a local adiabatic expansion
+\[
+\Psi(q,r_{\rm e})=\sum_a\chi_a(q)u_a(q;r_{\rm e}),
+\]
+the nuclear kinetic operator contains
+\begin{equation}\label{eq:kinetic-couplings}
+(T_N)_{ab}
+=-\sum_A\frac{\hbar^2}{2M_A}
+\left[
+\delta_{ab}\nabla_A^2
++2d_{ab}^{(A)}\cdot\nabla_A
++\tau_{ab}^{(A)}
+\right],
+\qquad
+\tau_{ab}^{(A)}=\langle u_a,\nabla_A^2u_b\rangle .
+\end{equation}
+Under a coordinate-dependent unitary change within the retained
+cluster, covariance belongs to the complete matrix operator.
+Discarding the off-diagonal terms is an approximation whose uniform
+validity fails near an internal gap closure.
+
+For a prescribed path \(q(t)\), a local adiabatic diagnostic is
+\begin{equation}\label{eq:adiabatic-parameter}
+\eta_{ab}(t)
+=\frac{\hbar\abs{\langle u_a,\dot H_{\rm e}u_b\rangle}}
+{\abs{E_b-E_a}^2}.
+\end{equation}
+The condition \(\eta_{ab}\ll1\) is a model-dependent sufficiency
+diagnostic, not a universal error theorem. At a gap closure, the
+uniform-gap hypothesis of standard adiabatic estimates fails.
+
+\begin{model}[Landau--Zener control]\label{model:lz}
+For
+\[
+H_{\rm LZ}(t)=vt\,\sigma_z+b\,\sigma_x,\qquad
+v>0,\quad b>0,
+\]
+with evolution from \(t=-\infty\) to \(+\infty\), the exact diabatic
+survival probability is
+\begin{equation}\label{eq:lz}
+P_{\rm D}=\exp\left(-\frac{\pi b^2}{\hbar v}\right).
+\end{equation}
+\end{model}
+
+This control has minimum gap \(2b\), but changing the sweep rate \(v\)
+changes \(P_{\rm D}\). Thus the static gap, Berry phase, or derivative
+coupling alone does not determine a molecular branching ratio.
+Wavepacket shape, masses, path, velocity, decoherence, additional
+states, and the measurement channel are separate inputs.
+
+\section{Observation chain and finite-resolution identifiability}
+
+The strict factorization is
+\begin{equation}\label{eq:observation-chain}
+(H_{\rm mol},\Psi)
+\xrightarrow{\Scal_{\rm cl}}
+(H_{\rm cl}(q),\chi(q))
+\xrightarrow{\Pcal_{\rm ad}}
+(E_\pm(q),P_\pm(q),\chi_\pm(q))
+\xrightarrow{\Ocal_\lambda}
+Z_\lambda
+\xrightarrow{\Kcal_\lambda}
+\Law(Y_\lambda\mid Z_\lambda)
+\xrightarrow{\widehat\Theta_\lambda}
+\widehat\Theta .
+\end{equation}
+The rank-one adiabatic splitting \(\Pcal_{\rm ad}\) is defined only
+off the seam. A local eigenvector section is an additional gauge
+choice, not an observation.  A spectroscopic or product channel
+\(\Ocal_\lambda\) does not generally reveal the full projector field
+or Berry holonomy.
+
+\begin{definition}[Spectral-discriminant singularity]
+Let \(\Dcal\subset\operatorname{Herm}(n)\) be the repeated-eigenvalue
+discriminant. A conical intersection of the declared real two-state
+class is a transverse point or seam in
+\[
+S=H_{\rm eff}^{-1}(\Dcal)
+\]
+for which the ordered rank-one eigenprojector map fails to extend
+through \(S\) and the leading eigenvalue splitting is conical.
+\end{definition}
+
+This is not the same as requiring \(\rank DH_{\rm eff}\) to drop.
+The singular map is the eigen-decomposition at the discriminant, not
+necessarily the parameter-to-Hamiltonian map.  For a classical
+optical caustic, the reusable criterion is rank loss of a ray
+projection; a determinant criterion is valid only in a square local
+chart.
+
+\begin{warning}[Qualified use of ``observation caustic'']
+The term may be used as a GO analogy for singularity of a reduced
+description. It is not a theorem that conical intersections and
+optical caustics are equivalent singularities, and no Arnold
+classification of Lagrangian-map caustics is imported here.
+\end{warning}
+
+Suppose measured energies are
+\[
+Y_\pm=E_\pm+\varepsilon_\pm,\qquad
+\mathbb E[\varepsilon_\pm]=0.
+\]
+Then the measured gap
+\(\widehat\Delta=Y_+-Y_-\) has variance
+\begin{equation}\label{eq:gap-uncertainty}
+\sigma_\Delta^2
+=\sigma_+^2+\sigma_-^2
+-2\operatorname{Cov}(\varepsilon_+,\varepsilon_-).
+\end{equation}
+With instrumental resolution \(\epsilon_E\ge0\), a rule such as
+\begin{equation}\label{eq:unresolved-rule}
+\abs{\widehat\Delta}
+\le \kappa\sigma_\Delta+\epsilon_E
+\end{equation}
+classifies an \emph{unresolved near-degeneracy}. It does not prove an
+exact degeneracy, conical topology, odd Berry holonomy, or a
+nonadiabatic transition. Those conclusions require additional
+sampling, model class, path, and identifiability assumptions.
+
+\section{Gap-opening control and reproducible benchmarks}
+
+The complex Hermitian control
+\begin{equation}\label{eq:gapped-control}
+H_\delta(x,y)=x\sigma_z+y\sigma_x+\delta\sigma_y,
+\qquad \delta\ne0,
+\end{equation}
+has
+\begin{equation}\label{eq:gapped-spectrum}
+E_\pm^\delta=\pm\sqrt{x^2+y^2+\delta^2},\qquad
+\Delta_\delta=2\sqrt{r^2+\delta^2}\ge2\abs{\delta}.
+\end{equation}
+It opens a gap on the \(x,y\) plane by leaving the real-symmetric
+class. It is therefore a symmetry-breaking control, not the same
+real conical-intersection model with a harmless numerical
+regularizer.
+
+For the positively oriented circle \(x=R\cos\phi\),
+\(y=R\sin\phi\), and the orientation convention used in the release,
+the lower-state phase modulo \(2\pi\) has magnitude
+\begin{equation}\label{eq:gapped-berry}
+\gamma_\delta(R)
+=\pi\left(1-\frac{\delta}{\sqrt{R^2+\delta^2}}\right).
+\end{equation}
+It tends to \(\pi\) as \(\delta\to0^+\) and to zero as
+\(\delta/R\to+\infty\); unlike the real sign holonomy, it is not
+quantized for \(\delta\ne0\).
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabularx}{\linewidth}{L{0.31\linewidth} L{0.22\linewidth} Y}
+\toprule
+Benchmark & Exact value & Purpose \\
+\midrule
+\(H(3,4)\), energy units & \(E_\pm=\pm5,\ \Delta=10\) &
+Conical spectrum and dimensions \\
+\(r=0.25\), energy units & \(\norm{d_{+-}^{(E)}}=2\) &
+Energy-coordinate coupling scaling \\
+Unit circle, winding \(1\) & \(W_N=-1,\ \gamma=\pi\) &
+Gauge-invariant discrete holonomy \\
+Unit circle, winding \(2\) & \(W_N=+1,\ \gamma=0\) mod \(2\pi\) &
+Parity of real-line holonomy \\
+\(R=1,\delta=1\) & \(\gamma_\delta=\pi(1-1/\sqrt2)\) &
+Nonquantized gapped control \\
+\(\hbar v=b^2\) & \(P_{\rm D}=e^{-\pi}\) &
+Dimensionless dynamical exponent \\
+\bottomrule
+\end{tabularx}
+\caption{Reference values implemented by the P8 regression suite.}
+\end{table}
+
+The executable release additionally checks projector idempotence and
+orthogonality, absence of a rank-one limit, cluster smoothness,
+gauge invariance of the overlap product, quantum-metric identities,
+coordinate pullback dimensions, the Landau--Zener formula, covariance
+in \cref{eq:gap-uncertainty}, and zero-gap guards.
+
+\section{Protocol requirements and claim register}
+
+A complete conical-intersection observation record states at least:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item nuclear-coordinate chart, coordinate dimensions, reference
+      geometry, and frame;
+\item electronic Hamiltonian class, domain assumptions, basis,
+      symmetry class, and retained spectral cluster;
+\item external cluster gap, active-state multiplicity, and
+      degeneracy/discriminant convention;
+\item physical-to-branching Jacobian \(D_q(x,y)\) and its units;
+\item whether outputs are unordered eigenvalues, ordered energies,
+      projectors, local eigenvectors, or a diabatic matrix;
+\item gauge convention, loop orientation, winding rule, and overlap
+      threshold for a discrete Berry phase;
+\item nuclear path, speed, masses, initial state, and dynamical
+      approximation for every transition claim;
+\item spectroscopic or product observation map, resolution,
+      stochastic kernel, covariance, and detection threshold;
+\item estimator, uncertainty statement, sampling region, and
+      identifiability class;
+\item explicit boundary between exact normal-form results,
+      asymptotic diagnostics, numerical evidence, and chemical
+      interpretation.
+\end{enumerate}
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabularx}{\linewidth}{L{0.34\linewidth} L{0.19\linewidth} Y}
+\toprule
+Claim & Status & Scope \\
+\midrule
+Double-cone spectrum &
+Proposition &
+Exact real two-state normal form \\
+Codimension-two seam &
+Proposition &
+\(\rank D_q(x,y)=2\), real two-state class \\
+No rank-one projector extension &
+Proposition &
+Punctured branching plane approaching the origin \\
+Berry sign holonomy &
+Proposition &
+Closed loop with declared winding, real eigenline \\
+\(\Tr g^{(E)}=1/(4r^2)\) &
+Proposition &
+Euclidean energy-coordinate metric \\
+Gap closure fixes transition probability &
+Rejected &
+Dynamics and initial data are additionally required \\
+Finite unresolved gap proves a CI &
+Rejected &
+Resolution alone does not identify topology \\
+CI equals an optical caustic &
+Rejected &
+Only a qualified observation-reduction analogy \\
+New quantum-chemical method or theorem &
+Rejected &
+Not claimed \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{center}
+\fcolorbox{obsgreen}{lightgreen}{%
+\parbox{0.88\linewidth}{\small
+The strict program-level conclusion is that a conical intersection is
+a transverse encounter with a spectral discriminant for which the
+individual adiabatic rank-one splitting becomes singular while the
+retained two-state cluster can remain regular. Gauge, dynamics, and
+measurement are separate typed layers.}}
+\end{center}
+
+\section*{References}
+\addcontentsline{toc}{section}{References}
+\begingroup
+\raggedright
+\begin{enumerate}[label={[\arabic*]},leftmargin=*,itemsep=3pt]
+\item M. Born and R. Oppenheimer, ``Zur Quantentheorie der Molekeln,''
+\emph{Annalen der Physik} 389, 457--484 (1927),
+\href{https://doi.org/10.1002/andp.19273892002}{doi:10.1002/andp.19273892002}.
+\item H. C. Longuet-Higgins, U. Oepik, M. H. L. Pryce, and
+R. A. Sack, ``Studies of the Jahn--Teller effect. II. The dynamical
+problem,'' \emph{Proceedings of the Royal Society A} 244, 1--16
+(1958),
+\href{https://doi.org/10.1098/rspa.1958.0022}{doi:10.1098/rspa.1958.0022}.
+\item G. Herzberg and H. C. Longuet-Higgins, ``Intersection of
+potential energy surfaces in polyatomic molecules,''
+\emph{Discussions of the Faraday Society} 35, 77--82 (1963),
+\href{https://doi.org/10.1039/DF9633500077}{doi:10.1039/DF9633500077}.
+\item C. A. Mead and D. G. Truhlar, ``On the determination of
+Born--Oppenheimer nuclear motion wave functions including
+complications due to conical intersections and identical nuclei,''
+\emph{Journal of Chemical Physics} 70, 2284--2296 (1979),
+\href{https://doi.org/10.1063/1.437734}{doi:10.1063/1.437734}.
+\item M. V. Berry, ``Quantal phase factors accompanying adiabatic
+changes,'' \emph{Proceedings of the Royal Society A} 392, 45--57
+(1984),
+\href{https://doi.org/10.1098/rspa.1984.0023}{doi:10.1098/rspa.1984.0023}.
+\item C. Zener, ``Non-adiabatic crossing of energy levels,''
+\emph{Proceedings of the Royal Society A} 137, 696--702 (1932),
+\href{https://doi.org/10.1098/rspa.1932.0165}{doi:10.1098/rspa.1932.0165}.
+\item T. Kato, \emph{Perturbation Theory for Linear Operators},
+Springer, corrected printing of the second edition, 1995.
+\item D. R. Yarkony, ``Diabolical conical intersections,''
+\emph{Reviews of Modern Physics} 68, 985--1013 (1996),
+\href{https://doi.org/10.1103/RevModPhys.68.985}{doi:10.1103/RevModPhys.68.985}.
+\end{enumerate}
+\endgroup
+
+\end{document}

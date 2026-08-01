@@ -1,0 +1,38 @@
+schema:
+  id: go-p5-visual-qa
+  version: 0.6.0
+date: 2026-07-28
+status: PASS
+method:
+  renderer: system Poppler pdftoppm
+  format: PNG
+  inspection: page_by_page_and_contact_sheet
+documents:
+  - id: frames-forces-dissipation-interface-v0-1
+    pages: 7
+    inspected_pages: [1, 2, 3, 4, 5, 6, 7]
+    status: PASS
+  - id: celestial-foucault-networks-v1-1
+    pages: 6
+    inspected_pages: [1, 2, 3, 4, 5, 6]
+    status: PASS
+  - id: bobsleigh-contact-v1-1
+    pages: 6
+    inspected_pages: [1, 2, 3, 4, 5, 6]
+    status: PASS
+  - id: roller-coaster-v1-1
+    pages: 6
+    inspected_pages: [1, 2, 3, 4, 5, 6]
+    status: PASS
+checks:
+  clipped_content: false
+  overlapping_content: false
+  broken_tables: false
+  unreadable_glyphs: false
+  duplicate_reference_headings: false
+  inconsistent_page_numbering: false
+resolved_during_final_audit:
+  - duplicate References heading in the interface
+  - duplicate References heading in the three application modules
+  - sparse trailing bibliography page in the bobsleigh draft
+total_pages: 25

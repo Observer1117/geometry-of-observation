@@ -1,0 +1,241 @@
+schema:
+  id: go-regular-polyhedra-observation-contract
+  version: 1.1.0
+  date: 2026-07-28
+  base_contract: go-core-spec@0.2.0
+  inherited_contracts:
+    - go-quantum-chemistry-observation-contract@1.0.0
+  normative_document: regular-polyhedra-observation-v1-1
+
+dimension_basis: [L, M, T, I, Theta, N, J]
+exchange_unit_context: SI
+
+scope:
+  strict_reference:
+    - rank_3_abstract_polyhedra
+    - faithful_nondegenerate_realizations_in_R3
+    - finite_equivelar_spherical_maps
+    - regular_maps_and_Petrie_operation
+    - finite_candidate_identification_under_metric_separation
+    - finite_flag_orbit_diagnostics
+  qualified_extensions:
+    - infinite_skeletal_apeirohedra
+    - nonfaithful_or_degenerate_realizations
+    - higher_rank_abstract_polytopes
+    - random_geometric_reconstruction
+    - infinite_flag_entropy_with_declared_measure
+  excluded_without_extension:
+    - new_polyhedron_classification
+    - new_regular_polyhedron
+    - universal_count_of_regular_polyhedra
+    - picture_to_incidence_inversion
+    - exact_symmetry_from_nonzero_tolerance
+
+object_layer:
+  abstract_polyhedron:
+    structure: ranked_poset
+    rank_values: [-1, 0, 1, 2, 3]
+    axioms:
+      - unique_least_and_greatest_faces
+      - flags_have_one_face_of_each_rank
+      - diamond_condition
+      - strong_flag_connectivity
+  reduced_flag: incident_vertex_edge_face_triple
+  realization:
+    object: beta_of_abstract_polyhedron_with_declared_convention
+    convention_fields:
+      - ambient_space
+      - vertex_embedding
+      - edge_model
+      - face_model
+      - discreteness
+      - local_finiteness
+      - faithfulness
+  groupoid:
+    id: RPol_3
+    objects: abstract_polyhedron_realization_convention_triples
+    arrows: incidence_isomorphisms_intertwined_by_ambient_isometries
+  prohibitions:
+    - V_E_F_I_tuple_does_not_supply_polytope_axioms
+    - convex_star_map_and_skeletal_categories_are_not_silently_identical
+
+symmetry_layer:
+  abstract_group:
+    symbol: Gamma_P
+    definition: Aut(P)
+    regularity: transitive_on_abstract_flags
+    flag_stabilizer_for_polytope: trivial
+  geometric_group:
+    symbol: G_beta
+    definition: ambient_isometries_preserving_realized_vertices_edges_and_faces
+    induced_map: iota_beta_from_G_beta_to_Aut_P
+    regularity: transitive_on_geometric_flags
+  implication:
+    faithful_geometric_regular_implies_abstract_regular: true
+    abstract_regular_implies_given_realization_geometric_regular: false
+  counterexample:
+    abstract_object: cube
+    realization: rectangular_cuboid_with_three_distinct_edge_lengths
+    abstract_flag_orbits: 1
+    geometric_flag_orbits: 6
+  prohibitions:
+    - abstract_and_geometric_symmetry_groups_are_not_one_untyped_G_P
+    - visual_similarity_is_not_flag_transitivity
+
+string_C_group_layer:
+  generators: [rho_0, rho_1, rho_2]
+  relations:
+    - rho_i_squared_equals_identity
+    - rho_0_rho_2_squared_equals_identity
+    - order_rho_0_rho_1_equals_p
+    - order_rho_1_rho_2_equals_q
+  intersection_property:
+    formula: subgroup_I_intersection_subgroup_J_equals_subgroup_I_intersection_J
+  finite_regular_flag_count:
+    formula: order_Aut_P_equals_number_of_flags_equals_4E
+  prohibitions:
+    - Schlafli_type_is_not_a_complete_global_identifier
+    - Coxeter_relations_without_intersection_property_do_not_certify_a_polytope
+
+observation_specification:
+  tuple:
+    - admissible_full_subgroupoid
+    - observed_space
+    - invariant_observation_map
+  admissibility_preorder:
+    formula: O1_le_adm_O2_iff_C1_is_full_subgroupoid_of_C2
+    variance: larger_domain_admits_more_objects
+  information_preorder:
+    formula: O_fine_ge_info_O_coarse_iff_Q_coarse_equals_kappa_after_Q_fine
+    kernel_law: kernel_Q_fine_subset_kernel_Q_coarse
+    variance: coarser_channel_identifies_more_objects
+  independence:
+    admission_does_not_imply_information_refinement: true
+    historical_relaxations_form_total_chain: false
+  prohibitions:
+    - tuple_inclusion_is_undefined_without_component_orders
+    - domain_enlargement_is_not_information_loss
+    - independent_relaxations_need_not_be_comparable
+
+incidence_layer:
+  equivelar_type: "{p,q}"
+  double_counting:
+    - pF_equals_2E
+    - qV_equals_2E
+  finite_flag_count: flags_equals_4E
+  spherical_Euler_relation: V_minus_E_plus_F_equals_2
+  spherical_type_inequality: reciprocal_p_plus_reciprocal_q_greater_than_one_half
+  possible_integer_pairs_p_q_at_least_3:
+    - [3, 3]
+    - [4, 3]
+    - [3, 4]
+    - [5, 3]
+    - [3, 5]
+  prohibitions:
+    - spherical_Euler_argument_does_not_classify_star_or_infinite_polyhedra
+    - possible_local_types_do_not_by_themselves_prove_realization_uniqueness
+
+duality_and_Petrial:
+  abstract_duality:
+    f_vector_action: [F, E, V]
+    type_action: "{p,q} to {q,p}"
+    automorphism_group_order_preserved: true
+  Petrie_operation:
+    generator_action: [rho_0_rho_2, rho_1, rho_2]
+    preserves:
+      - vertices
+      - edges
+      - underlying_skeleton
+    changes:
+      - face_cycles
+      - possibly_surface_and_Euler_characteristic
+  cube_control:
+    cube_f_vector: [8, 12, 6]
+    cube_Petrial_f_vector: [8, 12, 4]
+    cube_face_length: 4
+    cube_Petrial_face_length: 6
+    cube_Euler_characteristic: 2
+    cube_Petrial_Euler_characteristic: 0
+  prohibition:
+    - skeleton_does_not_determine_face_set
+
+finite_resolution_layer:
+  data_model: y_i_equals_x_i_plus_eta_i
+  noise_bound: norm_eta_i_at_most_epsilon
+  symmetry_residual:
+    formula: RMS_over_vertices_after_allowed_incidence_permutation
+    dimension: length
+  normalized_residual:
+    formula: delta_g_equals_r_g_over_positive_reference_length
+    dimension: dimensionless
+  exact_symmetry_bound:
+    formula: r_Y_g_at_most_2_epsilon
+    converse: false
+  finite_library_identifiability:
+    candidate_separation: Delta_i_equals_minimum_distance_to_other_candidates
+    certificate: distance_Y_Mi_less_than_Delta_i_over_2
+    conclusion: unique_nearest_candidate_within_declared_library
+  prohibitions:
+    - approximate_residual_does_not_prove_exact_symmetry
+    - finite_library_identification_does_not_prove_model_completeness
+
+flag_orbit_diagnostic:
+  finite_only_without_extension: true
+  weights: orbit_size_divided_by_total_flag_count
+  entropy:
+    formula: minus_sum_w_log2_w
+    base: 2
+    zero_iff_one_orbit: true
+    semantics: combinatorial_Shannon_diagnostic
+  prohibitions:
+    - orbit_entropy_is_not_thermodynamic_entropy
+    - infinite_uniform_flag_distribution_is_not_assumed
+
+count_firewall:
+  Platonic:
+    count: 5
+    convention: finite_convex_regular_polyhedra_in_R3_up_to_similarity
+  Kepler_Poinsot:
+    count: 4
+    convention: classical_regular_star_polyhedra
+  Schulte_skeletal_R3:
+    count: 48
+    finite: 18
+    infinite: 30
+    convention: discrete_geometrically_regular_skeletal_polyhedra_in_R3
+  prohibitions:
+    - 48_is_not_the_count_of_all_abstract_regular_polyhedra
+    - counts_from_different_categories_are_not_combined
+
+protocol_minimum:
+  required:
+    - abstract_object_axioms_and_rank
+    - realization_convention_and_ambient_space
+    - faithfulness
+    - abstract_or_geometric_regularity
+    - admissible_subgroupoid
+    - counting_equivalence
+    - observation_map_and_face_selection
+    - nuisance_group_and_registration
+    - spatial_resolution
+    - noise_bound_or_law
+    - estimator_and_threshold
+    - uncertainty_statement
+    - infinite_window_and_boundary_policy_when_applicable
+
+reference_gates:
+  - object_axioms_typed
+  - realization_convention_typed
+  - abstract_geometric_symmetry_separated
+  - flag_action_scoped
+  - string_C_group_intersection_property_present
+  - admission_preorder_defined
+  - information_preorder_defined
+  - filter_poset_not_forced_to_chain
+  - incidence_double_counts_verified
+  - spherical_scope_declared
+  - skeleton_noninjectivity_control_present
+  - finite_resolution_bound_present
+  - half_separation_certificate_present
+  - entropy_semantics_declared
+  - convention_scoped_counts

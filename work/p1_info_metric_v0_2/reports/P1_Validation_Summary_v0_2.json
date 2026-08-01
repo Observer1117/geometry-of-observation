@@ -1,0 +1,34 @@
+{
+  "schema": {
+    "id": "go-p1-validation-summary",
+    "version": "0.2.0"
+  },
+  "status": "PASS",
+  "documents": [
+    {
+      "id": "information-theoretic-observation-v0-2",
+      "pages": 9,
+      "sha256": "5a64daee29f75c8951f9fb1e2ff263fea27f3ab2128144abf8c64284eabf8a92",
+      "embedded_font_rows": 19,
+      "extracted_characters": 24502
+    },
+    {
+      "id": "metric-entropy-defect-v0-2",
+      "pages": 10,
+      "sha256": "615670a93610ce5a4911fa2d2e30c1e06f1faec900d614d21492e36a664b1257",
+      "embedded_font_rows": 19,
+      "extracted_characters": 26750
+    }
+  ],
+  "reference_ledgers": 2,
+  "typed_expressions": 22,
+  "reference_lint_findings": 0,
+  "regression_tests": 19,
+  "total_pages": 19,
+  "embedded_font_rows_checked": 38,
+  "corpus_statuses": {
+    "BLOCKED": 2,
+    "FAIL": 11,
+    "PASS": 4
+  }
+}

@@ -1,0 +1,35 @@
+schema:
+  id: go-osf-release-metadata
+  version: 1.3.0
+date: 2026-07-28
+title: "Geometry of Observation: Frozen Typed Corpus and Reproducibility Master"
+description: >-
+  P12 corpus freeze of eighteen independently scoped Geometry of
+  Observation reference modules, with typed ledgers, claim boundaries,
+  exact component hashes, dependency metadata, and executable
+  reproducibility checks.
+resource_type: preprint
+version: 1.3.0
+creator:
+  name: Stassis Stashkevichyus
+  orcid: https://orcid.org/0009-0000-2294-705X
+  affiliation: Independent Research Program
+license:
+  id: CC-BY-NC-ND-4.0
+  url: https://creativecommons.org/licenses/by-nc-nd/4.0/
+homepage: https://theobserverofmultiverses.info
+doi: null
+tags:
+  - geometry of observation
+  - typed observation maps
+  - invariance
+  - covariance
+  - identifiability
+  - reproducibility
+  - corpus freeze
+primary_files:
+  - Geometry_of_Observation_Corpus_Master_v1_3.pdf
+  - GO_P12_Corpus_Master_v1_3_Release_Bundle.zip
+  - RELEASE_MANIFEST_v1_3.yaml
+  - SHA256SUMS_v1_3.txt
+doi_policy: one corpus-level record; no placeholder component DOIs

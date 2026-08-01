@@ -1,0 +1,851 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[
+  BoldFont={DejaVu Serif Bold},
+  ItalicFont={DejaVu Serif},
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont={DejaVu Serif Bold},
+  BoldItalicFeatures={FakeSlant=0.18}
+]
+\setsansfont{DejaVu Sans}
+\usepackage{polyglossia}
+\setmainlanguage{russian}
+\setotherlanguage{english}
+\newfontfamily\cyrillicfonttt{DejaVu Sans Mono}
+\usepackage[a4paper,margin=21mm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.04}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm,mathrsfs}
+\usepackage{booktabs,longtable,array,tabularx}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\usepackage{tocloft}
+\setlength{\cftsecnumwidth}{2.5em}
+\setlength{\cftsubsecnumwidth}{3.4em}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\emergencystretch=3em
+\allowdisplaybreaks
+
+\hypersetup{
+  pdftitle={Functional Interface for Geometry of Observation: GO-QS Typed Variational Protocol},
+  pdfauthor={Stassis Research Program},
+  pdfsubject={P0 reference implementation of the GO-QS observation interface},
+  pdfkeywords={geometry of observation, GO-QS, inverse problems, typed quantities, variational estimator}
+}
+
+\definecolor{obsblue}{RGB}{37,83,138}
+\definecolor{obsred}{RGB}{150,45,45}
+\definecolor{obsgreen}{RGB}{30,115,78}
+\definecolor{obsgray}{RGB}{75,75,75}
+\definecolor{lightblue}{RGB}{239,246,253}
+\definecolor{lightred}{RGB}{253,242,242}
+\definecolor{lightgreen}{RGB}{239,249,244}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[section]
+\newtheorem{model}[definition]{Модель}
+\newtheorem{hypothesis}[definition]{Гипотеза}
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Теорема}
+\newtheorem{proposition}[definition]{Предложение}
+\newtheorem{lemma}[definition]{Лемма}
+\theoremstyle{remark}
+\newtheorem{remark}[definition]{Замечание}
+\newtheorem{warning}[definition]{Ограничение}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\Qreg}{\mathcal{Q}}
+\newcommand{\Dprof}{\mathscr{D}}
+\newcommand{\dd}{\mathop{}\!d}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\given}{\,\middle|\,}
+\newcommand{\Type}{\operatorname{Type}}
+\newcommand{\Cod}{\operatorname{Cod}}
+\newcommand{\Argmin}{\operatorname*{arg\,min}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\id}{\operatorname{id}}
+\newcommand{\status}[1]{\textsf{\footnotesize #1}}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\title{\bfseries Функциональный интерфейс геометрии наблюдения\\
+\large Типизированный вариационный протокол GO-QS}
+\author{Stassis Research Program}
+\date{Строгая эталонная редакция v0.2 (P0) --- 2026}
+
+\begin{document}
+\setlength{\RaggedRightParindent}{1.2em}
+\RaggedRight
+\hyphenation{
+ис-поль-зо-вать
+един-ствен-ность
+при-ви-ле-ги-ро-ван-ность
+про-стран-ствен-ной
+пре-об-ра-зо-ва-нии
+без-раз-мер-на-я
+су-ще-ство-ва-ни-е
+не-един-ствен-ность
+ин-тер-пре-та-ци-я
+ре-флек-сив-но-е
+по-сле-до-ва-тель-но
+ко-эр-ци-тив-ный
+по-лу-не-пре-рыв-ный
+ми-ни-ми-зи-ру-ю-щу-ю
+по-сле-до-ва-тель-ность
+ко-эр-ци-тив-ность
+огра-ни-чен-ной
+ре-флек-сив-ность
+под-по-сле-до-ва-тель-ность
+по-лу-не-пре-рыв-ность
+иден-ти-фи-ци-ру-е-мо-сти
+ин-тер-пре-та-ци-он-ной
+функ-ци-о-наль-ный
+вос-про-из-во-ди-му-ю
+од-но-вре-мен-ном
+ин-ва-ри-ан-тен
+}
+\maketitle
+
+\begin{center}
+\fcolorbox{obsblue}{lightblue}{%
+\parbox{0.91\linewidth}{\small
+\textbf{Статус.} Эталонный документ фазы P0 для системы GO-QS v0.1.
+Текст определяет математический интерфейс задачи наблюдения и оценивания.
+Он не вводит новую физическую теорию, не объявляет эвристические фильтры
+инвариантами природы и не отождествляет результат оптимизации с физической
+геометрией без отдельно заданной интерпретационной карты.}}
+\end{center}
+
+\begin{abstract}
+Задаётся типизированный функциональный интерфейс геометрии наблюдения.
+Симметрия или смена кадра, редукция разрешения,
+де\-тер\-ми\-ни\-ро\-ван\-ное наблюдение,
+стохастический канал и оцениватель разделены как операторы разных типов.
+``Нулевая сцена'' заменена явной калибровочной системой; геометрическое
+сечение определено через регулярное множество уровня и pullback на вложенную
+подповерхность; хроматическая уникальность ограничена конечным конфликтным
+графом. Все слагаемые вариационного функционала безразмерны, снабжены
+протоколом и политикой нулевого знаменателя. Доказана теорема существования
+минимизатора прямым методом и сформулирован критерий структурной
+восстановимости. Причинность введена через лоренцево отношение $J^-$, а
+Landauer--Bekenstein--Margolus--Levitin ограничения вынесены из универсального
+функционала в условные физические модули. Результат является интерфейсом для
+воспроизводимых inverse problems, а не самостоятельной динамической теорией.
+\end{abstract}
+
+\tableofcontents
+
+\section{Область действия и статусы утверждений}
+
+В документе используются шесть статусов:
+\[
+\status{DEFINITION},\quad
+\status{THEOREM},\quad
+\status{PROPOSITION},\quad
+\status{MODEL},\quad
+\status{HYPOTHESIS},\quad
+\status{DIAGNOSTIC}.
+\]
+Определения и теоремы относятся к математическому ядру. Модель фиксирует
+конкретный статистический или вычислительный выбор. Гипотеза требует
+независимого обоснования. Диагностика является вычислимым признаком и не
+считается физическим инвариантом.
+
+\begin{warning}[Граница новизны]
+Карты наблюдения, марковские ядра, регуляризация и прямой метод
+вариационного исчисления являются стандартными конструкциями. Содержание
+этого текста --- их строгая типовая сборка для корпуса Geometry of
+Observation и устранение несовместимых размерностей прежнего интерфейса.
+\end{warning}
+
+\section{Нормативный пакет наблюдения GO-QS}
+
+\begin{definition}[Пакет наблюдения]
+Пусть $\Lambda$ --- множество допустимых протоколов. Пакетом наблюдения
+называется
+\[
+\mathfrak O=
+\left(
+X,\Phi,\xi,\Lambda,
+\set{X_\lambda,Y_\lambda^0,Y_\lambda,
+R_\lambda,O_\lambda,K_\lambda,\widehat\theta_\lambda}_{\lambda\in\Lambda},
+G,\Qreg,\Dprof
+\right),
+\]
+где:
+\begin{enumerate}[leftmargin=*]
+\item $X$ --- скрытое пространство состояний с объявленной категорией;
+\item $\Phi^t:X\to X$ --- полная динамика, если она задана;
+\item $\xi$ --- дескриптор собственных масштабов системы;
+\item $R_\lambda:X\to X_\lambda$ --- редукция или огрубление;
+\item $O_\lambda:X_\lambda\to Y_\lambda^0$ --- идеальная
+детерминированная карта наблюдения;
+\item $K_\lambda(\dd y\mid y^0)$ --- марковское ядро из $Y_\lambda^0$ в
+измеримое пространство данных $Y_\lambda$;
+\item $\widehat\theta_\lambda:Y_\lambda\rightrightarrows\Theta_\lambda$ ---
+возможно многозначный оцениватель;
+\item $G$ действует на состояниях обратимыми отображениями $T_g:X\to X$;
+\item $\Qreg$ --- реестр типизированных величин;
+\item $\Dprof$ --- профиль разнотипных дефектов.
+\end{enumerate}
+\end{definition}
+
+Условный закон данных при скрытом состоянии $x$ равен
+\[
+P_\lambda(\dd y\mid x)
+=K_\lambda\!\left(\dd y\mid
+O_\lambda(R_\lambda x)\right).
+\]
+Детерминированный датчик получается при ядре Дирака.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  node distance=8mm and 9mm,
+  box/.style={draw,rounded corners,minimum height=9mm,align=center,fill=lightblue},
+  arr/.style={-{Latex[length=2.2mm]},thick}
+]
+\node[box] (x) {$X$\\скрытое};
+\node[box,right=of x] (xl) {$X_\lambda$\\редуцированное};
+\node[box,right=of xl] (y0) {$Y_\lambda^0$\\идеальный выход};
+\node[box,right=of y0] (y) {$Y_\lambda$\\данные};
+\node[box,below=of y] (th) {$\widehat\theta_\lambda(y)$\\оценка};
+\draw[arr] (x) -- node[above] {$R_\lambda$} (xl);
+\draw[arr] (xl) -- node[above] {$O_\lambda$} (y0);
+\draw[arr] (y0) -- node[above] {$K_\lambda$} (y);
+\draw[arr] (y) -- node[right] {estimator} (th);
+\draw[arr,obsred,bend left=37] (x) to node[below] {$T_g$ обратимо} (x);
+\end{tikzpicture}
+\caption{Типы операторов не взаимозаменяемы. $T_g$ не является каналом
+потери информации.}
+\end{figure}
+
+\begin{proposition}[Композиционный тип]
+Если $R_\lambda$ и $O_\lambda$ измеримы, а $K_\lambda$ --- марковское
+ядро, то $P_\lambda(\cdot\mid x)$ задаёт марковское ядро из $X$ в
+$Y_\lambda$.
+\end{proposition}
+\begin{proof}
+Для каждого $x$ это вероятностная мера как сечение $K_\lambda$.
+Измеримость $x\mapsto P_\lambda(A\mid x)$ для измеримого $A$ следует из
+измеримости $O_\lambda\circ R_\lambda$ и определяющего свойства ядра.
+\end{proof}
+
+\subsection{Паспорт величины}
+
+Каждая величина $q$ имеет тип
+\[
+\Type(q)=
+(D_q,V_q,\kappa_q,\bm d_q,U_q,C_q,\rho_q,\lambda_q,\xi_q,
+\mathsf{Unc}_q,\mathsf{Status}_q),
+\]
+где $\bm d_q\in\mathbb Q^7$ --- SI-вектор размерности, $\kappa_q$ ---
+семантический тип, $C_q$ --- контекст единиц, $\rho_q$ --- закон действия
+кадра или калибровочной группы. Физически безразмерные угол, вероятность,
+ранг, число элементов и информация не считаются автоматически
+арифметически совместимыми.
+
+\section{Калибровочная сцена и камера-трасса}
+
+\begin{definition}[Калибровочная сцена]
+Калибровочная сцена есть пакет
+\[
+\mathcal C_0=(o,E_0,\ell_0,t_0,\mathcal W_0),
+\]
+где $o$ --- начало, $E_0=(e_1,\ldots,e_n)$ --- ориентированный
+ортонормированный репер, $\ell_0>0$ и $t_0>0$ --- эталонные длина и время,
+а $\mathcal W_0$ --- область валидности калибровки.
+\end{definition}
+
+Запись $0!=1$ из v0.1 не является частью определения. Её можно использовать
+только как мнемонику ``одна выбранная исходная калибровка''. Ни единственность
+репера, ни его физическая привилегированность из этой записи не следуют.
+
+\begin{definition}[Камера-трасса]
+При евклидовой пространственной кинематике камера-трасса есть измеримая или
+гладкая кривая
+\[
+C_\lambda:I_{\rm cam}\to SE(n).
+\]
+Она входит в протокол $\lambda$. Если $C_\lambda$ неизвестна, её параметры
+$c$ включаются в пространство $\Theta_\lambda$, а наблюдаемость $c$ должна
+проверяться отдельно.
+\end{definition}
+
+Смена координат, активное перемещение камеры и физическая симметрия объекта
+являются разными операциями. Их отождествление запрещено реестром GO-QS.
+
+\subsection{Строгое содержание ghost-mode}
+
+\begin{definition}[Детерминированный слой совместимости]
+Для идеального выхода $y^0\in Y_\lambda^0$ определяется
+\[
+F_{y^0}^{\lambda}
+=\set{x\in X:O_\lambda(R_\lambda x)=y^0}.
+\]
+\end{definition}
+
+При заданном prior $\pi(\dd x)$ и стохастическом канале скрытая
+неопределённость описывается posterior $\pi_\lambda(\dd x\mid y)$.
+Термин ``ghost-mode'' далее означает либо слой $F_{y^0}^{\lambda}$, либо
+posterior-распределение, но не новый неформальный кортеж невидимых объектов.
+
+\section{Геометрические сечения: корректный тип}
+
+Пусть $M$ --- гладкое $d$-мерное многообразие, а $z_t$ --- поле или
+геометрическая структура на $M$.
+
+\begin{definition}[Регулярное сечение уровня]
+Для гладкой функции $f_{j,\lambda}:M\to\R$ и её регулярного значения
+$c_{j,\lambda}$ положим
+\[
+\Sigma_{j,\lambda}=f_{j,\lambda}^{-1}(c_{j,\lambda}),\qquad
+\iota_{j,\lambda}:\Sigma_{j,\lambda}\hookrightarrow M.
+\]
+Тогда $\Sigma_{j,\lambda}$ является вложенным подмногообразием размерности
+$d-1$, а $\iota_{j,\lambda}$ --- включение.
+\end{definition}
+
+Двумерное сечение получается при $d=3$. Для поля $z_t$ корректная операция
+ограничения есть pullback $\iota_{j,\lambda}^{*}z_t$ тогда, когда тип поля
+допускает pullback. Дискретный выход задаётся отдельно:
+\[
+S_{j,\lambda}
+=Q_{j,\lambda}\circ\iota_{j,\lambda}^{*}:
+\mathcal Z(M)\longrightarrow\mathcal Z(Q_{j,\lambda}),
+\]
+где $Q_{j,\lambda}$ --- конечная сетка, квантователь или оператор выборки.
+
+\begin{remark}
+Карта $M\to\Sigma$ сама по себе не называется сечением. Ретракция
+$r:M\to\Sigma$, сечение расслоения $s:B\to E$ и включение множества уровня
+$\iota:\Sigma\hookrightarrow M$ имеют разные типы.
+\end{remark}
+
+Для графа $G=(V,E)$ аналогом является объявленный оператор выбора
+$V_{j,\lambda}\subseteq V$ и индуцированный подграф. Он не смешивается с
+гладким pullback.
+
+\section{Конечная хроматическая диагностика}
+
+\begin{definition}[Конфликтный граф]
+После дискретизации пусть $V_{j,\lambda}$ конечно. Объявленная симметричная
+relation $\mathcal R_{\chi,\lambda}$ задаёт
+\[
+G_{\chi,\lambda}=(V_{j,\lambda},E_{\chi,\lambda}),\qquad
+(v,w)\in E_{\chi,\lambda}\iff
+v\ne w\ \text{и}\ \mathcal R_{\chi,\lambda}(v,w).
+\]
+\end{definition}
+
+Для меток $\chi:V_{j,\lambda}\to\mathcal C$ нормированный collision defect
+равен
+\[
+\delta_\chi=
+\begin{cases}
+\displaystyle
+\frac{1}{|E_{\chi,\lambda}|}
+\sum_{(v,w)\in E_{\chi,\lambda}}
+\mathbf 1_{\{\chi(v)=\chi(w)\}},&
+|E_{\chi,\lambda}|>0,\\[3mm]
+0,&|E_{\chi,\lambda}|=0.
+\end{cases}
+\]
+Это число из $[0,1]$ и имеет статус \status{DIAGNOSTIC}. Для непрерывных
+цветовых признаков разрешена margin-loss только после объявления метрики
+$d_{\mathcal C}$ и масштаба $m_{\mathcal C}>0$.
+
+\begin{warning}[Континуальная патология v0.1]
+Требование различать все точки с рациональной разностью на континууме не
+принимается как базовый постулат. Рациональные разности плотны, а
+непрерывный RGB-код не обеспечивает заявленную глобальную уникальность.
+Допустимы конечная сетка, конечная $\varepsilon_x$-сеть или отдельная
+теорема о раскраске конкретного графа.
+\end{warning}
+
+\section{Операциональные масштабы и геометрические фильтры}
+
+\subsection{Масштаб}
+
+Для положительной длины $\ell$ используются
+\[
+\widehat\ell=\frac{\ell}{\ell_{\rm ref}},
+\qquad
+\chi_L=\log_b\frac{\ell}{\ell_{\rm ref}},
+\quad b>0,\ b\ne1.
+\]
+Аргумент логарифма безразмерен. Спиральная параметризация
+$r(\theta)=r_0e^{a\theta}$ допустима при безразмерном $a\theta$.
+Золотое сечение, рациональная сетка или спектральный масштаб являются
+опциональными model priors, а не универсальными линейками.
+
+\subsection{Пифагоров диагностический штраф}
+
+Пусть $u,v\ne0$ --- рёбра ячейки и
+\[
+r_u=\frac{\norm{u}}{\sqrt{\norm{u}^2+\norm{v}^2}},
+\qquad
+r_v=\frac{\norm{v}}{\sqrt{\norm{u}^2+\norm{v}^2}}.
+\]
+Для конечного набора примитивных троек
+\[
+\mathcal P_A=\set{(a,b,c)\in\N^3:
+a^2+b^2=c^2,\ \gcd(a,b,c)=1,\ c\le A}
+\]
+определим
+\[
+\delta_{\rm pyth}(u,v)=
+\min_{(a,b,c)\in\mathcal P_A}
+\left[
+\left(r_u-\frac ac\right)^2+
+\left(r_v-\frac bc\right)^2+
+\beta_{\perp}
+\left(\frac{\langle u,v\rangle}{\norm{u}\norm{v}}\right)^2
+\right].
+\]
+Если порядок рёбер не фиксирован, минимум берётся также по перестановке
+$a,b$. Все слагаемые безразмерны. Нулевые рёбра исключены из допустимой
+области.
+
+\subsection{Герон и Кэли--Менгер}
+
+Формулы Герона и Кэли--Менгера являются тождествами евклидовой геометрии,
+а не самостоятельными физическими ограничениями. Если они используются
+как тест согласованности шумных данных, остаток нормируется:
+\[
+\delta_{\rm Heron}
+=\frac{\abs{A_{\rm obs}^2-s(s-a)(s-b)(s-c)}}{\ell_{\rm ref}^{\,4}},
+\qquad
+s=\frac{a+b+c}{2}.
+\]
+Если вводится предпочтение целочисленных или рациональных площадей, оно
+помечается \status{MODEL}, задаётся конечным target set в переменной
+$A/\ell_{\rm ref}^2$ и исключается из функционала по умолчанию.
+
+\subsection{Симметрия}
+
+Для нормированного представления $z$ в гильбертовом пространстве и
+объявленной группы $G_\lambda$ допустима диагностика
+\[
+\delta_{\rm sym}(z)=
+\begin{cases}
+\displaystyle
+\inf_{g\in G_\lambda\setminus\{e\}}
+\frac{\norm{z-g\!\cdot\! z}^{2}}{\norm z^{2}},
+&\norm z>0,\ G_\lambda\ne\{e\},\\[2mm]
+0,&\norm z=0\ \text{или}\ G_\lambda=\{e\}.
+\end{cases}
+\]
+Группа, представление и нулевая политика являются частью протокола.
+
+\section{Динамический дефект замыкания}
+
+Пусть $y_v:[0,T_{\rm hor}]\to(Y_\lambda,d_{Y,\lambda})$ --- наблюдаемая
+траектория маркера, а $r_Y(\lambda)>0$ --- разрешение выхода. Для
+$0<P_{\min}\le P\le P_{\max}<T_{\rm hor}$ положим
+\[
+\delta_{{\rm cl},v}(P)=
+\left[
+\frac{1}{T_{\rm hor}-P}
+\int_0^{T_{\rm hor}-P}
+\left(
+\frac{d_{Y,\lambda}(y_v(t+P),y_v(t))}
+{r_Y(\lambda)}
+\right)^2\dd t
+\right]^{1/2},
+\]
+\[
+\delta_{{\rm cl},v}
+=\inf_{P\in[P_{\min},P_{\max}]}\delta_{{\rm cl},v}(P).
+\]
+Эта величина безразмерна и протокол-зависима. Малое значение на конечном
+горизонте не доказывает периодичность полной скрытой динамики.
+
+\section{Причинность и физические бюджеты}
+
+\subsection{Лоренцева причинность}
+
+Пусть $(M,g)$ --- time-oriented Lorentzian manifold. Данные, считанные в
+событии $p_{\rm obs}$, могут зависеть от события $q$ только если
+\[
+q\in J^-(p_{\rm obs}).
+\]
+Это hard constraint допустимого множества $\A_\lambda$. В плоской
+пространственно-временной диаграмме с координатами $(t,\bm x)$ условие
+имеет вид
+\[
+t_q\le t_{\rm obs},\qquad
+\norm{\bm x_{\rm obs}-\bm x_q}
+\le c(t_{\rm obs}-t_q).
+\]
+Риманов шар $d(x,o)\le c|t-t_0|$ не переносится в общий лоренцев случай.
+
+\subsection{Условные информационно-физические модули}
+
+Следующие формулы не входят в универсальный функционал:
+\begin{align*}
+Q_{\rm erase}&\ge k_BT\ln2\;N_{\rm erased},\\
+N_{\rm bits}&\le
+\frac{2\pi ER}{\hbar c\ln2},\\
+\tau_\perp&\ge
+\frac{\pi\hbar}{2(E-E_0)}.
+\end{align*}
+Первая относится к логически необратимому стиранию при объявленной
+термодинамической модели; вторая требует условий применимости
+Bekenstein bound; третья --- к времени перехода в ортогональное
+квантовое состояние при конечной средней энергии над основным состоянием.
+Биты, джоули и секунды не суммируются. При необходимости каждая формула
+задаёт отдельное допустимое множество или отдельный нормированный defect.
+
+\subsection{Нет универсальной неопределённости ``сечение--путь''}
+
+Не существует выведенной в v0.1 теоремы
+$\Delta_\Sigma\Delta_\gamma\ge\kappa_{\rm obs}$. Для конкретного прибора
+разрешена только модель
+\[
+\widehat u_\Sigma\widehat u_\gamma\ge\kappa_\lambda,\qquad
+\widehat u_\Sigma=\frac{u_\Sigma}{u_{\Sigma,0}},\quad
+\widehat u_\gamma=\frac{u_\gamma}{u_{\gamma,0}},
+\]
+где обе нормировки, метод оценки неопределённостей и область валидности
+получены из калибровки. Статус такого отношения --- \status{HYPOTHESIS}
+или \status{EMPIRICAL}, но не квантовая теорема.
+
+\section{Безразмерный вариационный оцениватель}
+
+\subsection{Единое пространство параметров}
+
+Пусть $\Theta_\lambda$ --- объявленное пространство параметров, а
+$\A_\lambda\subseteq\Theta_\lambda$ --- допустимое множество. Один и тот
+же символ $\theta\in\A_\lambda$ используется во всех членах. Например,
+\[
+\theta=(z_0,\vartheta_\Phi,c,\vartheta_R,\vartheta_O,\chi),
+\]
+но карта наблюдения или камера включается в $\theta$ только если она
+действительно оценивается из данных.
+
+\subsection{Согласование с данными}
+
+Для гауссовой модели с положительно определённой ковариацией
+$\Sigma_y(t)$:
+\[
+\widehat D_y(\theta;y)=
+\int
+\norm{
+\Sigma_y(t)^{-1/2}
+\bigl(y_\theta(t)-y(t)\bigr)
+}^{2}\,\dd\widehat\mu_T(t),
+\qquad
+\dd\widehat\mu_T=\frac{\dd t}{T_{\rm hor}}.
+\]
+Для негауссового канала используется безразмерная отрицательная
+лог-правдоподобность с явно указанной базовой мерой.
+
+\subsection{Регуляризаторы}
+
+Пусть $S_Z$ --- обратимый scale operator для компонент $z$, а $T_0>0$.
+Тогда
+\[
+\widehat E_1(z)=
+\int_0^1
+\norm{S_Z^{-1}T_0\,\partial_tz(T_0\widehat t)}^2
+\dd\widehat t,
+\]
+\[
+\widehat E_2(z)=
+\int_0^1
+\norm{S_Z^{-1}T_0^2\,\partial_t^2z(T_0\widehat t)}^2
+\dd\widehat t.
+\]
+Для регулярной кривой длины $L_{\rm path}>0$:
+\[
+\widehat E_\kappa=
+\frac{1}{L_{\rm path}}\int
+(\ell_0\kappa(s))^2\,\dd s.
+\]
+Все три величины безразмерны.
+
+\subsection{Скаляризация}
+
+Пусть $\mathcal K_\lambda$ --- конечный набор активных диагностик,
+$\delta_k=\nu_k(D_k)\in[0,\infty]$ --- объявленные нормировки, а
+$\phi_k:[0,\infty]\to[0,\infty]$ --- объявленные penalty maps. Определим
+\[
+\boxed{
+J_\lambda(\theta;y)=
+w_y\widehat D_y
+w_1\widehat E_1
+w_2\widehat E_2
+w_\kappa\widehat E_\kappa
+\sum_{k\in\mathcal K_\lambda}w_k\phi_k(\delta_k)
+I_{\A_\lambda}(\theta)
+}
+\]
+с $w_\bullet\ge0$ и суммой весов $1$. Здесь $I_{\A_\lambda}$ равно
+$0$ на $\A_\lambda$ и $+\infty$ вне неё. Скаляризация является
+decision functional, а не универсальным геометрическим инвариантом.
+
+\begin{proposition}[Инвариантность при смене единиц]
+Если каждый член $J_\lambda$ построен из безразмерных отношений,
+нормированных мер и согласованно преобразованных ковариаций, то значение
+$J_\lambda$ не меняется при согласованной замене единиц.
+\end{proposition}
+\begin{proof}
+Каждое отношение физической величины к эталону той же размерности
+инвариантно. Mahalanobis residual инвариантен при одновременном
+преобразовании данных и ковариации. Нормированные меры безразмерны.
+Следовательно, инвариантна каждая сумма и вся их безразмерная линейная
+комбинация.
+\end{proof}
+
+\begin{definition}[Вариационный оцениватель]
+\[
+\widehat\theta_\lambda(y)
+=\Argmin_{\theta\in\Theta_\lambda}J_\lambda(\theta;y).
+\]
+Значение является множеством, пока единственность не доказана.
+\end{definition}
+
+\section{Существование, неединственность и интерпретация}
+
+\begin{theorem}[Прямой метод]
+Пусть $V$ --- рефлексивное банахово пространство,
+$\A_\lambda\subset V$ непусто и последовательно слабо замкнуто. Пусть
+$J_\lambda:V\to(-\infty,+\infty]$ собственный, ограниченный снизу,
+коэрцитивный и последовательно слабо нижне полунепрерывный. Тогда
+\[
+\Argmin_{V}J_\lambda\ne\varnothing.
+\]
+\end{theorem}
+\begin{proof}
+Возьмём минимизирующую последовательность. Коэрцитивность делает её
+ограниченной. Рефлексивность даёт слабо сходящуюся подпоследовательность.
+Слабая замкнутость сохраняет предел в $\A_\lambda$, а слабая нижняя
+полунепрерывность даёт значение не больше $\liminf$ значений
+последовательности. Предел достигает инфимума.
+\end{proof}
+
+\begin{warning}
+Теорема не даёт единственности, устойчивости, идентифицируемости или
+физической истинности forward model. Для каждого конкретного пространства
+необходимо отдельно доказать коэрцитивность и слабую нижнюю
+полунепрерывность.
+\end{warning}
+
+\begin{definition}[Интерпретационная карта]
+Реконструированная геометрическая структура задаётся объявленной картой
+\[
+\mathcal G_\lambda:\Theta_\lambda\to\mathsf{Geom}_\lambda.
+\]
+Выходом задачи является множество
+$\mathcal G_\lambda(\widehat\theta_\lambda(y))$, а не автоматически
+``геометрия пространства''.
+\end{definition}
+
+\section{Восстановимость}
+
+\begin{theorem}[Факторизация скалярной величины]
+Пусть $O:X\to Y$ --- отображение множеств и $q:X\to V$. Существует
+$\overline q:O(X)\to V$ такое, что
+\[
+q=\overline q\circ O
+\]
+тогда и только тогда, когда $q$ постоянна на каждом слое $O^{-1}(y)$.
+Карта $\overline q$ единственна на $O(X)$.
+\end{theorem}
+\begin{proof}
+Необходимость следует из равенства $O(x)=O(x')$. Для достаточности
+положим $\overline q(y)=q(x)$ для любого $x\in O^{-1}(y)$.
+Постоянство на слоях обеспечивает корректность определения.
+\end{proof}
+
+В стохастическом случае условие $H_b(q(X)\mid Y)=0$ означает
+восстановимость почти наверное только относительно объявленного
+распределения и не заменяет структурную теорему.
+
+\section{Quantity and Protocol Ledger}
+
+\subsection{Обязательный протокол}
+
+\begin{longtable}{L{0.27\linewidth}L{0.64\linewidth}}
+\toprule
+Поле & Нормативное содержание\\
+\midrule
+\endhead
+\texttt{hidden\_space} & категория $X$, топология или $\sigma$-алгебра,
+область динамики\\
+\texttt{system\_descriptor} & $L_X,T_X,M_X,E_X$, число степеней свободы
+и прочие собственные масштабы\\
+\texttt{reduction} & сигнатура $R_\lambda:X\to X_\lambda$ и параметры
+разрешения\\
+\texttt{observation} & сигнатура $O_\lambda:X_\lambda\to Y_\lambda^0$\\
+\texttt{noise\_kernel} & $K_\lambda(\dd y\mid y^0)$, калибровка и
+ковариация\\
+\texttt{frame} & координаты, базис, camera pose и закон преобразования\\
+\texttt{quantizer} & сетка, ADC, partition или правило missing data\\
+\texttt{horizon} & $T_{\rm hor}$ и temporal resolution $\delta t$\\
+\texttt{estimator} & $\Theta_\lambda$, loss, regularizers, веса и solver\\
+\texttt{uncertainty} & covariance, interval, posterior или risk bound\\
+\texttt{defects} & кодомен каждого $D_k$ и нормировка $\nu_k$\\
+\bottomrule
+\end{longtable}
+
+\subsection{Ключевые величины}
+
+\begin{longtable}{L{0.18\linewidth}L{0.19\linewidth}L{0.18\linewidth}L{0.34\linewidth}}
+\toprule
+Величина & Размерность $\bm d$ & Тип & Условие\\
+\midrule
+\endhead
+$\ell_0,\ell_{\rm ref},\varepsilon_x$ & $(1,0,0,0,0,0,0)$ &
+scalar & положительны\\
+$T_0,T_{\rm hor},\delta t$ & $(0,0,1,0,0,0,0)$ &
+scalar & положительны\\
+$\kappa$ & $(-1,0,0,0,0,0,0)$ &
+scalar & требует smoothing protocol\\
+$\Sigma_y$ & квадрат единицы $y$ &
+covariance tensor & положительно определена или regularized\\
+$\delta_k$ & $\bm 0$ & loss & нормировка и zero policy обязательны\\
+$J_\lambda$ & $\bm 0$ & loss & decision functional\\
+$H_b$ & $\bm 0$ & information & основание $b$ обязательно\\
+$N_{\rm bits}$ & $\bm 0$ & information &
+отображение count $\to$ bit объявляется\\
+\bottomrule
+\end{longtable}
+
+\section{Журнал исправлений: v0.1 к v0.2}
+
+\begin{enumerate}[leftmargin=*]
+\item Generic $\mathcal S_j:M\to\Sigma_j$ заменён регулярным множеством
+уровня, включением $\iota_j$ и дискретизатором $Q_j$.
+\item Пакет параметров унифицирован как $\theta\in\Theta_\lambda$.
+\item Камера перенесена в протокол; неизвестная камера допускается только
+как оцениваемый параметр.
+\item Ghost-mode заменён слоем совместимости или posterior.
+\item Континуальная рациональная раскраска заменена конечным конфликтным
+графом.
+\item Пифагоров штраф полностью безразмерен; ортогональный остаток
+нормирован.
+\item Все логарифмы содержат отношение к эталону.
+\item Closure defect нормирован разрешением выхода и горизонтом.
+\item Риманов ``причинный шар'' заменён отношением $J^-$.
+\item Информационные пределы не суммируются с энергиями и геометрическими
+остатками.
+\item Невыведенная uncertainty product удалена из теоремного ядра.
+\item Функционал состоит только из безразмерных членов.
+\item $\Argmin$ оставлен множеством; геометрия получается отдельной
+интерпретационной картой.
+\item Компактностная эвристика заменена точной теоремой прямого метода.
+\end{enumerate}
+
+\section{Claim firewall и критерий эталонности P0}
+
+\textbf{Доказано или определено:}
+\begin{enumerate}[leftmargin=*]
+\item типизированная композиция редукции, observation map и noise kernel;
+\item корректный тип геометрического сечения;
+\item безразмерность всех активных членов $J_\lambda$;
+\item существование minimizer при гипотезах прямого метода;
+\item критерий структурной факторизации величины;
+\item протокол-зависимый характер диагностик.
+\end{enumerate}
+
+\textbf{Не доказано и не заявляется:}
+\begin{enumerate}[leftmargin=*]
+\item единственность или устойчивость любой конкретной реконструкции;
+\item универсальность Pythagorean, Heronian, chromatic или
+golden-ratio priors;
+\item универсальная uncertainty relation;
+\item вывод квантовой механики, гравитации или термодинамики;
+\item физическая реальность любой структуры только из факта минимизации.
+\end{enumerate}
+
+Документ проходит P0, если машинный manifest подтверждает уникальность
+символов в каждой области, полные сигнатуры карт, статусы утверждений и
+отсутствие сложения сырых разнотипных дефектов.
+
+\section{Заключение}
+
+Функциональный интерфейс теперь имеет строгую роль: он задаёт
+воспроизводимую задачу наблюдения и оценивания
+\[
+x
+\xrightarrow{R_\lambda}
+x_\lambda
+\xrightarrow{O_\lambda}
+y_\lambda^0
+\xrightarrow{K_\lambda}
+y
+\xrightarrow{\widehat\theta_\lambda}
+\widehat\theta,
+\]
+а затем отделяет результат оценивания от его геометрической интерпретации.
+Это минимально необходимая архитектура, на которую можно переносить
+информационный, метрический, тензорный и прикладные модули без смешения
+единиц и математических типов.
+
+{\small
+\begin{thebibliography}{99}
+\bibitem{LeeSmooth}
+J.~M. Lee,
+\emph{Introduction to Smooth Manifolds}, 2nd ed.,
+Springer, 2013.
+
+\bibitem{Bogachev}
+V.~I. Bogachev,
+\emph{Measure Theory}, Vols. I--II,
+Springer, 2007.
+
+\bibitem{EkelandTemam}
+I.~Ekeland and R.~Temam,
+\emph{Convex Analysis and Variational Problems},
+SIAM, 1999.
+
+\bibitem{Engl}
+H.~W. Engl, M.~Hanke, and A.~Neubauer,
+\emph{Regularization of Inverse Problems},
+Kluwer, 1996.
+
+\bibitem{KaipioSomersalo}
+J.~Kaipio and E.~Somersalo,
+\emph{Statistical and Computational Inverse Problems},
+Springer, 2005.
+
+\bibitem{ONeill}
+B.~O'Neill,
+\emph{Semi-Riemannian Geometry with Applications to Relativity},
+Academic Press, 1983.
+
+\bibitem{Landauer}
+R.~Landauer,
+Irreversibility and heat generation in the computing process,
+\emph{IBM Journal of Research and Development} \textbf{5} (1961),
+183--191.
+
+\bibitem{Bekenstein}
+J.~D. Bekenstein,
+Universal upper bound on the entropy-to-energy ratio for bounded systems,
+\emph{Physical Review D} \textbf{23} (1981), 287--298.
+
+\bibitem{MargolusLevitin}
+N.~Margolus and L.~B. Levitin,
+The maximum speed of dynamical evolution,
+\emph{Physica D} \textbf{120} (1998), 188--195.
+\end{thebibliography}
+}
+
+\end{document}

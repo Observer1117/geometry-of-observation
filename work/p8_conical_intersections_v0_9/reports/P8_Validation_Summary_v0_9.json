@@ -1,0 +1,401 @@
+{
+  "schema": {
+    "id": "go-p8-validation-summary",
+    "version": "0.9.0"
+  },
+  "date": "2026-07-28",
+  "status": "PASS",
+  "release_check_count": 24,
+  "typed_expressions": 36,
+  "regression_tests": 150,
+  "benchmark_rows": 35,
+  "rendered_pages": 8,
+  "corpus_statuses": {
+    "PASS": 15,
+    "FAIL": 3,
+    "BLOCKED": 0
+  },
+  "checks": [
+    {
+      "id": "required_files",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "pdf_sha256",
+      "status": "PASS",
+      "detail": {
+        "expected": "48507a398983388159a1a4b1bd5cf25abdba231b836a7702d960eeb5778af4dd",
+        "actual": "48507a398983388159a1a4b1bd5cf25abdba231b836a7702d960eeb5778af4dd"
+      }
+    },
+    {
+      "id": "pdf_metadata",
+      "status": "PASS",
+      "detail": {
+        "pages": 8,
+        "title": "Conical Intersections as Typed Spectral Singularities under Observation Maps",
+        "author": "Stas, Independent Research Program"
+      }
+    },
+    {
+      "id": "pdf_security_and_page_size",
+      "status": "PASS",
+      "detail": {
+        "encrypted": false,
+        "form_fields": 0,
+        "page_size_points": [
+          595.28,
+          841.89
+        ]
+      }
+    },
+    {
+      "id": "no_prohibited_tokens",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "bibliography_heading_unique",
+      "status": "PASS",
+      "detail": {
+        "extracted": 1,
+        "source": 1
+      }
+    },
+    {
+      "id": "required_source_fragments",
+      "status": "PASS",
+      "detail": {
+        "absent": []
+      }
+    },
+    {
+      "id": "latex_log",
+      "status": "PASS",
+      "detail": {
+        "hits": []
+      }
+    },
+    {
+      "id": "embedded_fonts",
+      "status": "PASS",
+      "detail": {
+        "font_count": 19,
+        "nonembedded": [],
+        "returncode": 0
+      }
+    },
+    {
+      "id": "contract_schema_and_gates",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-conical-intersections-observation-contract",
+          "version": "0.9.0",
+          "date": "2026-07-28",
+          "base_contract": "go-core-spec@0.2.0",
+          "normative_document": "conical-intersections-observation-v1-1"
+        },
+        "reference_gate_count": 12
+      }
+    },
+    {
+      "id": "contract_layer_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "reference_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 1,
+        "reference_documents": 1,
+        "critical_adapters": 0,
+        "expressions_checked": 36,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 1
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "corpus_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 18,
+        "reference_documents": 15,
+        "critical_adapters": 3,
+        "expressions_checked": 208,
+        "findings_total": 8,
+        "core_findings": 0,
+        "status_counts": {
+          "FAIL": 3,
+          "PASS": 15
+        },
+        "rule_counts": {
+          "COVERAGE-INCOMPLETE": 3,
+          "FILTER-ORDER": 1,
+          "FRAME-COVERAGE": 1,
+          "FRAME-LAW": 1,
+          "RESULT-DIM": 1,
+          "ZERO-MODES": 1
+        }
+      }
+    },
+    {
+      "id": "expected_remaining_failures",
+      "status": "PASS",
+      "detail": {
+        "actual": [
+          "quantum-chemistry-observation-v1",
+          "regular-polyhedra-v1",
+          "satellite-networks-v1-1"
+        ],
+        "expected": [
+          "quantum-chemistry-observation-v1",
+          "regular-polyhedra-v1",
+          "satellite-networks-v1-1"
+        ]
+      }
+    },
+    {
+      "id": "legacy_supersession",
+      "status": "PASS",
+      "detail": {
+        "legacy_records": [
+          {
+            "status": "superseded",
+            "path": "upload/conical_intersections_observation_caustics_v1_bilingual (1)(2).pdf",
+            "sha256": "346cf20f4edcb25a127e8d05282d02279051e0eb1cf66dea6135a80b0406fec7",
+            "canonical_document": "conical-intersections-observation-v1-1"
+          },
+          {
+            "status": "superseded",
+            "path": "upload/conical_intersections_observation_caustics_v1_bilingual.pdf",
+            "sha256": "346cf20f4edcb25a127e8d05282d02279051e0eb1cf66dea6135a80b0406fec7",
+            "canonical_document": "conical-intersections-observation-v1-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "benchmark_table",
+      "status": "PASS",
+      "detail": {
+        "rows": 35,
+        "families": {
+          "spectrum": 6,
+          "derivative_coupling": 6,
+          "real_holonomy": 7,
+          "gapped_berry": 6,
+          "landau_zener": 6,
+          "finite_resolution": 4
+        }
+      }
+    },
+    {
+      "id": "numerical_residuals",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-p8-conical-intersections-metrics",
+          "version": "0.9.0"
+        },
+        "date": "2026-07-28",
+        "benchmark_rows": 35,
+        "family_counts": {
+          "derivative_coupling": 6,
+          "finite_resolution": 4,
+          "gapped_berry": 6,
+          "landau_zener": 6,
+          "real_holonomy": 7,
+          "spectrum": 6
+        },
+        "max_projector_idempotence_residual": 1.3877787807814457e-16,
+        "max_projector_orthogonality_residual": 7.631521572941402e-17,
+        "max_quantum_metric_identity_residual": 1.4210854715202004e-14,
+        "max_random_gauge_holonomy_residual": 4.4487131511840225e-15,
+        "max_gapped_berry_discretization_error": 2.204e-07
+      }
+    },
+    {
+      "id": "regression_suite",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "tests": 150,
+        "tail": "----------------------------------------------------------------------\nRan 150 tests in 1.058s\n\nOK\n"
+      }
+    },
+    {
+      "id": "reference_strict_replay",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stdout": "GO-LINT documents=1 expressions=36 findings=0 statuses={'PASS': 1}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "corpus_strict_expected_nonzero",
+      "status": "PASS",
+      "detail": {
+        "returncode": 1,
+        "stdout": "GO-LINT documents=18 expressions=208 findings=8 statuses={'FAIL': 3, 'PASS': 15}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "visual_qa",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-p8-conical-intersections-visual-qa",
+          "version": "0.9.0"
+        },
+        "date": "2026-07-28",
+        "document": {
+          "id": "conical-intersections-observation-v1-1",
+          "pdf": "work/p8_conical_intersections_v0_9/build/ci/conical_intersections_spectral_observation_v1_1.pdf",
+          "sha256": "48507a398983388159a1a4b1bd5cf25abdba231b836a7702d960eeb5778af4dd",
+          "pages": 8,
+          "render": {
+            "engine": "pdftoppm",
+            "dpi": 144,
+            "directory": "work/p8_conical_intersections_v0_9/render/ci"
+          }
+        },
+        "inspection": {
+          "method": [
+            "complete_contact_sheet_review",
+            "original_resolution_page_review"
+          ],
+          "pages": [
+            {
+              "page": 1,
+              "status": "PASS",
+              "checks": [
+                "title_and_author_metadata_visible",
+                "status_box_inside_margins",
+                "abstract_equations_legible",
+                "contents_not_clipped"
+              ]
+            },
+            {
+              "page": 2,
+              "status": "PASS",
+              "checks": [
+                "contents_transition_clean",
+                "Riesz_projector_equation_legible",
+                "coordinate_firewall_box_inside_margins"
+              ]
+            },
+            {
+              "page": 3,
+              "status": "PASS",
+              "checks": [
+                "proposition_and_proof_spacing_clean",
+                "equations_3_through_6_legible",
+                "no_footer_collision"
+              ]
+            },
+            {
+              "page": 4,
+              "status": "PASS",
+              "checks": [
+                "projector_gauge_diagram_has_no_overlap",
+                "Berry_product_equation_legible",
+                "quantum_metric_matrix_inside_margins"
+              ]
+            },
+            {
+              "page": 5,
+              "status": "PASS",
+              "checks": [
+                "pullback_equations_legible",
+                "nuclear_kinetic_operator_not_clipped",
+                "Landau_Zener_box_and_formula_clean"
+              ]
+            },
+            {
+              "page": 6,
+              "status": "PASS",
+              "checks": [
+                "observation_chain_inside_text_width",
+                "gap_uncertainty_formula_legible",
+                "section_transition_clean"
+              ]
+            },
+            {
+              "page": 7,
+              "status": "PASS",
+              "checks": [
+                "benchmark_table_columns_aligned",
+                "protocol_list_numbers_visible",
+                "conclusion_box_inside_margins"
+              ]
+            },
+            {
+              "page": 8,
+              "status": "PASS",
+              "checks": [
+                "claim_register_columns_aligned",
+                "references_heading_unique",
+                "bibliography_not_clipped",
+                "footer_visible"
+              ]
+            }
+          ]
+        },
+        "global_checks": {
+          "page_count": "PASS",
+          "embedded_fonts": "PASS",
+          "missing_glyphs": "PASS",
+          "clipped_content": "PASS",
+          "overlapping_content": "PASS",
+          "broken_tables": "PASS",
+          "broken_equations": "PASS",
+          "duplicate_headings": "PASS",
+          "page_numbering": "PASS"
+        },
+        "status": "PASS"
+      }
+    },
+    {
+      "id": "rendered_pages",
+      "status": "PASS",
+      "detail": {
+        "count": 8,
+        "files": [
+          "page-1.png",
+          "page-2.png",
+          "page-3.png",
+          "page-4.png",
+          "page-5.png",
+          "page-6.png",
+          "page-7.png",
+          "page-8.png"
+        ]
+      }
+    },
+    {
+      "id": "migration_report_coverage",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "primary_reference_identifiers",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,218 @@
+{
+  "schema": {
+    "id": "go-p3-validation-summary",
+    "version": "0.4.0"
+  },
+  "date": "2026-08-01",
+  "release": "GO P3 Planck-to-Cosmos v0.4",
+  "status": "PASS",
+  "summary": {
+    "checks_total": 13,
+    "checks_passed": 13,
+    "checks_failed": 0,
+    "pdf_pages": 12,
+    "typed_expressions": 19,
+    "regression_tests": 29,
+    "catalogue_rows": 24,
+    "reference_findings": 0,
+    "corpus_status_counts": {
+      "BLOCKED": 1,
+      "FAIL": 9,
+      "PASS": 7
+    }
+  },
+  "artifacts": {
+    "pdf": "work/p3_planck_cosmos_v0_4/build/planck/planck_cosmos_observation_rulers_v1_1.pdf",
+    "pdf_sha256": "ded3c6b041e8dbadef53edf67e2f4ae3475f0d1914a045f0cec39cd2c44ff9a5",
+    "source": "work/p3_planck_cosmos_v0_4/src/planck_cosmos_observation_rulers_v1_1.tex",
+    "contract": "work/p3_planck_cosmos_v0_4/core/planck_cosmos_scale_contract_v0_4.yaml",
+    "reference_ledger": "work/p3_planck_cosmos_v0_4/ledgers/planck_cosmos_reference_ledger_v0_4.yaml",
+    "catalogue": "work/p3_planck_cosmos_v0_4/data/planck_cosmos_landmarks_v0_4.csv"
+  },
+  "checks": [
+    {
+      "id": "required_files",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "pdf_sha256",
+      "status": "PASS",
+      "detail": {
+        "expected": "ded3c6b041e8dbadef53edf67e2f4ae3475f0d1914a045f0cec39cd2c44ff9a5",
+        "actual": "ded3c6b041e8dbadef53edf67e2f4ae3475f0d1914a045f0cec39cd2c44ff9a5"
+      }
+    },
+    {
+      "id": "pdf_metadata",
+      "status": "PASS",
+      "detail": {
+        "pages": 12,
+        "title": "Planck-to-Cosmos Observation Rulers"
+      }
+    },
+    {
+      "id": "no_prohibited_tokens",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "required_source_fragments",
+      "status": "PASS",
+      "detail": {
+        "absent": []
+      }
+    },
+    {
+      "id": "latex_log",
+      "status": "PASS",
+      "detail": {
+        "forbidden_patterns": []
+      }
+    },
+    {
+      "id": "embedded_fonts",
+      "status": "PASS",
+      "detail": {
+        "font_count": 22,
+        "nonembedded": [],
+        "returncode": 0
+      }
+    },
+    {
+      "id": "rendered_pages",
+      "status": "PASS",
+      "detail": {
+        "page_images": 12,
+        "images": [
+          {
+            "file": "page-1.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-10.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-11.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-12.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-2.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-3.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-4.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-5.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-6.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-7.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-8.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "page-9.png",
+            "width": 1241,
+            "height": 1754
+          },
+          {
+            "file": "contact.png",
+            "width": 1056,
+            "height": 1137
+          }
+        ]
+      }
+    },
+    {
+      "id": "catalogue",
+      "status": "PASS",
+      "detail": {
+        "rows": 24,
+        "axes": [
+          "length",
+          "mass",
+          "time"
+        ]
+      }
+    },
+    {
+      "id": "schema_versions",
+      "status": "PASS",
+      "detail": {
+        "metrics": "0.4.0",
+        "contract": "0.4.0",
+        "ledger": "0.4.0"
+      }
+    },
+    {
+      "id": "reference_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 1,
+        "reference_documents": 1,
+        "critical_adapters": 0,
+        "expressions_checked": 19,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 1
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "corpus_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 17,
+        "expressions_checked": 86,
+        "status_counts": {
+          "BLOCKED": 1,
+          "FAIL": 9,
+          "PASS": 7
+        }
+      }
+    },
+    {
+      "id": "regression_tests",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "ran": 29,
+        "result": "OK"
+      }
+    }
+  ]
+}

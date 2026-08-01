@@ -1,0 +1,49 @@
+schema:
+  id: go-typed-defect-profile
+  version: 0.2.0
+  default_aggregation: pareto
+
+defects:
+  - id: defect.fiber
+    raw_codomain: set_or_field_of_sets
+    scalarization: none_by_default
+  - id: defect.differential
+    raw_codomain: nonnegative_integer
+    formula: dim_kernel_dO
+  - id: defect.information
+    raw_codomain: information
+    log_base_required: true
+    continuous_policy: quantizer_partition_or_relative_entropy
+  - id: defect.metric
+    raw_codomain: scale_profile
+    reference_scale_required: true
+  - id: defect.dynamic
+    raw_codomain: output_metric_quantity
+    normalizer: output_resolution
+  - id: defect.feature_rank
+    raw_codomain: nonnegative_integer
+    numerical_threshold_required: true
+    input_output_scale_matrices_required: true
+  - id: defect.gauge
+    raw_codomain: quotient_or_rank_profile
+    finite_scalarization_not_automatic: true
+  - id: defect.csp
+    raw_codomain: weighted_cost
+    normalizer: total_admissible_weight
+  - id: defect.code
+    raw_codomain: hamming_distance_or_error_probability
+    bridge_required_before_aggregation: true
+  - id: defect.geometric
+    raw_codomain: tensor_or_distortion_profile
+    reference_geometry_required: true
+
+scalarization:
+  formula: J_D = sum_k w_k * phi_k(nu_k(D_k))
+  requirements:
+    - every_nu_maps_to_nonnegative_dimensionless_real
+    - every_phi_is_declared
+    - weights_nonnegative
+    - weights_sum_to_one
+    - zero_and_infinity_policies_declared
+  interpretation: decision_functional_not_universal_invariant
+

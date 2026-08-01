@@ -1,0 +1,482 @@
+{
+  "schema": {
+    "id": "go-p9-validation-summary",
+    "version": "1.0.0"
+  },
+  "date": "2026-07-28",
+  "status": "PASS",
+  "release_check_count": 27,
+  "typed_expressions": 47,
+  "regression_tests": 413,
+  "benchmark_rows": 202,
+  "rendered_pages": 9,
+  "corpus_expressions": 253,
+  "corpus_statuses": {
+    "PASS": 16,
+    "FAIL": 2,
+    "BLOCKED": 0
+  },
+  "checks": [
+    {
+      "id": "required_files",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "pdf_sha256",
+      "status": "PASS",
+      "detail": {
+        "expected": "f3b1056f215cebeca914b3c1d3589e18b3764f518a5daac580a487541a9dae8a",
+        "actual": "f3b1056f215cebeca914b3c1d3589e18b3764f518a5daac580a487541a9dae8a"
+      }
+    },
+    {
+      "id": "pdf_metadata",
+      "status": "PASS",
+      "detail": {
+        "pages": 9,
+        "title": "Quantum Chemistry as a Typed Inference Stack under Observation Maps",
+        "author": "Stas, Independent Research Program"
+      }
+    },
+    {
+      "id": "pdf_security_and_page_size",
+      "status": "PASS",
+      "detail": {
+        "encrypted": false,
+        "form_fields": 0,
+        "page_size_points": [
+          595.28,
+          841.89
+        ]
+      }
+    },
+    {
+      "id": "no_prohibited_tokens",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "bibliography_heading_unique",
+      "status": "PASS",
+      "detail": {
+        "extracted": 1,
+        "source": 1
+      }
+    },
+    {
+      "id": "extracted_text",
+      "status": "PASS",
+      "detail": {
+        "characters": 27652,
+        "form_feeds": 9
+      }
+    },
+    {
+      "id": "required_source_fragments",
+      "status": "PASS",
+      "detail": {
+        "absent": []
+      }
+    },
+    {
+      "id": "latex_log",
+      "status": "PASS",
+      "detail": {
+        "hits": []
+      }
+    },
+    {
+      "id": "embedded_fonts",
+      "status": "PASS",
+      "detail": {
+        "font_count": 21,
+        "nonembedded": [],
+        "returncode": 0
+      }
+    },
+    {
+      "id": "contract_schema_and_gates",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-quantum-chemistry-observation-contract",
+          "version": "1.0.0",
+          "date": "2026-07-28",
+          "base_contract": "go-core-spec@0.2.0",
+          "inherited_contracts": [
+            "go-conical-intersections-observation-contract@0.9.0"
+          ],
+          "normative_document": "quantum-chemistry-observation-v1-1"
+        },
+        "reference_gate_count": 15
+      }
+    },
+    {
+      "id": "contract_state_and_reduction_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_RDM_DFT_and_orbital_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "contract_modes_and_spectroscopy_firewalls",
+      "status": "PASS",
+      "detail": true
+    },
+    {
+      "id": "reference_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 1,
+        "reference_documents": 1,
+        "critical_adapters": 0,
+        "expressions_checked": 47,
+        "findings_total": 0,
+        "core_findings": 0,
+        "status_counts": {
+          "PASS": 1
+        },
+        "rule_counts": {}
+      }
+    },
+    {
+      "id": "corpus_lint",
+      "status": "PASS",
+      "detail": {
+        "canonical_documents": 18,
+        "reference_documents": 16,
+        "critical_adapters": 2,
+        "expressions_checked": 253,
+        "findings_total": 5,
+        "core_findings": 0,
+        "status_counts": {
+          "FAIL": 2,
+          "PASS": 16
+        },
+        "rule_counts": {
+          "COVERAGE-INCOMPLETE": 2,
+          "FILTER-ORDER": 1,
+          "FRAME-COVERAGE": 1,
+          "FRAME-LAW": 1
+        }
+      }
+    },
+    {
+      "id": "expected_remaining_failures",
+      "status": "PASS",
+      "detail": {
+        "actual": [
+          "regular-polyhedra-v1",
+          "satellite-networks-v1-1"
+        ],
+        "expected": [
+          "regular-polyhedra-v1",
+          "satellite-networks-v1-1"
+        ]
+      }
+    },
+    {
+      "id": "legacy_supersession",
+      "status": "PASS",
+      "detail": {
+        "legacy_records": [
+          {
+            "status": "superseded",
+            "path": "upload/quantum_chemistry_observation_v1_bilingual(1).pdf",
+            "sha256": "a99ed4bfdfbc416ef10b4d4ed10c1f667515a0005c8c934d9b58e21fa3648d1e",
+            "canonical_document": "quantum-chemistry-observation-v1-1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "benchmark_table",
+      "status": "PASS",
+      "detail": {
+        "rows": 202,
+        "categories": {
+          "generalized_eigenproblem": 24,
+          "orbital_gauge": 36,
+          "one_RDM": 39,
+          "normal_modes": 48,
+          "correlation": 24,
+          "Rayleigh_Ritz": 12,
+          "spectroscopy": 15,
+          "active_space": 4
+        }
+      }
+    },
+    {
+      "id": "numerical_residuals",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-p9-quantum-chemistry-metrics",
+          "version": "1.0.0"
+        },
+        "date": "2026-07-28",
+        "benchmark_rows": 202,
+        "failed_rows": 0,
+        "max_absolute_error": 7.106509014225734e-15,
+        "categories": [
+          "Rayleigh_Ritz",
+          "active_space",
+          "correlation",
+          "generalized_eigenproblem",
+          "normal_modes",
+          "one_RDM",
+          "orbital_gauge",
+          "spectroscopy"
+        ],
+        "constants": {
+          "h_exact_J_s": 6.62607015e-34,
+          "hbar_J_s": 1.0545718176461565e-34,
+          "c_exact_m_s": 299792458.0
+        },
+        "controls": {
+          "generalized_eigenproblem_seeds": 8,
+          "orbital_gauge_seeds": 12,
+          "one_RDM_phase_samples": 13,
+          "diatomic_mass_cases": 8,
+          "correlation_cases": 12
+        }
+      }
+    },
+    {
+      "id": "regression_suite",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "tests": 413,
+        "tail": "----------------------------------------------------------------------\nRan 413 tests in 1.359s\n\nOK\n"
+      }
+    },
+    {
+      "id": "reference_strict_replay",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stdout": "GO-LINT documents=1 expressions=47 findings=0 statuses={'PASS': 1}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "corpus_strict_expected_nonzero",
+      "status": "PASS",
+      "detail": {
+        "returncode": 1,
+        "stdout": "GO-LINT documents=18 expressions=253 findings=5 statuses={'FAIL': 2, 'PASS': 16}",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "visual_qa",
+      "status": "PASS",
+      "detail": {
+        "schema": {
+          "id": "go-p9-visual-qa",
+          "version": "1.0.0"
+        },
+        "date": "2026-07-28",
+        "status": "PASS",
+        "document": {
+          "id": "quantum-chemistry-observation-v1-1",
+          "pdf": "work/p9_quantum_chemistry_v1_0/build/qchem/quantum_chemistry_observation_geometry_v1_1.pdf",
+          "pages": 9,
+          "sha256": "f3b1056f215cebeca914b3c1d3589e18b3764f518a5daac580a487541a9dae8a",
+          "page_size": "A4",
+          "encrypted": false,
+          "form_fields": 0
+        },
+        "render": {
+          "engine": "Ghostscript",
+          "version": "10.02.1",
+          "device": "png16m",
+          "resolution_dpi": 144,
+          "dimensions_pixels": [
+            1191,
+            1684
+          ],
+          "page_pattern": "work/p9_quantum_chemistry_v1_0/render/qchem/gs-page-*.png",
+          "contact_sheet": "work/p9_quantum_chemistry_v1_0/checks/qchem/final_contact_sheet.png"
+        },
+        "global_checks": {
+          "all_pages_renderable": "PASS",
+          "no_clipping": "PASS",
+          "no_overlap": "PASS",
+          "no_missing_glyphs": "PASS",
+          "consistent_margins": "PASS",
+          "readable_equations": "PASS",
+          "readable_tables": "PASS",
+          "diagram_labels_clear": "PASS",
+          "bibliography_heading_unique": "PASS",
+          "page_numbers_present": "PASS"
+        },
+        "inspection": {
+          "pages": [
+            {
+              "page": 1,
+              "status": "PASS",
+              "focus": "title, status box, abstract, contents"
+            },
+            {
+              "page": 2,
+              "status": "PASS",
+              "focus": "exact Hamiltonian, state-space typing, Born-Oppenheimer reduction"
+            },
+            {
+              "page": 3,
+              "status": "PASS",
+              "focus": "reduced-density definitions and non-injectivity proof"
+            },
+            {
+              "page": 4,
+              "status": "PASS",
+              "focus": "three-row inference diagram, generalized eigenproblem, orbital gauge"
+            },
+            {
+              "page": 5,
+              "status": "PASS",
+              "focus": "Hartree-Fock boundary and density-functional firewall"
+            },
+            {
+              "page": 6,
+              "status": "PASS",
+              "focus": "nuclear quotient, mass-weighted Hessian, active-space reduction"
+            },
+            {
+              "page": 7,
+              "status": "PASS",
+              "focus": "ideal spectrum, observation channel, approximation ledger"
+            },
+            {
+              "page": 8,
+              "status": "PASS",
+              "focus": "benchmark table, claim register, protocol minimum"
+            },
+            {
+              "page": 9,
+              "status": "PASS",
+              "focus": "primary-source bibliography"
+            }
+          ]
+        },
+        "notes": [
+          "The final inference diagram uses wider horizontal spacing and opaque label backgrounds.",
+          "References begin on a dedicated page; no duplicate bibliography heading remains.",
+          "All final page images were inspected at native 144 dpi render resolution."
+        ]
+      }
+    },
+    {
+      "id": "rendered_pages",
+      "status": "PASS",
+      "detail": {
+        "count": 9,
+        "pages": [
+          {
+            "file": "gs-page-1.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 322404
+          },
+          {
+            "file": "gs-page-2.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 273097
+          },
+          {
+            "file": "gs-page-3.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 310894
+          },
+          {
+            "file": "gs-page-4.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 281620
+          },
+          {
+            "file": "gs-page-5.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 305633
+          },
+          {
+            "file": "gs-page-6.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 352396
+          },
+          {
+            "file": "gs-page-7.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 339322
+          },
+          {
+            "file": "gs-page-8.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 249294
+          },
+          {
+            "file": "gs-page-9.png",
+            "status": "PASS",
+            "dimensions": [
+              1191,
+              1684
+            ],
+            "bytes": 264665
+          }
+        ]
+      }
+    },
+    {
+      "id": "migration_report_coverage",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "id": "primary_reference_identifiers",
+      "status": "PASS",
+      "detail": {
+        "missing": []
+      }
+    }
+  ]
+}

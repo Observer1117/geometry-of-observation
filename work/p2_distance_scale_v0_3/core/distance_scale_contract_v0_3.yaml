@@ -1,0 +1,172 @@
+schema:
+  id: go-distance-scale-contract
+  version: 0.3.0
+  date: 2026-07-28
+  extends: go-core-spec@0.2.0
+  dimension_basis: [L, M, T, I, Theta, N, J]
+  purpose: common_distance_and_scale_interface
+
+scale_roles:
+  hidden_metric_value:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    semantic_role: intrinsic_or_hidden_distance
+  observed_metric_value:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    semantic_role: observed_distance
+  shell_radius:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    positivity: strict
+    semantic_role: target_distance
+  input_resolution:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    positivity: strict
+    semantic_role: observation_protocol
+  output_resolution:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    positivity: strict
+    semantic_role: observation_protocol
+  decision_tolerance:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    positivity: nonnegative
+    semantic_role: decision_protocol
+  deterministic_error_bound:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    positivity: nonnegative
+    semantic_role: uncertainty
+  reference_length:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    positivity: strict
+    semantic_role: normalization
+  periodic_length:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    positivity: strict
+    semantic_role: readout_period
+  step_length:
+    dimension: [1, 0, 0, 0, 0, 0, 0]
+    semantic_role: hidden_discrete_ladder
+
+global_distance:
+  observed_pseudometric:
+    formula: d_O(x,x_prime)=d_Y(O(x),O(x_prime))
+    codomain: nonnegative_observed_scale
+    axioms:
+      - zero_on_diagonal
+      - symmetry
+      - triangle_inequality
+    separation_iff: observation_map_injective
+  observation_equivalence:
+    formula: x_equiv_x_prime_iff_Ox_equals_Ox_prime
+  quotient_metric:
+    formula: d_bar_O([x],[x_prime])=d_Y(Ox,Ox_prime)
+    isometric_target: O(X)
+
+local_global_separation:
+  local_form:
+    formula: g_O=pullback(O,g_Y)
+    kind: positive_semidefinite_quadratic_form
+    kernel: kernel_of_differential_of_O
+  path_pseudometric:
+    formula: rho_O=infimum_of_pullback_curve_lengths
+  mandatory_inequality: d_O_less_or_equal_rho_O
+  equality_requires:
+    - minimizing_image_geodesic
+    - lift_joining_declared_endpoints
+
+shells:
+  exact:
+    predicate: d_O_equals_r_star
+  tolerant:
+    predicate: abs(d_O_minus_r_star)_less_or_equal_tau
+  estimated:
+    predicate: abs(d_hat_minus_r_star)_less_or_equal_tau
+    deterministic_guarantees:
+      - exact_pair_accepted_if_tau_greater_or_equal_error_bound
+      - accepted_pair_true_deviation_at_most_tau_plus_error_bound
+  forbidden_shorthand:
+    - physical_distance_equals_bare_dimensionless_one
+
+unit_covariance:
+  group: positive_coherent_metric_rescalings
+  action:
+    - d_Y_maps_to_a_times_d_Y
+    - r_star_maps_to_a_times_r_star
+    - tau_maps_to_a_times_tau
+    - epsilon_Y_maps_to_a_times_epsilon_Y
+  invariants:
+    - shell_membership
+    - distance_graph
+    - d_O_over_r_star
+    - tau_over_r_star
+    - epsilon_Y_over_r_star
+
+matched_scales:
+  lipschitz_converter:
+    semantic_type: output_scale_over_input_scale
+    rule: d_Y(Ox,Ox_prime)_less_or_equal_L_O_times_d_X(x,x_prime)
+  admissibility: L_O_times_epsilon_X_less_or_equal_epsilon_Y
+  composition:
+    constants: L_21_equals_L_2_times_L_1
+    scales: epsilon_Z_greater_or_equal_L_2_times_L_1_times_epsilon_X
+
+logarithmic_scale:
+  coordinate: t=log_b(ell_star/epsilon)
+  base_constraint: b_greater_than_one
+  argument_dimension: dimensionless
+  zero_policy: ell_star_and_epsilon_strictly_positive
+  prohibited:
+    - log_of_bare_physical_epsilon
+
+periodic_readout:
+  hidden_ladder: d_n=d_0+n_times_delta_d
+  phase: 2pi_times_(d_n-d_0)_over_P_plus_phi_0
+  dimensionless_ratio: (d_n-d_0)_over_P
+  rational_factorization:
+    condition: delta_d_over_P_equals_p_over_q_in_lowest_terms
+    quotient: integers_mod_q
+  half_step:
+    condition: delta_d_equals_P_over_2_and_phi_0_equals_zero
+    readout: (-1)^n
+
+scale_trace:
+  intrinsic_descriptor_separate_from_protocol: true
+  coordinate: t_i=log_b(ell_star/epsilon_i)
+  count_trace: y_i=log_b(N_epsilon_i)
+  asymptotic_summary:
+    - lower_box_dimension
+    - upper_box_dimension
+  finite_window_required_fields:
+    - scale_window
+    - sampled_resolutions
+    - weights_or_covariance
+    - estimator
+    - residual_summary
+    - uncertainty_semantics
+  deterministic_interval_label: stability_interval_not_confidence_interval
+  confidence_interval_requires:
+    - stochastic_error_model
+    - covariance_or_independence_assumption
+    - coverage_level
+
+protocol_equivalence:
+  criterion: two_sided_count_comparison_up_to_fixed_count_and_scale_constants
+  preserves:
+    - lower_scaling_exponent
+    - upper_scaling_exponent
+  does_not_preserve_by_default:
+    - finite_counts
+    - prefactor
+    - residual_profile
+    - crossover_scales
+
+claim_firewalls:
+  - observation_unit_distance_variants_do_not_solve_classical_erdos_problem
+  - local_pullback_form_is_not_automatically_global_observed_distance
+  - finite_log_log_slope_is_not_automatically_an_asymptotic_dimension
+  - deterministic_slope_spread_is_not_a_probabilistic_confidence_interval
+  - natural_coastlines_need_not_have_one_universal_dimension
+
+migrated_documents:
+  - id: distance-scale-interface-v0-2
+    supersedes: unit-distances-observation-v0-1
+  - id: mandelbrot-rulers-v1-1
+    supersedes: mandelbrot-rulers-v1

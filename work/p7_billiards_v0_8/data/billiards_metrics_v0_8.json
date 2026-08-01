@@ -1,0 +1,53 @@
+{
+  "inputs": {
+    "constants": {
+      "electron_mass_kg": 9.1093837139e-31,
+      "elementary_charge_C": 1.602176634e-19,
+      "planck_h_J_s": 6.62607015e-34
+    },
+    "disk": {
+      "p": 0.4,
+      "radius_m": 2.3,
+      "speed_m_per_s": 3.0
+    },
+    "rectangle": {
+      "height_m": 1e-09,
+      "mode": [
+        1,
+        1
+      ],
+      "scale": 3.0,
+      "width_m": 2e-09
+    },
+    "symbol_words": [
+      "01010101",
+      "00110011"
+    ]
+  },
+  "metrics": {
+    "alternating_conditional_entropy_bit": 0.0,
+    "alternating_marginal_entropy_bit": 1.0,
+    "area_lambda_11_1": 24.67401100272339,
+    "boundary_length_m": 14.451326206513047,
+    "chord_length_m": 4.215969639359373,
+    "collision_advance_m": 5.332685611346078,
+    "electron_energy_11_J": 7.530834242545738e-20,
+    "electron_energy_11_eV": 0.4700377026310907,
+    "integral_mu_boundary_1": 1.0,
+    "lambda_11_m^-2": 1.2337005501361695e+19,
+    "lambda_scaling_ratio_1": 0.11111111111111112,
+    "order_sensitive_conditional_entropy_bit": 1.0,
+    "order_sensitive_marginal_entropy_bit": 1.0,
+    "reduced_angular_momentum_coordinate_m": 0.9199999999999999,
+    "roof_time_s": 1.405323213119791,
+    "rotation_number_1": 0.36901011956554536,
+    "scaled_area_lambda_11_1": 24.674011002723397,
+    "scaled_lambda_11_m^-2": 1.3707783890401884e+18
+  },
+  "row_count": 18,
+  "schema": {
+    "date": "2026-07-28",
+    "id": "go-p7-billiards-benchmark-metrics",
+    "version": "0.8.0"
+  }
+}

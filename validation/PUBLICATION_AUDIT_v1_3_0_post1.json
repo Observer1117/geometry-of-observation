@@ -1,0 +1,35 @@
+{
+  "schema": "go-publication-audit-v1",
+  "date": "2026-08-01",
+  "canonical_release": "1.3.0",
+  "supplement": "publication-supplement-1",
+  "status": "PASS_WITH_DISCLOSED_PACKAGING_CORRECTIONS",
+  "canonical_assets_unchanged": true,
+  "canonical_hashes": {
+    "master_pdf_sha256": "3942277bc24ce6c134876bf27d322e03869a40e7d52eb084bcab6b3c885bf2d2",
+    "release_bundle_sha256": "497c16c5e86279025066fbf48954e067bd53bd2cad970545d32000d7e0327ee6"
+  },
+  "clean_extraction": {
+    "zip_integrity": "PASS",
+    "p12_regression_tests": "259/259",
+    "p12_release_checks_before_qa_reconstruction": "38/51",
+    "cause": [
+      "inherited P1-P11 bundles omit validator-side extracted text, logs, or page renders",
+      "P11 graph_relabel threshold 4e-15 is below the frozen residual 4.440892098500626e-15"
+    ]
+  },
+  "supplemented_replay": {
+    "p11_validation": "31/31 PASS; 623 tests",
+    "p12_release_checks": "51/51 PASS",
+    "p12_regression_tests": "259/259 PASS",
+    "phase_validators": "11/11 PASS",
+    "master_pages": "166/166",
+    "corpus_status": "18 PASS / 0 FAIL / 0 BLOCKED"
+  },
+  "scientific_content_changed": false,
+  "modified_publication_layer": [
+    "scripts/restore_publication_qa.py",
+    "work/p11_satellite_networks_v1_2/tests/validate_p11_release.py",
+    "PUBLICATION_SUPPLEMENT.md"
+  ]
+}

@@ -1,0 +1,36 @@
+schema:
+  id: go-symbol-registry
+  version: 0.2.0
+
+symbols:
+  - {id: core.hidden_space, scope: core, key: X, latex: X, meaning: hidden_space}
+  - {id: core.hidden_state, scope: core, key: x, latex: x, meaning: hidden_state}
+  - {id: core.system_descriptor, scope: core, key: xi, latex: "\\xi", meaning: intrinsic_system_descriptor}
+  - {id: core.protocol, scope: core, key: lambda_protocol, latex: "\\lambda", meaning: observation_protocol}
+  - {id: core.observed_space, scope: core, key: Y_lambda, latex: "Y_\\lambda", meaning: observed_data_space}
+  - {id: core.observed_value, scope: core, key: y, latex: y, meaning: observed_value}
+  - {id: maps.frame_transform, scope: maps, key: T_g, latex: "T_g", meaning: invertible_frame_transform}
+  - {id: maps.reduction, scope: maps, key: R_lambda, latex: "R_\\lambda", meaning: model_reduction}
+  - {id: maps.deterministic_observation, scope: maps, key: O_lambda, latex: "O_\\lambda", meaning: deterministic_observation}
+  - {id: maps.stochastic_channel, scope: maps, key: K_lambda, latex: "K_\\lambda", meaning: stochastic_kernel}
+  - {id: maps.estimator, scope: maps, key: q_hat_lambda, latex: "\\widehat q_\\lambda", meaning: estimator}
+  - {id: geometry.position, scope: geometry, key: r, latex: r, meaning: position_vector}
+  - {id: geometry.arc_length, scope: geometry, key: s_arc, latex: s, meaning: arc_length}
+  - {id: geometry.curvature, scope: geometry, key: kappa, latex: "\\kappa", meaning: curve_curvature}
+  - {id: geometry.torsion, scope: geometry, key: tau_tor, latex: "\\tau_{\\mathrm{tor}}", meaning: curve_torsion}
+  - {id: geometry.scalar_curvature, scope: geometry, key: Scal_g, latex: "\\mathrm{Scal}_g", meaning: scalar_curvature}
+  - {id: protocol.spatial_resolution, scope: protocol, key: epsilon_x, latex: "\\varepsilon_x", meaning: spatial_resolution}
+  - {id: protocol.temporal_resolution, scope: protocol, key: delta_t, latex: "\\delta t", meaning: temporal_resolution}
+  - {id: protocol.observation_horizon, scope: protocol, key: T_hor, latex: "T_{\\mathrm{hor}}", meaning: observation_horizon}
+  - {id: scale.log_length, scope: scale, key: chi_L, latex: "\\chi_L", meaning: logarithmic_length_coordinate}
+  - {id: scale.log_mass, scope: scale, key: chi_M, latex: "\\chi_M", meaning: logarithmic_mass_coordinate}
+  - {id: scale.log_time, scope: scale, key: chi_T, latex: "\\chi_T", meaning: logarithmic_time_coordinate}
+  - {id: information.entropy, scope: information, key: H_b, latex: "H_b", meaning: entropy_with_declared_log_base}
+  - {id: spectral.laplacian_eigenvalue, scope: spectral, key: lambda_Delta, latex: "\\lambda_j(\\Delta)", meaning: laplacian_eigenvalue}
+  - {id: mechanics.energy, scope: mechanics, key: E, latex: E, meaning: physical_energy}
+  - {id: mechanics.power, scope: mechanics, key: P, latex: P, meaning: physical_power}
+  - {id: relativity.proper_time, scope: relativity, key: tau_prop, latex: "\\tau_{\\mathrm{prop}}", meaning: proper_time}
+  - {id: defects.profile, scope: defects, key: D_profile, latex: "\\mathscr D", meaning: typed_defect_profile}
+  - {id: defects.normalized_component, scope: defects, key: delta_k, latex: "\\delta_k", meaning: normalized_defect_component}
+  - {id: objective.decision_functional, scope: objective, key: J_lambda, latex: "J_\\lambda", meaning: dimensionless_decision_functional}
+

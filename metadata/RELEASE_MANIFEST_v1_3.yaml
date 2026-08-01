@@ -1,0 +1,73 @@
+schema:
+  id: go-p12-master-release-manifest
+  version: 1.3.0
+date: '2026-07-28'
+status: PASS
+release_identity:
+  id: geometry-of-observation-corpus-master-v1-3
+  title: 'Geometry of Observation: Frozen Typed Corpus and Reproducibility Master'
+  version: 1.3.0
+  author: Stassis Stashkevichyus
+  orcid: https://orcid.org/0009-0000-2294-705X
+  license: CC-BY-NC-ND-4.0
+  doi: null
+core_contract: go-core-spec@0.2.0
+baseline:
+  id: go-corpus-ledgers@1.2.0
+  path: work/p11_satellite_networks_v1_2/ledgers/corpus_ledgers_v1_2.yaml
+  bytes: 305931
+  sha256: 3f50f7941f8549c4b9de626fdb107431c07238582cdf8ebce90203500189f68e
+  canonical_documents: 18
+master:
+  filename: Geometry_of_Observation_Corpus_Master_v1_3.pdf
+  pages: 166
+  front_matter_pages: 8
+  component_pages: 158
+  bytes: 2540669
+  sha256: 3942277bc24ce6c134876bf27d322e03869a40e7d52eb084bcab6b3c885bf2d2
+corpus:
+  modules: 18
+  maps: 131
+  symbols: 132
+  quantities: 559
+  typed_expressions: 347
+  invariants: 45
+  claims: 136
+  findings: 0
+  statuses:
+    PASS: 18
+    FAIL: 0
+    BLOCKED: 0
+dependency_graph:
+  nodes: 29
+  edges: 36
+  acyclic: true
+  contextual_relations_excluded: 3
+validation:
+  status: PASS
+  release_checks: 51
+  p12_regression_tests: 259
+  phase_validators: 11
+  component_page_equivalence_checks: 158
+  independently_rendered_master_pages: 166
+  short_identifier_overlaps: 7
+  qualified_collisions: 0
+bundle:
+  filename: GO_P12_Corpus_Master_v1_3_Release_Bundle.zip
+  component_count: 100
+  member_count: 101
+  bytes: 42178688
+  sha256: 497c16c5e86279025066fbf48954e067bd53bd2cad970545d32000d7e0327ee6
+  zip_integrity: PASS
+  deterministic_member_order: true
+  fixed_timestamp: '2026-07-28T12:00:00'
+  inherited_phase_bundles: 11
+publication_metadata:
+  citation_file_format: 1.2.0
+  zenodo_record_type: preprint
+  osf_metadata_present: true
+  doi_assigned: false
+claim_firewall:
+  peer_review_completed: false
+  cross_domain_physical_equivalence_claimed: false
+  release_object_role: provenance_and_reproducibility_master

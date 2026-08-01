@@ -1,0 +1,44 @@
+schema:
+  id: go-protocol-schema
+  version: 0.1.0
+
+required_fields:
+  - hidden_space
+  - system_descriptor
+  - reduction
+  - deterministic_observation
+  - stochastic_channel_or_explicit_noiseless_model
+  - observed_space
+  - reference_frame
+  - quantizer_or_partition
+  - spatial_resolution
+  - temporal_resolution
+  - observation_horizon
+  - estimator_or_declared_direct_readout
+  - uncertainty_or_exactness_statement
+  - unit_context
+  - defect_normalizations
+
+conditional_fields:
+  measured_quantity:
+    - calibration_id
+    - uncertainty
+    - missing_data_policy
+  numerical_rank:
+    - singular_value_threshold
+    - input_scale_matrix
+    - output_scale_matrix
+  logarithmic_quantity:
+    - reference_quantity
+    - log_base
+  tensor_components:
+    - coordinates
+    - basis
+    - index_variance
+    - metric_convention
+  relativistic_quantity:
+    - signature
+    - curvature_convention
+    - constants_convention
+    - causal_domain
+
