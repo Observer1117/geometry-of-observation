@@ -1,0 +1,48 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@id": "https://theobserverofmultiverses.info/#stassis-stashkevichyus",
+      "@type": "Person",
+      "name": "Stassis Stashkevichyus",
+      "url": "https://theobserverofmultiverses.info/",
+      "sameAs": ["https://orcid.org/0009-0000-2294-705X", "https://github.com/Observer1117"],
+      "jobTitle": "Independent Researcher",
+      "email": "theobserver.of.multiverses@proton.me"
+    },
+    {
+      "@id": "https://theobserverofmultiverses.info/#website",
+      "@type": "WebSite",
+      "name": "The Observer of Multiverses",
+      "url": "https://theobserverofmultiverses.info/",
+      "creator": {"@id": "https://theobserverofmultiverses.info/#stassis-stashkevichyus"}
+    },
+    {
+      "@id": "https://theobserverofmultiverses.info/research/#page",
+      "@type": "CollectionPage",
+      "name": "Research Index",
+      "url": "https://theobserverofmultiverses.info/research/",
+      "isPartOf": {"@id": "https://theobserverofmultiverses.info/#website"},
+      "mainEntity": {"@id": "https://theobserverofmultiverses.info/research/#index"}
+    },
+    {"@id":"https://theobserverofmultiverses.info/research/geometry-of-observation/#work","@type":"Dataset","name":"Geometry of Observation: Frozen Typed Corpus and Reproducibility Master","url":"https://theobserverofmultiverses.info/research/geometry-of-observation/","author":{"@id":"https://theobserverofmultiverses.info/#stassis-stashkevichyus"},"datePublished":"2026-07-28","version":"1.3.0","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.17605/OSF.IO/GE92J","url":"https://doi.org/10.17605/OSF.IO/GE92J"},"sameAs":["https://github.com/Observer1117/geometry-of-observation","https://doi.org/10.17605/OSF.IO/GE92J"]},
+    {"@id":"https://theobserverofmultiverses.info/research/compact-resolvent-spectral-encodings/#work","@type":"ScholarlyArticle","name":"A Layered Framework for Compact-Resolvent Spectral Encodings","url":"https://theobserverofmultiverses.info/research/compact-resolvent-spectral-encodings/","author":{"@id":"https://theobserverofmultiverses.info/#stassis-stashkevichyus"},"datePublished":"2026-08-01","version":"0.2","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.17605/OSF.IO/RWPGA","url":"https://doi.org/10.17605/OSF.IO/RWPGA"},"sameAs":["https://github.com/Observer1117/compact-resolvent-spectral-encodings","https://doi.org/10.17605/OSF.IO/RWPGA"]},
+    {"@id":"https://theobserverofmultiverses.info/research/weighted-gray-codon-geometry/#work","@type":"ScholarlyArticle","name":"A weighted Gray-code metric on the RNA codon graph: exact symmetries, translation fibers, and controlled null benchmarks","url":"https://theobserverofmultiverses.info/research/weighted-gray-codon-geometry/","author":{"@id":"https://theobserverofmultiverses.info/#stassis-stashkevichyus"},"datePublished":"2026-08-01","version":"1.0.0","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.17605/OSF.IO/XHD46","url":"https://doi.org/10.17605/OSF.IO/XHD46"},"sameAs":["https://github.com/Observer1117/weighted-gray-codon-geometry","https://doi.org/10.17605/OSF.IO/XHD46"]},
+    {"@id":"https://theobserverofmultiverses.info/research/weighted-gray-codon-external-validation/#work","@type":"ScholarlyArticle","name":"External validation of a weighted Gray-code codon metric across saturation-genome-editing assays: a negative grouped benchmark","url":"https://theobserverofmultiverses.info/research/weighted-gray-codon-external-validation/","author":{"@id":"https://theobserverofmultiverses.info/#stassis-stashkevichyus"},"datePublished":"2026-08-01","version":"1.0.0","identifier":{"@type":"PropertyValue","propertyID":"DOI","value":"10.17605/OSF.IO/RSA4T","url":"https://doi.org/10.17605/OSF.IO/RSA4T"},"sameAs":["https://github.com/Observer1117/weighted-gray-codon-external-validation","https://doi.org/10.17605/OSF.IO/RSA4T"]},
+    {"@id":"https://theobserverofmultiverses.info/research/quantitative-modularity-defects/#work","@type":"ScholarlyArticle","name":"Quantitative Modularity Defects for Character-Resolved Heat Traces on Discrete Cycles","url":"https://theobserverofmultiverses.info/research/quantitative-modularity-defects/","author":{"@id":"https://theobserverofmultiverses.info/#stassis-stashkevichyus"},"datePublished":"2026-08-10","version":"2.0-rc2","sameAs":["https://github.com/Observer1117/quantitative-modularity-defects"]},
+    {
+      "@id":"https://theobserverofmultiverses.info/research/#index",
+      "@type":"ItemList",
+      "name":"Research outputs",
+      "itemListOrder":"https://schema.org/ItemListOrderAscending",
+      "numberOfItems":5,
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"item":{"@id":"https://theobserverofmultiverses.info/research/geometry-of-observation/#work"}},
+        {"@type":"ListItem","position":2,"item":{"@id":"https://theobserverofmultiverses.info/research/compact-resolvent-spectral-encodings/#work"}},
+        {"@type":"ListItem","position":3,"item":{"@id":"https://theobserverofmultiverses.info/research/weighted-gray-codon-geometry/#work"}},
+        {"@type":"ListItem","position":4,"item":{"@id":"https://theobserverofmultiverses.info/research/weighted-gray-codon-external-validation/#work"}},
+        {"@type":"ListItem","position":5,"item":{"@id":"https://theobserverofmultiverses.info/research/quantitative-modularity-defects/#work"}}
+      ]
+    }
+  ]
+}

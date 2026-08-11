@@ -1,0 +1,55 @@
+{
+  "schema": {"name":"observer-jsonld-mapping","version":"1.0.0","context":"https://schema.org"},
+  "global_entities": {
+    "person": {
+      "type":"Person",
+      "id":"https://theobserverofmultiverses.info/#stassis-stashkevichyus",
+      "properties":{"name":"authority.display_name","url":"project.website","sameAs":["authority.orcid","authority.github"],"jobTitle":"authority.role","email":"authority.email"}
+    },
+    "website": {
+      "type":"WebSite",
+      "id":"https://theobserverofmultiverses.info/#website",
+      "properties":{"name":"project.name","url":"project.website","creator":"global Person @id"}
+    }
+  },
+  "research_index": {
+    "page_type":"CollectionPage",
+    "main_entity_type":"ItemList",
+    "item_list_order":"https://schema.org/ItemListOrderAscending",
+    "position":"work.priority",
+    "reason":"The index mixes articles, a research corpus, and a release candidate; DataCatalog is reserved for collections of Dataset entities."
+  },
+  "work_primary_mapping": {
+    "research-corpus":"Dataset",
+    "expository-preprint":"ScholarlyArticle",
+    "mathematical-biology-preprint":"ScholarlyArticle",
+    "external-validation-preprint":"ScholarlyArticle",
+    "specialized-quantitative-note-release-candidate":"ScholarlyArticle"
+  },
+  "scholarly_article": {
+    "properties": {
+      "name":"work.title",
+      "headline":"work.title",
+      "author":"global Person @id",
+      "url":"canonical research page",
+      "datePublished":"work.display_date",
+      "version":"work.citation_version",
+      "identifier":"DOI PropertyValue when DOI is non-null",
+      "sameAs":["work.repository_url","DOI URL when non-null"],
+      "license":"license_scope",
+      "additionalProperty":["release_status","review_status","novelty/verification gates when present"]
+    }
+  },
+  "dataset": {
+    "use_for":["GOO-1.3.0 primary corpus","WGCG-1.0.0 secondary data entity","WGCX-1.0.0 secondary validation dataset entity"],
+    "properties":{"name":"dataset/corpus name","creator":"global Person @id","datePublished":"work.display_date","version":"work.citation_version","identifier":"DOI when it scopes the dataset/corpus","license":"dataset-specific license","distribution":"DataDownload nodes for stable downloadable assets when known"}
+  },
+  "software_source_code": {
+    "use_when":"jsonld_profile.software_entity is true and repository evidence shows substantive executable source/test code.",
+    "properties":{"name":"<short_title> reproducibility source","creator":"global Person @id","codeRepository":"work.repository_url","version":"work.metadata_record_version","programmingLanguage":"Populate from repository evidence; do not guess.","license":"code-specific license","isPartOf":"primary work @id"}
+  },
+  "not_used_as_primary": {
+    "DataCatalog":"Not used for /research/ because the index is not solely a collection of datasets.",
+    "Organization":"Not used for The Observer of Multiverses; represent the project as WebSite unless a real organization is later constituted."
+  }
+}
