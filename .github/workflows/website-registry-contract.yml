@@ -1,0 +1,24 @@
+name: Website registry contract
+
+on:
+  pull_request:
+    paths:
+      - 'website/registry/**'
+      - 'website/scripts/validate_registry.py'
+      - '.github/workflows/website-registry-contract.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'website/registry/**'
+      - 'website/scripts/validate_registry.py'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Research Index, WordPress model, and JSON-LD graph
+        run: python3 website/scripts/validate_registry.py
