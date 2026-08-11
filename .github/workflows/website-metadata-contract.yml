@@ -1,0 +1,93 @@
+name: Website metadata contract
+
+on:
+  pull_request:
+    paths:
+      - 'metadata/website_metadata.yaml'
+      - 'CITATION.cff'
+      - '.github/workflows/website-metadata-contract.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'metadata/website_metadata.yaml'
+      - 'CITATION.cff'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify normalized website metadata
+        shell: bash
+        run: |
+          ruby <<'RUBY'
+          require 'yaml'
+
+          path = 'metadata/website_metadata.yaml'
+          abort("missing #{path}") unless File.file?(path)
+          m = YAML.safe_load(File.read(path), aliases: false)
+
+          required = %w[schema work author project publication dates license_scope scientific_status wordpress provenance]
+          missing = required.reject { |key| m.key?(key) }
+          abort("missing top-level keys: #{missing.join(', ')}") unless missing.empty?
+
+          abort('wrong schema name') unless m.dig('schema', 'name') == 'observer-research-output'
+          abort('wrong schema version') unless m.dig('schema', 'version') == '1.0.0'
+
+          author = m.fetch('author')
+          expected_author = {
+            'given_name' => 'Stassis',
+            'family_name' => 'Stashkevichyus',
+            'display_name' => 'Stassis Stashkevichyus',
+            'role' => 'Independent Researcher',
+            'location' => 'Vilnius, Lithuania',
+            'orcid' => 'https://orcid.org/0009-0000-2294-705X',
+            'email' => 'theobserver.of.multiverses@proton.me'
+          }
+          expected_author.each { |k, v| abort("author mismatch: #{k}") unless author[k] == v }
+
+          project = m.fetch('project')
+          abort('wrong project name') unless project['name'] == 'The Observer of Multiverses'
+          abort('wrong project website') unless project['website'] == 'https://theobserverofmultiverses.info'
+          abort('project must not be an author entity') unless project['author_entity'] == false
+
+          work = m.fetch('work')
+          abort('peer_reviewed must be false') unless work['peer_reviewed'] == false
+          abort('missing work id') if work['id'].to_s.empty?
+          abort('missing title') if work['title'].to_s.empty?
+          abort('missing metadata record version') if work['metadata_record_version'].to_s.empty?
+
+          publication = m.fetch('publication')
+          allowed_release = %w[public-research-corpus metadata-successor-of-frozen-preprint release-candidate preprint]
+          allowed_review = %w[not-peer-reviewed independent-specialist-review-pending]
+          abort('invalid release status') unless allowed_release.include?(publication['release_status'])
+          abort('invalid review status') unless allowed_review.include?(publication['review_status'])
+
+          licenses = m.fetch('license_scope')
+          abort('license_scope must be a nonempty array') unless licenses.is_a?(Array) && !licenses.empty?
+          licenses.each do |entry|
+            abort('license scope missing') if entry['scope'].to_s.empty?
+            abort('license identifier missing') if entry['license'].to_s.empty?
+          end
+
+          wordpress = m.fetch('wordpress')
+          abort('wrong WordPress content type') unless wordpress['content_type'] == 'research_output'
+          abort('invalid WordPress site path') unless wordpress['site_path'].to_s.start_with?('/research/')
+          abort('missing WordPress slug') if wordpress['slug'].to_s.empty?
+
+          expected_repo = "https://github.com/#{ENV.fetch('GITHUB_REPOSITORY')}"
+          abort('repository URL mismatch') unless publication['repository_url'] == expected_repo
+
+          cff = File.read('CITATION.cff')
+          title = Regexp.escape(work['title'])
+          abort('CFF title mismatch') unless cff.match?(/^title:\s*["']?#{title}["']?\s*$/)
+          version = Regexp.escape(work['metadata_record_version'].to_s)
+          abort('CFF version mismatch') unless cff.match?(/^version:\s*["']?#{version}["']?\s*$/)
+          abort('CFF ORCID mismatch') unless cff.include?('0009-0000-2294-705X')
+          abort('CFF author identity mismatch') unless cff.include?('Stashkevichyus') && cff.include?('Stassis')
+
+          puts "Website metadata contract verified for #{work['id']}."
+          RUBY
