@@ -1,0 +1,61 @@
+{
+  "schema": {"name": "observer-wordpress-data-model", "version": "1.0.0"},
+  "principles": [
+    "GitHub website_metadata contracts are authoritative for scientific metadata.",
+    "WordPress editorial content must not override DOI, version, release status, review status, license scope, or provenance.",
+    "WordPress publish/draft is a CMS visibility state, never a peer-review state.",
+    "The WordPress user/post author is not the scholarly-author authority; JSON-LD author resolves to the global Person entity."
+  ],
+  "custom_post_type": {
+    "key": "research_output",
+    "public": true,
+    "hierarchical": false,
+    "has_archive": true,
+    "archive_slug": "research",
+    "rewrite_slug": "research",
+    "show_in_rest": true,
+    "rest_base": "research",
+    "supports": ["title", "editor", "excerpt", "thumbnail", "revisions", "custom-fields"]
+  },
+  "editorial_fields": {
+    "title": "Display title initialized from the contract.",
+    "editor": "Public explanation, claim wall, methods, limitations, and reader guidance.",
+    "excerpt": "Short public summary.",
+    "thumbnail": "Research-page visual; never evidence of scientific validation."
+  },
+  "machine_meta": [
+    {"key":"observer_work_id","type":"string","required":true,"immutable_after_import":true},
+    {"key":"observer_metadata_record_version","type":"string","required":true},
+    {"key":"observer_citation_version","type":"string","required":true},
+    {"key":"observer_release_tag","type":["string","null"],"required":false},
+    {"key":"observer_resource_type","type":"string","required":true},
+    {"key":"observer_release_status","type":"string","required":true},
+    {"key":"observer_review_status","type":"string","required":true},
+    {"key":"observer_doi","type":["string","null"],"required":false},
+    {"key":"observer_doi_scope","type":["string","null"],"required":false},
+    {"key":"observer_osf_registration_url","type":["string","null"],"required":false},
+    {"key":"observer_repository_url","type":"string","required":true},
+    {"key":"observer_github_release_url","type":["string","null"],"required":false},
+    {"key":"observer_display_date","type":"string","format":"date","required":true},
+    {"key":"observer_display_date_meaning","type":"string","required":true},
+    {"key":"observer_license_scope","type":"array","items":{"type":"object","required":["scope","license"]},"required":true},
+    {"key":"observer_claim_boundary_path","type":["string","null"],"required":false},
+    {"key":"observer_reproducibility_path","type":["string","null"],"required":false},
+    {"key":"observer_companion_work_ids","type":"array","items":{"type":"string"},"required":false},
+    {"key":"observer_schema_primary_type","type":"string","required":true},
+    {"key":"observer_source_repository","type":"string","required":true},
+    {"key":"observer_source_contract_path","type":"string","required":true},
+    {"key":"observer_source_commit","type":"string","required":true}
+  ],
+  "derived_not_stored": ["canonical_url", "badges", "Person JSON-LD", "WebSite JSON-LD", "Research Index positions"],
+  "rest_contract": {
+    "post_type_show_in_rest": true,
+    "meta_show_in_rest": true,
+    "requires_custom_fields_support": true,
+    "recommended_endpoint": "/wp-json/wp/v2/research"
+  },
+  "global_entities": {
+    "person": {"source":"research_index.authority","wordpress_post_author_semantics":false},
+    "project": {"source":"research_index.project","schema_type":"WebSite","author_entity":false}
+  }
+}
