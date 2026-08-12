@@ -1,0 +1,117 @@
+:root {
+  --observer-ink: #14202b;
+  --observer-muted: #52606d;
+  --observer-line: #d9e2ec;
+  --observer-surface: #f7f9fb;
+  --observer-warning-bg: #fff4d6;
+  --observer-warning-ink: #704d00;
+  --observer-id-bg: #e2f4ef;
+  --observer-id-ink: #145c4a;
+}
+
+.observer-research-archive,
+.observer-research-single {
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 72rem;
+  padding: clamp(1.25rem, 4vw, 3.5rem);
+  color: var(--observer-ink);
+}
+
+.observer-research-header {
+  max-width: 52rem;
+  margin-bottom: 2rem;
+}
+
+.observer-research-kicker,
+.observer-research-version,
+.observer-registry-provenance {
+  color: var(--observer-muted);
+  font-size: 0.9rem;
+}
+
+.observer-research-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: 1rem;
+}
+
+.observer-research-card {
+  border: 1px solid var(--observer-line);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  background: var(--observer-surface);
+}
+
+.observer-research-card h2 {
+  margin-block: 0.75rem 0.35rem;
+  font-size: 1.2rem;
+}
+
+.observer-research-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.observer-badge {
+  display: inline-block;
+  border: 1px solid var(--observer-line);
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  background: #fff;
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.observer-badge--warning {
+  border-color: #e6c55b;
+  background: var(--observer-warning-bg);
+  color: var(--observer-warning-ink);
+}
+
+.observer-badge--identifier {
+  border-color: #82cdb8;
+  background: var(--observer-id-bg);
+  color: var(--observer-id-ink);
+}
+
+.observer-research-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.75rem;
+  margin-block: 1.5rem;
+}
+
+.observer-research-facts > div {
+  border-left: 3px solid var(--observer-line);
+  padding-left: 0.75rem;
+}
+
+.observer-research-facts dt {
+  color: var(--observer-muted);
+  font-size: 0.8rem;
+}
+
+.observer-research-facts dd {
+  margin: 0.2rem 0 0;
+  font-weight: 600;
+}
+
+.observer-license-map table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.observer-license-map th,
+.observer-license-map td {
+  border-bottom: 1px solid var(--observer-line);
+  padding: 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+

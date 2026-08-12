@@ -1,0 +1,16 @@
+{
+  "plugin_version": "0.1.0",
+  "registry_schema": {"name": "observer-research-index", "version": "1.0.0"},
+  "source_repository": "Observer1117/geometry-of-observation",
+  "source_commit": "bab4480e50f8abe32087da765a145575a4519f8a",
+  "files": {
+    "research_index.json": {
+      "source_path": "website/registry/research_index.json",
+      "sha256": "5ecc0d6ba6473b9a09a2875c5352045bf2d45ea42f6ff819e064c8ae7351605b"
+    },
+    "wordpress_data_model.json": {
+      "source_path": "website/registry/wordpress_data_model.json",
+      "sha256": "6ecbb407db3a6d0cdf1f5a11e5a740f033d31bd237c1f6c2dc2c6f16b727a878"
+    }
+  }
+}

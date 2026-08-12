@@ -1,0 +1,64 @@
+name: WordPress plugin contract
+
+on:
+  pull_request:
+    paths:
+      - 'website/wordpress-plugin/observer-research-registry/**'
+      - 'website/registry/**'
+      - 'website/scripts/validate_registry.py'
+      - 'website/scripts/validate_wordpress_plugin.py'
+      - 'website/scripts/build_wordpress_plugin.py'
+      - '.github/workflows/wordpress-plugin-contract.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'website/wordpress-plugin/observer-research-registry/**'
+      - 'website/registry/**'
+      - 'website/scripts/validate_registry.py'
+      - 'website/scripts/validate_wordpress_plugin.py'
+      - 'website/scripts/build_wordpress_plugin.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  registry-and-static-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate canonical registry
+        run: python3 website/scripts/validate_registry.py
+      - name: Validate bundled plugin contract
+        run: python3 website/scripts/validate_wordpress_plugin.py
+      - name: Build deterministic installation archive
+        run: |
+          python3 website/scripts/build_wordpress_plugin.py /tmp/observer-research-registry-0.1.0.zip
+          unzip -t /tmp/observer-research-registry-0.1.0.zip
+
+  php-contract:
+    needs: registry-and-static-contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Record PHP runtime
+        run: php --version
+      - name: Lint every plugin PHP file
+        shell: bash
+        run: |
+          set -euo pipefail
+          plugin_dir='website/wordpress-plugin/observer-research-registry'
+          found=0
+          while IFS= read -r -d '' file; do
+            found=1
+            php -l "$file"
+          done < <(find "$plugin_dir" -type f -name '*.php' -print0)
+          test "$found" -eq 1
+      - name: Run dependency-free PHP contract suite
+        run: php -d display_errors=1 -d error_reporting=-1 website/wordpress-plugin/observer-research-registry/tests/run.php
