@@ -1,0 +1,43 @@
+name: P1.7 staging kit contract
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/p1-7-staging-kit.yml'
+      - 'website/staging/**'
+      - 'website/scripts/build_p1_7_staging_kit.py'
+      - 'website/scripts/validate_p1_7_staging_kit.py'
+      - 'website/scripts/build_wordpress_plugin.py'
+      - 'website/wordpress-plugin/observer-research-registry/**'
+      - 'website/registry/research_index.json'
+      - 'website/registry/wordpress_data_model.json'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/p1-7-staging-kit.yml'
+      - 'website/staging/**'
+      - 'website/scripts/build_p1_7_staging_kit.py'
+      - 'website/scripts/validate_p1_7_staging_kit.py'
+      - 'website/scripts/build_wordpress_plugin.py'
+      - 'website/wordpress-plugin/observer-research-registry/**'
+      - 'website/registry/research_index.json'
+      - 'website/registry/wordpress_data_model.json'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate P1.7 sources and deterministic bundle
+        run: python3 website/scripts/validate_p1_7_staging_kit.py
+      - name: Run offline P1.7 tests
+        run: python3 -m unittest discover -s website/staging/tests -p 'test_*.py' -v
+      - name: Build release candidate twice
+        run: |
+          python3 website/scripts/build_p1_7_staging_kit.py /tmp/p1-7-a.zip
+          python3 website/scripts/build_p1_7_staging_kit.py /tmp/p1-7-b.zip
+          cmp /tmp/p1-7-a.zip /tmp/p1-7-b.zip
