@@ -1,0 +1,1627 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theobserverofmultiverses.info/schemas/p1-7-staging-evidence/1.0.0",
+  "title": "Observer Research Registry P1.7 target-staging evidence",
+  "description": "Strict evidence contract for the exact P1.6 candidate on the selected WordPress.com Business target-staging stack. This record never authorizes production.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_name",
+    "schema_version",
+    "record_id",
+    "generated_at",
+    "phase",
+    "environment",
+    "artifact",
+    "plugin",
+    "production_safety",
+    "backup_restore",
+    "gates",
+    "evidence_items",
+    "log_summary",
+    "abort",
+    "decision"
+  ],
+  "properties": {
+    "schema_name": {
+      "const": "observer-p1.7-staging-evidence"
+    },
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "record_id": {
+      "type": "string",
+      "pattern": "^p1-7-[0-9]{8}-[0-9]{2,}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "phase": {
+      "const": "P1.7"
+    },
+    "environment": {
+      "$ref": "#/$defs/environment"
+    },
+    "artifact": {
+      "$ref": "#/$defs/artifact"
+    },
+    "plugin": {
+      "$ref": "#/$defs/plugin"
+    },
+    "production_safety": {
+      "$ref": "#/$defs/productionSafety"
+    },
+    "backup_restore": {
+      "$ref": "#/$defs/backupRestore"
+    },
+    "gates": {
+      "$ref": "#/$defs/gates"
+    },
+    "evidence_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidenceItem"
+      }
+    },
+    "log_summary": {
+      "$ref": "#/$defs/logSummary"
+    },
+    "abort": {
+      "$ref": "#/$defs/abort"
+    },
+    "decision": {
+      "$ref": "#/$defs/decision"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "nullableSha256": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nullableString": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nullableUri": {
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nullableTimestamp": {
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nullableBoolean": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "nullableNonNegativeInteger": {
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "gateStatus": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "SKIP",
+        "NOT_RUN"
+      ]
+    },
+    "gateId": {
+      "enum": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "A1",
+        "A2",
+        "A3",
+        "I1",
+        "I2",
+        "I3",
+        "I4",
+        "I5",
+        "I6",
+        "I7",
+        "I8",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "Q1",
+        "Q2",
+        "Q3"
+      ]
+    },
+    "inventoryComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "state",
+        "role"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "state": {
+          "enum": [
+            "ACTIVE",
+            "INACTIVE",
+            "PRESENT",
+            "UNKNOWN"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "selected_route",
+        "purchase_state",
+        "bootstrap_site_state",
+        "staging_state",
+        "planned_bootstrap_url",
+        "bootstrap_url",
+        "staging_url",
+        "target_evidence_scope",
+        "observed_at",
+        "versions",
+        "urls",
+        "topology",
+        "theme",
+        "plugins",
+        "mu_plugins",
+        "drop_ins",
+        "cache_layers",
+        "network_layers",
+        "access"
+      ],
+      "properties": {
+        "provider": {
+          "const": "WordPress.com"
+        },
+        "selected_route": {
+          "const": "WORDPRESS_COM_BUSINESS"
+        },
+        "purchase_state": {
+          "enum": [
+            "DEFERRED",
+            "ACTIVE"
+          ]
+        },
+        "bootstrap_site_state": {
+          "enum": [
+            "NOT_PROVISIONED",
+            "PROVISIONED"
+          ]
+        },
+        "staging_state": {
+          "enum": [
+            "NOT_PROVISIONED",
+            "PROVISIONED"
+          ]
+        },
+        "planned_bootstrap_url": {
+          "const": "https://observermultiversesresearch.wordpress.com/"
+        },
+        "bootstrap_url": {
+          "oneOf": [
+            {
+              "const": "https://observermultiversesresearch.wordpress.com/"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "staging_url": {
+          "$ref": "#/$defs/nullableUri"
+        },
+        "target_evidence_scope": {
+          "const": "TARGET_HOST_ONLY"
+        },
+        "observed_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "versions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "wordpress",
+            "php",
+            "php_sapi",
+            "database_engine",
+            "database_version",
+            "web_server"
+          ],
+          "properties": {
+            "wordpress": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "php": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "php_sapi": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "database_engine": {
+              "oneOf": [
+                {
+                  "enum": [
+                    "MySQL",
+                    "MariaDB",
+                    "OTHER",
+                    "UNKNOWN"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "database_version": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "web_server": {
+              "$ref": "#/$defs/nullableString"
+            }
+          }
+        },
+        "urls": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "siteurl",
+            "home",
+            "permalink_structure"
+          ],
+          "properties": {
+            "siteurl": {
+              "$ref": "#/$defs/nullableUri"
+            },
+            "home": {
+              "$ref": "#/$defs/nullableUri"
+            },
+            "permalink_structure": {
+              "$ref": "#/$defs/nullableString"
+            }
+          }
+        },
+        "topology": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "is_multisite",
+            "https_only"
+          ],
+          "properties": {
+            "is_multisite": {
+              "$ref": "#/$defs/nullableBoolean"
+            },
+            "https_only": {
+              "$ref": "#/$defs/nullableBoolean"
+            }
+          }
+        },
+        "theme": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "parent",
+            "child"
+          ],
+          "properties": {
+            "kind": {
+              "oneOf": [
+                {
+                  "enum": [
+                    "CLASSIC",
+                    "HYBRID",
+                    "BLOCK",
+                    "UNKNOWN"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "parent": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/inventoryComponent"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "child": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/inventoryComponent"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "plugins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inventoryComponent"
+          }
+        },
+        "mu_plugins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inventoryComponent"
+          }
+        },
+        "drop_ins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inventoryComponent"
+          }
+        },
+        "cache_layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inventoryComponent"
+          }
+        },
+        "network_layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inventoryComponent"
+          }
+        },
+        "access": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "protected",
+            "protection_method",
+            "search_engine_excluded"
+          ],
+          "properties": {
+            "protected": {
+              "$ref": "#/$defs/nullableBoolean"
+            },
+            "protection_method": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "search_engine_excluded": {
+              "$ref": "#/$defs/nullableBoolean"
+            }
+          }
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file_name",
+        "hash_algorithm",
+        "required_sha256",
+        "observed_sha256",
+        "sha256_recomputed_at",
+        "verified_after_transfer",
+        "target_copy_reference",
+        "repository",
+        "pull_request",
+        "pull_request_state",
+        "pull_request_head",
+        "pull_request_base_at_preflight",
+        "bundled_registry_source_commit"
+      ],
+      "properties": {
+        "file_name": {
+          "const": "observer-research-registry-0.1.0.zip"
+        },
+        "hash_algorithm": {
+          "const": "SHA-256"
+        },
+        "required_sha256": {
+          "const": "0d29a680f9aa478d2da3167b64bdbd0570839b2fd7cf9168159e8d4317e3e3d7"
+        },
+        "observed_sha256": {
+          "$ref": "#/$defs/nullableSha256"
+        },
+        "sha256_recomputed_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "verified_after_transfer": {
+          "type": "boolean"
+        },
+        "target_copy_reference": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "repository": {
+          "const": "Observer1117/geometry-of-observation"
+        },
+        "pull_request": {
+          "const": "https://github.com/Observer1117/geometry-of-observation/pull/3"
+        },
+        "pull_request_state": {
+          "const": "DRAFT_OPEN_UNMERGED"
+        },
+        "pull_request_head": {
+          "const": "4e7dff23bb53056d559fe44fc43a74c55eb27b10"
+        },
+        "pull_request_base_at_preflight": {
+          "const": "bab4480e50f8abe32087da765a145575a4519f8a"
+        },
+        "bundled_registry_source_commit": {
+          "const": "bab4480e50f8abe32087da765a145575a4519f8a"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "verified_after_transfer": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "observed_sha256": {
+                "const": "0d29a680f9aa478d2da3167b64bdbd0570839b2fd7cf9168159e8d4317e3e3d7"
+              },
+              "sha256_recomputed_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "target_copy_reference": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "plugin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slug",
+        "version",
+        "registry_schema",
+        "installed",
+        "active",
+        "manifest_valid",
+        "model_valid",
+        "management_capability",
+        "post_type",
+        "rest_base",
+        "expected_work_count",
+        "observed_work_count",
+        "importer_state_digest"
+      ],
+      "properties": {
+        "slug": {
+          "const": "observer-research-registry"
+        },
+        "version": {
+          "const": "0.1.0"
+        },
+        "registry_schema": {
+          "const": "observer-research-index/1.0.0"
+        },
+        "installed": {
+          "type": "boolean"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "manifest_valid": {
+          "$ref": "#/$defs/nullableBoolean"
+        },
+        "model_valid": {
+          "$ref": "#/$defs/nullableBoolean"
+        },
+        "management_capability": {
+          "const": "manage_observer_registry"
+        },
+        "post_type": {
+          "const": "research_output"
+        },
+        "rest_base": {
+          "const": "/wp-json/wp/v2/research"
+        },
+        "expected_work_count": {
+          "const": 5
+        },
+        "observed_work_count": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "importer_state_digest": {
+          "$ref": "#/$defs/nullableSha256"
+        }
+      }
+    },
+    "productionSafety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "public_domain",
+        "expected_public_surface",
+        "observed_public_surface",
+        "checked_at",
+        "dns_changed",
+        "nameservers_changed",
+        "dnssec_changed",
+        "domain_assignment_changed",
+        "redirects_changed",
+        "gravatar_surface_changed",
+        "plugin_activated_on_public_domain",
+        "research_published_outside_protected_staging",
+        "pull_request_merged",
+        "production_activation_attempted"
+      ],
+      "properties": {
+        "public_domain": {
+          "const": "https://theobserverofmultiverses.info/"
+        },
+        "expected_public_surface": {
+          "const": "GRAVATAR_PROFILE"
+        },
+        "observed_public_surface": {
+          "enum": [
+            "GRAVATAR_PROFILE",
+            "WORDPRESS_CMS",
+            "OTHER",
+            "UNKNOWN"
+          ]
+        },
+        "checked_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "dns_changed": {
+          "type": "boolean"
+        },
+        "nameservers_changed": {
+          "type": "boolean"
+        },
+        "dnssec_changed": {
+          "type": "boolean"
+        },
+        "domain_assignment_changed": {
+          "type": "boolean"
+        },
+        "redirects_changed": {
+          "type": "boolean"
+        },
+        "gravatar_surface_changed": {
+          "type": "boolean"
+        },
+        "plugin_activated_on_public_domain": {
+          "type": "boolean"
+        },
+        "research_published_outside_protected_staging": {
+          "type": "boolean"
+        },
+        "pull_request_merged": {
+          "type": "boolean"
+        },
+        "production_activation_attempted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "backupRestore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "checkpoint_reference",
+        "backup_created_at",
+        "restore_target",
+        "restore_started_at",
+        "restore_completed_at",
+        "restore_demonstrated",
+        "summary",
+        "evidence_refs",
+        "database_dump_in_evidence",
+        "backup_archive_in_evidence"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/gateStatus"
+        },
+        "checkpoint_reference": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "backup_created_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "restore_target": {
+          "$ref": "#/$defs/nullableUri"
+        },
+        "restore_started_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "restore_completed_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "restore_demonstrated": {
+          "type": "boolean"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^ev-[a-z0-9][a-z0-9._-]*$"
+          },
+          "uniqueItems": true
+        },
+        "database_dump_in_evidence": {
+          "const": false
+        },
+        "backup_archive_in_evidence": {
+          "const": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "PASS"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "restore_demonstrated": {
+                "const": true
+              },
+              "checkpoint_reference": {
+                "type": "string",
+                "minLength": 1
+              },
+              "backup_created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "restore_target": {
+                "type": "string",
+                "format": "uri"
+              },
+              "restore_started_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "restore_completed_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "gateResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "applicable",
+        "target_host_observation",
+        "summary",
+        "status_reason",
+        "evidence_refs",
+        "started_at",
+        "completed_at"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/gateStatus"
+        },
+        "applicable": {
+          "type": "boolean"
+        },
+        "target_host_observation": {
+          "type": "boolean"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status_reason": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^ev-[a-z0-9][a-z0-9._-]*$"
+          },
+          "uniqueItems": true
+        },
+        "started_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "completed_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "PASS",
+                  "FAIL"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "applicable": {
+                "const": true
+              },
+              "target_host_observation": {
+                "const": true
+              },
+              "evidence_refs": {
+                "minItems": 1
+              },
+              "started_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "completed_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "SKIP"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "applicable": {
+                "const": false
+              },
+              "status_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "NOT_RUN"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "target_host_observation": {
+                "const": false
+              },
+              "status_reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidence_refs": {
+                "maxItems": 0
+              },
+              "started_at": {
+                "type": "null"
+              },
+              "completed_at": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "A1",
+        "A2",
+        "A3",
+        "I1",
+        "I2",
+        "I3",
+        "I4",
+        "I5",
+        "I6",
+        "I7",
+        "I8",
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "Q1",
+        "Q2",
+        "Q3"
+      ],
+      "properties": {
+        "E1": { "$ref": "#/$defs/gateResult" },
+        "E2": { "$ref": "#/$defs/gateResult" },
+        "E3": { "$ref": "#/$defs/gateResult" },
+        "E4": { "$ref": "#/$defs/gateResult" },
+        "E5": { "$ref": "#/$defs/gateResult" },
+        "A1": { "$ref": "#/$defs/gateResult" },
+        "A2": { "$ref": "#/$defs/gateResult" },
+        "A3": { "$ref": "#/$defs/gateResult" },
+        "I1": { "$ref": "#/$defs/gateResult" },
+        "I2": { "$ref": "#/$defs/gateResult" },
+        "I3": { "$ref": "#/$defs/gateResult" },
+        "I4": { "$ref": "#/$defs/gateResult" },
+        "I5": { "$ref": "#/$defs/gateResult" },
+        "I6": { "$ref": "#/$defs/gateResult" },
+        "I7": { "$ref": "#/$defs/gateResult" },
+        "I8": { "$ref": "#/$defs/gateResult" },
+        "R1": { "$ref": "#/$defs/gateResult" },
+        "R2": { "$ref": "#/$defs/gateResult" },
+        "R3": { "$ref": "#/$defs/gateResult" },
+        "R4": { "$ref": "#/$defs/gateResult" },
+        "R5": { "$ref": "#/$defs/gateResult" },
+        "T1": { "$ref": "#/$defs/gateResult" },
+        "T2": { "$ref": "#/$defs/gateResult" },
+        "T3": { "$ref": "#/$defs/gateResult" },
+        "T4": { "$ref": "#/$defs/gateResult" },
+        "C1": { "$ref": "#/$defs/gateResult" },
+        "C2": { "$ref": "#/$defs/gateResult" },
+        "C3": { "$ref": "#/$defs/gateResult" },
+        "C4": { "$ref": "#/$defs/gateResult" },
+        "S1": { "$ref": "#/$defs/gateResult" },
+        "S2": { "$ref": "#/$defs/gateResult" },
+        "S3": { "$ref": "#/$defs/gateResult" },
+        "S4": { "$ref": "#/$defs/gateResult" },
+        "S5": { "$ref": "#/$defs/gateResult" },
+        "Q1": { "$ref": "#/$defs/gateResult" },
+        "Q2": { "$ref": "#/$defs/gateResult" },
+        "Q3": { "$ref": "#/$defs/gateResult" }
+      }
+    },
+    "evidenceItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "gate_ids",
+        "kind",
+        "captured_at",
+        "captured_by",
+        "summary",
+        "source_reference",
+        "storage_reference",
+        "sha256",
+        "redacted",
+        "access_class",
+        "secret_material_included",
+        "raw_private_log_included"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ev-[a-z0-9][a-z0-9._-]*$"
+        },
+        "gate_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/gateId"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "kind": {
+          "enum": [
+            "HASH_RESULT",
+            "VERSION_INVENTORY",
+            "COMMAND_SUMMARY",
+            "HTTP_SUMMARY",
+            "SANITIZED_SCREENSHOT",
+            "BACKUP_RESTORE_SUMMARY",
+            "LOG_SUMMARY",
+            "ACCESS_CONTROL_OBSERVATION",
+            "OTHER_SANITIZED_SUMMARY"
+          ]
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "captured_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "storage_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/nullableSha256"
+        },
+        "redacted": {
+          "type": "boolean"
+        },
+        "access_class": {
+          "enum": [
+            "PUBLIC_PROJECT_EVIDENCE",
+            "RESTRICTED_OPERATIONAL_REFERENCE"
+          ]
+        },
+        "secret_material_included": {
+          "const": false
+        },
+        "raw_private_log_included": {
+          "const": false
+        }
+      }
+    },
+    "logSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "window_start",
+        "window_end",
+        "sources",
+        "warning_count",
+        "fatal_count",
+        "blocked_legitimate_request_count",
+        "runtime_external_fetch_count",
+        "redactions_performed",
+        "secret_scan_status",
+        "summary",
+        "evidence_refs"
+      ],
+      "properties": {
+        "window_start": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "window_end": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "WORDPRESS_DEBUG_LOG",
+              "PHP_LOG",
+              "WEB_SERVER_LOG",
+              "PROVIDER_EVENT_LOG",
+              "WAF_LOG",
+              "CDN_LOG",
+              "PLUGIN_DIAGNOSTICS"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "warning_count": {
+          "$ref": "#/$defs/nullableNonNegativeInteger"
+        },
+        "fatal_count": {
+          "$ref": "#/$defs/nullableNonNegativeInteger"
+        },
+        "blocked_legitimate_request_count": {
+          "$ref": "#/$defs/nullableNonNegativeInteger"
+        },
+        "runtime_external_fetch_count": {
+          "$ref": "#/$defs/nullableNonNegativeInteger"
+        },
+        "redactions_performed": {
+          "type": "boolean"
+        },
+        "secret_scan_status": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "NOT_RUN"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^ev-[a-z0-9][a-z0-9._-]*$"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "abort": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "triggered",
+        "trigger_codes",
+        "observed_at",
+        "writes_stopped",
+        "journal_preserved",
+        "ambiguous_records_retained",
+        "restore_status",
+        "summary",
+        "evidence_refs"
+      ],
+      "properties": {
+        "triggered": {
+          "type": "boolean"
+        },
+        "trigger_codes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "ARTIFACT_HASH_MISMATCH",
+              "PROVENANCE_DRIFT",
+              "PUBLIC_DOMAIN_MUTATION",
+              "DNS_OR_DOMAIN_MUTATION",
+              "GRAVATAR_MUTATION",
+              "STAGING_EXPOSED_OR_INDEXABLE",
+              "BACKUP_OR_RESTORE_UNAVAILABLE",
+              "ADVISORY_LOCK_FAILURE",
+              "PARTIAL_OR_AMBIGUOUS_IMPORT",
+              "UNSAFE_ROLLBACK_DELETE",
+              "SCIENTIFIC_META_WRITE_ACCEPTED",
+              "EDITORIAL_FIELD_OVERWRITE",
+              "RUNTIME_WARNING_OR_FATAL",
+              "RUNTIME_EXTERNAL_FETCH",
+              "SECURITY_CONTROL_REGRESSION",
+              "SECRET_BEARING_EVIDENCE",
+              "OTHER_BLOCKING_FAILURE"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "observed_at": {
+          "$ref": "#/$defs/nullableTimestamp"
+        },
+        "writes_stopped": {
+          "type": "boolean"
+        },
+        "journal_preserved": {
+          "$ref": "#/$defs/nullableBoolean"
+        },
+        "ambiguous_records_retained": {
+          "$ref": "#/$defs/nullableBoolean"
+        },
+        "restore_status": {
+          "enum": [
+            "NOT_NEEDED",
+            "NOT_RUN",
+            "PASS",
+            "FAIL",
+            "MANUAL_REVIEW_REQUIRED"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^ev-[a-z0-9][a-z0-9._-]*$"
+          },
+          "uniqueItems": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "triggered": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "trigger_codes": {
+                "minItems": 1
+              },
+              "observed_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "writes_stopped": {
+                "const": true
+              },
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "trigger_codes": {
+                "maxItems": 0
+              },
+              "observed_at": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verdict",
+        "decided_at",
+        "decided_by",
+        "rationale",
+        "open_blockers",
+        "next_action",
+        "production_activation_authorized",
+        "separate_production_plan_required"
+      ],
+      "properties": {
+        "verdict": {
+          "enum": [
+            "GO",
+            "NO-GO"
+          ]
+        },
+        "decided_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "decided_by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "open_blockers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "next_action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "production_activation_authorized": {
+          "const": false
+        },
+        "separate_production_plan_required": {
+          "const": true
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "environment": {
+            "properties": {
+              "purchase_state": {
+                "const": "DEFERRED"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "environment": {
+            "properties": {
+              "bootstrap_site_state": {
+                "const": "NOT_PROVISIONED"
+              },
+              "staging_state": {
+                "const": "NOT_PROVISIONED"
+              },
+              "bootstrap_url": {
+                "type": "null"
+              },
+              "staging_url": {
+                "type": "null"
+              }
+            }
+          },
+          "artifact": {
+            "properties": {
+              "verified_after_transfer": {
+                "const": false
+              },
+              "observed_sha256": {
+                "type": "null"
+              },
+              "sha256_recomputed_at": {
+                "type": "null"
+              },
+              "target_copy_reference": {
+                "type": "null"
+              }
+            }
+          },
+          "plugin": {
+            "properties": {
+              "installed": {
+                "const": false
+              },
+              "active": {
+                "const": false
+              }
+            }
+          },
+          "backup_restore": {
+            "properties": {
+              "status": {
+                "const": "NOT_RUN"
+              },
+              "restore_demonstrated": {
+                "const": false
+              }
+            }
+          },
+          "gates": {
+            "patternProperties": {
+              "^(E[1-5]|A[1-3]|I[1-8]|R[1-5]|T[1-4]|C[1-4]|S[1-5]|Q[1-3])$": {
+                "properties": {
+                  "status": {
+                    "const": "NOT_RUN"
+                  },
+                  "target_host_observation": {
+                    "const": false
+                  }
+                }
+              }
+            }
+          },
+          "decision": {
+            "properties": {
+              "verdict": {
+                "const": "NO-GO"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "abort": {
+            "properties": {
+              "triggered": {
+                "const": true
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "verdict": {
+                "const": "NO-GO"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "verdict": {
+                "const": "GO"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "environment": {
+            "properties": {
+              "purchase_state": {
+                "const": "ACTIVE"
+              },
+              "bootstrap_site_state": {
+                "const": "PROVISIONED"
+              },
+              "staging_state": {
+                "const": "PROVISIONED"
+              },
+              "bootstrap_url": {
+                "const": "https://observermultiversesresearch.wordpress.com/"
+              },
+              "staging_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "observed_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "access": {
+                "properties": {
+                  "protected": {
+                    "const": true
+                  },
+                  "search_engine_excluded": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "artifact": {
+            "properties": {
+              "verified_after_transfer": {
+                "const": true
+              }
+            }
+          },
+          "plugin": {
+            "properties": {
+              "installed": {
+                "const": true
+              },
+              "active": {
+                "const": true
+              },
+              "manifest_valid": {
+                "const": true
+              },
+              "model_valid": {
+                "const": true
+              },
+              "observed_work_count": {
+                "const": 5
+              }
+            }
+          },
+          "production_safety": {
+            "properties": {
+              "observed_public_surface": {
+                "const": "GRAVATAR_PROFILE"
+              },
+              "checked_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "dns_changed": { "const": false },
+              "nameservers_changed": { "const": false },
+              "dnssec_changed": { "const": false },
+              "domain_assignment_changed": { "const": false },
+              "redirects_changed": { "const": false },
+              "gravatar_surface_changed": { "const": false },
+              "plugin_activated_on_public_domain": { "const": false },
+              "research_published_outside_protected_staging": { "const": false },
+              "pull_request_merged": { "const": false },
+              "production_activation_attempted": { "const": false }
+            }
+          },
+          "backup_restore": {
+            "properties": {
+              "status": {
+                "const": "PASS"
+              },
+              "restore_demonstrated": {
+                "const": true
+              }
+            }
+          },
+          "gates": {
+            "patternProperties": {
+              "^(E[1-5]|A[1-3]|I[1-8]|R[1-5]|T[1-4]|C[1-4]|S[1-5]|Q[1-3])$": {
+                "properties": {
+                  "status": {
+                    "const": "PASS"
+                  },
+                  "applicable": {
+                    "const": true
+                  },
+                  "target_host_observation": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          },
+          "log_summary": {
+            "properties": {
+              "window_start": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "window_end": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "sources": {
+                "minItems": 1
+              },
+              "warning_count": {
+                "const": 0
+              },
+              "fatal_count": {
+                "const": 0
+              },
+              "blocked_legitimate_request_count": {
+                "const": 0
+              },
+              "runtime_external_fetch_count": {
+                "const": 0
+              },
+              "secret_scan_status": {
+                "const": "PASS"
+              },
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          },
+          "abort": {
+            "properties": {
+              "triggered": {
+                "const": false
+              },
+              "trigger_codes": {
+                "maxItems": 0
+              }
+            }
+          },
+          "decision": {
+            "properties": {
+              "open_blockers": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
